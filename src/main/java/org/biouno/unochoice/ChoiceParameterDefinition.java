@@ -116,7 +116,7 @@ public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 		
 		@Override
 		public String getDisplayName() {
-			return "Dynamic Choice Parameter";
+			return "Uno-Choice Dynamic Choice Parameter";
 		}
 		
 	}
