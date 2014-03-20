@@ -1,5 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
   <modelVersion>4.0.0</modelVersion>
+  
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
@@ -8,8 +10,23 @@
 
   <groupId>org.biouno</groupId>
   <artifactId>uno-choice</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>hpi</packaging>
+
+  <organization>
+    <name>BioUno</name>
+    <url>http://www.biouno.org</url>
+  </organization>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <scm>
+    <connection>scm:git:git://github.com/biouno/uno-choice-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:biouno/uno-choice-plugin.git</developerConnection>
+    <url>http://github.com/biouno/uno-choice-plugin</url>
+  </scm>
 
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
   <repositories>
@@ -25,5 +42,18 @@
       <url>http://repo.jenkins-ci.org/public/</url>
     </pluginRepository>
   </pluginRepositories>
+  
+  <distributionManagement>
+    <repository>
+      <id>jenkins.repo.release</id>
+      <name>Repository for Releases</name>
+      <url>${jenkins.repo.path}/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>jenkins.repo.snapshot</id>
+      <name>Repository for Snapshots</name>
+      <url>${jenkins.repo.path}/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
