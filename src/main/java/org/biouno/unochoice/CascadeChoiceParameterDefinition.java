@@ -27,6 +27,7 @@ import hudson.Extension;
 import hudson.model.ParameterValue;
 import hudson.model.StringParameterValue;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,16 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 		return referencedParameters;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see hudson.model.ParameterDefinition#getName()
+	 */
+	@Override
+	@JavaScriptMethod
+	public String getName() {
+		return super.getName();
+	}
+	
 	public String[] getReferencedParamatersAsArray() {
 		String[] arr = getReferencedParameters().split(",");
 		String[] r = new String[arr.length];
@@ -121,9 +132,18 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 * Get script choices.
 	 * @return List
 	 */
-	@JavaScriptMethod
 	public List<Object> getChoices() {
 		return getScriptResultAsList(getParameters());
+	}
+	
+	/**
+	 * Get script choices.
+	 * @return List
+	 */
+	@JavaScriptMethod
+	public List<Object> getChoices(int count) {
+		List<Object> result = getScriptResultAsList(getParameters());
+		return Arrays.asList(count, result);
 	}
 	
 	/**
