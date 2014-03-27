@@ -1,0 +1,150 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <script type="text/javascript">
+  var object = '';
+  var referencedParameters = Array();
+  <j:forEach var="value" items="${it.getReferencedParamatersAsArray()}">
+    //console.log("${value}");
+    // add the element we want to monitor
+    referencedParameters.push("${value}");
+  </j:forEach>
+
+    // From: http://stackoverflow.com/questions/7390426/better-way-to-get-type-of-a-javascript-variable
+    var toType = function(obj) {
+      return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+    }
+
+    Array.prototype.contains = function(obj) {
+        var i = this.length;
+        while (i--) {
+            if (this[i] === obj) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    var refs = Array();
+
+    Behaviour.specify('div[name="parameter"]', '', 1, function(e) {
+        var hiddenNames = findElementsBySelector(e, 'input[name="name"]', false);
+        if (referencedParameters.contains(hiddenNames[0].value)) {
+            // here we have the desired element to monitor
+            e.onchange = function(e) {
+                updateCascadeParameter(e);
+            }
+            // add the element to an refs array 
+            refs.push(e);
+        } else if (hiddenNames[0].value == '${it.getName()}') {
+            var children = e.children;
+            for (var i = 0; i &lt; children.length; ++i) {
+                child = children[i];
+                if (child.nodeName != "INPUT" &amp;&amp; child.getAttribute('type') != 'hidden') {
+                    object = child; // object is a global variable that stores the uno choice cascade parameter ref
+                }
+            }
+        }
+    });
+
+    updateCascadeParameter = function(e) {
+        params = new Array();
+        // get all parameter values
+        for (var i = 0; i &lt; refs.length ; i++) {
+            value = getParameterValue(refs[i]);
+            params.push(value);
+        }
+        s = params.join(',');
+        // call the doUpdate method
+        var cascadeChoiceParameterDefinition = <st:bind value="${it}"/>
+        cascadeChoiceParameterDefinition.doUpdate(s);
+        // update the select element
+        cascadeChoiceParameterDefinition.getChoices(function(t) {
+            choices = t.responseText;
+            
+            // http://stackoverflow.com/questions/6364748/change-the-options-array-of-a-select-list
+            var oldSel = object;
+            // clear()
+            while (oldSel.options.length &gt; 0) {
+                oldSel.remove(oldSel.options.length - 1);
+            }
+        
+            var newSel = JSON.parse(choices);
+        
+            for (i = 0; i &lt; newSel.length; i++)
+            {
+                var opt = document.createElement('option');
+                var entry = newSel[i];
+                if (!entry instanceof String) {
+                    opt.text = JSON.stringify(entry);
+                    opt.value = JSON.stringify(entry);
+                } else {
+                    opt.text = entry;
+                    opt.value = entry;
+                }
+                oldSel.add(opt, null);
+            }
+        });
+    }
+
+    getParameterValue = function(e) {
+        var name = '';
+        var value = '';
+        var children = e.children;
+        for (var i = 0; i &lt; children.length; ++i) {
+            child = children[i];
+            if (child.nodeName != "INPUT" &amp;&amp; child.getAttribute('type') != 'hidden') {
+                if (child.nodeName == 'SELECT')
+                    value = getSelectValues(child);
+                else
+                    value = child.value;
+                if (value == '') // multi selects or radios not selected
+                    value = '';
+            } else {
+                name = child.value;
+            }
+        }
+        return name + '=' + value;
+    }
+
+    // Return an array of the selected opion values
+    // select is an HTML select element
+    // From: http://stackoverflow.com/questions/5866169/getting-all-selected-values-of-a-multiple-select-box-when-clicking-on-a-button-u
+    function getSelectValues(select) {
+      var result = [];
+      var options = select &amp;&amp; select.options;
+      var opt;
+    
+      for (var i=0, iLen=options.length; i &lt; iLen; i++) {
+        opt = options[i];
+    
+        if (opt.selected) {
+          result.push(opt.value || opt.text);
+        }
+      }
+      return result.join('|');
+    }
+  </script>
+  <f:entry title="${it.name}" description="${it.description}">
+    <div name="parameter" description="${it.description}">
+      <input type="hidden" name="name" value="${it.name}" />
+      <j:set var="choiceType" value="${it.choiceType}"/>
+      <j:if test="${choiceType eq 'PT_SINGLE_SELECT'}">
+        <select name="value">
+          <st:include page="selectContent.jelly"/>
+        </select>
+      </j:if>
+      <j:if test="${choiceType eq 'PT_MULTI_SELECT'}">
+        <select name="value" multiple="multiple" size="${it.visibleItemCount}">
+          <st:include page="selectContent.jelly"/>
+        </select>
+      </j:if>
+      <j:if test="${choiceType eq 'PT_RADIO'}">
+        <st:include page="radioContent.jelly"/>
+      </j:if>
+      <j:if test="${choiceType eq 'PT_CHECKBOX'}">
+        <st:include page="checkboxContent.jelly"/>
+      </j:if>
+    </div>
+  </f:entry>
+</j:jelly>
