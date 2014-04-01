@@ -1,38 +1,5 @@
 // global referencedParameters is an array with the jelly form value
 
-/**
- * Used to extend arrays. Used to check if the array of referenced parameters 
- * contains an element.
- */
-Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] === obj) {
-            return true;
-        }
-    }
-    return false;
-}
-
-// From: http://stackoverflow.com/questions/7390426/better-way-to-get-type-of-a-javascript-variable
-var toType = function(obj) {
-  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
-}
-
-var refs = Array();
-
-Behaviour.specify('div[name="parameter"]', '', 1, function(e) {
-    var hiddenNames = findElementsBySelector(e, 'input[name="name"]', false);
-    if (referencedParameters.contains(hiddenNames[0].value)) {
-        // here we have the desired element to monitor
-        e.onchange = function(e) {
-            updateCascadeParameter(e);
-        }
-        // add the element to an refs array 
-        refs.push(e);
-    }
-});
-
 function CascadeParameter(paramName, paramElement, proxy) {
 	this.paramName = paramName;
 	this.paramElement = paramElement;
@@ -93,21 +60,6 @@ function ReferencedParameter(parameterName, parameterElement) {
 	};
 }
 
-/** 
- * Updates the cascada parameter using the values from other fields.
- */
-updateCascadeParameter = function(e) {
-    params = new Array();
-    // get all parameter values
-    for (var i = 0; i < refs.length ; i++) {
-        value = getParameterValue(refs[i]);
-        params.push(value);
-    }
-    s = params.join(',');
-    // call the doUpdate method
-    // update the select element
-}
-
 getParameterValue = function(name, e) {
     var value = '';
     if (e.nodeName != "INPUT" && e.getAttribute('type') != 'hidden') {
@@ -124,7 +76,7 @@ getParameterValue = function(name, e) {
 // Return an array of the selected opion values
 // select is an HTML select element
 // From: http://stackoverflow.com/questions/5866169/getting-all-selected-values-of-a-multiple-select-box-when-clicking-on-a-button-u
-function getSelectValues(select) {
+getSelectValues = function(select) {
   var result = [];
   var options = select && select.options;
   var opt;
