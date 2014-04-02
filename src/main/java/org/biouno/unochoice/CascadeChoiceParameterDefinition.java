@@ -28,9 +28,12 @@ import hudson.model.ParameterValue;
 import hudson.model.StringParameterValue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +47,8 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  */
 public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition {
 
+	private static final Logger LOGGER = Logger.getLogger(CascadeChoiceParameterDefinition.class.getName());
+	
 	private static final long serialVersionUID = 1L;
 	/*
 	 * Valid parameter values.
@@ -133,7 +138,12 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 * @return List
 	 */
 	public List<Object> getChoices() {
-		return getScriptResultAsList(getParameters());
+		try{
+			return getScriptResultAsList(getParameters());
+		} catch (Throwable t) {
+			LOGGER.log(Level.WARNING, "Failed to evaluate script for choices.", t);
+			return Collections.emptyList();
+		}
 	}
 	
 	/**

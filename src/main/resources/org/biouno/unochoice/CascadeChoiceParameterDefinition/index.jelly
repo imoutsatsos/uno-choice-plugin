@@ -95,5 +95,9 @@
             }
         }
     });
+    
+    for (var entry in window.objects) {
+    	window.objects[entry].updateCascadeParameter(null);
+    }
   </script>
 </j:jelly>
