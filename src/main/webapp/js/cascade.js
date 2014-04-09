@@ -93,7 +93,8 @@ getSelectValues = function(select) {
 
 // bind tag takes care of the dependency as an adjunct
 
-function makeStaplerProxy(url,crumb,methods) {
+function makeStaplerProxy2(url,crumb,methods) {
+    console.log('Modified proxy');
     if (url.substring(url.length - 1) !== '/') url+='/';
     var proxy = {};
 

@@ -34,8 +34,14 @@
     </j:forEach>
   
     window.objects = window.objects || {};
-    
+    if (window.makeStaplerProxy) {
+        window.__old__makeStaplerProxy = window.makeStaplerProxy;
+        window.makeStaplerProxy = makeStaplerProxy2;
+    }
     var cascadeChoiceParameterDefinition = <st:bind value="${it}"/>; // Create Jenkins proxy
+    if (window.makeStaplerProxy) {
+        window.makeStaplerProxy = window.__old__makeStaplerProxy;
+    }
     // find the cascade parameter element
     divs = findElementsBySelector(null, 'div[name="parameter"]', false);
     var parameterElement = null;
