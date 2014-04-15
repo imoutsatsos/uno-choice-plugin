@@ -49,4 +49,7 @@
   <f:entry title="${%Referenced parameters}" help="${rootURL}/../plugin/uno-choice/help-referencedParameters.html">
     <f:textbox name="parameter.referencedParameters" value="${instance.referencedParameters}" />
   </f:entry>
+  <f:entry title="${%Enable filters}" help="${rootURL}/../plugin/uno-choice/help-filterableParameters.html">
+    <f:checkbox name="parameter.filterable" checked="${instance.filterable}">${%Filterable}</f:checkbox>
+  </f:entry>
 </j:jelly>

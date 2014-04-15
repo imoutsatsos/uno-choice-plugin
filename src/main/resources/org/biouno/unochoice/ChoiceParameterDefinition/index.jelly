@@ -23,4 +23,56 @@
       </j:if>
     </div>
   </f:entry>
+  <script type="text/javascript">
+    // find this parameter element
+    divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+    var parameterElement = null;
+    for (var j = 0; j &lt; divs.length ; j++) {
+    	div = divs[j];
+    	var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+    	if (hiddenNames[0].value == '${it.getName()}') {
+    		var children = div.children;
+		    for (var k = 0; k &lt; children.length; ++k) {
+		        child = children[k];
+		        if (child.nodeName != "INPUT" &amp;&amp; child.getAttribute('type') != 'hidden') {
+		            parameterElement = child;
+		            break;
+		        }
+		    }
+    	}
+    }
+    // Get the filter element
+    var filterElement = YAHOO.util.Dom.getNextSiblingBy(parameterElement, function(elem) {
+        return YAHOO.util.Dom.hasClass(elem, 'uno_choice_filter');
+    });
+    if (filterElement) {
+        filterElement.paramElement = parameterElement;
+        var originalArray = [];
+        for (i = 0; i &lt; filterElement.paramElement.options.length; ++i) {
+            originalArray.push(filterElement.paramElement.options[i].innerHTML);
+        }
+        filterElement.paramElement.originalOptions = originalArray;
+    }
+    
+    <j:if test="${it.filterable}">
+    YAHOO.util.Event.on(filterElement, 'keyup', function (e) {
+        var container = e.srcElement.paramElement;
+        var text = e.srcElement.value.toLowerCase();
+        var options = container.originalOptions;
+        var newOptions = Array();
+        for (i = 0; i &lt; options.length; i++) {
+            if (options[i].toLowerCase().match(text)) {
+                newOptions.push(options[i]);
+            }
+        }
+        YAHOO.util.Dom.get(container).options.length = 0;
+        for (i = 0; i &lt; newOptions.length ; ++i) {
+            var opt = document.createElement('option');
+            opt.value = newOptions[i];
+            opt.innerHTML = newOptions[i];
+            container.appendChild(opt);
+        }
+    });
+    </j:if>
+  </script>
 </j:jelly>

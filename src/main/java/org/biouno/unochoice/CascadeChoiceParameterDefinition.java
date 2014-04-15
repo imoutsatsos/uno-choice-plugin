@@ -47,9 +47,10 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  */
 public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition {
 
+	private static final long serialVersionUID = 7486462074111049326L;
+
 	private static final Logger LOGGER = Logger.getLogger(CascadeChoiceParameterDefinition.class.getName());
 	
-	private static final long serialVersionUID = 1L;
 	/*
 	 * Valid parameter values.
 	 */
@@ -69,14 +70,27 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 */
 	private final String referencedParameters;
 	
+	/**
+	 * Defines whether this parameter will have a filter element or not.
+	 */
+	private final Boolean filterable;
+	
 	private Map<String, String> parameters = new HashMap<String, String>();
+	
+	@Deprecated
+	public CascadeChoiceParameterDefinition(String name, String description, String uuid, 
+			Boolean remote, String script, String choiceType, String referencedParameters) {
+		this(name, description, uuid, remote, script, choiceType, referencedParameters, /* filterable */ false);
+	}
 	
 	@DataBoundConstructor
 	public CascadeChoiceParameterDefinition(String name, String description, String uuid, 
-			Boolean remote, String script, String choiceType, String referencedParameters) {
+			Boolean remote, String script, String choiceType, String referencedParameters,
+			Boolean filterable) {
 		super(name, description, uuid, remote, script);
 		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 		this.referencedParameters = referencedParameters;
+		this.filterable = filterable;
 	}
 	
 	// getters
@@ -87,6 +101,10 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	
 	public String getReferencedParameters() {
 		return referencedParameters;
+	}
+	
+	public Boolean getFilterable() {
+		return filterable;
 	}
 	
 	/*

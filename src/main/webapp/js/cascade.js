@@ -55,6 +55,11 @@ function ReferencedParameter(parameterName, parameterElement) {
 	                }
 	                oldSel.add(opt, null);
 	            }
+	            var originalArray = [];
+                for (i = 0; i < cascade.paramElement.options.length; ++i) {
+                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+                }
+                cascade.paramElement.originalOptions = originalArray;
 	        });
 	    } // for, count
 	};
@@ -94,7 +99,6 @@ getSelectValues = function(select) {
 // bind tag takes care of the dependency as an adjunct
 
 function makeStaplerProxy2(url,crumb,methods) {
-    console.log('Modified proxy');
     if (url.substring(url.length - 1) !== '/') url+='/';
     var proxy = {};
 

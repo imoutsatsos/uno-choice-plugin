@@ -46,4 +46,7 @@
       </j:choose>
     </select>
   </f:entry>
+  <f:entry title="${%Enable filters}" help="${rootURL}/../plugin/uno-choice/help-filterableParameters.html">
+    <f:checkbox name="parameter.filterable" checked="${instance.filterable}">${%Filterable}</f:checkbox>
+  </f:entry>
 </j:jelly>

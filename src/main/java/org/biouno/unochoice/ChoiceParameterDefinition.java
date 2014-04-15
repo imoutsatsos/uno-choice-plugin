@@ -41,7 +41,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
  */
 public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 
-	private static final long serialVersionUID = 1759944830992229076L;
+	private static final long serialVersionUID = 4735461963713345625L;
 	
 	/*
 	 * Valid parameter values.
@@ -57,17 +57,33 @@ public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 	 */
 	private final String choiceType;
 	
-	@DataBoundConstructor
+	/**
+	 * Defines whether this parameter will have a filter element or not.
+	 */
+	private final Boolean filterable;
+	
+	@Deprecated
 	public ChoiceParameterDefinition(String name, String description, String uuid, 
 			Boolean remote, String script, String choiceType) {
+		this(name, description, uuid, remote, script, choiceType, /* filterable */false);
+	}
+	
+	@DataBoundConstructor
+	public ChoiceParameterDefinition(String name, String description, String uuid, 
+			Boolean remote, String script, String choiceType, Boolean filterable) {
 		super(name, description, uuid, remote, script);
 		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
+		this.filterable = filterable;
 	}
 	
 	// getters
 	
 	public String getChoiceType() {
 		return choiceType;
+	}
+	
+	public Boolean getFilterable() {
+		return filterable;
 	}
 	
 	// overrided methods in Jenkins API
