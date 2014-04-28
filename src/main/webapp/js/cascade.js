@@ -33,33 +33,141 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        	choices = t.responseText;
 	        	var data = JSON.parse(choices);
 	        	var cascade = cascadeParameters[data[0]];
-	        	var newSel = data[1];
+	        	var newValues = data[1];
 	        	
 	            // http://stackoverflow.com/questions/6364748/change-the-options-array-of-a-select-list
 	            var oldSel = cascade.paramElement;
 	            // clear()
-	            while (oldSel.options.length > 0) {
-	                oldSel.remove(oldSel.options.length - 1);
-	            }
+	            if (oldSel.tagName == 'SELECT') { // handle SELECT's
+		            while (oldSel.options.length > 0) {
+		                oldSel.remove(oldSel.options.length - 1);
+		            }
 	        
-	            for (i = 0; i < newSel.length; i++)
-	            {
-	                var opt = document.createElement('option');
-	                var entry = newSel[i];
-	                if (!entry instanceof String) {
-	                    opt.text = JSON.stringify(entry);
-	                    opt.value = JSON.stringify(entry);
-	                } else {
-	                    opt.text = entry;
-	                    opt.value = entry;
+		            for (i = 0; i < newValues.length; i++) {
+		                var opt = document.createElement('option');
+		                var entry = newValues[i];
+		                if (!entry instanceof String) {
+		                    opt.text = JSON.stringify(entry);
+		                    opt.value = JSON.stringify(entry);
+		                } else {
+		                    opt.text = entry;
+		                    opt.value = entry;
+		                }
+		                oldSel.add(opt, null);
+		            }
+		            var originalArray = [];
+	                for (i = 0; i < cascade.paramElement.options.length; ++i) {
+	                    originalArray.push(cascade.paramElement.options[i].innerHTML);
 	                }
-	                oldSel.add(opt, null);
-	            }
-	            var originalArray = [];
-                for (i = 0; i < cascade.paramElement.options.length; ++i) {
-                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+                	cascade.paramElement.originalOptions = originalArray;
+                	
+                	// Update original values, used in the index.jelly
+                	var originalArray = [];
+	                for (i = 0; i < cascade.paramElement.options.length; ++i) {
+	                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+	                }
+                	cascade.paramElement.originalOptions = originalArray;
+                } else if (oldSel.tagName == 'DIV') {
+                	if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') {
+                		var table = oldSel.children[0];
+                		var tbody = table.children[0];
+                		
+                		trs = findElementsBySelector(tbody, 'tr', false);
+                		for (i = 0; i < trs.length; i++) {
+                			tbody.removeChild(trs[i]);
+                		}
+                		
+                		var originalArray = [];
+                		// Check whether it is a radio or checkbox element
+                		if (oldSel.className == 'dynamic_checkbox') {
+    	                	for (i = 0; i < newValues.length; i++) {
+    	                		var entry = newValues[i];
+    	                		// <TR>
+    			                var tr = document.createElement('tr');
+    			                var idValue = 'ecp_' + cascade.paramName + '_' + i;
+    			                idValue = idValue.replace(' ', '_');
+    			                tr.setAttribute('id', idValue);
+    			                tr.setAttribute('style', 'white-space:nowrap');
+    			                // <TD>
+    			                var td = document.createElement('td');
+    			                // <INPUT>
+    			                var input = document.createElement('input');
+    			                // <LABEL>
+    			                var label = document.createElement('label');
+    			                
+    			                if (!entry instanceof String) {
+    			                	input.setAttribute('json', JSON.stringify(entry));
+    			                	input.setAttribute('name', 'value');
+    			                	input.setAttribute("value", JSON.stringify(entry));
+    			                	input.setAttribute("class", " ");
+    			                	input.setAttribute("type", "checkbox");
+    			                	label.className = "attach-previous";
+    			                	label.innerHTML = JSON.stringify(entry);
+    			                } else {
+    			                    input.setAttribute('json', entry);
+    			                	input.setAttribute('name', 'value');
+    			                	input.setAttribute("value", entry);
+    			                	input.setAttribute("class", " ");
+    			                	input.setAttribute("type", "checkbox");
+    			                	label.className = "attach-previous";
+    			                	label.innerHTML = entry;
+    			                }
+    			                
+    			                originalArray.push(entry);
+    			                
+    			                // Put everything together
+    			                td.appendChild(input);
+    			                td.appendChild(label);
+    			                tr.appendChild(td);
+    			                tbody.appendChild(tr);
+    			            }
+    			            cascade.paramElement.originalOptions = originalArray;
+    			        } else {
+    			             for (i = 0; i < newValues.length; i++) {
+                                var entry = newValues[i];
+                                // <TR>
+                                var tr = document.createElement('tr');
+                                var idValue = 'ecp_' + cascade.paramName + '_' + i;
+                                idValue = idValue.replace(' ', '_');
+                                tr.setAttribute('id', idValue);
+                                tr.setAttribute('style', 'white-space:nowrap');
+                                // <TD>
+                                var td = document.createElement('td');
+                                // <INPUT>
+                                var input = document.createElement('input');
+                                // <LABEL>
+                                var label = document.createElement('label');
+                                
+                                if (!entry instanceof String) {
+                                    input.setAttribute('json', JSON.stringify(entry));
+                                    input.setAttribute('name', 'value');
+                                    input.setAttribute("value", JSON.stringify(entry));
+                                    input.setAttribute("class", " ");
+                                    input.setAttribute("type", "radio");
+                                    label.className = "attach-previous";
+                                    label.innerHTML = JSON.stringify(entry);
+                                } else {
+                                    input.setAttribute('json', entry);
+                                    input.setAttribute('name', 'value');
+                                    input.setAttribute("value", entry);
+                                    input.setAttribute("class", " ");
+                                    input.setAttribute("type", "radio");
+                                    label.className = "attach-previous";
+                                    label.innerHTML = entry;
+                                }
+                                
+                                originalArray.push(entry);
+                                
+                                // Put everything together
+                                td.appendChild(input);
+                                td.appendChild(label);
+                                tr.appendChild(td);
+                                tbody.appendChild(tr);
+                            }
+                            cascade.paramElement.originalOptions = originalArray;
+    			        }
+	                }
                 }
-                cascade.paramElement.originalOptions = originalArray;
 	        });
 	    } // for, count
 	};

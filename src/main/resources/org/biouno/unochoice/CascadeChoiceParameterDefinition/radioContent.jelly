@@ -1,7 +1,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <div id="ecp_${it.name}" style="float:left; overflow-y:auto; padding-right:25px">
+  <div id="ecp_${it.name}" class="dynamic_radio" style="float:left; overflow-y:auto; padding-right:25px">
         <j:set var="index" value="0"/>
         <table id="tbl_ecp_${it.name}">
           <j:forEach var="value" items="${it.choices}">
@@ -14,6 +14,9 @@
           </j:forEach>
       </table>
   </div>
+  <j:if test="${it.filterable}">
+      <input class='uno_choice_filter' type='text' value='' name='test' placeholder='Filter' />
+  </j:if>
 <script>
 <![CDATA[
           (function() {
