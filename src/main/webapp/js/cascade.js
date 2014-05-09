@@ -67,15 +67,22 @@ function ReferencedParameter(parameterName, parameterElement) {
 	                    originalArray.push(cascade.paramElement.options[i].innerHTML);
 	                }
                 	cascade.paramElement.originalOptions = originalArray;
+                	if (oldSel.getAttribute('multiple') == 'multiple')
+                	   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
                 } else if (oldSel.tagName == 'DIV') {
                 	if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') {
                 		var table = oldSel.children[0];
                 		var tbody = table.children[0];
                 		
                 		trs = findElementsBySelector(tbody, 'tr', false);
-                		for (i = 0; i < trs.length; i++) {
-                			tbody.removeChild(trs[i]);
-                		}
+                		if (tbody) {
+                    		for (i = 0; i < trs.length; i++) {
+                    			tbody.removeChild(trs[i]);
+                    		}
+                    	} else {
+                    	   tbody = document.createElement('tbody');
+                    	   table.appendChild(tbody);
+                    	}
                 		
                 		var originalArray = [];
                 		// Check whether it is a radio or checkbox element
@@ -121,6 +128,7 @@ function ReferencedParameter(parameterName, parameterElement) {
     			                tr.appendChild(td);
     			                tbody.appendChild(tr);
     			            }
+    			            
     			            cascade.paramElement.originalOptions = originalArray;
     			        } else {
     			             for (i = 0; i < newValues.length; i++) {
@@ -165,10 +173,11 @@ function ReferencedParameter(parameterName, parameterElement) {
                                 tbody.appendChild(tr);
                             }
                             cascade.paramElement.originalOptions = originalArray;
-    			        }
-	                }
-                }
-	        });
+    			        } // if (oldSel.className == 'dynamic_checkbox') 
+    			        oldSel.style.height = '' + (23 * (newValues.length > 10 ? 10 : newValues.length)) + 'px';
+	                } // if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') 
+                } // if (oldSel.tagName == 'SELECT') { // else if (oldSel.tagName == 'DIV') {
+	        });// proxy call
 	    } // for, count
 	};
 }
