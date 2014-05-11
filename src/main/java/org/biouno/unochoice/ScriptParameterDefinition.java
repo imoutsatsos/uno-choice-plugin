@@ -45,7 +45,7 @@ public class ScriptParameterDefinition extends BaseParameterDefinition {
 	}
 
 	@Override
-	protected ScriptCallback evaluateScript(Map<String, String> parameters) {
+	protected ScriptCallback evaluateScript(Map<String, Object> parameters) {
 		final String script = getScript();
 		ScriptCallback callback = new ScriptCallback(script, parameters);
 		return callback;

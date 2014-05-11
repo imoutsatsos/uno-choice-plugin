@@ -75,7 +75,7 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 */
 	private final Boolean filterable;
 	
-	private Map<String, String> parameters = new HashMap<String, String>();
+	private Map<String, Object> parameters = new HashMap<String, Object>();
 	
 	@Deprecated
 	public CascadeChoiceParameterDefinition(String name, String description, String uuid, 
@@ -126,7 +126,7 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 		return r;
 	}
 	
-	public Map<String, String> getParameters() {
+	public Map<String, Object> getParameters() {
 		return parameters;
 	}
 	

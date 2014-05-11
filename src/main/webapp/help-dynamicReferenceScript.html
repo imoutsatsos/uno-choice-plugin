@@ -1,0 +1,38 @@
+<div>
+    <p>
+        This script is evaluated and used to render different HTML elements. The 
+        following elements are present as parameters for the Groovy script.
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Entry</th><th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>jenkinsProject</td><td>Jenkins job project</td>
+            </tr>
+            <tr>
+                <td>jenkinsBuild</td><td>Jenkins build</td>
+            </tr>
+            <tr>
+                <td>/home/kinow/jenkins-workspace/test1/work/jobs/1/workspace/archivedArtifact1.txt</td>
+            <tr/>
+            <tr>
+                <td colspan="2">...</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        When using an image gallery, you must return a list of images. Use the 
+        include pattern to filter the archived artifacts and, if necessary, 
+        execute extra code in your Groovy script to select which files should 
+        be rendered. Below the simplest way to create a gallery with archived 
+        images.
+    </p>
+    <pre>
+    return new ArrayList(binding.variables.artifacts.keySet())
+    </pre>
+    
+</div>

@@ -40,9 +40,9 @@ public class ScriptCallback implements Callable<Object, Throwable> {
 	private static final long serialVersionUID = 4524316203276099968L;
 	
 	private final String script;
-	private Map<String, String> parameters;
+	private Map<String, Object> parameters;
 
-	public ScriptCallback(String script, Map<String, String> parameters) {
+	public ScriptCallback(String script, Map<String, Object> parameters) {
 		this.script = script;
 		this.parameters = parameters;
 	}
@@ -51,7 +51,7 @@ public class ScriptCallback implements Callable<Object, Throwable> {
 		CompilerConfiguration config = new CompilerConfiguration();
 		// TODO: we can add class paths here
 		GroovyShell shell = new GroovyShell(config);
-		for (Entry<String, String> parameter : parameters.entrySet()) {
+		for (Entry<String, Object> parameter : parameters.entrySet()) {
 			shell.setVariable(parameter.getKey(), parameter.getValue());
 		}
 		Object eval = shell.evaluate(script);

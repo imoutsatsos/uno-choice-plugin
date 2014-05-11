@@ -180,6 +180,88 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        });// proxy call
 	    } // for, count
 	};
+	
+	this.updateCascadeParameter2 = function (evt) {
+        var cascadeParameters = this.cascadeParameters;
+        for (var count = 0; count < cascadeParameters.length ; count ++) {
+            var cascade = cascadeParameters[count];
+            
+            var params = new Array();
+            // get all parameter values
+            for (var i = 0; i < cascade.referencedParameters.length ; i++) {
+                referencedParameter = cascade.referencedParameters[i];
+                value = getParameterValue(referencedParameter.paramName, referencedParameter.paramElement);
+                params.push(value);
+            }
+            paramsString = params.join(',');
+            
+            // call the doUpdate method
+            cascade.proxy.doUpdate(paramsString);
+            
+            // Update UI
+            var paramElement = cascade.paramElement;
+            
+            if (paramElement.tagName == 'OL') { // handle OL's
+                lis = findElementsBySelector(paramElement, 'li', false);
+                for (i = 0; i < lis.length ; i++) {
+                    paramElement.removeChild(lis[i]);
+                }
+                cascade.proxy.getScriptResultAsList(function (t) {
+                    var options = JSON.parse(t.responseText);
+                    for (i = 0; i < options.length; ++i) {
+                        var li = document.createElement('li');
+                        li.innerHTML = options[i];
+                        paramElement.appendChild(li);
+                    }
+                });
+            } else if (paramElement.tagName == 'UL') { // handle OL's
+                lis = findElementsBySelector(paramElement, 'li', false);
+                for (i = 0; i < lis.length ; i++) {
+                    paramElement.removeChild(lis[i]);
+                }
+                cascade.proxy.getScriptResultAsList(function (t) {
+                    var options = JSON.parse(t.responseText);
+                    for (i = 0; i < options.length; ++i) {
+                        var li = document.createElement('li');
+                        li.innerHTML = options[i];
+                        paramElement.appendChild(li);
+                    }
+                });
+            } else if (paramElement.id.indexOf('inputElement_') > -1) { // handle input text boxes
+                cascade.proxy.getScriptResultAsString(function (t) {
+                    var options = t.responseText;
+                    paramElement.value = options;
+                });
+            } else if (paramElement.id.indexOf('formattedHtml_') > -1) { // handle formatted HTML
+                cascade.proxy.getScriptResultAsString(function (t) {
+                    var options = t.responseText;
+                    paramElement.innerHTML = JSON.parse(options);
+                });
+            } else if (paramElement.id.indexOf('imageGallery_') > -1) { // handle image gallery
+                as = findElementsBySelector(paramElement, 'a', false);
+                for (i = 0; i < as.length ; i++) {
+                    paramElement.removeChild(as[i]);
+                }
+                cascade.proxy.getScriptResultAsList(function (t) {
+                    var options = JSON.parse(t.responseText);
+                    for (i = 0; i < options.length; ++i) {
+                        var a = document.createElement('a');
+                        a.setAttribute('class', 'gallery');
+                        a.setAttribute('href', options[i]);
+                        a.setAttribute('title', options[i]);
+                        
+                        var img = document.createElement('img');
+                        img.setAttribute('src', options[i]);
+                        img.setAttribute('title', 'Image ' + i);
+                        img.setAttribute('width', '250px');
+                        
+                        a.appendChild(img);
+                        paramElement.appendChild(a);
+                    } 
+                });
+            }
+        } // for, count
+    };
 }
 
 getParameterValue = function(name, e) {

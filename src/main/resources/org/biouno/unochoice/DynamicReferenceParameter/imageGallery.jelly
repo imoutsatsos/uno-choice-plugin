@@ -1,0 +1,24 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <script type="text/javascript" src="${rootURL}/plugin/uno-choice/js/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="${rootURL}/plugin/uno-choice/js/jquery.colorbox.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(document).ready(function(){
+      jQuery("a.gallery").colorbox({
+        inline: false,
+        photo: true,
+        close: 'Close',
+        rel: 'gallery'
+      });
+    });
+  </script>
+  <div id='imageGallery_${it.uuid}'>
+      <j:forEach items="${it.scriptResultAsList}" var="i" varStatus="st">
+        <a class='gallery' href="${i}" title="${i}">
+          <img src="${i}" title="Image ${st.index}" width="250px" />
+        </a>
+      </j:forEach>
+  </div>
+</j:jelly>

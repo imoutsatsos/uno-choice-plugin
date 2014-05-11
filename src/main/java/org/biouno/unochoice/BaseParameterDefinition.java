@@ -123,7 +123,7 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 	
 	// utility methods
 	
-	protected abstract ScriptCallback evaluateScript(Map<String, String> parameters);
+	protected abstract ScriptCallback evaluateScript(Map<String, Object> parameters);
 	
 	private StringParameterValue createStringParameterValue(String name, String value) {
 		String description = getDescription();
@@ -137,7 +137,7 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 	 * @return List
 	 */
 	@SuppressWarnings("unchecked")
-	public final List<Object> getScriptResultAsList(Map<String, String> parameters) {
+	public final List<Object> getScriptResultAsList(Map<String, Object> parameters) {
 		Object value = executeScript(parameters);
 		if (value instanceof List) {
 			return (List<Object>) value;
@@ -152,7 +152,7 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 	 * @param parameters script parameters
 	 * @return String
 	 */
-	public final String getScriptResultAsString(Map<String, String> parameters) {
+	public final String getScriptResultAsString(Map<String, Object> parameters) {
 		Object value = executeScript(parameters);
 		return ObjectUtils.toString(value, null);
 	}
@@ -162,7 +162,7 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 	 * @param parameters parameters
 	 * @return script eval'd
 	 */
-	private Object executeScript(Map<String, String> parameters) {
+	private Object executeScript(Map<String, Object> parameters) {
 		Callable<Object, Throwable> callback = evaluateScript(parameters);
 		Object r = null;
 		try {

@@ -1,0 +1,130 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <link href="${rootURL}/plugin/uno-choice/css/colorbox.css" type="text/css" rel="stylesheet" />
+  <link href="${rootURL}/plugin/uno-choice/css/plugin.css" type="text/css" rel="stylesheet" />
+  <f:entry title="${it.name}" description="${it.description}">
+    <div name="parameter" description="${it.description}">
+      <input type="hidden" name="name" value="${it.name}" />
+      <j:set var="elementType" value="${it.elementType}"/>
+      <j:if test="${elementType eq 'ET_TEXT_BOX'}">
+        <st:include page="inputElement.jelly"/>
+      </j:if>
+      <j:if test="${elementType eq 'ET_ORDERED_LIST'}">
+        <st:include page="orderedList.jelly"/>
+      </j:if>
+      <j:if test="${elementType eq 'ET_UNORDERED_LIST'}">
+        <st:include page="unorderedList.jelly"/>
+      </j:if>
+      <j:if test="${elementType eq 'ET_FORMATTED_HTML'}">
+        <st:include page="formattedHtml.jelly"/>
+      </j:if>
+      <j:if test="${elementType eq 'ET_IMAGE_GALLERY'}">
+        <st:include page="imageGallery.jelly"/>
+      </j:if>
+    </div>
+  </f:entry>
+  <script src="${rootURL}/plugin/uno-choice/js/cascade.js"></script>
+  <script type="text/javascript">
+    // source, references table
+    var referencedParameters = Array();
+    <j:forEach var="value" items="${it.getReferencedParamatersAsArray()}">
+        //console.log("${value}");
+        // add the element we want to monitor
+        referencedParameters.push("${value}");
+    </j:forEach>
+  
+    window.objects = window.objects || {};
+    if (window.makeStaplerProxy) {
+        window.__old__makeStaplerProxy = window.makeStaplerProxy;
+        window.makeStaplerProxy = makeStaplerProxy2;
+    }
+    var cascadeChoiceParameterDefinition = <st:bind value="${it}"/>; // Create Jenkins proxy
+
+    if (window.makeStaplerProxy) {
+        window.makeStaplerProxy = window.__old__makeStaplerProxy;
+    }
+    // find the cascade parameter element
+    divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+    var parameterElement = null;
+    for (var j = 0; j &lt; divs.length ; j++) {
+        div = divs[j];
+        var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+        if (hiddenNames[0].value == '${it.getName()}') {
+            var children = div.children;
+            for (var k = 0; k &lt; children.length; ++k) {
+                child = children[k];
+                if (child.getAttribute('name') == 'value' || child.id.indexOf('ecp_') > -1) {
+                    parameterElement = child;
+                    break;
+                }
+                if (child.id.indexOf('inputElement_') > -1) {
+                    parameterElement = child;
+                    break;
+                }
+                if (child.id.indexOf('formattedHtml_') > -1) {
+                    parameterElement = child;
+                    break;
+                }
+                if (child.id.indexOf('imageGallery_') > -1) {
+                    parameterElement = child;
+                    break;
+                }
+            }
+        }
+    }
+    var cascadeParameter = new CascadeParameter('${it.getName()}', parameterElement, cascadeChoiceParameterDefinition);
+    
+    for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
+        var parameterElement = null;
+        divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+        for (var j = 0; j &lt; divs.length ; j++) {
+            div = divs[j];
+            var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+            if (hiddenNames[0].value == referencedParameters[i]) {
+                var children = div.children;
+                for (var k = 0; k &lt; children.length; ++k) {
+                    child = children[k];
+                    if (child.getAttribute('name') == 'value') {
+                        parameterElement = child;
+                        break;
+                    } else if (child.tagName == 'DIV') {
+                        var subValues = findElementsBySelector(child, 'input[name="value"]', false);
+                        if (subValues &amp;&amp; subValues.length > 0) {
+                            parameterElement = child;
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+        
+        var referencedParameter = null;
+        if (!window.objects[referencedParameters[i]]) {
+            referencedParameter = new ReferencedParameter(referencedParameters[i], parameterElement);
+            cascadeParameter.referencedParameters.push(referencedParameter);
+            referencedParameter.cascadeParameters.push(cascadeParameter);
+            window.objects[referencedParameters[i]] = referencedParameter;
+        } else {
+            referencedParameter = window.objects[referencedParameters[i]];
+            cascadeParameter.referencedParameters.push(referencedParameter);
+            referencedParameter.cascadeParameters.push(cascadeParameter);
+        }
+    }
+
+    Behaviour.specify('div[name="parameter"]', '', 1, function(e) {
+        var hiddenNames = findElementsBySelector(e, 'input[name="name"]', false);
+        if (window.objects[hiddenNames[0].value]) {
+            // here we have the desired element to monitor
+            e.onchange = function(e) {
+                window.objects[hiddenNames[0].value].updateCascadeParameter2(e);
+            }
+        }
+    });
+    
+    for (var entry in window.objects) {
+        window.objects[entry].updateCascadeParameter2(null);
+    }
+  </script>
+</j:jelly>
