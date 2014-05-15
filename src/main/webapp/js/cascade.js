@@ -184,9 +184,12 @@ function ReferencedParameter(parameterName, parameterElement) {
 
 getParameterValue = function(name, e) {
     var value = '';
-    if (e.nodeName != "INPUT" && e.getAttribute('type') != 'hidden') {
+    //if (e.nodeName != "INPUT" && e.getAttribute('type') != 'hidden') {
+    if (e.getAttribute('name') == 'value') {
         if (e.nodeName == 'SELECT')
             value = getSelectValues(e);
+        else if (e.type == 'checkbox')
+            value = (e.checked == true) ? e.value : '';
         else
             value = e.value;
         if (value == '') // multi selects or radios not selected
