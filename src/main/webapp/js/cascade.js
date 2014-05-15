@@ -186,18 +186,39 @@ getParameterValue = function(name, e) {
     var value = '';
     //if (e.nodeName != "INPUT" && e.getAttribute('type') != 'hidden') {
     if (e.getAttribute('name') == 'value') {
-        if (e.nodeName == 'SELECT')
-            value = getSelectValues(e);
-        else if (e.type == 'checkbox')
-            value = (e.checked == true) ? e.value : '';
-        else
-            value = e.value;
-        if (value == '') // multi selects or radios not selected
-            value = '';
+        value = getElementValue(e);
+    }  else if (e.nodeName == 'DIV') {
+        var subElements = findElementsBySelector(e, 'input[name="value"]', false);
+        // FIXME
+        var valueBuffer = Array();
+        for (var i = 0; i < subElements.length; ++i) {
+            var subElement = subElements[i];
+            var tempValue = getElementValue(subElement);
+            if (tempValue)
+                valueBuffer.push(tempValue);
+        }
+        value = valueBuffer.toString();
+    } 
+    return name + '=' + value;
+}
+
+getElementValue = function(e) {
+    var value = '';
+    if (e.nodeName == 'SELECT') {
+        value = getSelectValues(e);
+    } else if (e.type == 'checkbox' || e.type == 'radio') {
+        value = (e.checked == true) ? e.value : '';
+    } else {
+        value = e.value;
     }
+    
+    if (value == undefined) // multi selects or radios not selected, checks for null too
+        value = '';
+        
     if (value instanceof Array)
         value = value.toString()
-    return name + '=' + value;
+    
+    return value;
 }
 
 // Return an array of the selected opion values

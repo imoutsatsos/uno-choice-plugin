@@ -52,7 +52,6 @@
     		var children = div.children;
 		    for (var k = 0; k &lt; children.length; ++k) {
 		        child = children[k];
-		        //if (child.nodeName != "INPUT" &amp;&amp; child.getAttribute('type') != 'hidden') {
 		        if (child.getAttribute('name') == 'value') {
 		            parameterElement = child;
 		            break;
@@ -72,11 +71,16 @@
         		var children = div.children;
 			    for (var k = 0; k &lt; children.length; ++k) {
 			        child = children[k];
-			        //if (child.nodeName != "INPUT" &amp;&amp; child.getAttribute('type') != 'hidden') {
 			        if (child.getAttribute('name') == 'value') {
 			            parameterElement = child;
 			            break;
-			        }
+			        } else if (child.tagName == 'DIV') {
+                        var subValues = findElementsBySelector(child, 'input[name="value"]', false);
+                        if (subValues &amp;&amp; subValues.length > 0) {
+                            parameterElement = child;
+                            break;
+                        }
+                    }
 			    }
         	}
         }
