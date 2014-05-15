@@ -192,12 +192,14 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	@JavaScriptMethod
 	public void doUpdate(String parameters) {
 		getParameters().clear();
-		String[] params = parameters.split(",");
+		String[] params = parameters.split("__LESEP__");
 		for (String param : params) {
 			String[] nameValue = param.split("=");
-			String name = nameValue[0];
-			String value = nameValue[1];
-			getParameters().put(name, value);
+			if (nameValue.length == 2) {
+				String name = nameValue[0];
+				String value = nameValue[1];
+				getParameters().put(name, value);
+			}
 		}
 	}
 	

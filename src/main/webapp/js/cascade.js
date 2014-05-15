@@ -24,7 +24,7 @@ function ReferencedParameter(parameterName, parameterElement) {
 	            value = getParameterValue(referencedParameter.paramName, referencedParameter.paramElement);
 	            params.push(value);
 	        }
-	        paramsString = params.join(',');
+	        paramsString = params.join('__LESEP__');
 	        
 	        // call the doUpdate method
 	        cascade.proxy.doUpdate(paramsString);
@@ -195,6 +195,8 @@ getParameterValue = function(name, e) {
         if (value == '') // multi selects or radios not selected
             value = '';
     }
+    if (value instanceof Array)
+        value = value.toString()
     return name + '=' + value;
 }
 
