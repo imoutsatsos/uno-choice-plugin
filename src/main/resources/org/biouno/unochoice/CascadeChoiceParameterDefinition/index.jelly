@@ -52,7 +52,7 @@
     		var children = div.children;
 		    for (var k = 0; k &lt; children.length; ++k) {
 		        child = children[k];
-		        if (child.getAttribute('name') == 'value') {
+		        if (child.getAttribute('name') == 'value' || child.id.indexOf('ecp_') > -1) {
 		            parameterElement = child;
 		            break;
 		        }
