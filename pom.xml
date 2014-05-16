@@ -10,7 +10,7 @@
 
   <groupId>org.biouno</groupId>
   <artifactId>uno-choice</artifactId>
-  <version>0.10-SNAPSHOT</version>
+  <version>0.10</version>
   <packaging>hpi</packaging>
   <name>Uno-Choice Plug-in</name>
   <description>A proposal for a new Jenkins UI plugin for selecting one or multiple parameters. Attempting to fill the gaps left by current plugin options.</description>
