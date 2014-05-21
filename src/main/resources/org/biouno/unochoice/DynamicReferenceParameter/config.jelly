@@ -58,6 +58,6 @@
     <f:textbox name="parameter.referencedParameters" value="${instance.referencedParameters}" />
   </f:entry>
   <f:entry title="${%Include pattern}" help="${rootUrl}/descriptor/hudson.tasks.ArtifactArchiver/help/artifacts">
-    <f:textbox name="parameter.includes" value="${instance.includes}" checkUrl="'descriptorByName/DynamicReferenceParameter/checkRequired?value='+escape(this.value)" />
+    <f:textbox name="parameter.includes" value="${instance.includes}" />
   </f:entry>
 </j:jelly>

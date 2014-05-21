@@ -97,16 +97,20 @@
         	referencedParameter.cascadeParameters.push(cascadeParameter);
         }
     }
-
-	Behaviour.specify('div[name="parameter"]', '', 1, function(e) {
-        var hiddenNames = findElementsBySelector(e, 'input[name="name"]', false);
-        if (window.objects[hiddenNames[0].value]) {
-            // here we have the desired element to monitor
-            e.onchange = function(e) {
-                window.objects[hiddenNames[0].value].updateCascadeParameter(e);
+    
+    var parameterDivs = findElementsBySelector(null, 'div[name="parameter"]', false);
+    for (i = 0; i &lt; parameterDivs.length ; ++i) {
+        var hiddenNames = findElementsBySelector(parameterDivs[i], 'input[name="name"]', false);
+        for (j = 0; j &lt; hiddenNames.length; ++j) {
+            if (window.objects[hiddenNames[j].value] != undefined) {
+                // here we have the desired element to monitor
+                parameterDivs[i].hiddenName = hiddenNames[j].value;
+                parameterDivs[i].addEventListener('change', function(evt) {
+                    window.objects[this.hiddenName].updateCascadeParameter(evt);
+                }, false);
             }
         }
-    });
+    }
     
     for (var entry in window.objects) {
     	window.objects[entry].updateCascadeParameter(null);

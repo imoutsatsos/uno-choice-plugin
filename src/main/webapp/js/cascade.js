@@ -180,8 +180,14 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        });// proxy call
 	    } // for, count
 	};
-	
-	this.updateCascadeParameter2 = function (evt) {
+}
+
+function ReferencedParameter2(parameterName, parameterElement) {
+    this.paramName = parameterName;
+    this.paramElement = parameterElement;
+    this.cascadeParameters = [];
+    
+    this.updateCascadeParameter = function (evt) {
         var cascadeParameters = this.cascadeParameters;
         for (var count = 0; count < cascadeParameters.length ; count ++) {
             var cascade = cascadeParameters[count];
