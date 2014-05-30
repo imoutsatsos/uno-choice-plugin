@@ -57,5 +57,13 @@
       <url>${jenkins.repo.path}/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>scriptler</artifactId>
+      <version>2.7</version>
+    </dependency>
+  </dependencies>
 
 </project>

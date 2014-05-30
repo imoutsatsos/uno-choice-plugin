@@ -1,0 +1,10 @@
+# What to fix before 1.0
+
+- The choice parameters have repeated files. sb-dynamic-paramenter-plugin stores them 
+in a commons directory. Probably it's a good idea.
+
+- We could do with some constants too, to avoid repeating the parameter types.
+
+- Common parent descriptors for some parameter definitions, like scriptler.
+
+- Enough test coverage

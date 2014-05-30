@@ -10,6 +10,9 @@ related to this plug-in in this plug-in's repository in GitHub (and
 not in Jenkins JIRA), and also that any enhancements found in this project 
 may be contributed back to the original project (or to a new one).
 
+Visit the [plug-in Wiki](https://github.com/biouno/uno-choice-plugin/wiki) 
+for more details on each parameter type.
+
 # License
 
 This plug-in is licensed under the MIT License. Parts of this plug-in 
