@@ -59,16 +59,19 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 	private final String elementType;
 	private final String includes;
 	private final String referencedParameters;
+	private final Boolean hidden;
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
 	@DataBoundConstructor
 	public ScriptlerDynamicReferenceParameter(String name, String description, String uuid, Boolean remote, 
-			String scriptlerScriptId, ScriptParameter[] parameters, String elementType, String referencedParameters, String includes) {
+			String scriptlerScriptId, ScriptParameter[] parameters, String elementType, String referencedParameters, 
+			String includes, Boolean hidden) {
 		super(name, description, uuid, scriptlerScriptId, parameters, remote);
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;
+		this.hidden = hidden;
 	}
 	
 	/**
@@ -91,6 +94,13 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 	 */
 	public String getReferencedParameters() {
 		return referencedParameters;
+	}
+	
+	/**
+	 * Whether it will be displayed or not in the parameter selection screen.
+	 */
+	public Boolean getHidden() {
+		return hidden;
 	}
 	
 	/*

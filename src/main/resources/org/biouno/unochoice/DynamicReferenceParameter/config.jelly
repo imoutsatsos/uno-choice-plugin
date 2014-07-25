@@ -57,6 +57,11 @@
   <f:entry title="${%Referenced parameters}" help="${rootURL}/../plugin/uno-choice/help-referencedParameters.html">
     <f:textbox name="parameter.referencedParameters" value="${instance.referencedParameters}" />
   </f:entry>
+  <f:entry title="${%Hidden}">
+    <f:checkbox name="parameter.hidden" checked="${instance.hidden}"/>
+       If checked this parameter won't be displayed in the build with parameters screen, but 
+       will be available during build. 
+  </f:entry>
   <f:entry title="${%Include pattern}" help="${rootUrl}/descriptor/hudson.tasks.ArtifactArchiver/help/artifacts">
     <f:textbox name="parameter.includes" value="${instance.includes}" />
   </f:entry>

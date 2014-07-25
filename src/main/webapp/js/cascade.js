@@ -1,5 +1,14 @@
 // global referencedParameters is an array with the jelly form value
 
+function hideParent(n) {
+    var tis = YAHOO.util.Dom.get(this);
+    var parent = tis; 
+    for (var i = 0; i < n; i++) {
+        parent = tis.parentNode;
+    }
+    parent.setAttribute('style', "display: none;");
+}
+
 function CascadeParameter(paramName, paramElement, proxy) {
 	this.paramName = paramName;
 	this.paramElement = paramElement;
