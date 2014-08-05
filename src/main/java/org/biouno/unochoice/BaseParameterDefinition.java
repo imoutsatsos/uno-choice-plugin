@@ -29,8 +29,10 @@ import hudson.model.StringParameterValue;
 import hudson.remoting.Callable;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -145,6 +147,31 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 		String name = getName();
 		LOGGER.warning(String.format("Script parameter with name '%s' is not an instance of java.util.List. The parameter value is %s", name, value));
 		return Collections.EMPTY_LIST;
+	}
+	
+	/**
+	 * Executes a script and gets its result as a java.util.List.
+	 * @param parameters script parameters
+	 * @return List
+	 */
+	@SuppressWarnings("unchecked")
+	public final Map<Object, Object> getScriptResultAsMap(Map<String, Object> parameters) {
+		Object value = executeScript(parameters);
+		if (value instanceof Map) {
+			return (Map<Object, Object>) value;
+		}
+		if (value instanceof List) {
+			Map<Object, Object> map = new TreeMap<Object, Object>();
+			Iterator<Object> iter = ((List<Object>) value).iterator();
+			while (iter.hasNext()) {
+				Object o = iter.next();
+				map.put(o, o);
+			}
+			return map;
+		}
+		String name = getName();
+		LOGGER.warning(String.format("Script parameter with name '%s' is not an instance of java.util.Map. The parameter value is %s", name, value));
+		return Collections.EMPTY_MAP;
 	}
 	
 	/**

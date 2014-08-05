@@ -29,11 +29,27 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        // call the doUpdate method
 	        cascade.proxy.doUpdate(paramsString);
 	        // update the select element
-	        cascade.proxy.getChoices(count, function(t) {
+	        var choiceType = '';
+	        cascade.proxy.getChoiceType(function(type) {
+	           choiceType = type.responseText;
+	        });
+	        var functionName = 'getChoices';
+	        var selects = false;
+	        if (choiceType == '"PT_SINGLE_SELECT"' || choiceType == '"PT_MULTI_SELECT"') {
+	           functionName = 'getChoicesAsMap';
+	           selects = true;
+	        }
+	        var fn = cascade.proxy['getChoices'];
+	        fn(count, function(t) {
 	        	choices = t.responseText;
 	        	var data = JSON.parse(choices);
 	        	var cascade = cascadeParameters[data[0]];
-	        	var newValues = data[1];
+	        	if (selects == true) {
+	        	  var newValues = data[1];
+	        	  var newKeys = data[2];
+                } else {
+	        	  var newValues = data[1];
+	        	}
 	        	
 	            // http://stackoverflow.com/questions/6364748/change-the-options-array-of-a-select-list
 	            var oldSel = cascade.paramElement;
@@ -45,13 +61,14 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        
 		            for (i = 0; i < newValues.length; i++) {
 		                var opt = document.createElement('option');
+		                var value = newKeys[i];
 		                var entry = newValues[i];
 		                if (!entry instanceof String) {
 		                    opt.text = JSON.stringify(entry);
-		                    opt.value = JSON.stringify(entry);
+		                    opt.value = JSON.stringify(value); //JSON.stringify(entry);
 		                } else {
 		                    opt.text = entry;
-		                    opt.value = entry;
+		                    opt.value = value;
 		                }
 		                oldSel.add(opt, null);
 		            }

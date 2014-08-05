@@ -93,7 +93,7 @@ public class ScriptlerCascadeChoiceParameterDefinition extends ScriptlerParamete
 	}
 	
 	// getters
-	
+	@JavaScriptMethod
 	public String getChoiceType() {
 		return choiceType;
 	}
@@ -138,9 +138,16 @@ public class ScriptlerCascadeChoiceParameterDefinition extends ScriptlerParamete
 	@Override
 	public ParameterValue getDefaultParameterValue() {
 		Object firstElement = null;
-		List<Object> choices = getChoices();
-		if (choices != null && choices.size() > 0) {
-			firstElement = choices.get(0);
+		if (getChoiceType().equals(PARAMETER_TYPE_SINGLE_SELECT) || getChoiceType().equals(PARAMETER_TYPE_MULTI_SELECT)) {
+			Map<Object, Object> choices = getChoicesAsMap();
+			if (choices != null && choices.size() > 0) {
+				firstElement = choices.get(0);
+			}
+		} else {
+			List<Object> choices = getChoices();
+			if (choices != null && choices.size() > 0) {
+				firstElement = choices.get(0);
+			}
 		}
 		String name = getName();
 		StringParameterValue stringParameterValue = 
@@ -163,14 +170,28 @@ public class ScriptlerCascadeChoiceParameterDefinition extends ScriptlerParamete
 		}
 	}
 	
+	public Map<Object, Object> getChoicesAsMap() {
+		try{
+			return getScriptResultAsMap(getParameters());
+		} catch (Throwable t) {
+			LOGGER.log(Level.WARNING, "Failed to evaluate script for choices.", t);
+			return Collections.emptyMap();
+		}
+	}
+	
 	/**
 	 * Get script choices.
 	 * @return List
 	 */
 	@JavaScriptMethod
 	public List<Object> getChoices(int count) {
-		List<Object> result = getScriptResultAsList(getParameters());
-		return Arrays.asList(count, result);
+		if (getChoiceType().equals(PARAMETER_TYPE_MULTI_SELECT) || getChoiceType().equals(PARAMETER_TYPE_SINGLE_SELECT)) { 
+			Map<Object, Object> mapResult = getScriptResultAsMap(getParameters());
+			return Arrays.asList(count, mapResult.values(), mapResult.keySet());
+		} else {
+			List<Object> result = getScriptResultAsList(getParameters());
+			return Arrays.asList(count, result);
+		}
 	}
 	
 	/**
@@ -178,7 +199,11 @@ public class ScriptlerCascadeChoiceParameterDefinition extends ScriptlerParamete
 	 * @return
 	 */
 	public int getVisibleItemCount() {
-		final int choicesSize = getChoices().size();
+		int choicesSize = DEFAULT_MAX_VISIBLE_ITEM_COUNT;
+		if (choiceType.equals(PARAMETER_TYPE_MULTI_SELECT) || choiceType.equals(PARAMETER_TYPE_SINGLE_SELECT))
+			choicesSize = getChoicesAsMap().size();
+		else
+			choicesSize = getChoices().size();
 		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
 			return choicesSize;
 		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;

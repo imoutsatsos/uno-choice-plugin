@@ -94,7 +94,7 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	}
 	
 	// getters
-	
+	@JavaScriptMethod
 	public String getChoiceType() {
 		return choiceType;
 	}
@@ -139,9 +139,16 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	@Override
 	public ParameterValue getDefaultParameterValue() {
 		Object firstElement = null;
-		List<Object> choices = getChoices();
-		if (choices != null && choices.size() > 0) {
-			firstElement = choices.get(0);
+		if (getChoiceType().equals(PARAMETER_TYPE_SINGLE_SELECT) || getChoiceType().equals(PARAMETER_TYPE_MULTI_SELECT)) {
+			Map<Object, Object> choices = getChoicesAsMap();
+			if (choices != null && choices.size() > 0) {
+				firstElement = choices.get(0);
+			}
+		} else {
+			List<Object> choices = getChoices();
+			if (choices != null && choices.size() > 0) {
+				firstElement = choices.get(0);
+			}
 		}
 		String name = getName();
 		StringParameterValue stringParameterValue = 
@@ -156,11 +163,20 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 * @return List
 	 */
 	public List<Object> getChoices() {
-		try{
+		try {
 			return getScriptResultAsList(getParameters());
 		} catch (Throwable t) {
 			LOGGER.log(Level.WARNING, "Failed to evaluate script for choices.", t);
 			return Collections.emptyList();
+		}
+	}
+	
+	public Map<Object, Object> getChoicesAsMap() {
+		try{
+			return getScriptResultAsMap(getParameters());
+		} catch (Throwable t) {
+			LOGGER.log(Level.WARNING, "Failed to evaluate script for choices.", t);
+			return Collections.emptyMap();
 		}
 	}
 	
@@ -170,8 +186,13 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 */
 	@JavaScriptMethod
 	public List<Object> getChoices(int count) {
-		List<Object> result = getScriptResultAsList(getParameters());
-		return Arrays.asList(count, result);
+		if (getChoiceType().equals(PARAMETER_TYPE_MULTI_SELECT) || getChoiceType().equals(PARAMETER_TYPE_SINGLE_SELECT)) { 
+			Map<Object, Object> mapResult = getScriptResultAsMap(getParameters());
+			return Arrays.asList(count, mapResult.values(), mapResult.keySet());
+		} else {
+			List<Object> result = getScriptResultAsList(getParameters());
+			return Arrays.asList(count, result);
+		}
 	}
 	
 	/**
@@ -179,7 +200,11 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 	 * @return
 	 */
 	public int getVisibleItemCount() {
-		final int choicesSize = getChoices().size();
+		int choicesSize = DEFAULT_MAX_VISIBLE_ITEM_COUNT;
+		if (choiceType.equals(PARAMETER_TYPE_MULTI_SELECT) || choiceType.equals(PARAMETER_TYPE_SINGLE_SELECT))
+			choicesSize = getChoicesAsMap().size();
+		else
+			choicesSize = getChoices().size();
 		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
 			return choicesSize;
 		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;

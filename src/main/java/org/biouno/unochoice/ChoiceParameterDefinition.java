@@ -29,10 +29,12 @@ import hudson.model.StringParameterValue;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 /**
  * Adapted from Jenkins Dynamic Parameter Plug-in. Due to 
@@ -77,7 +79,7 @@ public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 	}
 	
 	// getters
-	
+	@JavaScriptMethod
 	public String getChoiceType() {
 		return choiceType;
 	}
@@ -113,6 +115,10 @@ public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 	 */
 	public List<Object> getChoices() {
 		return getScriptResultAsList(Collections.<String, Object> emptyMap());
+	}
+	
+	public Map<Object, Object> getChoicesAsMap() {
+		return getScriptResultAsMap(Collections.<String, Object> emptyMap());
 	}
 	
 	/**
