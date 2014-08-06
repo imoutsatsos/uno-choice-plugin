@@ -147,14 +147,14 @@ function ReferencedParameter(parameterName, parameterElement) {
     			            }
     			            
     			            cascade.paramElement.originalOptions = originalArray;
-    			        } else {
+    			        } else { // radio
     			             for (i = 0; i < newValues.length; i++) {
                                 var entry = newValues[i];
                                 // <TR>
                                 var tr = document.createElement('tr');
                                 var idValue = 'ecp_' + cascade.paramName + '_' + i;
                                 idValue = idValue.replace(' ', '_');
-                                tr.setAttribute('id', idValue);
+                                //tr.setAttribute('id', idValue); // will use the ID for the hidden value element
                                 tr.setAttribute('style', 'white-space:nowrap');
                                 // <TD>
                                 var td = document.createElement('td');
@@ -162,10 +162,12 @@ function ReferencedParameter(parameterName, parameterElement) {
                                 var input = document.createElement('input');
                                 // <LABEL>
                                 var label = document.createElement('label');
+                                // <HIDDEN>
+                                var hiddenValue = document.createElement('input');
                                 
                                 if (!entry instanceof String) {
                                     input.setAttribute('json', JSON.stringify(entry));
-                                    input.setAttribute('name', 'value');
+                                    input.setAttribute('name', cascade.paramName);
                                     input.setAttribute("value", JSON.stringify(entry));
                                     input.setAttribute("class", " ");
                                     input.setAttribute("type", "radio");
@@ -173,21 +175,34 @@ function ReferencedParameter(parameterName, parameterElement) {
                                     label.innerHTML = JSON.stringify(entry);
                                 } else {
                                     input.setAttribute('json', entry);
-                                    input.setAttribute('name', 'value');
+                                    input.setAttribute('name', cascade.paramName);
                                     input.setAttribute("value", entry);
                                     input.setAttribute("class", " ");
                                     input.setAttribute("type", "radio");
+                                    input.setAttribute('onclick', 'radioButtonSelect("'+cascade.paramName+'", "'+idValue+'")');
                                     label.className = "attach-previous";
                                     label.innerHTML = entry;
                                 }
+                                
+                                hiddenValue.setAttribute('json', entry);
+                                hiddenValue.setAttribute('name', '');
+                                hiddenValue.setAttribute("value", entry);
+                                hiddenValue.setAttribute("class", cascade.paramName);
+                                hiddenValue.setAttribute("type", "hidden");
+                                hiddenValue.setAttribute('id', idValue);
                                 
                                 originalArray.push(entry);
                                 
                                 // Put everything together
                                 td.appendChild(input);
                                 td.appendChild(label);
+                                td.appendChild(hiddenValue);
                                 tr.appendChild(td);
                                 tbody.appendChild(tr);
+                                var endTr = document.createElement('tr');
+                                endTr.setAttribute('style', 'display: none');
+                                endTr.setAttribute('class', 'radio-block-end');
+                                tbody.appendChild(endTr);
                             }
                             cascade.paramElement.originalOptions = originalArray;
     			        } // if (oldSel.className == 'dynamic_checkbox') 
@@ -197,6 +212,19 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        });// proxy call
 	    } // for, count
 	};
+}
+
+// Function used to select a radio button. Fix for issue #21, where radio buttons didn't have group names, and thus 
+// were all treated as a single group element.
+function radioButtonSelect(name, id) {
+    // deselect all radios with the class=name
+    var radios = findElementsBySelector(null, 'input[class="'+name+'"]', false);
+    radios.each(function(elem) {
+        elem.setAttribute('name', '');        
+    });
+    // select the radio with the id=id
+    var radio = findElementsBySelector(null, '#' + id);
+    radio[0].setAttribute('name', 'value');
 }
 
 function ReferencedParameter2(parameterName, parameterElement) {
