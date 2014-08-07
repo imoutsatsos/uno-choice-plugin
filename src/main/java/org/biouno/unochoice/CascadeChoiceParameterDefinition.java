@@ -83,11 +83,21 @@ public class CascadeChoiceParameterDefinition extends ScriptParameterDefinition 
 		this(name, description, uuid, remote, script, choiceType, referencedParameters, /* filterable */ false);
 	}
 	
-	@DataBoundConstructor
+	@Deprecated
 	public CascadeChoiceParameterDefinition(String name, String description, String uuid, 
 			Boolean remote, String script, String choiceType, String referencedParameters,
 			Boolean filterable) {
-		super(name, description, uuid, remote, script);
+		super(name, description, uuid, remote, script, null);
+		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
+		this.referencedParameters = referencedParameters;
+		this.filterable = filterable;
+	}
+	
+	@DataBoundConstructor
+	public CascadeChoiceParameterDefinition(String name, String description, String uuid, 
+			Boolean remote, String script, String defaultScript, String choiceType, String referencedParameters,
+			Boolean filterable) {
+		super(name, description, uuid, remote, script, defaultScript);
 		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 		this.referencedParameters = referencedParameters;
 		this.filterable = filterable;

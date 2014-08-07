@@ -7,6 +7,9 @@
   <f:entry title="${%Choices Script}" field="choicesScript">
     <f:textarea name="parameter.script" value="${instance.script}" />
   </f:entry>
+  <f:entry title="${%Choices Default Script}" field="choicesDefaultScript">
+    <f:textarea name="parameter.defaultScript" value="${instance.defaultScript}" />
+  </f:entry>
   <f:entry title="${%Description}" help="/help/parameter/description.html">
     <f:textarea name="parameter.description" value="${instance.description}" />
   </f:entry>

@@ -12,3 +12,7 @@ in a commons directory. Probably it's a good idea.
 - Duplicate code in scriptler classes and normal classes
 
 - Duplicate code in Javascript cascade.js
+
+- The classes are overly complicated. We copied the class model from sb-dynamic-parameter plugin, but it could be simpler
+
+- Move getScriptResultAsList and similar "script-ish" methods to the ScriptParameterDefinition. ATM they are in the BaseParameterDefinition

@@ -57,9 +57,17 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
-	@DataBoundConstructor
+	@Deprecated
 	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String elementType, String referencedParameters, String includes) {
-		super(name, description, uuid, remote, script);
+		super(name, description, uuid, remote, script, null);
+		this.elementType = elementType;
+		this.referencedParameters = referencedParameters;
+		this.includes = includes;
+	}
+	
+	@DataBoundConstructor
+	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes) {
+		super(name, description, uuid, remote, script, defaultScript);
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;

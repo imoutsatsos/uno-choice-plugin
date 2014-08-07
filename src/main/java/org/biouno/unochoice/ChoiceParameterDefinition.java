@@ -66,14 +66,16 @@ public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 	
 	@Deprecated
 	public ChoiceParameterDefinition(String name, String description, String uuid, 
-			Boolean remote, String script, String choiceType) {
-		this(name, description, uuid, remote, script, choiceType, /* filterable */false);
+			Boolean remote, String script, String choiceType, Boolean filterable) {
+		super(name, description, uuid, remote, script, null);
+		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
+		this.filterable = filterable;
 	}
 	
 	@DataBoundConstructor
 	public ChoiceParameterDefinition(String name, String description, String uuid, 
-			Boolean remote, String script, String choiceType, Boolean filterable) {
-		super(name, description, uuid, remote, script);
+			Boolean remote, String script, String defaultScript, String choiceType, Boolean filterable) {
+		super(name, description, uuid, remote, script, defaultScript);
 		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 		this.filterable = filterable;
 	}

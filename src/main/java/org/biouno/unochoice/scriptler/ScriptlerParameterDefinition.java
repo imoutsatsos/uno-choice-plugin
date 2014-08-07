@@ -18,6 +18,7 @@ package org.biouno.unochoice.scriptler;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.biouno.unochoice.BaseParameterDefinition;
 import org.biouno.unochoice.ScriptCallback;
 import org.jenkinsci.plugins.scriptler.config.Parameter;
@@ -59,6 +60,12 @@ public abstract class ScriptlerParameterDefinition extends BaseParameterDefiniti
 	 */
 	public final ScriptParameter[] getScriptParameters() {
 		return scriptParameters;
+	}
+	
+	@Override
+	protected ScriptCallback evaluateDefaultScript(
+			Map<String, Object> parameters) {
+		throw new NotImplementedException();
 	}
 	
 	@Override

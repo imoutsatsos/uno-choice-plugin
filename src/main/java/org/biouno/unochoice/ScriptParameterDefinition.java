@@ -34,20 +34,33 @@ public class ScriptParameterDefinition extends BaseParameterDefinition {
 	private static final long serialVersionUID = 2616675552276392152L;
 	
 	private final String script;
+	private final String defaultScript;
 	
-	protected ScriptParameterDefinition(String name, String description, String uuid, Boolean remote, String script) {
+	protected ScriptParameterDefinition(String name, String description, String uuid, Boolean remote, String script, String defaultScript) {
 		super(name, description, uuid, remote);
 		this.script = script;
+		this.defaultScript = defaultScript;
 	}
 	
 	public String getScript() {
 		return script;
+	}
+	
+	public String getDefaultScript() {
+		return defaultScript;
 	}
 
 	@Override
 	protected ScriptCallback evaluateScript(Map<String, Object> parameters) {
 		final String script = getScript();
 		ScriptCallback callback = new ScriptCallback(script, parameters);
+		return callback;
+	}
+	
+	@Override
+	protected ScriptCallback evaluateDefaultScript(Map<String, Object> parameters) {
+		final String defaultScript = getDefaultScript();
+		ScriptCallback callback = new ScriptCallback(defaultScript, parameters);
 		return callback;
 	}
 	

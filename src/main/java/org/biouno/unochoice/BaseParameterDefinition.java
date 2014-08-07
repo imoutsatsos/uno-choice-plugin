@@ -127,6 +127,8 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 	
 	protected abstract ScriptCallback evaluateScript(Map<String, Object> parameters);
 	
+	protected abstract ScriptCallback evaluateDefaultScript(Map<String, Object> parameters);
+	
 	private StringParameterValue createStringParameterValue(String name, String value) {
 		String description = getDescription();
 		StringParameterValue parameterValue = new StringParameterValue(name, value, description);
@@ -195,7 +197,15 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 		try {
 			r = callback.call();
 		} catch (Throwable e) {
-			LOGGER.log(Level.SEVERE, String.format("Error executing script for dynamic paramter '%s'", getName()), e);
+			LOGGER.log(Level.SEVERE, String.format("Error executing script for dynamic parameter '%s'", getName()), e);
+			
+			callback = evaluateDefaultScript(parameters);
+			try {
+				LOGGER.log(Level.FINE, "Fallback to default script...");
+				r = callback.call();
+			} catch (Throwable e1) {
+				LOGGER.log(Level.SEVERE, String.format("Error executing default script for dynamic parameter '%s'", getName()), e);
+			}
 		}
 		return r;
 	}
