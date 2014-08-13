@@ -30,9 +30,9 @@ import hudson.remoting.Callable;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -163,7 +163,7 @@ public abstract class BaseParameterDefinition extends SimpleParameterDefinition 
 			return (Map<Object, Object>) value;
 		}
 		if (value instanceof List) {
-			Map<Object, Object> map = new TreeMap<Object, Object>();
+			Map<Object, Object> map = new LinkedHashMap<Object, Object>();
 			Iterator<Object> iter = ((List<Object>) value).iterator();
 			while (iter.hasNext()) {
 				Object o = iter.next();
