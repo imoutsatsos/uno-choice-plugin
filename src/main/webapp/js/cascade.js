@@ -171,6 +171,7 @@ function ReferencedParameter(parameterName, parameterElement) {
                                     input.setAttribute("value", JSON.stringify(entry));
                                     input.setAttribute("class", " ");
                                     input.setAttribute("type", "radio");
+                                    input.setAttribute('onclick', 'radioButtonSelect("'+cascade.paramName+'", "'+idValue+'")');
                                     label.className = "attach-previous";
                                     label.innerHTML = JSON.stringify(entry);
                                 } else {

@@ -4,10 +4,12 @@
   <div id="ecp_${it.name}" style="float:left; overflow-y:auto; padding-right:25px">
         <j:set var="index" value="0"/>
         <table id="tbl_ecp_${it.name}">
-          <j:forEach var="value" items="${it.choices}">
+          <j:forEach var="value" items="${it.choices}" indexVar="indexVar">
             <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
                 <td>
-                    <f:radio name="value" title="${value}" checked="${it.value==value}" value="${value}" json="${value}">${value}</f:radio>
+                    <input json="${value}" name="${it.name}" value="${value}" class=" " type="radio" onclick="radioButtonSelect(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
+                    <label class="attach-previous">${value}</label>
+                    <input json="${value}" name="" value="${value}" class="${it.name}" type="hidden" id="radio_${it.name}_${indexVar}" />
                 </td>
             </tr>
             <j:set var="index" value="${index + 1}"/>
