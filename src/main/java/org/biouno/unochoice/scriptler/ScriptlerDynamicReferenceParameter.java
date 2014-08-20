@@ -133,12 +133,24 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 	
 	@Override
 	public ParameterValue createValue(String value) {
-		return new StringParameterValue(getName(), "");
+		ParameterValue parameterValue = null;
+		try {
+			parameterValue = super.createValue(value);
+		} catch (RuntimeException e) {
+			parameterValue = new StringParameterValue(getName(), "");
+		}
+		return parameterValue;
 	}
 	
 	@Override
 	public ParameterValue createValue(StaplerRequest request, JSONObject json) {
-		return new StringParameterValue(getName(), "");
+		ParameterValue parameterValue = null;
+		try {
+			parameterValue = super.createValue(request, json);
+		} catch (RuntimeException e) {
+			parameterValue = new StringParameterValue(getName(), "");
+		}
+		return parameterValue;
 	}
 	
 	/**
