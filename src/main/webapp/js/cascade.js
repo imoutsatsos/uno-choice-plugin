@@ -332,7 +332,13 @@ getParameterValue = function(name, e) {
                 valueBuffer.push(tempValue);
         }
         value = valueBuffer.toString();
-    } 
+    } else if (e.getAttribute('type') == 'file') {
+        var filesList = e.files;
+        if (null != filesList && filesList.length > 0) {
+            var firstFile = filesList[0]; // ignoring other files... but we could use it...
+            value = firstFile.name;
+        } 
+    }
     return name + '=' + value;
 }
 

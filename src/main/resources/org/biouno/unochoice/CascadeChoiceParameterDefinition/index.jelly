@@ -80,6 +80,9 @@
                             parameterElement = child;
                             break;
                         }
+                    } else if (child.getAttribute('type') == 'file') {
+                        parameterElement = child;
+                        break;
                     }
 			    }
         	}
