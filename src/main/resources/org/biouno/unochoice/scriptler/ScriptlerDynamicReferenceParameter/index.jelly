@@ -5,11 +5,6 @@
   <link href="${rootURL}/plugin/uno-choice/css/plugin.css" type="text/css" rel="stylesheet" />
   <f:entry title="${it.name}" description="${it.description}">
     <div name="parameter" description="${it.description}">
-      <j:if test="${it.hidden}">
-        <script type='text/javascript'>
-            console.log(this);
-        </script>
-      </j:if>
       <input type="hidden" name="name" value="${it.name}" />
       <j:set var="elementType" value="${it.elementType}"/>
       <j:if test="${elementType eq 'ET_TEXT_BOX'}">

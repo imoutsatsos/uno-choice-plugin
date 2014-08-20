@@ -4,7 +4,11 @@
   <link href="${rootURL}/plugin/uno-choice/css/colorbox.css" type="text/css" rel="stylesheet" />
   <link href="${rootURL}/plugin/uno-choice/css/plugin.css" type="text/css" rel="stylesheet" />
   <f:entry title="${it.name}" description="${it.description}">
-    <div name="parameter" description="${it.description}">
+    <j:set var="cssclazz" value="" />
+    <j:if test="${it.hidden}">
+        <j:set var="cssclazz" value="hidden_uno_choice_parameter" />    
+    </j:if>
+    <div name="parameter" description="${it.description}" class="${cssclazz}">
       <input type="hidden" name="name" value="${it.name}" />
       <j:set var="elementType" value="${it.elementType}"/>
       <j:if test="${elementType eq 'ET_TEXT_BOX'}">
@@ -71,6 +75,12 @@
                     break;
                 }
             }
+        }
+        if (div.getAttribute('class') == 'hidden_uno_choice_parameter') {
+           var parentTbody = YAHOO.util.Dom.getAncestorByTagName(div, 'TBODY')
+           if (parentTbody != null) {
+               parentTbody.setAttribute('style', 'visibility:hidden;position:absolute;');
+           }
         }
     }
     var cascadeParameter = new CascadeParameter('${it.getName()}', parameterElement, cascadeChoiceParameterDefinition);
