@@ -102,9 +102,9 @@ limitations under the License.
         -->
         <f:block>
           <table>
-            <!-- <f:optionalBlock name="defineParams" title="${%ParametersDescription}" checked="${!empty(instance.parameters)}"> -->
+            <!-- <f:optionalBlock name="defineParams" title="${%ParametersDescription}" checked="${!empty(instance.scriptParameters)}"> -->
             <f:entry title="${%Parameters}" field="parameters">
-              <f:repeatable var="param" items="${instance.parameters}" name="parameters" noAddButton="true" minimum="1">
+              <f:repeatable var="param" items="${instance.scriptParameters}" name="parameters" noAddButton="true" minimum="1">
                 <table width="100%">
                   <f:entry>
                     ${%Parameter name} <input type="text" name="name" value="${param.name}" size="20"/>

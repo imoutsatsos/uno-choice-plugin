@@ -25,6 +25,7 @@ package org.biouno.unochoice;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import hudson.Util;
 import hudson.remoting.Callable;
 
 import java.util.Map;
@@ -66,8 +67,12 @@ public class ScriptCallback implements Callable<Object, Throwable> {
 		}
 		
 		final Binding context = new Binding();
+		
+		// @SuppressWarnings("unchecked")
+		Map<String, String> envVars = System.getenv();
 		for (Entry<String, Object> parameter : parameters.entrySet()) {
-			context.setVariable(parameter.getKey(), parameter.getValue());
+			String value = Util.replaceMacro((String) parameter.getValue(), envVars);
+			context.setVariable(parameter.getKey(), value);
 		}
 		
 		GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
