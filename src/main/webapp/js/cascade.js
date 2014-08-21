@@ -245,14 +245,13 @@ function ReferencedParameter2(parameterName, parameterElement) {
                 value = getParameterValue(referencedParameter.paramName, referencedParameter.paramElement);
                 params.push(value);
             }
-            paramsString = params.join(',');
+            paramsString = params.join('__LESEP__');
             
             // call the doUpdate method
             cascade.proxy.doUpdate(paramsString);
             
             // Update UI
             var paramElement = cascade.paramElement;
-            
             if (paramElement.tagName == 'OL') { // handle OL's
                 lis = findElementsBySelector(paramElement, 'li', false);
                 for (i = 0; i < lis.length ; i++) {
