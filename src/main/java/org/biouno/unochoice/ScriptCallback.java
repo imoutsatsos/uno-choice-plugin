@@ -23,11 +23,15 @@
  */
 package org.biouno.unochoice;
 
+import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import hudson.remoting.Callable;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
+
+import jenkins.model.Jenkins;
 
 import org.codehaus.groovy.control.CompilerConfiguration;
 
@@ -36,8 +40,10 @@ import org.codehaus.groovy.control.CompilerConfiguration;
  * or remotely. 
  */
 public class ScriptCallback implements Callable<Object, Throwable> {
-
+	
 	private static final long serialVersionUID = 4524316203276099968L;
+	
+	private static final Logger LOGGER = Logger.getLogger(ScriptCallback.class.getName());
 	
 	private final String script;
 	private Map<String, Object> parameters;
@@ -48,12 +54,23 @@ public class ScriptCallback implements Callable<Object, Throwable> {
 	}
 	
 	public Object call() throws Throwable {
-		CompilerConfiguration config = new CompilerConfiguration();
-		// TODO: we can add class paths here
-		GroovyShell shell = new GroovyShell(config);
-		for (Entry<String, Object> parameter : parameters.entrySet()) {
-			shell.setVariable(parameter.getKey(), parameter.getValue());
+		// we can add class paths here too if needed
+		ClassLoader cl = null;
+		try {
+			cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
+		} catch (Throwable t) {
+			LOGGER.finest(t.getMessage());
 		}
+		if (cl == null) {
+			cl = Thread.currentThread().getContextClassLoader();
+		}
+		
+		final Binding context = new Binding();
+		for (Entry<String, Object> parameter : parameters.entrySet()) {
+			context.setVariable(parameter.getKey(), parameter.getValue());
+		}
+		
+		GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
 		Object eval = shell.evaluate(script);
 		return eval;
 	}
