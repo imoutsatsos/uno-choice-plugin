@@ -1,7 +1,6 @@
 package org.biouno.unochoice;
 
 import hudson.Extension;
-import hudson.FilePath;
 import hudson.model.ParameterValue;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
@@ -10,10 +9,13 @@ import hudson.model.StringParameterValue;
 import hudson.util.FormValidation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jenkins.model.ArtifactManager;
+import jenkins.util.VirtualFile;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -54,6 +56,7 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	private final String elementType;
 	private final String includes;
 	private final String referencedParameters;
+	private final Boolean hidden;
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
@@ -63,14 +66,16 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;
+		this.hidden = false;
 	}
 	
 	@DataBoundConstructor
-	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes) {
+	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes, Boolean hidden) {
 		super(name, description, uuid, remote, script, defaultScript);
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;
+		this.hidden = hidden;
 	}
 	
 	/**
@@ -93,6 +98,13 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	 */
 	public String getReferencedParameters() {
 		return referencedParameters;
+	}
+	
+	/**
+	 * Whether it will be displayed or not in the parameter selection screen.
+	 */
+	public Boolean getHidden() {
+		return hidden;
 	}
 	
 	/*
@@ -125,12 +137,24 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	
 	@Override
 	public ParameterValue createValue(String value) {
-		return new StringParameterValue(getName(), "");
+		ParameterValue parameterValue = null;
+		try {
+			parameterValue = super.createValue(value);
+		} catch (RuntimeException e) {
+			parameterValue = new StringParameterValue(getName(), "");
+		}
+		return parameterValue;
 	}
 	
 	@Override
 	public ParameterValue createValue(StaplerRequest request, JSONObject json) {
-		return new StringParameterValue(getName(), "");
+		ParameterValue parameterValue = null;
+		try {
+			parameterValue = super.createValue(request, json);
+		} catch (RuntimeException e) {
+			parameterValue = new StringParameterValue(getName(), "");
+		}
+		return parameterValue;
 	}
 	
 	/**
@@ -147,27 +171,16 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 			if (build != null && build.getHasArtifacts()) {
 				parameters.put("jenkinsBuild", build);
 				if (StringUtils.isNotBlank(getIncludes())) {
-					Map<String, Object> parameterArtifacts = new HashMap<String, Object>();
-					final FilePath artifactsDir = new FilePath(build.getArtifactsDir());
+					List<String> parameterArtifacts = new ArrayList<String>();
+					ArtifactManager artifactsManager = build.getArtifactManager();
+					final VirtualFile artifactsDir = artifactsManager.root();
 					try {
-						final FilePath[] artifacts = artifactsDir.list(getIncludes());
-						for (FilePath artifact : artifacts) {
-							String fileName = "";
-							FilePath temp = artifact;
-							while(!temp.getParent().equals(artifactsDir)) {
-								fileName = temp.getParent().getName() + "/" + fileName;
-								temp = temp.getParent();
-							}
-							if(fileName.length() > 0) {
-								fileName += "/";
-							}
-							fileName += artifact.getName();
-							parameterArtifacts.put(fileName, artifact);
+						final String[] artifacts = artifactsDir.list(getIncludes());
+						for (String artifact : artifacts) {
+							parameterArtifacts.add(artifact);
 						}
 						parameters.put("artifacts", parameterArtifacts);
 					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
