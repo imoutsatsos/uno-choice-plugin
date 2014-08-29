@@ -74,8 +74,8 @@ public class ScriptCallback implements Callable<Object, Throwable> {
 			Object value = parameter.getValue();
 			if (value != null && value instanceof String) {
 				value = Util.replaceMacro((String) value, envVars);
+				context.setVariable(parameter.getKey(), value);
 			}
-			context.setVariable(parameter.getKey(), value);
 		}
 		
 		GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
