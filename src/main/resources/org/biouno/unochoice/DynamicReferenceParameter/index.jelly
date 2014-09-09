@@ -13,18 +13,22 @@
       <j:set var="elementType" value="${it.elementType}"/>
       <j:if test="${elementType eq 'ET_TEXT_BOX'}">
         <st:include page="inputElement.jelly"/>
+        <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
       </j:if>
       <j:if test="${elementType eq 'ET_ORDERED_LIST'}">
         <st:include page="orderedList.jelly"/>
+        <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
       </j:if>
       <j:if test="${elementType eq 'ET_UNORDERED_LIST'}">
         <st:include page="unorderedList.jelly"/>
+        <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
       </j:if>
       <j:if test="${elementType eq 'ET_FORMATTED_HTML'}">
         <st:include page="formattedHtml.jelly"/>
       </j:if>
       <j:if test="${elementType eq 'ET_IMAGE_GALLERY'}">
         <st:include page="imageGallery.jelly"/>
+        <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
       </j:if>
     </div>
   </f:entry>
