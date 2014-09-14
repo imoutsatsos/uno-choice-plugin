@@ -124,7 +124,11 @@ public class ScriptlerChoiceParameterDefinition extends ScriptlerParameterDefini
 	 * @return
 	 */
 	public int getVisibleItemCount() {
-		final int choicesSize = getChoices().size();
+		int choicesSize = DEFAULT_MAX_VISIBLE_ITEM_COUNT;
+		if (choiceType.equals(PARAMETER_TYPE_MULTI_SELECT) || choiceType.equals(PARAMETER_TYPE_SINGLE_SELECT))
+			choicesSize = getChoicesAsMap().size();
+		else
+			choicesSize = getChoices().size();
 		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
 			return choicesSize;
 		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;

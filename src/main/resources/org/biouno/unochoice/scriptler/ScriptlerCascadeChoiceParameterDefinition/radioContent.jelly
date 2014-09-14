@@ -7,7 +7,20 @@
           <j:forEach var="value" items="${it.choices}">
             <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
                 <td>
-                    <f:radio name="value" title="${value}" checked="${it.value==value}" value="${value}" json="${value}">${value}</f:radio>
+                    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="isSelected" var="selected">
+                        <j:arg type="java.lang.Object" value="${value}" />
+                    </j:invokeStatic>
+                    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="escapeSelected" var="escapedValue">
+                        <j:arg type="java.lang.Object" value="${value}" />
+                    </j:invokeStatic>
+                    <j:choose>
+                        <j:when test="${selected}">
+                            <f:radio name="value" title="${escapedValue}" checked="checked" value="${escapedValue}" json="${escapedValue}">${escapedValue}</f:radio>
+                        </j:when>
+                        <j:otherwise>
+                            <f:radio name="value" title="${escapedValue}" value="${escapedValue}" json="${escapedValue}">${escapedValue}</f:radio>
+                        </j:otherwise>
+                    </j:choose>
                 </td>
             </tr>
             <j:set var="index" value="${index + 1}"/>

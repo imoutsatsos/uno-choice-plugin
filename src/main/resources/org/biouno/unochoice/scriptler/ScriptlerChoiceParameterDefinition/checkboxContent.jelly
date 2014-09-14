@@ -5,9 +5,15 @@
         <j:set var="index" value="0"/>
         <table id="tbl_ecp_${it.name}">
           <j:forEach var="value" items="${it.choices}">
+              <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="isSelected" var="selected">
+                  <j:arg type="java.lang.Object" value="${value}" />
+              </j:invokeStatic>
+              <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="escapeSelected" var="escapedValue">
+                  <j:arg type="java.lang.Object" value="${value}" />
+              </j:invokeStatic>
               <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
                 <td>
-                    <f:checkbox name="value" title="${value}" checked="${it.value==value}" value="${value}" json="${value}">${value}</f:checkbox>
+                    <f:checkbox name="value" title="${escapedValue}" checked="${selected}" value="${escapedValue}" json="${escapedValue}">${escapedValue}</f:checkbox>
                 </td>
             </tr>
             <j:set var="index" value="${index + 1}"/>

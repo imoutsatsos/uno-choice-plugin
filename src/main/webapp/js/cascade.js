@@ -71,7 +71,7 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        		
 	        		if (selects == true) {
 	        			newKey = newKeys[i];
-	        			if (newKey && newKey.endsWith(':selected')) {
+	        			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
 		        			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
 		        		}
 	        		}
