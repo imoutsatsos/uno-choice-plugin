@@ -3,7 +3,16 @@
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
 
   <j:forEach var="iter" items="${it.choicesAsMap}">
-    <f:option selected="${it.value==iter.key}" value="${iter.key}">${iter.value}</f:option>
+    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="isSelected" var="selected">
+        <j:arg type="java.lang.Object" value="${iter.value}" />
+    </j:invokeStatic>
+    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="escapeSelected" var="escapedValue">
+        <j:arg type="java.lang.Object" value="${iter.value}" />
+    </j:invokeStatic>
+    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="escapeSelected" var="escapedKey">
+        <j:arg type="java.lang.Object" value="${iter.key}" />
+    </j:invokeStatic>
+    <f:option selected="${selected}" value="${escapedKey}">${escapedValue}</f:option>
   </j:forEach>
   
   <j:if test="${it.filterable}">

@@ -1,5 +1,12 @@
 // global referencedParameters is an array with the jelly form value
 
+if (!String.prototype.endsWith) {
+	String.prototype.endsWith = function(pattern) {
+	    var d = this.length - pattern.length;
+	    return d >= 0 && this.lastIndexOf(pattern) === d;
+	};
+}
+
 function CascadeParameter(paramName, paramElement, proxy) {
 	this.paramName = paramName;
 	this.paramElement = paramElement;
@@ -51,6 +58,25 @@ function ReferencedParameter(parameterName, parameterElement) {
 	        	  var newValues = data[1];
 	        	}
 	        	
+	        	var selectedElements = new Array();
+	        	// filter selected elements and create a matrix for selection
+	        	// some elements may have key or values with the suffix :selected
+	        	// we want to remove these suffixes
+	        	for (var i = 0; i < newValues.length; i++) {
+	        		newValue = newValues[i];
+	        		if (newValue && newValue.endsWith(':selected')) {
+	        			selectedElements.push(i);
+	        			newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
+	        		}
+	        		
+	        		if (selects == true) {
+	        			newKey = newKeys[i];
+	        			if (newKey && newKey.endsWith(':selected')) {
+		        			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
+		        		}
+	        		}
+	        	}
+	        	
 	            // http://stackoverflow.com/questions/6364748/change-the-options-array-of-a-select-list
 	            var oldSel = cascade.paramElement;
 	            // clear()
@@ -69,6 +95,9 @@ function ReferencedParameter(parameterName, parameterElement) {
 		                } else {
 		                    opt.text = entry;
 		                    opt.value = value;
+		                }
+		                if (selectedElements.indexOf(i) >= 0) {
+		                	opt.setAttribute('selected', 'selected');
 		                }
 		                oldSel.add(opt, null);
 		            }
@@ -119,6 +148,9 @@ function ReferencedParameter(parameterName, parameterElement) {
     			                // <LABEL>
     			                var label = document.createElement('label');
     			                
+    			                if (selectedElements.indexOf(i) >= 0) {
+    			                	input.setAttribute('checked', 'checked');
+    			                }
     			                if (!entry instanceof String) {
     			                	input.setAttribute('json', JSON.stringify(entry));
     			                	input.setAttribute('name', 'value');
@@ -165,6 +197,9 @@ function ReferencedParameter(parameterName, parameterElement) {
                                 // <HIDDEN>
                                 var hiddenValue = document.createElement('input');
                                 
+                                if (selectedElements.indexOf(i) >= 0) {
+    			                	input.setAttribute('checked', 'checked');
+    			                }
                                 if (!entry instanceof String) {
                                     input.setAttribute('json', JSON.stringify(entry));
                                     input.setAttribute('name', cascade.paramName);

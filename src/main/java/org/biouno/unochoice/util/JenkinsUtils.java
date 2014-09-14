@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.biouno.unochoice.BaseParameterDefinition;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.jenkinsci.plugins.scriptler.config.Script;
@@ -268,6 +269,26 @@ public final class JenkinsUtils
       }
     }
     return Collections.EMPTY_LIST;
+  }
+  
+  // --- Jelly utils
+  
+  public static boolean isSelected(Object obj) {
+	  if (obj == null)
+		  return false;
+	  String text = obj.toString();
+	  return StringUtils.isNotBlank(text) && text.endsWith(":selected");
+  }
+  
+  public static String escapeSelected(Object obj) {
+	  if (obj == null)
+		  return "";
+	  String text = obj.toString();
+	  if (StringUtils.isBlank(text))
+		  return "";
+	  if (isSelected(text))
+		  return text.substring(0, text.indexOf(":selected"));
+	  return text;
   }
 
 }

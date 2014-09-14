@@ -7,9 +7,22 @@
           <j:forEach var="value" items="${it.choices}" indexVar="indexVar">
             <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
                 <td>
-                    <input json="${value}" name="${it.name}" value="${value}" class=" " type="radio" onclick="radioButtonSelect(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
-                    <label class="attach-previous">${value}</label>
-                    <input json="${value}" name="" value="${value}" class="${it.name}" type="hidden" id="radio_${it.name}_${indexVar}" />
+                    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="isSelected" var="selected">
+                        <j:arg type="java.lang.Object" value="${value}" />
+                    </j:invokeStatic>
+                    <j:invokeStatic className="org.biouno.unochoice.util.JenkinsUtils" method="escapeSelected" var="escapedValue">
+                        <j:arg type="java.lang.Object" value="${value}" />
+                    </j:invokeStatic>
+                    <j:choose>
+                        <j:when test="${selected}">
+                            <input json="${escapedValue}" checked="checked" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="radioButtonSelect(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
+                        </j:when>
+                        <j:otherwise>
+                            <input json="${escapedValue}" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="radioButtonSelect(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
+                        </j:otherwise>
+                    </j:choose>
+                    <label class="attach-previous">${escapedValue}</label>
+                    <input json="${escapedValue}" name="" value="${escapedValue}" class="${it.name}" type="hidden" id="radio_${it.name}_${indexVar}" />
                 </td>
             </tr>
             <j:set var="index" value="${index + 1}"/>
