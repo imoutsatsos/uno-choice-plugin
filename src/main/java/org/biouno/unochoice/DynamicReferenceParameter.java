@@ -51,31 +51,29 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
 	public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
 	public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
+	public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
 	public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
 	
 	private final String elementType;
 	private final String includes;
 	private final String referencedParameters;
-	private final Boolean hidden;
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
-	@Deprecated
-	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String elementType, String referencedParameters, String includes) {
-		super(name, description, uuid, remote, script, null);
+	@DataBoundConstructor
+	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes) {
+		super(name, description, uuid, remote, script, defaultScript);
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;
-		this.hidden = false;
 	}
 	
-	@DataBoundConstructor
+	@Deprecated
 	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes, Boolean hidden) {
 		super(name, description, uuid, remote, script, defaultScript);
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;
-		this.hidden = hidden;
 	}
 	
 	/**
@@ -98,13 +96,6 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	 */
 	public String getReferencedParameters() {
 		return referencedParameters;
-	}
-	
-	/**
-	 * Whether it will be displayed or not in the parameter selection screen.
-	 */
-	public Boolean getHidden() {
-		return hidden;
 	}
 	
 	/*

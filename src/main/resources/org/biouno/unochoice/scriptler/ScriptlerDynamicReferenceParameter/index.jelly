@@ -5,7 +5,8 @@
   <link href="${rootURL}/plugin/uno-choice/css/plugin.css" type="text/css" rel="stylesheet" />
   <f:entry title="${it.name}" description="${it.description}">
     <j:set var="cssclazz" value="" />
-    <j:if test="${it.hidden}">
+    <j:set var="elementType" value="${it.elementType}"/>
+    <j:if test="${elementType eq 'ET_FORMATTED_HIDDEN_HTML'}">
         <j:set var="cssclazz" value="hidden_uno_choice_parameter" />    
     </j:if>
     <div name="parameter" description="${it.description}" class="${cssclazz}">
@@ -24,6 +25,9 @@
         <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
       </j:if>
       <j:if test="${elementType eq 'ET_FORMATTED_HTML'}">
+        <st:include page="formattedHtml.jelly"/>
+      </j:if>
+      <j:if test="${elementType eq 'ET_FORMATTED_HIDDEN_HTML'}">
         <st:include page="formattedHtml.jelly"/>
       </j:if>
       <j:if test="${elementType eq 'ET_IMAGE_GALLERY'}">

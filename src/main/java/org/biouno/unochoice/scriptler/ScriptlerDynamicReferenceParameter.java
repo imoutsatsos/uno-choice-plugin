@@ -54,16 +54,16 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 	public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
 	public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
 	public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
+	public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
 	public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
 	
 	private final String elementType;
 	private final String includes;
 	private final String referencedParameters;
-	private final Boolean hidden;
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
-	@DataBoundConstructor
+	@Deprecated
 	public ScriptlerDynamicReferenceParameter(String name, String description, String uuid, Boolean remote, 
 			String scriptlerScriptId, ScriptParameter[] parameters, String elementType, String referencedParameters, 
 			String includes, Boolean hidden) {
@@ -71,7 +71,16 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
 		this.includes = includes;
-		this.hidden = hidden;
+	}
+	
+	@DataBoundConstructor
+	public ScriptlerDynamicReferenceParameter(String name, String description, String uuid, Boolean remote, 
+			String scriptlerScriptId, ScriptParameter[] parameters, String elementType, String referencedParameters, 
+			String includes) {
+		super(name, description, uuid, scriptlerScriptId, parameters, remote);
+		this.elementType = elementType;
+		this.referencedParameters = referencedParameters;
+		this.includes = includes;
 	}
 	
 	/**
@@ -94,13 +103,6 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 	 */
 	public String getReferencedParameters() {
 		return referencedParameters;
-	}
-	
-	/**
-	 * Whether it will be displayed or not in the parameter selection screen.
-	 */
-	public Boolean getHidden() {
-		return hidden;
 	}
 	
 	/*
