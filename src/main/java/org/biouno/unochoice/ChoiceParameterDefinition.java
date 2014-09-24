@@ -30,6 +30,7 @@ import hudson.model.StringParameterValue;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -129,13 +130,12 @@ public class ChoiceParameterDefinition extends ScriptParameterDefinition {
 	 */
 	public int getVisibleItemCount() {
 		int choicesSize = DEFAULT_MAX_VISIBLE_ITEM_COUNT;
-		if (choiceType.equals(PARAMETER_TYPE_MULTI_SELECT) || choiceType.equals(PARAMETER_TYPE_SINGLE_SELECT))
+		try {
 			choicesSize = getChoicesAsMap().size();
-		else
-			choicesSize = getChoices().size();
-		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
-			return choicesSize;
-		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;
+		} catch (RuntimeException e) {
+			LOGGER.log(Level.FINEST, e.getMessage());
+		}
+		return choicesSize;
 	}
 	
 	// descriptor

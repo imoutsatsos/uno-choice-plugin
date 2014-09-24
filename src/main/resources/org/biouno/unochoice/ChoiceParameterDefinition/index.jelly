@@ -1,6 +1,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <script src="${rootURL}/plugin/uno-choice/js/cascade.js"></script>
   <f:entry title="${it.name}" description="${it.description}">
     <div name="parameter" description="${it.description}">
       <input type="hidden" name="name" value="${it.name}" />
@@ -48,8 +49,24 @@
     if (filterElement) {
         filterElement.paramElement = parameterElement;
         var originalArray = [];
-        for (i = 0; i &lt; filterElement.paramElement.options.length; ++i) {
-            originalArray.push(filterElement.paramElement.options[i].innerHTML);
+        if (filterElement.paramElement.tagName == 'SELECT') { // handle SELECTS
+            for (i = 0; i &lt; filterElement.paramElement.options.length; ++i) {
+                originalArray.push(filterElement.paramElement.options[i]);
+            }
+        } else if (filterElement.paramElement.tagName == 'DIV') { // handle CHECKBOXES
+            if (filterElement.paramElement.children.length &gt; 0 &amp;&amp; filterElement.paramElement.children[0].tagName == 'TABLE') {
+                var table = filterElement.paramElement.children[0];
+                var tbody = table.children[0];
+                
+                var trs = findElementsBySelector(tbody, 'tr', false);
+                for (i = 0; i &lt; trs.length ; ++i) {
+                    var tds = findElementsBySelector(trs[i], 'td', false);
+                    var inputs = findElementsBySelector(tds[0], 'input', false);
+                    var input = inputs[0];
+                    //originalArray.push(input.getAttribute('value'));                     
+                    originalArray.push(input);
+                }
+            }
         }
         filterElement.paramElement.originalOptions = originalArray;
     }
@@ -61,16 +78,109 @@
         var options = container.originalOptions;
         var newOptions = Array();
         for (i = 0; i &lt; options.length; i++) {
-            if (options[i].toLowerCase().match(text)) {
+            if (options[i].innerHTML.toLowerCase().match(text)) {
                 newOptions.push(options[i]);
             }
         }
-        YAHOO.util.Dom.get(container).options.length = 0;
-        for (i = 0; i &lt; newOptions.length ; ++i) {
-            var opt = document.createElement('option');
-            opt.value = newOptions[i];
-            opt.innerHTML = newOptions[i];
-            container.appendChild(opt);
+        if (container.tagName == 'SELECT') { // handle SELECT's
+           YAHOO.util.Dom.get(container).options.length = 0;
+           for (i = 0; i &lt; newOptions.length ; ++i) {
+               var opt = document.createElement('option');
+               opt.value = newOptions[i].value;
+               opt.innerHTML = newOptions[i].innerHTML;
+               container.appendChild(opt);
+           }
+        } else if (container.tagName == 'DIV') {
+           if (container.children.length &gt; 0 &amp;&amp; container.children[0].tagName == 'TABLE') {
+                var table = container.children[0];
+                var tbody = table.children[0];
+                
+                trs = findElementsBySelector(tbody, 'tr', false);
+                for (i = 0; i &lt; trs.length; i++) {
+                    tbody.removeChild(trs[i]);
+                }
+                
+                var originalArray = [];
+                if (container.className == 'dynamic_checkbox') {
+                    for (i = 0; i &lt; newOptions.length; i++) {
+                        var entry = newOptions[i];
+                        // TR
+                        var tr = document.createElement('tr');
+                        var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
+                        idValue = idValue.replace(' ', '_');
+                        tr.setAttribute('id', idValue);
+                        tr.setAttribute('style', 'white-space:nowrap');
+                        // TD
+                        var td = document.createElement('td');
+                        // INPUT
+                        var input = document.createElement('input');
+                        // LABEL
+                        var label = document.createElement('label');
+                        
+                        if (!entry instanceof String) {
+                            input.setAttribute('json', JSON.stringify(entry.value));
+                            input.setAttribute('name', 'value');
+                            input.setAttribute("value", JSON.stringify(entry.value));
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "checkbox");
+                            label.className = "attach-previous";
+                            label.innerHTML = JSON.stringify(entry);
+                        } else {
+                            input.setAttribute('json', entry);
+                            input.setAttribute('name', 'value');
+                            input.setAttribute("value", entry);
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "checkbox");
+                            label.className = "attach-previous";
+                            label.innerHTML = entry;
+                        }
+                        // Put everything together
+                        td.appendChild(input);
+                        td.appendChild(label);
+                        tr.appendChild(td);
+                        tbody.appendChild(tr);
+                    }
+                } else {
+                    for (i = 0; i &lt; newOptions.length; i++) {
+                        var entry = newOptions[i];
+                        // TR
+                        var tr = document.createElement('tr');
+                        var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
+                        idValue = idValue.replace(' ', '_');
+                        tr.setAttribute('id', idValue);
+                        tr.setAttribute('style', 'white-space:nowrap');
+                        // TD
+                        var td = document.createElement('td');
+                        // INPUT
+                        var input = document.createElement('input');
+                        // LABEL
+                        var label = document.createElement('label');
+                        
+                        if (!entry instanceof String) {
+                            input.setAttribute('json', JSON.stringify(entry));
+                            input.setAttribute('name', 'value');
+                            input.setAttribute("value", JSON.stringify(entry));
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "radio");
+                            label.className = "attach-previous";
+                            label.innerHTML = JSON.stringify(entry);
+                        } else {
+                            input.setAttribute('json', entry);
+                            input.setAttribute('name', 'value');
+                            input.setAttribute("value", entry);
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "radio");
+                            label.className = "attach-previous";
+                            label.innerHTML = entry;
+                        }
+                        // Put everything together
+                        td.appendChild(input);
+                        td.appendChild(label);
+                        tr.appendChild(td);
+                        tbody.appendChild(tr);
+                    }
+                }
+            }
         }
     });
     </j:if>
