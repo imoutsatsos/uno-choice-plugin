@@ -42,10 +42,27 @@
  * 
  * @param $ jQuery global var
  * @author Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
+ * @since 0.20
  */
 var UnoChoice = (function($) {
     // The final public object
     var instance = {};
+    
+    // Plug-in classes
+    
+    /**
+     * A parameter that references parameters.
+     */
+    /* public */ function CascadeParameter(paramName, paramElement, proxy) {
+    	this.paramName = paramName;
+    	this.paramElement = paramElement;
+    	this.proxy = proxy;
+    	this.referencedParameters = [];
+    }
+    
+    CascadeParameter.prototype.getParameterName = function() {
+    	return this.paramName;
+    }
     
     // HTML utility methods
     
@@ -68,7 +85,7 @@ var UnoChoice = (function($) {
      * 
      * @see issue #21 in GitHub - github.com/biouno/uno-choice-plugin/issues
      */
-    function fakeSelectRadioButton(clazzName, id) {
+     /* public */ function fakeSelectRadioButton(clazzName, id) {
         // deselect all radios with the class=clazzName
         var radios = $('input[class="'+clazzName+'"]');
         radios.each(function(index) {
@@ -81,11 +98,51 @@ var UnoChoice = (function($) {
     }
     
     /**
+     * <p>Gets the value of a HTML element to use it as value in a parameter in Jenkins.</p>
+     * 
+     * <p>For a HTML element which name is 'value', we use the {@link #getElementValue()} method to retrieve it.</p>
+     * 
+     * <p>For a DIV, we look for children elements with the name equal to 'value'.</p>
+     * 
+     * <p>For a input with type equal file, we look for files to use as value.</p>
+     * 
+     * <p>When there are multiple elements as return value, we append all the values to an Array and return its 
+     * value as string (i.e. toString()).</p>
+     * 
+     * @param e HTML element
+     * @return <code>String</code> the value of the HTML element used as parameter value in Jenkins, as a string
+     */
+     /* public */ function getParameterValue(e) {
+        var value = '';
+        if (e.attr('name') == 'value') {
+            value = getElementValue(e);
+        }  else if (e.prop('tagName') == 'DIV') {
+            var subElements = $(e).find('input[name="value"]');
+            if (subElements) {
+	            var valueBuffer = Array();
+	            subElements.each(function() {
+	                var tempValue = getElementValue($(this));
+	                if (tempValue)
+	                    valueBuffer.push(tempValue);
+	            });
+	            value = valueBuffer.toString();
+            }
+        } else if (e.attr('type') == 'file') {
+            var filesList = e.files;
+            if (filesList && filesList.length > 0) {
+                var firstFile = filesList[0]; // ignoring other files... but we could use it...
+                value = firstFile.name;
+            } 
+        }
+        return value;
+    }
+    
+    /**
      * Gets the value of a HTML element as string. If the returned value is an Array it gets serialized first. 
      * Correctly handles SELECT, CHECKBOX, RADIO, and other types. 
      * 
      * @param e HTML element
-     * @return the returned value as string. Empty by default.
+     * @return <code>String</code> the returned value as string. Empty by default.
      */
     function getElementValue(e) {
         var value = '';
@@ -97,9 +154,7 @@ var UnoChoice = (function($) {
             value = e.attr('value');
         }
         
-        if (value == undefined) // multi selects or radios not selected, checks for null too
-            value = '';
-        else if (value instanceof Array)
+        if (value instanceof Array)
             value = value.toString()
         
         return value;
@@ -109,7 +164,7 @@ var UnoChoice = (function($) {
      * Gets an array of the selected option values in a HTML select element.
      * 
      * @param select HTML DOM select element
-     * @return Array
+     * @return <code>Array</code>
      * 
      * @see http://stackoverflow.com/questions/5866169/getting-all-selected-values-of-a-multiple-select-box-when-clicking-on-a-button-u
      */
@@ -123,32 +178,6 @@ var UnoChoice = (function($) {
             }
         }
         return result;
-    }
-    
-    function getParameterValue(name, e) {
-        var value = '';
-        //if (e.nodeName != "INPUT" && e.getAttribute('type') != 'hidden') {
-        if (e.getAttribute('name') == 'value') {
-            value = getElementValue(e);
-        }  else if (e.nodeName == 'DIV') {
-            var subElements = findElementsBySelector(e, 'input[name="value"]', false);
-            // FIXME
-            var valueBuffer = Array();
-            for (var i = 0; i < subElements.length; ++i) {
-                var subElement = subElements[i];
-                var tempValue = getElementValue(subElement);
-                if (tempValue)
-                    valueBuffer.push(tempValue);
-            }
-            value = valueBuffer.toString();
-        } else if (e.getAttribute('type') == 'file') {
-            var filesList = e.files;
-            if (null != filesList && filesList.length > 0) {
-                var firstFile = filesList[0]; // ignoring other files... but we could use it...
-                value = firstFile.name;
-            } 
-        }
-        return name + '=' + value;
     }
     
     // Basic utility methods
@@ -245,9 +274,9 @@ var UnoChoice = (function($) {
     }
     
     // Deciding on what is exported and returning instance
-    instance.endsWith = endsWith;
+    //instance.endsWith = endsWith;
     instance.fakeSelectRadioButton = fakeSelectRadioButton;
-    instance.getSelectValues = getSelectValues;
-    instance.getElementValue = getElementValue;
+    instance.getParameterValue = getParameterValue;
+    instance.CascadeParameter = CascadeParameter;
     return instance;
 })(jQuery);

@@ -7,11 +7,7 @@ in a commons directory. Probably it's a good idea.
 
 - Common parent descriptors for some parameter definitions, like scriptler.
 
-- Enough test coverage
-
 - Duplicate code in scriptler classes and normal classes
-
-- Duplicate code in Javascript cascade.js
 
 - The classes are overly complicated. We copied the class model from sb-dynamic-parameter plugin, but it could be simpler
 

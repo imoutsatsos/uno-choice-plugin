@@ -31,16 +31,16 @@
 /**
  * Initial set up.
  */
-QUnit.test("Tests that UnoChoice module was loaded", function (assert) {
+QUnit.test("Tests UnoChoice module was loaded", function (assert) {
 	assert.ok(UnoChoice !== null, "UnoChoice object exists");
 });
 
 /**
  * Tests for the endsWith function.
  */
-QUnit.test("Test endsWith", function(assert) {
-	assert.ok(UnoChoice.endsWith("Bruno", "uno"), "endsWith works as expected");
-});
+//QUnit.test("Test endsWith", function(assert) {
+//	assert.ok(UnoChoice.endsWith("Bruno", "uno"), "endsWith works as expected");
+//});
 
 /**
  * Tests for the fakeSelectRadioButton function.
@@ -57,46 +57,104 @@ QUnit.test("Test fakeSelectRadioButton", function(assert) {
 });
 
 /**
- * Tests for the getSelectValues function.
+ * Tests for the getParameterValue / getSelectValues function.
  */
-QUnit.test("Test getSelectValues", function(assert) {
+QUnit.test("Test getParameterValue", function(assert) {
 	var $fixture = $("#qunit-fixture");
-	$fixture.append("<select name='select1'><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
+	$fixture.append("<select name='value'><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
 	var select = $("select");
-	var arr = UnoChoice.getSelectValues(select);
-	assert.ok(arr.length == 2, "array length is correct");
-	assert.deepEqual(arr, ['1', '3'], 'array content is correct');
+	var arr = UnoChoice.getParameterValue(select);
+	assert.equal(arr, '1,3', 'the content is correct');
 });
 
 /**
- * Tests for the getSelectValues function.
+ * Tests for the getParameterValue / getElementValue function. Using select.
  */
-QUnit.test("Test getElementValue", function(assert) {
+QUnit.test("Test getElementValue using select", function(assert) {
 	var $fixture = $("#qunit-fixture");
 	
-	$fixture.append("<select name='select1'><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
+	$fixture.append("<select name='value'><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
 	var select = $("select");
-	var arr = UnoChoice.getElementValue(select);
+	var arr = UnoChoice.getParameterValue(select);
 	assert.equal(arr, '1,3', 'element value is correct for select');
+});
+
+/**
+ * Tests for the getParameterValue / getElementValue function. Using checkbox.
+ */
+QUnit.test("Test getElementValue using checkbox", function(assert) {
+	var $fixture = $("#qunit-fixture");
 	
-	$fixture.empty();
-	$fixture.append("<input id='checkbox1' type='checkbox' name='parameter1' checked='checked' value='123' />");
+	$fixture.append("<input id='checkbox1' type='checkbox' name='value' checked='checked' value='123' />");
 	var e = $("#checkbox1");
-	var val = UnoChoice.getElementValue(e);
+	var val = UnoChoice.getParameterValue(e);
 	assert.equal(val, '123', 'element value is correct for checkbox');
+});
+
+/**
+ * Tests for the getParameterValue / getElementValue function. Using text.
+ */
+QUnit.test("Test getElementValue using text", function(assert) {
+	var $fixture = $("#qunit-fixture");
 	
-	$fixture.empty();
-	$fixture.append("<input id='input1' type='text' name='parameter1' checked='checked' value='1234' />");
+	$fixture.append("<input id='input1' type='text' name='value' checked='checked' value='1234' />");
 	var e = $("#input1");
-	var val = UnoChoice.getElementValue(e);
+	var val = UnoChoice.getParameterValue(e);
 	assert.equal(val, '1234', 'element value is correct for text');
+});
+
+/**
+ * Tests for the getParameterValue / getElementValue function. Using empty select.
+ */
+QUnit.test("Test getElementValue using empty select", function(assert) {
+	var $fixture = $("#qunit-fixture");
 	
-	$fixture.empty();
-	$fixture.append("<select name='select1'></select>");
+	$fixture.append("<select name='value'></select>");
 	var select = $("select");
-	var val = UnoChoice.getElementValue(select);
+	var val = UnoChoice.getParameterValue(select);
 	assert.equal(val, '', 'element value is correct for empty select');
 });
 
+/**
+ * Tests for the getParameterValue / getElementValue function. Using empty div.
+ */
+QUnit.test("Test getElementValue using div", function(assert) {
+	var $fixture = $("#qunit-fixture");
+	
+	$fixture.append("<div id='div1'>" +
+			"<span>E agora?</span>" +
+			"<div class='sub'>" +
+			"<input type='text' name='name' value='parameter1'/>" +
+			"<input type='text' name='value' value='123432'/>" +
+			"</div>" +
+			"</div>");
+	var e = $("#div1");
+	var val = UnoChoice.getParameterValue(e);
+	assert.equal(val, '123432', 'element value is correct for div');
+});
 
+/**
+ * Tests for the getParameterValue / getElementValue function. Using files.
+ */
+QUnit.test("Test getElementValue using files", function(assert) {
+	var $fixture = $("#qunit-fixture");
+	
+	$fixture.append("<input type='file' name='myfile' value='1.txt'/>");
+	var e = $("input[type='file']");
+	var val = UnoChoice.getParameterValue(e);
+	assert.equal(val, '', 'element value is correct for files'); // cannot set value due to security
+});
 
+/**
+ * Tests for the CascadeParameter.
+ */
+QUnit.test("Test CascadeParameter class", function(assert) {
+	var $fixture = $("#qunit-fixture");
+	var cascadeParameter = new UnoChoice.CascadeParameter('sample-param', $fixture, /*proxy*/ undefined);
+	assert.ok(cascadeParameter, 'cascade parameter object creation working');
+	assert.deepEqual('sample-param', cascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
+	var anotherCascadeParameter = new UnoChoice.CascadeParameter('another-sample-param', $fixture, /*proxy*/ undefined);
+	assert.deepEqual('sample-param', cascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
+	assert.deepEqual('another-sample-param', anotherCascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
+	assert.deepEqual('sample-param', cascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
+});
