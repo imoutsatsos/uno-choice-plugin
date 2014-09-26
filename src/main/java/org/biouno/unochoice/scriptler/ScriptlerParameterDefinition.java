@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.biouno.unochoice.BaseParameterDefinition;
-import org.biouno.unochoice.ScriptCallback;
+import org.biouno.unochoice.util.ScriptCallback;
 import org.jenkinsci.plugins.scriptler.config.Parameter;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;

@@ -1,21 +1,39 @@
+/*
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package org.biouno.unochoice;
 
 import hudson.Extension;
-import hudson.model.ParameterValue;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.ParameterDefinition;
-import hudson.model.StringParameterValue;
 import hudson.util.FormValidation;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jenkins.model.ArtifactManager;
-import jenkins.util.VirtualFile;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,57 +56,37 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * <p>The artifacts of previous builds can be used to produce input text boxes, 
  * HTML (un) ordered lists, formatted HTML or simple image galleries.</p>
  * 
+ * @author Bruno P. Kinoshita
  * @since 0.1
  */
-public class DynamicReferenceParameter extends ScriptParameterDefinition {
+public class DynamicReferenceParameter extends AbstractScriptableParameter {
 
-	private static final long serialVersionUID = -8114576083660466882L;
-	
 	/*
-	 * Valid parameter values.
+	 * Serial UID.
 	 */
-	public static final String ELEMENT_TYPE_TEXT_BOX = "ET_TEXT_BOX"; // default choice type
-	public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
-	public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
-	public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
-	public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
-	public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
+	private static final long serialVersionUID = -4621118101234054700L;
+
+	private static final String JENKINS_PROJECT_VARIABLE_NAME = "jenkinsProject";
+	private static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
 	
 	private final String elementType;
-	private final String includes;
 	private final String referencedParameters;
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>();
 
 	@DataBoundConstructor
-	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes) {
-		super(name, description, uuid, remote, script, defaultScript);
+	public DynamicReferenceParameter(String name, String description, String script, String fallbackScript, 
+			String elementType, String referencedParameters) {
+		super(name, description, script, fallbackScript);
 		this.elementType = elementType;
 		this.referencedParameters = referencedParameters;
-		this.includes = includes;
-	}
-	
-	@Deprecated
-	public DynamicReferenceParameter(String name, String description, String uuid, Boolean remote, String script, String defaultScript, String elementType, String referencedParameters, String includes, Boolean hidden) {
-		super(name, description, uuid, remote, script, defaultScript);
-		this.elementType = elementType;
-		this.referencedParameters = referencedParameters;
-		this.includes = includes;
 	}
 	
 	/**
 	 * Type of element displayed.
 	 */
-	@JavaScriptMethod
 	public String getElementType() {
 		return elementType;
-	}
-	
-	/**
-	 * Pattern to include elements.
-	 */
-	public String getIncludes() {
-		return includes;
 	}
 	
 	/**
@@ -100,52 +98,11 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see hudson.model.ParameterDefinition#getName()
+	 * @see org.biouno.unochoice.AbstractUnoChoiceParameter#getChoiceType()
 	 */
 	@Override
-	@JavaScriptMethod
-	public String getName() {
-		return super.getName();
-	}
-	
-	public String[] getReferencedParamatersAsArray() {
-		String[] arr = getReferencedParameters().split(",");
-		String[] r = new String[arr.length];
-		for (int i = 0; i< arr.length ; ++i) {
-			r[i] = arr[i].trim();
-		}
-		return r;
-	}
-	
-	public Map<String, Object> getParameters() {
-		return parameters;
-	}
-	
-	@Override
-	public ParameterValue getDefaultParameterValue() {
-		return new StringParameterValue(getName(), "");
-	}
-	
-	@Override
-	public ParameterValue createValue(String value) {
-		ParameterValue parameterValue = null;
-		try {
-			parameterValue = super.createValue(value);
-		} catch (RuntimeException e) {
-			parameterValue = new StringParameterValue(getName(), "");
-		}
-		return parameterValue;
-	}
-	
-	@Override
-	public ParameterValue createValue(StaplerRequest request, JSONObject json) {
-		ParameterValue parameterValue = null;
-		try {
-			parameterValue = super.createValue(request, json);
-		} catch (RuntimeException e) {
-			parameterValue = new StringParameterValue(getName(), "");
-		}
-		return parameterValue;
+	public String getChoiceType() {
+		return this.elementType;
 	}
 	
 	/**
@@ -155,47 +112,25 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 	public void doUpdate(String stringParameters) {
 		parameters.clear();
 		
-		AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
+		final AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
 		if (project != null) {
-			parameters.put("jenkinsProject", project);
+			parameters.put(JENKINS_PROJECT_VARIABLE_NAME, project);
 			AbstractBuild<?, ?> build = project.getLastBuild();
 			if (build != null && build.getHasArtifacts()) {
-				parameters.put("jenkinsBuild", build);
-				if (StringUtils.isNotBlank(getIncludes())) {
-					List<String> parameterArtifacts = new ArrayList<String>();
-					ArtifactManager artifactsManager = build.getArtifactManager();
-					final VirtualFile artifactsDir = artifactsManager.root();
-					try {
-						final String[] artifacts = artifactsDir.list(getIncludes());
-						for (String artifact : artifacts) {
-							parameterArtifacts.add(artifact);
-						}
-						parameters.put("artifacts", parameterArtifacts);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				parameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
 			}
 		}
 		
-		String[] params = stringParameters.split("__LESEP__");
+		final String[] params = stringParameters.split(SEPARATOR);
 		for (String param : params) {
 			String[] nameValue = param.split("=");
 			String name = nameValue[0];
 			String value = nameValue[1];
-			getParameters().put(name, value);
+			parameters.put(name, value);
 		}
 	}
 	
-	@JavaScriptMethod
-	public List<Object> getScriptResultAsList() {
-		return super.getScriptResultAsList(getParameters());
-	}
-	
-	@JavaScriptMethod
-	public String getScriptResultAsString() {
-		return super.getScriptResultAsString(getParameters());
-	}
+	// --- descriptor
 	
 	@Extension
 	public static final class DescriptorImpl extends ParameterDescriptor {
@@ -207,9 +142,7 @@ public class DynamicReferenceParameter extends ScriptParameterDefinition {
 		 * A bit hacky, probably using another extension point would be a good idea.
 		 */
 		@Override
-		public ParameterDefinition newInstance(StaplerRequest req,
-				JSONObject formData)
-				throws hudson.model.Descriptor.FormException {
+		public ParameterDefinition newInstance(StaplerRequest req, JSONObject formData) throws hudson.model.Descriptor.FormException {
 			List<Ancestor> ancestors = req.getAncestors();
 			AbstractProject<?, ?> project = null;
 			for (Ancestor ancestor : ancestors) {

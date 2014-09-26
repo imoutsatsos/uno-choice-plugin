@@ -21,7 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.biouno.unochoice;
+
+package org.biouno.unochoice.util;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -39,28 +40,30 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 /**
  * A callable (Jenkins remoting API) object that executes the script locally (when executed in the master)
  * or remotely. 
+ * 
+ * @author dynamic-parameter-plugin
  */
-public class ScriptCallback implements Callable<Object, Throwable> {
+public class ScriptCallback implements Callable<Object, Exception> {
 	
 	private static final long serialVersionUID = 4524316203276099968L;
 	
 	private static final Logger LOGGER = Logger.getLogger(ScriptCallback.class.getName());
 	
 	private final String script;
-	private Map<String, Object> parameters;
+	private Map<Object, Object> parameters;
 
-	public ScriptCallback(String script, Map<String, Object> parameters) {
+	public ScriptCallback(String script, Map<Object, Object> parameters) {
 		this.script = script;
 		this.parameters = parameters;
 	}
 	
-	public Object call() throws Throwable {
+	public Object call() throws Exception {
 		// we can add class paths here too if needed
 		ClassLoader cl = null;
 		try {
 			cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
-		} catch (Throwable t) {
-			LOGGER.finest(t.getMessage());
+		} catch (Exception e) {
+			LOGGER.finest(e.getMessage());
 		}
 		if (cl == null) {
 			cl = Thread.currentThread().getContextClassLoader();
@@ -69,17 +72,17 @@ public class ScriptCallback implements Callable<Object, Throwable> {
 		final Binding context = new Binding();
 		
 		// @SuppressWarnings("unchecked")
-		Map<String, String> envVars = System.getenv();
-		for (Entry<String, Object> parameter : parameters.entrySet()) {
+		final Map<String, String> envVars = System.getenv();
+		for (Entry<Object, Object> parameter : parameters.entrySet()) {
 			Object value = parameter.getValue();
 			if (value != null && value instanceof String) {
 				value = Util.replaceMacro((String) value, envVars);
-				context.setVariable(parameter.getKey(), value);
+				context.setVariable(parameter.getKey().toString(), value);
 			}
 		}
 		
-		GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
-		Object eval = shell.evaluate(script);
+		final GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
+		final Object eval = shell.evaluate(script);
 		return eval;
 	}
 	
