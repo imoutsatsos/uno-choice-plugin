@@ -1,0 +1,6 @@
+<!--
+Use it like <st:adjunct include="org.kohsuke.stapler.angularjs"/>
+-->
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+  <script src="${it.packageUrl}/unochoice/unochoice.js" type="text/javascript" />
+</j:jelly>

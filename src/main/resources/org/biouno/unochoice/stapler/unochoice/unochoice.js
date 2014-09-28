@@ -64,6 +64,161 @@ var UnoChoice = (function($) {
     	return this.paramName;
     }
     
+    function FilterElement(paramElement, filterElement) {
+    	this.paramElement = paramElement;
+    	this.filterElement = filterElement;
+    	this.originalArray = new Array();
+    	
+    	// push existing values into originalArray array
+        if (this.paramElement.prop('tagName') == 'SELECT') { // handle SELECTS
+        	var options = paramElement.children();
+            for (var i = 0; i < options.length; ++i) {
+                this.originalArray.push(options[i]);
+            }
+        } else if (paramElement.tagName == 'DIV') { // handle CHECKBOXES
+            if (paramElement.children.length > 0 && paramElement.children[0].tagName == 'TABLE') {
+                var table = paramElement.children[0];
+                var tbody = table.children[0];
+                
+                var trs = tbody.find('tr');
+                for (i = 0; i < trs.length ; ++i) {
+                    var tds = trs[i].find('td');
+                    var inputs = tds[0].find('input');
+                    var input = inputs[0];
+                    this.originalArray.push(input);
+                }
+            }
+        }
+        this.initEventHandler();
+    }
+    
+    FilterElement.prototype.getParameterElement = function() {
+    	return this.paramElement;
+    }
+    
+    FilterElement.prototype.getFilterElement = function() {
+    	return this.filterElement;
+    }
+    
+    FilterElement.prototype.getOriginalArray = function() {
+    	return this.originalArray;
+    }
+    
+    FilterElement.prototype.initEventHandler = function() {
+    	var originalArray = this.getOriginalArray();
+    	this.filterElement.keyup(function(e) {
+    		var container = e.target;
+            var text = container.value.toLowerCase();
+            var options = originalArray;
+            var newOptions = Array();
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].innerHTML.toLowerCase().match(text)) {
+                    newOptions.push(options[i]);
+                }
+            }
+            if (container.prop('tagName') == 'SELECT') { // handle SELECT's
+               container.options.length = 0;
+               for (var i = 0; i < newOptions.length ; ++i) {
+                   var opt = document.createElement('option');
+                   opt.value = newOptions[i].value;
+                   opt.innerHTML = newOptions[i].innerHTML;
+                   container.append(opt);
+               }
+            } else if (container.prop('tagName') == 'DIV') {
+               if (container.children.length > 0 && container.children[0].prop('tagName') == 'TABLE') {
+                    var table = container.children[0];
+                    var tbody = table.children[0];
+                    
+                    trs = tbody.find('tr');
+                    for (var i = 0; i < trs.length; i++) {
+                        tbody.remove(trs[i]);
+                    }
+                    
+                    var originalArray = [];
+                    if (container.className == 'dynamic_checkbox') {
+                        for (var i = 0; i < newOptions.length; i++) {
+                            var entry = newOptions[i];
+                            // TR
+                            var tr = document.createElement('tr');
+                            var idValue = 'ecp_' + e.target.paramName + '_' + i;
+                            idValue = idValue.replace(' ', '_');
+                            tr.attr('id', idValue);
+                            tr.attr('style', 'white-space:nowrap');
+                            // TD
+                            var td = document.createElement('td');
+                            // INPUT
+                            var input = document.createElement('input');
+                            // LABEL
+                            var label = document.createElement('label');
+                            
+                            if (!entry instanceof String) {
+                                input.attr('json', JSON.stringify(entry.value));
+                                input.attr('name', 'value');
+                                input.attr("value", JSON.stringify(entry.value));
+                                input.attr("class", " ");
+                                input.attr("type", "checkbox");
+                                label.addClass("attach-previous");
+                                label.innerHTML = JSON.stringify(entry);
+                            } else {
+                                input.attr('json', entry);
+                                input.attr('name', 'value');
+                                input.attr("value", entry);
+                                input.attr("class", " ");
+                                input.attr("type", "checkbox");
+                                label.addClass("attach-previous");
+                                label.innerHTML = entry;
+                            }
+                            // Put everything together
+                            td.append(input);
+                            td.append(label);
+                            tr.append(td);
+                            tbody.append(tr);
+                        }
+                    } else {
+                        for (var i = 0; i < newOptions.length; i++) {
+                            var entry = newOptions[i];
+                            // TR
+                            var tr = document.createElement('tr');
+                            var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
+                            idValue = idValue.replace(' ', '_');
+                            tr.attr('id', idValue);
+                            tr.attr('style', 'white-space:nowrap');
+                            // TD
+                            var td = document.createElement('td');
+                            // INPUT
+                            var input = document.createElement('input');
+                            // LABEL
+                            var label = document.createElement('label');
+                            
+                            if (!entry instanceof String) {
+                                input.attr('json', JSON.stringify(entry));
+                                input.attr('name', 'value');
+                                input.attr("value", JSON.stringify(entry));
+                                input.attr("class", " ");
+                                input.attr("type", "radio");
+                                label.addClass("attach-previous");
+                                label.innerHTML = JSON.stringify(entry);
+                            } else {
+                                input.attr('json', entry);
+                                input.attr('name', 'value');
+                                input.attr("value", entry);
+                                input.attr("class", " ");
+                                input.attr("type", "radio");
+                                label.addClass("attach-previous");
+                                label.innerHTML = entry;
+                            }
+                            // Put everything together
+                            td.append(input);
+                            td.append(label);
+                            tr.append(td);
+                            tbody.append(tr);
+                        }
+                    }
+                }
+            }
+    	});
+    }
+    
     // HTML utility methods
     
     /**
@@ -278,5 +433,7 @@ var UnoChoice = (function($) {
     instance.fakeSelectRadioButton = fakeSelectRadioButton;
     instance.getParameterValue = getParameterValue;
     instance.CascadeParameter = CascadeParameter;
+    instance.FilterElement = FilterElement;
     return instance;
 })(jQuery);
+

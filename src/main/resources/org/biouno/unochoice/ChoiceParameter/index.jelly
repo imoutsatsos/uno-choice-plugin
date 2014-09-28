@@ -1,188 +1,57 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <script src="${rootURL}/plugin/uno-choice/js/cascade.js"></script>
+  <st:adjunct includes="org.kohsuke.stapler.jquery"/>
+  <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
+  <script>$.noConflict()</script>
+  <j:invokeStatic var="paramName" className="org.biouno.unochoice.util.Utils" method="createRandomParameterName">
+    <j:arg type="java.lang.String" value="choice-parameter" />
+    <j:arg type="java.lang.String" value="" />
+  </j:invokeStatic>
+  <j:set var="choiceType" value="${it.choiceType}"/>
   <f:entry title="${it.name}" description="${it.description}">
-    <div name="parameter" description="${it.description}">
+    <div name="parameter" description="${it.description}" id='${paramName}'>
       <input type="hidden" name="name" value="${it.name}" />
-      <j:set var="choiceType" value="${it.choiceType}"/>
-      <j:if test="${choiceType eq 'PT_SINGLE_SELECT'}">
-        <select name="value">
-          <st:include page="selectContent.jelly"/>
-        </select>
-      </j:if>
-      <j:if test="${choiceType eq 'PT_MULTI_SELECT'}">
-        <select name="value" multiple="multiple" size="${it.visibleItemCount}">
-          <st:include page="selectContent.jelly"/>
-        </select>
-      </j:if>
-      <j:if test="${choiceType eq 'PT_RADIO'}">
-        <st:include page="radioContent.jelly"/>
-      </j:if>
-      <j:if test="${choiceType eq 'PT_CHECKBOX'}">
-        <st:include page="checkboxContent.jelly"/>
+      <j:choose>
+        <j:when test="${choiceType eq 'PT_SINGLE_SELECT'}">
+          <select name="value">
+            <st:include page="selectContent.jelly"/>
+          </select>
+        </j:when>
+        <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
+          <select name="value" multiple="multiple" size="${it.visibleItemCount}">
+            <st:include page="selectContent.jelly"/>
+          </select>
+        </j:when>
+        <j:when test="${choiceType eq 'PT_RADIO'}">
+          <st:include page="radioContent.jelly"/>
+        </j:when>
+        <j:when test="${choiceType eq 'PT_CHECKBOX'}">
+          <st:include page="checkboxContent.jelly"/>
+        </j:when>
+        <j:otherwise>
+          <p>Unsupported element: ${choiceType}</p>
+        </j:otherwise>
+      </j:choose>
+      <j:if test="${it.filterable}">
+        <input class='uno_choice_filter' type='text' value='' name='test' placeholder='Filter' />
       </j:if>
     </div>
   </f:entry>
   <script type="text/javascript">
-    // find this parameter element
-    divs = findElementsBySelector(null, 'div[name="parameter"]', false);
-    var parameterElement = null;
-    for (var j = 0; j &lt; divs.length ; j++) {
-    	div = divs[j];
-    	var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
-    	if (hiddenNames[0].value == '${it.getName()}') {
-    		var children = div.children;
-		    for (var k = 0; k &lt; children.length; ++k) {
-		        child = children[k];
-		        if (child.nodeName != "INPUT" &amp;&amp; child.getAttribute('type') != 'hidden') {
-		            parameterElement = child;
-		            break;
-		        }
-		    }
-    	}
-    }
-    // Get the filter element
-    var filterElement = YAHOO.util.Dom.getNextSiblingBy(parameterElement, function(elem) {
-        return YAHOO.util.Dom.hasClass(elem, 'uno_choice_filter');
-    });
-    if (filterElement) {
-        filterElement.paramElement = parameterElement;
-        var originalArray = [];
-        if (filterElement.paramElement.tagName == 'SELECT') { // handle SELECTS
-            for (i = 0; i &lt; filterElement.paramElement.options.length; ++i) {
-                originalArray.push(filterElement.paramElement.options[i]);
-            }
-        } else if (filterElement.paramElement.tagName == 'DIV') { // handle CHECKBOXES
-            if (filterElement.paramElement.children.length &gt; 0 &amp;&amp; filterElement.paramElement.children[0].tagName == 'TABLE') {
-                var table = filterElement.paramElement.children[0];
-                var tbody = table.children[0];
-                
-                var trs = findElementsBySelector(tbody, 'tr', false);
-                for (i = 0; i &lt; trs.length ; ++i) {
-                    var tds = findElementsBySelector(trs[i], 'td', false);
-                    var inputs = findElementsBySelector(tds[0], 'input', false);
-                    var input = inputs[0];
-                    //originalArray.push(input.getAttribute('value'));                     
-                    originalArray.push(input);
-                }
-            }
-        }
-        filterElement.paramElement.originalOptions = originalArray;
-    }
-    
     <j:if test="${it.filterable}">
-    YAHOO.util.Event.on(filterElement, 'keyup', function (e) {
-        var container = e.srcElement.paramElement;
-        var text = e.srcElement.value.toLowerCase();
-        var options = container.originalOptions;
-        var newOptions = Array();
-        for (i = 0; i &lt; options.length; i++) {
-            if (options[i].innerHTML.toLowerCase().match(text)) {
-                newOptions.push(options[i]);
-            }
+    var parentDiv = jQuery('#${paramName}');
+    var parameterElement = parentDiv.find('*[name="value"]');
+    if (parameterElement) {
+        var filterElement = parentDiv.find('.uno_choice_filter');
+        if (filterElement) {
+            filterElement = new UnoChoice.FilterElement(parameterElement, filterElement);
+        } else {
+            console.log('Missing filter element!');
         }
-        if (container.tagName == 'SELECT') { // handle SELECT's
-           YAHOO.util.Dom.get(container).options.length = 0;
-           for (i = 0; i &lt; newOptions.length ; ++i) {
-               var opt = document.createElement('option');
-               opt.value = newOptions[i].value;
-               opt.innerHTML = newOptions[i].innerHTML;
-               container.appendChild(opt);
-           }
-        } else if (container.tagName == 'DIV') {
-           if (container.children.length &gt; 0 &amp;&amp; container.children[0].tagName == 'TABLE') {
-                var table = container.children[0];
-                var tbody = table.children[0];
-                
-                trs = findElementsBySelector(tbody, 'tr', false);
-                for (i = 0; i &lt; trs.length; i++) {
-                    tbody.removeChild(trs[i]);
-                }
-                
-                var originalArray = [];
-                if (container.className == 'dynamic_checkbox') {
-                    for (i = 0; i &lt; newOptions.length; i++) {
-                        var entry = newOptions[i];
-                        // TR
-                        var tr = document.createElement('tr');
-                        var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
-                        idValue = idValue.replace(' ', '_');
-                        tr.setAttribute('id', idValue);
-                        tr.setAttribute('style', 'white-space:nowrap');
-                        // TD
-                        var td = document.createElement('td');
-                        // INPUT
-                        var input = document.createElement('input');
-                        // LABEL
-                        var label = document.createElement('label');
-                        
-                        if (!entry instanceof String) {
-                            input.setAttribute('json', JSON.stringify(entry.value));
-                            input.setAttribute('name', 'value');
-                            input.setAttribute("value", JSON.stringify(entry.value));
-                            input.setAttribute("class", " ");
-                            input.setAttribute("type", "checkbox");
-                            label.className = "attach-previous";
-                            label.innerHTML = JSON.stringify(entry);
-                        } else {
-                            input.setAttribute('json', entry);
-                            input.setAttribute('name', 'value');
-                            input.setAttribute("value", entry);
-                            input.setAttribute("class", " ");
-                            input.setAttribute("type", "checkbox");
-                            label.className = "attach-previous";
-                            label.innerHTML = entry;
-                        }
-                        // Put everything together
-                        td.appendChild(input);
-                        td.appendChild(label);
-                        tr.appendChild(td);
-                        tbody.appendChild(tr);
-                    }
-                } else {
-                    for (i = 0; i &lt; newOptions.length; i++) {
-                        var entry = newOptions[i];
-                        // TR
-                        var tr = document.createElement('tr');
-                        var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
-                        idValue = idValue.replace(' ', '_');
-                        tr.setAttribute('id', idValue);
-                        tr.setAttribute('style', 'white-space:nowrap');
-                        // TD
-                        var td = document.createElement('td');
-                        // INPUT
-                        var input = document.createElement('input');
-                        // LABEL
-                        var label = document.createElement('label');
-                        
-                        if (!entry instanceof String) {
-                            input.setAttribute('json', JSON.stringify(entry));
-                            input.setAttribute('name', 'value');
-                            input.setAttribute("value", JSON.stringify(entry));
-                            input.setAttribute("class", " ");
-                            input.setAttribute("type", "radio");
-                            label.className = "attach-previous";
-                            label.innerHTML = JSON.stringify(entry);
-                        } else {
-                            input.setAttribute('json', entry);
-                            input.setAttribute('name', 'value');
-                            input.setAttribute("value", entry);
-                            input.setAttribute("class", " ");
-                            input.setAttribute("type", "radio");
-                            label.className = "attach-previous";
-                            label.innerHTML = entry;
-                        }
-                        // Put everything together
-                        td.appendChild(input);
-                        td.appendChild(label);
-                        tr.appendChild(td);
-                        tbody.appendChild(tr);
-                    }
-                }
-            }
-        }
-    });
+    } else {
+        log('Missing parameter element!');
+    }
     </j:if>
   </script>
 </j:jelly>

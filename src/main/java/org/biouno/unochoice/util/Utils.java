@@ -68,4 +68,14 @@ public final class Utils {
 		return text;
 	}
 	
+	public static String createRandomParameterName(String prefix, String suffix) {
+		String paramName = "";
+		if (StringUtils.isNotBlank(prefix))
+			paramName = prefix + "-";
+		paramName += System.nanoTime();
+		if (StringUtils.isNotBlank(suffix))
+			paramName = paramName + "-" + suffix;
+		return paramName;
+	}
+	
 }

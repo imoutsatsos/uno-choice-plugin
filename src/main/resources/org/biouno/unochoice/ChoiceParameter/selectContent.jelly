@@ -13,9 +13,4 @@
     </j:invokeStatic>
     <f:option selected="${selected}" value="${escapedKey}">${escapedValue}</f:option>
   </j:forEach>
-  
-  <j:if test="${it.filterable}">
-    <input class='uno_choice_filter' type='text' value='' name='test' placeholder='Filter' />
-  </j:if>
-
 </j:jelly>
