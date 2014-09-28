@@ -89,13 +89,17 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		return fallbackScript;
 	}
 	
+	public Map<Object, Object> getChoices() {
+		return this.getChoices(Collections.emptyMap());
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.biouno.unochoice.ScriptableParameter#getChoices(java.util.Map)
 	 */
 	@SuppressWarnings("unchecked") // due to Web + Java and scripts integration
 	public Map<Object, Object> getChoices(Map<Object, Object> parameters) {
-		Object value;
+		final Object value;
 		try {
 			ScriptCallback<Object, Exception> callback = new ScriptCallback<Object, Exception>(getName(), script, parameters);
 			ScriptCallback<Object, Exception> fallback = new ScriptCallback<Object, Exception>(getName(), fallbackScript, parameters);

@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 
@@ -45,6 +46,26 @@ public final class Utils {
 			LOGGER.log(Level.WARNING, String.format("No fallback script configured for '%s'", callback.getName()));
 			throw e;
 		}
+	}
+	
+	// --- methods called from Jelly pages
+	
+	public static boolean isSelected(Object obj) {
+		if (obj == null)
+			return false;
+		final String text = obj.toString();
+		return StringUtils.isNotBlank(text) && text.endsWith(":selected");
+	}
+	  
+	public static String escapeSelected(Object obj) {
+		if (obj == null)
+			return "";
+		final String text = obj.toString();
+		if (StringUtils.isBlank(text))
+			return "";
+		if (isSelected(text))
+			return text.substring(0, text.indexOf(":selected"));
+		return text;
 	}
 	
 }

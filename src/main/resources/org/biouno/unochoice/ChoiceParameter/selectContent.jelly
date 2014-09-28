@@ -1,0 +1,21 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <j:forEach var="iter" items="${it.getChoices()}">
+    <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
+        <j:arg type="java.lang.Object" value="${iter.value}" />
+    </j:invokeStatic>
+    <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedValue">
+        <j:arg type="java.lang.Object" value="${iter.value}" />
+    </j:invokeStatic>
+    <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedKey">
+        <j:arg type="java.lang.Object" value="${iter.key}" />
+    </j:invokeStatic>
+    <f:option selected="${selected}" value="${escapedKey}">${escapedValue}</f:option>
+  </j:forEach>
+  
+  <j:if test="${it.filterable}">
+    <input class='uno_choice_filter' type='text' value='' name='test' placeholder='Filter' />
+  </j:if>
+
+</j:jelly>
