@@ -28,8 +28,6 @@ import hudson.model.ParameterValue;
 import hudson.model.SimpleParameterDefinition;
 import hudson.model.StringParameterValue;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +35,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -130,43 +127,6 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
 	    return parameterValue;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see hudson.model.ParameterDefinition#getDefaultParameterValue()
-	 */
-	@Override
-	public ParameterValue getDefaultParameterValue() {
-		if (LOGGER.isLoggable(Level.FINE)) {
-			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getDefaultParameterValue");
-		}
-		Object firstElement = "";
-		final Map<Object, Object> choices = getChoices(Collections.<Object, Object> emptyMap());
-		if (choices != null && choices.size() > 0) {
-			firstElement = choices.get(0);
-		}
-		final String name = getName();
-		final String value = ObjectUtils.toString(firstElement, ""); // Jenkins doesn't like null parameter values
-		final StringParameterValue stringParameterValue = new StringParameterValue(name, value);
-		return stringParameterValue;
-	}
-	
-	// --- type types
-	
-	/**
-	 * Get the number of visible items in the select.
-	 * 
-	 * @return the number of choices or, if it is higher than the default, then it returns the default maximum value
-	 */
-	public int getVisibleItemCount() {
-		if (LOGGER.isLoggable(Level.FINE)) {
-			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getVisibleItemCount");
-		}
-		final int choicesSize = getChoices(Collections.<Object, Object> emptyMap()).size();
-		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
-			return choicesSize;
-		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;
-	}
-	
 	/**
 	 * <p>Gets the choice type.</p>
 	 * 
@@ -175,13 +135,5 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
 	 * @return choice type
 	 */
 	public abstract String getChoiceType();
-	
-	/**
-	 * Gets the choices collection.
-	 * 
-	 * @param parameters map parameters
-	 * @return choices collection
-	 */
-	public abstract Map<Object, Object> getChoices(Map<Object, Object> parameters);
 	
 }

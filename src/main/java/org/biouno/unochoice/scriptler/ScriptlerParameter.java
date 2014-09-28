@@ -22,25 +22,18 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice;
+package org.biouno.unochoice.scriptler;
 
-import java.util.Map;
+import org.biouno.unochoice.ScriptableParameter;
+import org.biouno.unochoice.util.ScriptCallback;
 
 /**
- * A parameter that is obtained through the execution of a script.
+ * A parameter that uses a Scriptler script to get a list of parameters.
  * 
  * @author Bruno P. Kinoshita
  * @since 0.20
+ * @see ScriptableParameter
  */
-public interface ScriptableParameter<T> extends UnoChoiceParameter {
+public interface ScriptlerParameter extends ScriptableParameter<ScriptCallback> {
 
-	/**
-	 * Evaluates a script and returns its result as a Map. List values are automatically handled and converted to
-	 * Maps too.
-	 * 
-	 * @param parameters parameters
-	 * @return script result as Map
-	 */
-	T getChoices(Map<Object, Object> parameters);
-	
 }

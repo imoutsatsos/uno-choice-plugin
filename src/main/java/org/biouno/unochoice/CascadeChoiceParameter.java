@@ -34,7 +34,12 @@ import java.util.Map;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 /**
- * TODO
+ * <p>A choice parameter, that gets updated when another parameter changes. The simples example
+ * of a use case for this, would be to have a list of states. When the user selected a
+ * state it would trigger an update of the city fields.</p>
+ * 
+ * <p>The state parameter would be a choice parameter, and the city parameter would be a
+ * cascade choice parameter, that referenced the former.</p>
  * 
  * @author Bruno P. Kinoshita
  * @since 0.1

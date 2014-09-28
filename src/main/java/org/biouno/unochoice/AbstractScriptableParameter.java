@@ -24,12 +24,16 @@
 
 package org.biouno.unochoice;
 
+import hudson.model.ParameterValue;
+import hudson.model.StringParameterValue;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.biouno.unochoice.util.ScriptCallback;
 
 /**
@@ -38,7 +42,7 @@ import org.biouno.unochoice.util.ScriptCallback;
  * @author Bruno P. Kinoshita
  * @since 0.20
  */
-public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParameter implements ScriptableParameter {
+public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParameter implements ScriptableParameter<Map<Object, Object>> {
 
 	/*
 	 * Serial UID.
@@ -89,7 +93,6 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	 * @see org.biouno.unochoice.ScriptableParameter#getChoices(java.util.Map)
 	 */
 	@SuppressWarnings("unchecked") // due to Web + Java and scripts integration
-	@Override
 	public Map<Object, Object> getChoices(Map<Object, Object> parameters) {
 		Object value;
 		try {
@@ -134,6 +137,43 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 				throw e1;
 			}
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see hudson.model.ParameterDefinition#getDefaultParameterValue()
+	 */
+	@Override
+	public ParameterValue getDefaultParameterValue() {
+		if (LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getDefaultParameterValue");
+		}
+		Object firstElement = "";
+		final Map<Object, Object> choices = getChoices(Collections.<Object, Object> emptyMap());
+		if (choices != null && choices.size() > 0) {
+			firstElement = choices.get(0);
+		}
+		final String name = getName();
+		final String value = ObjectUtils.toString(firstElement, ""); // Jenkins doesn't like null parameter values
+		final StringParameterValue stringParameterValue = new StringParameterValue(name, value);
+		return stringParameterValue;
+	}
+	
+	// --- type types
+	
+	/**
+	 * Get the number of visible items in the select.
+	 * 
+	 * @return the number of choices or, if it is higher than the default, then it returns the default maximum value
+	 */
+	public int getVisibleItemCount() {
+		if (LOGGER.isLoggable(Level.FINE)) {
+			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getVisibleItemCount");
+		}
+		final int choicesSize = getChoices(Collections.<Object, Object> emptyMap()).size();
+		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
+			return choicesSize;
+		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;
 	}
 
 }
