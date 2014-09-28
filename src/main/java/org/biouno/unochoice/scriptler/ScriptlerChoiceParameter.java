@@ -4,10 +4,21 @@ import hudson.Extension;
 
 import java.util.Set;
 
-import org.biouno.unochoice.util.JenkinsUtils;
+import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 
+/**
+ * A parameter that renderss its options as a choice (select) HTML component, using a
+ * Scriptler parameter that returns a list or a map.
+ *
+ * @author Bruno P. Kinoshita
+ */
 public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
+
+	/*
+	 * Serial UID.
+	 */
+	private static final long serialVersionUID = 6416418319327891747L;
 
 	/**
 	 * Choice type.
@@ -31,11 +42,15 @@ public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
 		return this.choiceType;
 	}
 	
+	/**
+	 * @return the filter flag
+	 */
 	public Boolean getFilterable() {
 		return filterable;
 	}
 	
 	// ---descriptor
+	
 	@Extension
 	public static final class DescriptImpl extends ParameterDescriptor {
 		
@@ -45,7 +60,7 @@ public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
 		}
 		
 		public Set<Script> getScripts() {
-			return JenkinsUtils.getAllScriptlerScripts();
+			return Utils.getAllScriptlerScripts();
 		}
 		
 	}

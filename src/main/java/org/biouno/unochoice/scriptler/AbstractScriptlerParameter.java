@@ -1,20 +1,25 @@
 package org.biouno.unochoice.scriptler;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.biouno.unochoice.AbstractUnoChoiceParameter;
 import org.biouno.unochoice.util.ScriptCallback;
+import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Parameter;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 
-public abstract class AbstractScriptlerParameter extends AbstractUnoChoiceParameter implements ScriptlerParameter {
+public abstract class AbstractScriptlerParameter extends AbstractUnoChoiceParameter implements ScriptlerParameter<Map<Object, Object>> {
 
 	/*
 	 * Serial UID.
 	 */
 	private static final long serialVersionUID = -8185384780174742586L;
+	
+	protected static final String SEPARATOR = "__LESEP__"; // used to split values that come from the UI via Ajax POST's
 	
 	/**
 	 * Scriptler script ID.
@@ -49,7 +54,8 @@ public abstract class AbstractScriptlerParameter extends AbstractUnoChoiceParame
 	 * (non-Javadoc)
 	 * @see org.biouno.unochoice.ScriptableParameter#getChoices(java.util.Map)
 	 */
-	public ScriptCallback getChoices(Map<Object, Object> parameters) {
+	@SuppressWarnings("unchecked")
+	public Map<Object, Object> getChoices(Map<Object, Object> parameters) {
 		final String scriptId = getScriptlerScriptId();
 		final Script script   = ScriptHelper.getScript(scriptId, true);
 		if (script == null)
@@ -73,8 +79,26 @@ public abstract class AbstractScriptlerParameter extends AbstractUnoChoiceParame
 		parametersMap.putAll(parameters);
 
 		// create the script call
-		ScriptCallback call = new ScriptCallback(script.script, parametersMap);
-		return call;
+		ScriptCallback<Object, Exception> callback = new ScriptCallback<Object, Exception>(getName(), script.script, parametersMap);
+		Object value;
+		try {
+			value = Utils.executeScript(callback, null, parameters);
+		} catch (Throwable e) {
+			return Collections.EMPTY_MAP;
+		}
+		if (value instanceof Map) {
+			return (Map<Object, Object>) value;
+		}
+		if (value instanceof List) {
+			// here we take a list and return it as a map
+			final Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+			for (Object o : (List<Object>) value) {
+				map.put(o, o);
+			}
+			return map;
+		}
+		LOGGER.warning(String.format("Script parameter with name '%s' is not an instance of java.util.Map. The parameter value is %s", getName(), value));
+		return Collections.EMPTY_MAP;
 	}
 	
 }

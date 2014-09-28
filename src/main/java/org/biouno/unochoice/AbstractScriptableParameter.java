@@ -35,6 +35,7 @@ import java.util.logging.Level;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.biouno.unochoice.util.ScriptCallback;
+import org.biouno.unochoice.util.Utils;
 
 /**
  * Base class for parameters with scripts.
@@ -96,8 +97,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	public Map<Object, Object> getChoices(Map<Object, Object> parameters) {
 		Object value;
 		try {
-			value = this.executeScript(parameters);
-		} catch (Exception e) {
+			ScriptCallback<Object, Exception> callback = new ScriptCallback<Object, Exception>(getName(), script, parameters);
+			ScriptCallback<Object, Exception> fallback = new ScriptCallback<Object, Exception>(getName(), fallbackScript, parameters);
+			value = Utils.executeScript(callback, fallback, parameters);
+		} catch (Throwable e) {
 			return Collections.EMPTY_MAP;
 		}
 		if (value instanceof Map) {
@@ -113,30 +116,6 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		}
 		LOGGER.warning(String.format("Script parameter with name '%s' is not an instance of java.util.Map. The parameter value is %s", getName(), value));
 		return Collections.EMPTY_MAP;
-	}
-	
-	/**
-	 * Executes the script with the given parameters.
-	 * 
-	 * @param parameters parameters
-	 * @return script eval'd
-	 * @throws Exception iff the fallback script fails
-	 */
-	private Object executeScript(Map<Object, Object> parameters) throws Exception {
-		ScriptCallback callback = new ScriptCallback(script, parameters);
-		try {
-			return callback.call();
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, String.format("Error executing script for dynamic parameter '%s'", getName()), e);
-			try {
-				LOGGER.log(Level.WARNING, "Fallback to default script...");
-				callback = new ScriptCallback(fallbackScript, parameters);
-				return callback.call();
-			} catch (Exception e1) {
-				LOGGER.log(Level.SEVERE, String.format("Error executing fallback script for dynamic parameter '%s'", getName()), e);
-				throw e1;
-			}
-		}
 	}
 	
 	/*

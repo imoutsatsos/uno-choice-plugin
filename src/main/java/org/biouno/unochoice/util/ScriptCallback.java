@@ -42,22 +42,29 @@ import org.codehaus.groovy.control.CompilerConfiguration;
  * or remotely. 
  * 
  * @author dynamic-parameter-plugin
+ * @author Bruno P. Kinoshita
  */
-public class ScriptCallback implements Callable<Object, Exception> {
+public class ScriptCallback<C, T extends Throwable> implements Callable<C, T> {
 	
 	private static final long serialVersionUID = 4524316203276099968L;
 	
 	private static final Logger LOGGER = Logger.getLogger(ScriptCallback.class.getName());
 	
+	private final String name;
 	private final String script;
 	private Map<Object, Object> parameters;
 
-	public ScriptCallback(String script, Map<Object, Object> parameters) {
+	public ScriptCallback(String name, String script, Map<Object, Object> parameters) {
+		this.name = name;
 		this.script = script;
 		this.parameters = parameters;
 	}
 	
-	public Object call() throws Exception {
+	public String getName() {
+		return name;
+	}
+	
+	public C call() throws T {
 		// we can add class paths here too if needed
 		ClassLoader cl = null;
 		try {
@@ -82,7 +89,8 @@ public class ScriptCallback implements Callable<Object, Exception> {
 		}
 		
 		final GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
-		final Object eval = shell.evaluate(script);
+		@SuppressWarnings("unchecked")
+		final C eval = (C) shell.evaluate(script);
 		return eval;
 	}
 	

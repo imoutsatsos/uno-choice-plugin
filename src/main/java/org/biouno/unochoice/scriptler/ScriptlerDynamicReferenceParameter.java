@@ -1,24 +1,18 @@
 package org.biouno.unochoice.scriptler;
 
 import hudson.Extension;
-import hudson.FilePath;
-import hudson.model.ParameterValue;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.ParameterDefinition;
-import hudson.model.StringParameterValue;
 import hudson.util.FormValidation;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
-import org.biouno.unochoice.util.JenkinsUtils;
+import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.kohsuke.stapler.Ancestor;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -44,176 +38,49 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * 
  * @since 0.1
  */
-public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefinition {
+public class ScriptlerDynamicReferenceParameter extends AbstractCascadableScriptlerParameter {
 
-	private static final long serialVersionUID = 6077439081753482397L;
 	/*
-	 * Valid parameter values.
+	 * Serial UID.
 	 */
-	public static final String ELEMENT_TYPE_TEXT_BOX = "ET_TEXT_BOX"; // default choice type
-	public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
-	public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
-	public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
-	public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
-	public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
-	
-	private final String elementType;
-	private final String includes;
-	private final String referencedParameters;
-	
-	private Map<String, Object> parameters = new HashMap<String, Object>();
+	private static final long serialVersionUID = 69655390867060982L;
 
-	@Deprecated
-	public ScriptlerDynamicReferenceParameter(String name, String description, String uuid, Boolean remote, 
-			String scriptlerScriptId, ScriptParameter[] parameters, String elementType, String referencedParameters, 
-			String includes, Boolean hidden) {
-		super(name, description, uuid, scriptlerScriptId, parameters, remote);
-		this.elementType = elementType;
-		this.referencedParameters = referencedParameters;
-		this.includes = includes;
-	}
+	private final String elementType;
 	
 	@DataBoundConstructor
-	public ScriptlerDynamicReferenceParameter(String name, String description, String uuid, Boolean remote, 
-			String scriptlerScriptId, ScriptParameter[] parameters, String elementType, String referencedParameters, 
-			String includes) {
-		super(name, description, uuid, scriptlerScriptId, parameters, remote);
+	public ScriptlerDynamicReferenceParameter(String name, String description, 
+			String scriptlerScriptId, ScriptlerScriptParameter[] parameters, String elementType, String referencedParameters) {
+		super(name, description, scriptlerScriptId, parameters, referencedParameters);
 		this.elementType = elementType;
-		this.referencedParameters = referencedParameters;
-		this.includes = includes;
-	}
-	
-	/**
-	 * Type of element displayed.
-	 */
-	@JavaScriptMethod
-	public String getElementType() {
-		return elementType;
-	}
-	
-	/**
-	 * Pattern to include elements.
-	 */
-	public String getIncludes() {
-		return includes;
-	}
-	
-	/**
-	 * Comma separated referenced parameters.
-	 */
-	public String getReferencedParameters() {
-		return referencedParameters;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see hudson.model.ParameterDefinition#getName()
+	 * @see org.biouno.unochoice.AbstractUnoChoiceParameter#getChoiceType()
 	 */
 	@Override
-	@JavaScriptMethod
-	public String getName() {
-		return super.getName();
+	public String getChoiceType() {
+		return this.elementType;
 	}
-	
-	public String[] getReferencedParamatersAsArray() {
-		String[] arr = getReferencedParameters().split(",");
-		String[] r = new String[arr.length];
-		for (int i = 0; i< arr.length ; ++i) {
-			r[i] = arr[i].trim();
-		}
-		return r;
-	}
-	
-	public Map<String, Object> getParameters() {
-		return parameters;
-	}
-	
-	@Override
-	public ParameterValue getDefaultParameterValue() {
-		return new StringParameterValue(getName(), "");
-	}
-	
-	@Override
-	public ParameterValue createValue(String value) {
-		ParameterValue parameterValue = null;
-		try {
-			parameterValue = super.createValue(value);
-		} catch (RuntimeException e) {
-			parameterValue = new StringParameterValue(getName(), "");
-		}
-		return parameterValue;
-	}
-	
-	@Override
-	public ParameterValue createValue(StaplerRequest request, JSONObject json) {
-		ParameterValue parameterValue = null;
-		try {
-			parameterValue = super.createValue(request, json);
-		} catch (RuntimeException e) {
-			parameterValue = new StringParameterValue(getName(), "");
-		}
-		return parameterValue;
-	}
-	
+
 	/**
 	 * Gets each artifact, and the project as parameters to the groovy script.
 	 */
 	@JavaScriptMethod
-	public void doUpdate(String stringParameters) {
-		parameters.clear();
+	public void doUpdate(String parameters) {
+		super.doUpdate(parameters);
 		
-		AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
+		final AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
 		if (project != null) {
-			parameters.put("jenkinsProject", project);
+			getParameters().put("jenkinsProject", project);
 			AbstractBuild<?, ?> build = project.getLastBuild();
 			if (build != null && build.getHasArtifacts()) {
-				parameters.put("jenkinsBuild", build);
-				if (StringUtils.isNotBlank(getIncludes())) {
-					Map<String, Object> parameterArtifacts = new HashMap<String, Object>();
-					final FilePath artifactsDir = new FilePath(build.getArtifactsDir());
-					try {
-						final FilePath[] artifacts = artifactsDir.list(getIncludes());
-						for (FilePath artifact : artifacts) {
-							String fileName = "";
-							FilePath temp = artifact;
-							while(!temp.getParent().equals(artifactsDir)) {
-								fileName = temp.getParent().getName() + "/" + fileName;
-								temp = temp.getParent();
-							}
-							if(fileName.length() > 0) {
-								fileName += "/";
-							}
-							fileName += artifact.getName();
-							parameterArtifacts.put(fileName, artifact);
-						}
-						parameters.put("artifacts", parameterArtifacts);
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				getParameters().put("jenkinsBuild", build);
 			}
 		}
-		
-		String[] params = stringParameters.split("__LESEP__");
-		for (String param : params) {
-			String[] nameValue = param.split("=");
-			String name = nameValue[0];
-			String value = nameValue[1];
-			getParameters().put(name, value);
-		}
 	}
 	
-	@JavaScriptMethod
-	public List<Object> getScriptResultAsList() {
-		return super.getScriptResultAsList(getParameters());
-	}
-	
-	@JavaScriptMethod
-	public String getScriptResultAsString() {
-		return super.getScriptResultAsString(getParameters());
-	}
+	// --- descriptor
 	
 	@Extension
 	public static final class DescriptorImpl extends ParameterDescriptor {
@@ -259,7 +126,7 @@ public class ScriptlerDynamicReferenceParameter extends ScriptlerParameterDefini
 		}
 		
 		public Set<Script> getScripts() {
-			return JenkinsUtils.getAllScriptlerScripts();
+			return Utils.getAllScriptlerScripts();
 		}
 		
 	}

@@ -25,7 +25,6 @@
 package org.biouno.unochoice.scriptler;
 
 import org.biouno.unochoice.ScriptableParameter;
-import org.biouno.unochoice.util.ScriptCallback;
 
 /**
  * A parameter that uses a Scriptler script to get a list of parameters.
@@ -34,6 +33,6 @@ import org.biouno.unochoice.util.ScriptCallback;
  * @since 0.20
  * @see ScriptableParameter
  */
-public interface ScriptlerParameter extends ScriptableParameter<ScriptCallback> {
+public interface ScriptlerParameter<T> extends ScriptableParameter<T> {
 
 }

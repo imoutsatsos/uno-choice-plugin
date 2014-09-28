@@ -20,11 +20,11 @@ public class TestParametersOrder {
 		parameters.put("B", "B");
 		parameters.put("A", "A");
 		
-		BaseParameterDefinition def = new ChoiceParameterDefinition(
-				"script001", "", "", null, "return ['D', 'C', 'B', 'A']", "",
-				ChoiceParameterDefinition.PARAMETER_TYPE_MULTI_SELECT, false);
+		ChoiceParameter parameter = new ChoiceParameter(
+				"script001", "", "return ['D', 'C', 'B', 'A']", null,
+				ChoiceParameter.PARAMETER_TYPE_MULTI_SELECT, true);
 		
-		Map<Object, Object> result = def.getScriptResultAsMap(Collections.<String, Object>emptyMap());
+		Map<Object, Object> result = parameter.getChoices(Collections.<Object, Object>emptyMap());
 		assertArrayEquals(parameters.keySet().toArray(), result.keySet().toArray());
 	}
 	

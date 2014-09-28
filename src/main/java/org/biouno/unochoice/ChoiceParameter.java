@@ -30,7 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * A parameter that rends its options as a choice (select) HTML component.
+ * A parameter that renders its options as a choice (select) HTML component.
  * 
  * @author Bruno P. Kinoshita
  * @since 0.1

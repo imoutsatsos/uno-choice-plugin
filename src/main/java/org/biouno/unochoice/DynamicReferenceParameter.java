@@ -30,9 +30,7 @@ import hudson.model.AbstractProject;
 import hudson.model.ParameterDefinition;
 import hudson.util.FormValidation;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.json.JSONObject;
 
@@ -59,7 +57,7 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * @author Bruno P. Kinoshita
  * @since 0.1
  */
-public class DynamicReferenceParameter extends AbstractScriptableParameter {
+public class DynamicReferenceParameter extends AbstractCascadableParameter {
 
 	/*
 	 * Serial UID.
@@ -70,30 +68,12 @@ public class DynamicReferenceParameter extends AbstractScriptableParameter {
 	private static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
 	
 	private final String elementType;
-	private final String referencedParameters;
 	
-	private Map<String, Object> parameters = new HashMap<String, Object>();
-
 	@DataBoundConstructor
 	public DynamicReferenceParameter(String name, String description, String script, String fallbackScript, 
 			String elementType, String referencedParameters) {
-		super(name, description, script, fallbackScript);
+		super(name, description, script, fallbackScript, referencedParameters);
 		this.elementType = elementType;
-		this.referencedParameters = referencedParameters;
-	}
-	
-	/**
-	 * Type of element displayed.
-	 */
-	public String getElementType() {
-		return elementType;
-	}
-	
-	/**
-	 * Comma separated referenced parameters.
-	 */
-	public String getReferencedParameters() {
-		return referencedParameters;
 	}
 	
 	/*
@@ -109,24 +89,16 @@ public class DynamicReferenceParameter extends AbstractScriptableParameter {
 	 * Gets each artifact, and the project as parameters to the groovy script.
 	 */
 	@JavaScriptMethod
-	public void doUpdate(String stringParameters) {
-		parameters.clear();
+	public void doUpdate(String parameters) {
+		super.doUpdate(parameters);
 		
 		final AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
 		if (project != null) {
-			parameters.put(JENKINS_PROJECT_VARIABLE_NAME, project);
+			getParameters().put(JENKINS_PROJECT_VARIABLE_NAME, project);
 			AbstractBuild<?, ?> build = project.getLastBuild();
 			if (build != null && build.getHasArtifacts()) {
-				parameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
+				getParameters().put(JENKINS_BUILD_VARIABLE_NAME, build);
 			}
-		}
-		
-		final String[] params = stringParameters.split(SEPARATOR);
-		for (String param : params) {
-			String[] nameValue = param.split("=");
-			String name = nameValue[0];
-			String value = nameValue[1];
-			parameters.put(name, value);
 		}
 	}
 	
