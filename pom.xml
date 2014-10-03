@@ -1,88 +1,117 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  
-  <modelVersion>4.0.0</modelVersion>
-  
-  <parent>
-    <groupId>org.jenkins-ci.plugins</groupId>
-    <artifactId>plugin</artifactId>
-    <version>1.539</version><!-- which version of Jenkins is this plugin built against? -->
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <groupId>org.biouno</groupId>
-  <artifactId>uno-choice</artifactId>
-  <version>0.20-SNAPSHOT</version>
-  <packaging>hpi</packaging>
-  <name>Uno-Choice Plug-in</name>
-  <description>A proposal for a new Jenkins UI plugin for selecting one or multiple parameters. Attempting to fill the gaps left by current plugin options.</description>
+	<modelVersion>4.0.0</modelVersion>
 
-  <organization>
-    <name>BioUno</name>
-    <url>http://www.biouno.org</url>
-  </organization>
+	<parent>
+		<groupId>org.jenkins-ci.plugins</groupId>
+		<artifactId>plugin</artifactId>
+		<version>1.539</version><!-- which version of Jenkins is this plugin built 
+			against? -->
+	</parent>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  
-  <scm>
-    <connection>scm:git:git://github.com/biouno/uno-choice-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:biouno/uno-choice-plugin.git</developerConnection>
-    <url>http://github.com/biouno/uno-choice-plugin</url>
-  </scm>
+	<groupId>org.biouno</groupId>
+	<artifactId>uno-choice</artifactId>
+	<version>0.20-SNAPSHOT</version>
+	<packaging>hpi</packaging>
+	<name>Uno-Choice Plug-in</name>
+	<description>A proposal for a new Jenkins UI plugin for selecting one or multiple parameters. Attempting to fill the gaps left by current plugin options.</description>
 
-  <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
-  <repositories>
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
+	<organization>
+		<name>BioUno</name>
+		<url>http://www.biouno.org</url>
+	</organization>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
-  
-  <distributionManagement>
-    <repository>
-      <id>jenkins.repo.release</id>
-      <name>Repository for Releases</name>
-      <url>${jenkins.repo.path}/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>jenkins.repo.snapshot</id>
-      <name>Repository for Snapshots</name>
-      <url>${jenkins.repo.path}/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
-  
-  <dependencies>
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>scriptler</artifactId>
-      <version>2.7</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.kohsuke.stapler</groupId>
-    	<artifactId>stapler-adjunct-jquery</artifactId>
-    	<version>1.8.3-0</version>
-    </dependency>
-  </dependencies>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-                <excludes>
-                    <exclude>InjectedTest.java</exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-    </plugins>
-  </build>
+	<scm>
+		<connection>scm:git:git://github.com/biouno/uno-choice-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:biouno/uno-choice-plugin.git</developerConnection>
+		<url>http://github.com/biouno/uno-choice-plugin</url>
+	</scm>
+
+	<!-- get every artifact through repo.jenkins-ci.org, which proxies all the 
+		artifacts that we need -->
+	<repositories>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<distributionManagement>
+		<repository>
+			<id>jenkins.repo.release</id>
+			<name>Repository for Releases</name>
+			<url>${jenkins.repo.path}/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>jenkins.repo.snapshot</id>
+			<name>Repository for Snapshots</name>
+			<url>${jenkins.repo.path}/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jenkins-ci.plugins</groupId>
+			<artifactId>scriptler</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kohsuke.stapler</groupId>
+			<artifactId>stapler-adjunct-jquery</artifactId>
+			<version>1.8.3-0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>InjectedTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.kennychua</groupId>
+				<artifactId>phantomjs-qunit-runner</artifactId>
+				<version>1.0.15</version>
+				<configuration>
+					<jsSourceDirectory>src/main/resources/org/biouno/unochoice/stapler/unochoice/</jsSourceDirectory>
+					<jsTestDirectory>src/test/js/</jsTestDirectory>
+					<ignoreFailures>false</ignoreFailures>
+					<phantomJsExec>/usr/bin/phantomjs</phantomJsExec>
+					<includeLibsInDir>
+						<directory>src/test/js/lib/</directory>
+						<includes>
+							<include>**/*.js</include>
+						</includes>
+					</includeLibsInDir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>generate-html</goal>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
