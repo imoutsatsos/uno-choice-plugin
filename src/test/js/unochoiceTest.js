@@ -171,3 +171,27 @@ QUnit.test("Test CascadeParameter class", function() {
 	deepEqual('another-sample-param', anotherCascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
 	deepEqual('sample-param', cascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
 });
+
+/**
+ * Tests for FilteredElement.
+ */
+QUnit.test("Test FilteredElement with selects", function() {
+	var $fixture = $("#qunit-fixture");
+	$fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Bruno</option><option value="2">Nuno</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>');
+	$fixture.append('<input class="uno_choice_filter" type="text" value="" name="test" placeholder="Filter">');
+    var parameterElement = $fixture.find('*[name="value"]');
+    if (parameterElement) {
+        var filterElement = $fixture.find('.uno_choice_filter');
+        if (filterElement) {
+            filterElement = new UnoChoice.FilterElement(parameterElement, filterElement);
+        } else {
+            console.log('Filter error: Missing filter element!');
+        }
+    } else {
+        log('Filter error: Missing parameter element!');
+    }
+    equal(8, parameterElement.children().length, "Right select options count");
+    filterElement.getFilterElement().value = 'uno';
+    filterElement.getFilterElement().keyup();
+    equal(2, parameterElement.children().length, "Right select options count");
+});

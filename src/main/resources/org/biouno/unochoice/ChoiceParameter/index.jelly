@@ -47,10 +47,10 @@
         if (filterElement) {
             filterElement = new UnoChoice.FilterElement(parameterElement, filterElement);
         } else {
-            console.log('Missing filter element!');
+            console.log('Filter error: Missing filter element!');
         }
     } else {
-        log('Missing parameter element!');
+        log('Filter error: Missing parameter element!');
     }
     </j:if>
   </script>

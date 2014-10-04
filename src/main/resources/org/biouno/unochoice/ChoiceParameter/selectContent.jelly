@@ -2,6 +2,8 @@
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
   <j:forEach var="iter" items="${it.getChoices()}">
+    <!-- Some options can contain the suffix :selected. If so, we escape that, and add selected to the HTML element -->
+    <!-- Thus these many calls to a utility Java class -->
     <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
         <j:arg type="java.lang.Object" value="${iter.value}" />
     </j:invokeStatic>

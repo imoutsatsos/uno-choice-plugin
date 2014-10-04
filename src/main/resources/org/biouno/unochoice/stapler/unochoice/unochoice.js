@@ -105,28 +105,33 @@ var UnoChoice = (function($) {
     }
     
     FilterElement.prototype.initEventHandler = function() {
-    	var originalArray = this.getOriginalArray();
+    	var _self = this;
     	this.filterElement.keyup(function(e) {
-    		var container = e.target;
-            var text = container.value.toLowerCase();
-            var options = originalArray;
+    		//var filterElement = e.target;
+    		var filterElement = _self.getFilterElement();
+    		var filteredElement = _self.getParameterElement();
+    		
+            var text = filterElement.value.toLowerCase();
+            var options = _self.originalArray;
             var newOptions = Array();
+            console.log(text);
             for (var i = 0; i < options.length; i++) {
                 if (options[i].innerHTML.toLowerCase().match(text)) {
                     newOptions.push(options[i]);
                 }
             }
-            if (container.prop('tagName') == 'SELECT') { // handle SELECT's
-               container.options.length = 0;
+            var tagName = filteredElement.prop('tagName');
+            if (tagName == 'SELECT') { // handle SELECT's
+               filteredElement.children().remove();
                for (var i = 0; i < newOptions.length ; ++i) {
                    var opt = document.createElement('option');
                    opt.value = newOptions[i].value;
                    opt.innerHTML = newOptions[i].innerHTML;
-                   container.append(opt);
+                   filteredElement.append(opt);
                }
-            } else if (container.prop('tagName') == 'DIV') {
-               if (container.children.length > 0 && container.children[0].prop('tagName') == 'TABLE') {
-                    var table = container.children[0];
+            } else if (tagName == 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
+               if (filteredElement.children().length > 0 && $(filteredElement.children[0]).prop('tagName') == 'TABLE') {
+                    var table = filteredElement.children[0];
                     var tbody = table.children[0];
                     
                     trs = tbody.find('tr');
@@ -135,7 +140,7 @@ var UnoChoice = (function($) {
                     }
                     
                     var originalArray = [];
-                    if (container.className == 'dynamic_checkbox') {
+                    if (filteredElement.className == 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
                             var entry = newOptions[i];
                             // TR
@@ -434,4 +439,3 @@ var UnoChoice = (function($) {
     instance.FilterElement = FilterElement;
     return instance;
 })(jQuery);
-
