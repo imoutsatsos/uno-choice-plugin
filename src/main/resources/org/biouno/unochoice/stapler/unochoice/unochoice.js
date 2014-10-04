@@ -325,12 +325,10 @@ var UnoChoice = (function($) {
      */
     function getSelectValues(select) {
         var result = [];
-        var options = select && select.children('option');
+        var options = select && select.children('option:selected');
         for (var i = 0; options != undefined && i < options.length; i++) {
             var option = options[i];
-            if ('selected' === $(option).attr('selected')) {
-                result.push(option.value || option.text);
-            }
+            result.push(option.value || option.text);
         }
         return result;
     }

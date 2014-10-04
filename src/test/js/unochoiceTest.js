@@ -29,6 +29,19 @@
  */
 
 /**
+ * Create fixture DIV (hack for running with phantomJS and Maven)
+ */
+QUnit.testStart(function() {
+ 	var fixtures = $('#qunit-tests').find('#qunit-fixture');
+ 	fixtures.each(function() {
+ 		$(this).remove();
+ 	});
+ 	var hiddenDiv = document.createElement("div");
+ 	$(hiddenDiv).attr('id', 'qunit-fixture');
+ 	$('#qunit-tests').append(hiddenDiv);
+ });
+
+/**
  * Initial set up.
  */
 QUnit.test("Tests UnoChoice module was loaded", function () {
@@ -61,7 +74,7 @@ QUnit.test("Test fakeSelectRadioButton", function() {
  */
 QUnit.test("Test getParameterValue", function() {
 	var $fixture = $("#qunit-fixture");
-	$fixture.append("<select name='value'><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
+	$fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
 	var select = $("select");
 	var arr = UnoChoice.getParameterValue(select);
 	equal(arr, '1,3', 'the content is correct');
@@ -73,7 +86,7 @@ QUnit.test("Test getParameterValue", function() {
 QUnit.test("Test getElementValue using select", function() {
 	var $fixture = $("#qunit-fixture");
 	
-	$fixture.append("<select name='value'><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
+	$fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
 	var select = $("select");
 	var arr = UnoChoice.getParameterValue(select);
 	equal(arr, '1,3', 'element value is correct for select');
