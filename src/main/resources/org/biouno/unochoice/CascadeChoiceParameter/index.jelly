@@ -1,43 +1,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <st:adjunct includes="org.kohsuke.stapler.jquery"/>
-  <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
-  <script>$.noConflict()</script>
-  <j:invokeStatic var="paramName" className="org.biouno.unochoice.util.Utils" method="createRandomParameterName">
-    <j:arg type="java.lang.String" value="choice-parameter" />
-    <j:arg type="java.lang.String" value="" />
-  </j:invokeStatic>
-  <j:set var="choiceType" value="${it.choiceType}"/>
-  <f:entry title="${it.name}" description="${it.description}">
-    <div name="parameter" description="${it.description}" id='${paramName}'>
-      <input type="hidden" name="name" value="${it.name}" />
-      <j:choose>
-        <j:when test="${choiceType eq 'PT_SINGLE_SELECT'}">
-          <select name="value">
-            <st:include page="selectContent.jelly"/>
-          </select>
-        </j:when>
-        <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
-          <select name="value" multiple="multiple" size="${it.visibleItemCount}">
-            <st:include page="selectContent.jelly"/>
-          </select>
-        </j:when>
-        <j:when test="${choiceType eq 'PT_RADIO'}">
-          <st:include page="radioContent.jelly"/>
-        </j:when>
-        <j:when test="${choiceType eq 'PT_CHECKBOX'}">
-          <st:include page="checkboxContent.jelly"/>
-        </j:when>
-        <j:otherwise>
-          <p>Unsupported element: ${choiceType}</p>
-        </j:otherwise>
-      </j:choose>
-      <j:if test="${it.filterable}">
-        <input class='uno_choice_filter' type='text' value='' name='test' placeholder='Filter' />
-      </j:if>
-    </div>
-  </f:entry>
+  <st:include page="../common/choiceParameterCommon.jelly"/>
   <script type="text/javascript">
     // source, references table
     var referencedParameters = Array();

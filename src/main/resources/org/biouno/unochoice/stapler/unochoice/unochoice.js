@@ -44,14 +44,9 @@
  * @author Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
  * @since 0.20
  */
-var UnoChoice = (function($) {
+var UnoChoice = UnoChoice || (function($) {
     // The final public object
     var instance = {};
-    
-    /**
-     * Debug flag, that can be enabled via JS console.
-     */
-    var debug = false;
     
     // Plug-in classes
     
@@ -63,10 +58,10 @@ var UnoChoice = (function($) {
      * @proxy proxy Stapler proxy reference
      */
     /* public */ function CascadeParameter(paramName, paramElement, proxy) {
-    	this.paramName = paramName;
-    	this.paramElement = paramElement;
-    	this.proxy = proxy;
-    	this.referencedParameters = [];
+        this.paramName = paramName;
+        this.paramElement = paramElement;
+        this.proxy = proxy;
+        this.referencedParameters = [];
     }
     
     /**
@@ -75,7 +70,7 @@ var UnoChoice = (function($) {
      * @return <code>String</code> parameter name
      */
     CascadeParameter.prototype.getParameterName = function() {
-    	return this.paramName;
+        return this.paramName;
     }
     
     /**
@@ -85,18 +80,18 @@ var UnoChoice = (function($) {
      * @param filterElement HTML element where the user enter the filter
      */
     /* public */ function FilterElement(paramElement, filterElement) {
-    	this.paramElement = paramElement;
-    	this.filterElement = filterElement;
-    	this.originalArray = new Array();
-    	
-    	// push existing values into originalArray array
-        if (this.paramElement.prop('tagName') == 'SELECT') { // handle SELECTS
-        	var options = paramElement.children();
+        this.paramElement = paramElement;
+        this.filterElement = filterElement;
+        this.originalArray = new Array();
+        
+        // push existing values into originalArray array
+        if (this.paramElement.tagName == 'SELECT') { // handle SELECTS
+            var options = jQuery(paramElement).children().toArray();
             for (var i = 0; i < options.length; ++i) {
                 this.originalArray.push(options[i]);
             }
         } else if (paramElement.tagName == 'DIV') { // handle CHECKBOXES
-            if (paramElement.children.length > 0 && paramElement.children[0].tagName == 'TABLE') {
+            if (jQuery(paramElement).children().length > 0 && paramElement.children[0].tagName == 'TABLE') {
                 var table = paramElement.children[0];
                 var tbody = table.children[0];
                 
@@ -118,7 +113,7 @@ var UnoChoice = (function($) {
      * @return HTML element
      */
     FilterElement.prototype.getParameterElement = function() {
-    	return this.paramElement;
+        return this.paramElement;
     }
     
     /**
@@ -127,7 +122,7 @@ var UnoChoice = (function($) {
      * @return HTML element
      */
     FilterElement.prototype.getFilterElement = function() {
-    	return this.filterElement;
+        return this.filterElement;
     }
     
     /**
@@ -136,7 +131,7 @@ var UnoChoice = (function($) {
      * @return <code>Array</code> with HTML elements
      */
     FilterElement.prototype.getOriginalArray = function() {
-    	return this.originalArray;
+        return this.originalArray;
     }
     
     /**
@@ -144,12 +139,12 @@ var UnoChoice = (function($) {
      * the filtered element, to update its values.
      */
     FilterElement.prototype.initEventHandler = function() {
-    	var _self = this;
-    	this.filterElement.keyup(function(e) {
-    		//var filterElement = e.target;
-    		var filterElement = _self.getFilterElement();
-    		var filteredElement = _self.getParameterElement();
-    		
+        var _self = this;
+        jQuery(this.filterElement).keyup(function(e) {
+            //var filterElement = e.target;
+            var filterElement = _self.getFilterElement();
+            var filteredElement = _self.getParameterElement();
+            
             var text = filterElement.value.toLowerCase();
             var options = _self.originalArray;
             var newOptions = Array();
@@ -158,14 +153,14 @@ var UnoChoice = (function($) {
                     newOptions.push(options[i]);
                 }
             }
-            var tagName = filteredElement.prop('tagName');
+            var tagName = filteredElement.tagName;
             if (tagName == 'SELECT') { // handle SELECT's
-               filteredElement.children().remove();
+               jQuery(filteredElement).children().remove();
                for (var i = 0; i < newOptions.length ; ++i) {
                    var opt = document.createElement('option');
                    opt.value = newOptions[i].value;
                    opt.innerHTML = newOptions[i].innerHTML;
-                   filteredElement.append(opt);
+                   jQuery(filteredElement).append(opt);
                }
             } else if (tagName == 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
                if (filteredElement.children().length > 0 && $(filteredElement.children[0]).prop('tagName') == 'TABLE') {
@@ -259,7 +254,7 @@ var UnoChoice = (function($) {
                     }
                 }
             }
-    	});
+        });
     }
     
     // HTML utility methods
@@ -317,13 +312,13 @@ var UnoChoice = (function($) {
         }  else if (e.prop('tagName') == 'DIV') {
             var subElements = $(e).find('input[name="value"]');
             if (subElements) {
-	            var valueBuffer = Array();
-	            subElements.each(function() {
-	                var tempValue = getElementValue($(this));
-	                if (tempValue)
-	                    valueBuffer.push(tempValue);
-	            });
-	            value = valueBuffer.toString();
+                var valueBuffer = Array();
+                subElements.each(function() {
+                    var tempValue = getElementValue($(this));
+                    if (tempValue)
+                        valueBuffer.push(tempValue);
+                });
+                value = valueBuffer.toString();
             }
         } else if (e.attr('type') == 'file') {
             var filesList = e.files;
