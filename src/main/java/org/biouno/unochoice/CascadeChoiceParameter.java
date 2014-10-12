@@ -26,9 +26,12 @@ package org.biouno.unochoice;
 
 import hudson.Extension;
 
+import org.apache.commons.lang.StringUtils;
+import org.kohsuke.stapler.DataBoundConstructor;
+
 /**
- * <p>A choice parameter, that gets updated when another parameter changes. The simples example
- * of a use case for this, would be to have a list of states. When the user selected a
+ * <p>A choice parameter, that gets updated when another parameter changes. The simplest 
+ * use case for this, would be having a list of states, and when the user selected a
  * state it would trigger an update of the city fields.</p>
  * 
  * <p>The state parameter would be a choice parameter, and the city parameter would be a
@@ -55,7 +58,7 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
 	private final Boolean filterable;
 
 	/**
-	 * Creates a new parameter.
+	 * Constructor called from Jelly with parameters.
 	 * 
 	 * @param name name
 	 * @param description description
@@ -65,10 +68,11 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
 	 * @param referencedParameters referenced parameters
 	 * @param filterable filter flag
 	 */
-	protected CascadeChoiceParameter(String name, String description, String script, String fallbackScript, 
+	@DataBoundConstructor
+	public CascadeChoiceParameter(String name, String description, String script, String fallbackScript, 
 			String choiceType, String referencedParameters, Boolean filterable) {
 		super(name, description, script, fallbackScript, referencedParameters);
-		this.choiceType = choiceType;
+		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 		this.filterable = filterable;
 	}
 	
@@ -82,7 +86,9 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
 	}
 	
 	/**
-	 * @return the filterable
+	 * Gets the filter flag.
+	 * 
+	 * @return filter flag
 	 */
 	public Boolean getFilterable() {
 		return filterable;

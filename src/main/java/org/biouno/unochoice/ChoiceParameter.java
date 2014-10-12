@@ -52,8 +52,19 @@ public class ChoiceParameter extends AbstractScriptableParameter {
 	 */
 	private final Boolean filterable;
 
+	/**
+	 * Constructor called from Jelly with parameters.
+	 *
+	 * @param name name
+	 * @param description description
+	 * @param script script
+	 * @param fallbackScript fallback script
+	 * @param choiceType choice type
+	 * @param filterable filter flag
+	 */
 	@DataBoundConstructor
-	public ChoiceParameter(String name, String description,String script, String fallbackScript, String choiceType, Boolean filterable) {
+	public ChoiceParameter(String name, String description,String script, String fallbackScript, 
+			String choiceType, Boolean filterable) {
 		super(name, description, script, fallbackScript);
 		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 		this.filterable = filterable;
