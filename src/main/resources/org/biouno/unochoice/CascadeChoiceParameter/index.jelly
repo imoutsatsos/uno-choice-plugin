@@ -1,0 +1,137 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <st:adjunct includes="org.kohsuke.stapler.jquery"/>
+  <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
+  <script>$.noConflict()</script>
+  <j:invokeStatic var="paramName" className="org.biouno.unochoice.util.Utils" method="createRandomParameterName">
+    <j:arg type="java.lang.String" value="choice-parameter" />
+    <j:arg type="java.lang.String" value="" />
+  </j:invokeStatic>
+  <j:set var="choiceType" value="${it.choiceType}"/>
+  <f:entry title="${it.name}" description="${it.description}">
+    <div name="parameter" description="${it.description}" id='${paramName}'>
+      <input type="hidden" name="name" value="${it.name}" />
+      <j:choose>
+        <j:when test="${choiceType eq 'PT_SINGLE_SELECT'}">
+          <select name="value">
+            <st:include page="selectContent.jelly"/>
+          </select>
+        </j:when>
+        <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
+          <select name="value" multiple="multiple" size="${it.visibleItemCount}">
+            <st:include page="selectContent.jelly"/>
+          </select>
+        </j:when>
+        <j:when test="${choiceType eq 'PT_RADIO'}">
+          <st:include page="radioContent.jelly"/>
+        </j:when>
+        <j:when test="${choiceType eq 'PT_CHECKBOX'}">
+          <st:include page="checkboxContent.jelly"/>
+        </j:when>
+        <j:otherwise>
+          <p>Unsupported element: ${choiceType}</p>
+        </j:otherwise>
+      </j:choose>
+      <j:if test="${it.filterable}">
+        <input class='uno_choice_filter' type='text' value='' name='test' placeholder='Filter' />
+      </j:if>
+    </div>
+  </f:entry>
+  <script type="text/javascript">
+    // source, references table
+    var referencedParameters = Array();
+    <j:forEach var="value" items="${it.getReferencedParamatersAsArray()}">
+        //console.log("${value}");
+        // add the element we want to monitor
+        referencedParameters.push("${value}");
+    </j:forEach>
+  
+    window.objects = window.objects || {};
+    if (window.makeStaplerProxy) {
+        window.__old__makeStaplerProxy = window.makeStaplerProxy;
+        window.makeStaplerProxy = makeStaplerProxy2;
+    }
+    var cascadeChoiceParameterDefinition = <st:bind value="${it}"/>; // Create Jenkins proxy
+    if (window.makeStaplerProxy) {
+        window.makeStaplerProxy = window.__old__makeStaplerProxy;
+    }
+    // find the cascade parameter element
+    divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+    var parameterElement = null;
+    for (var j = 0; j &lt; divs.length ; j++) {
+    	div = divs[j];
+    	var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+    	if (hiddenNames[0].value == '${it.getName()}') {
+    		var children = div.children;
+		    for (var k = 0; k &lt; children.length; ++k) {
+		        child = children[k];
+		        if (child.getAttribute('name') == 'value' || child.id.indexOf('ecp_') > -1) {
+		            parameterElement = child;
+		            break;
+		        }
+		    }
+    	}
+    }
+    var cascadeParameter = new CascadeParameter('${it.getName()}', parameterElement, cascadeChoiceParameterDefinition);
+    
+    for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
+        var parameterElement = null;
+        divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+        for (var j = 0; j &lt; divs.length ; j++) {
+        	div = divs[j];
+        	var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+        	if (hiddenNames[0].value == referencedParameters[i]) {
+        		var children = div.children;
+			    for (var k = 0; k &lt; children.length; ++k) {
+			        child = children[k];
+			        if (child.getAttribute('name') == 'value') {
+			            parameterElement = child;
+			            break;
+			        } else if (child.tagName == 'DIV') {
+                        var subValues = findElementsBySelector(child, 'input[name="value"]', false);
+                        if (subValues &amp;&amp; subValues.length > 0) {
+                            parameterElement = child;
+                            break;
+                        }
+                    } else if (child.getAttribute('type') == 'file') {
+                        parameterElement = child;
+                        break;
+                    }
+			    }
+        	}
+        }
+        
+        var referencedParameter = null;
+        if (!window.objects[referencedParameters[i]]) {
+        	referencedParameter = new ReferencedParameter(referencedParameters[i], parameterElement);
+        	cascadeParameter.referencedParameters.push(referencedParameter);
+        	referencedParameter.cascadeParameters.push(cascadeParameter);
+            window.objects[referencedParameters[i]] = referencedParameter;
+        } else {
+        	referencedParameter = window.objects[referencedParameters[i]];
+        	cascadeParameter.referencedParameters.push(referencedParameter);
+        	referencedParameter.cascadeParameters.push(cascadeParameter);
+        }
+    }
+    
+    var parameterDivs = findElementsBySelector(null, 'div[name="parameter"]', false);
+    for (i = 0; i &lt; parameterDivs.length ; ++i) {
+        var hiddenNames = findElementsBySelector(parameterDivs[i], 'input[name="name"]', false);
+        for (j = 0; j &lt; hiddenNames.length; ++j) {
+            if (window.objects[hiddenNames[j].value] != undefined) {
+                // here we have the desired element to monitor
+                parameterDivs[i].hiddenName = hiddenNames[j].value;
+                parameterDivs[i].addEventListener('change', function(evt) {
+                    window.objects[this.hiddenName].updateCascadeParameter(evt);
+                }, false);
+            }
+        }
+    }
+    
+    for (var entry in window.objects) {
+    	window.objects[entry].updateCascadeParameter(null);
+    }
+    
+  </script>
+</j:jelly>
