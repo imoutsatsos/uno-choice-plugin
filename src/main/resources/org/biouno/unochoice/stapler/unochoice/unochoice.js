@@ -48,10 +48,19 @@ var UnoChoice = (function($) {
     // The final public object
     var instance = {};
     
+    /**
+     * Debug flag, that can be enabled via JS console.
+     */
+    var debug = false;
+    
     // Plug-in classes
     
     /**
      * A parameter that references parameters.
+     * 
+     * @param paramName parameter name
+     * @param paramElement parameter HTML element
+     * @proxy proxy Stapler proxy reference
      */
     /* public */ function CascadeParameter(paramName, paramElement, proxy) {
     	this.paramName = paramName;
@@ -60,11 +69,22 @@ var UnoChoice = (function($) {
     	this.referencedParameters = [];
     }
     
+    /**
+     * Gets the parameter name.
+     * 
+     * @return <code>String</code> parameter name
+     */
     CascadeParameter.prototype.getParameterName = function() {
     	return this.paramName;
     }
     
-    function FilterElement(paramElement, filterElement) {
+    /**
+     * An element that acts as filter for other elements.
+     * 
+     * @param paramElement parameter HTML element being filtered
+     * @param filterElement HTML element where the user enter the filter
+     */
+    /* public */ function FilterElement(paramElement, filterElement) {
     	this.paramElement = paramElement;
     	this.filterElement = filterElement;
     	this.originalArray = new Array();
@@ -92,18 +112,37 @@ var UnoChoice = (function($) {
         this.initEventHandler();
     }
     
+    /**
+     * Gets the parameter HTML element.
+     * 
+     * @return HTML element
+     */
     FilterElement.prototype.getParameterElement = function() {
     	return this.paramElement;
     }
     
+    /**
+     * Gets the filter element.
+     * 
+     * @return HTML element
+     */
     FilterElement.prototype.getFilterElement = function() {
     	return this.filterElement;
     }
     
+    /**
+     * Gets an array with the original options of a filtered element. Useful for recreating the initial setting.
+     * 
+     * @return <code>Array</code> with HTML elements
+     */
     FilterElement.prototype.getOriginalArray = function() {
     	return this.originalArray;
     }
     
+    /**
+     * Initiates an event listener for Key Up events. Depending on the element type it will interpret the filter, and
+     * the filtered element, to update its values.
+     */
     FilterElement.prototype.initEventHandler = function() {
     	var _self = this;
     	this.filterElement.keyup(function(e) {
@@ -114,7 +153,6 @@ var UnoChoice = (function($) {
             var text = filterElement.value.toLowerCase();
             var options = _self.originalArray;
             var newOptions = Array();
-            console.log(text);
             for (var i = 0; i < options.length; i++) {
                 if (options[i].innerHTML.toLowerCase().match(text)) {
                     newOptions.push(options[i]);
@@ -342,6 +380,7 @@ var UnoChoice = (function($) {
     
     /**
      * Utility method to check if a text ends with a given pattern.
+     * 
      * @param text string
      * @param pattern string
      * @return <code>true</code> iff the string ends with the pattern, <code>false</code> otherwise.
