@@ -48,8 +48,12 @@ var UnoChoice = UnoChoice || (function($) {
     // The final public object
     var instance = {};
     
-    // Plug-in classes
+    var SEPARATOR = '__LESEP__';
     
+    // Plug-in classes
+
+    // --- Cascade Parameter
+
     /**
      * A parameter that references parameters.
      * 
@@ -73,6 +77,94 @@ var UnoChoice = UnoChoice || (function($) {
         return this.paramName;
     }
     
+    CascadeParameter.prototype.getReferencedParameters = function() {
+    	return this.referencedParameters;
+    }
+    
+    CascadeParameter.prototype.asText = function() {
+    	var parameterValues = new Array();
+		
+		// get the parameters' values
+		for (var j = 0; j < this.getReferencedParameters(); j++) {
+			var referencedParameter = this.getReferencedParameters()[j];
+			var value = getParameterValue(referencedParameter);
+			parameterValues.push(value);
+		}
+		
+		var parametersString = parameterValues.join(SEPARATOR);
+		return parametersString;
+    }
+    
+    CascadeParameter.prototype.update = function() {
+    	var parametersString = this.asText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
+    	this.proxy.doUpdate(paramsString);
+    	var choiceType = undefined;
+        cascade.proxy.getChoiceType(function(type) {
+           choiceType = type.responseText;
+        });
+    	if (!choiceType) {
+    		console.log('Failed to retrieve parameter choice type!');
+    		return;
+    	}
+    	
+    	var _self = this;
+    	cascade.proxy.getChoices(function (t) {
+    		var choices = t.responseText;
+        	var data = JSON.parse(choices);
+        	var cascade = _self.cascadeParameters[data[0]];
+        	if (selects == true) {
+        	  var newValues = data[1];
+        	  var newKeys = data[2];
+            } else {
+        	  var newValues = data[1];
+        	}
+        	
+        	var selectedElements = new Array();
+        	// filter selected elements and create a matrix for selection
+        	// some elements may have key or values with the suffix :selected
+        	// we want to remove these suffixes
+        	for (var i = 0; i < newValues.length; i++) {
+        		newValue = newValues[i];
+        		if (newValue && newValue.endsWith(':selected')) {
+        			selectedElements.push(i);
+        			newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
+        		}
+        		
+        		if (selects == true) {
+        			newKey = newKeys[i];
+        			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
+	        			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
+	        		}
+        		}
+        	}
+    	});
+    }
+
+    // --- Referenced Parameter
+
+    /**
+     * <p>A parameter that is referenced by other parameters. Stores a list of cascade parameters, that reference this
+     * parameter.</p>
+     * 
+     * <p>Whenever this parameter changes, it will notify each cascade parameter.</p>
+     * 
+     * @param paramName parameter name
+     * @param paramElement parameter HTML element
+     */
+    /* public */ function ReferencedParameter(paramName, paramElement) {
+    	this.paramName = paramName;
+    	this.paramElement = paramElement;
+    	this.cascadeParameters = [];
+    }
+    
+    ReferencedParameter.prototype.updateCascadeParameters = function() {
+    	for (var i = 0; i < this.cascadeParameters.length ; i++) {
+    		this.cascadeParameters[i].update();
+    	}
+    }
+
+    // --- Filter Element
+
     /**
      * An element that acts as filter for other elements.
      * 
@@ -470,6 +562,7 @@ var UnoChoice = UnoChoice || (function($) {
     instance.fakeSelectRadioButton = fakeSelectRadioButton;
     instance.getParameterValue = getParameterValue;
     instance.CascadeParameter = CascadeParameter;
+    instance.ReferencedParameter = ReferencedParameter;
     instance.FilterElement = FilterElement;
     return instance;
 })(jQuery);
