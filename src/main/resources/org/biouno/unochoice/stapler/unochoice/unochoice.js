@@ -59,12 +59,10 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * @param paramName parameter name
      * @param paramElement parameter HTML element
-     * @proxy proxy Stapler proxy reference
      */
-    /* public */ function CascadeParameter(paramName, paramElement, proxy) {
+    /* public */ function CascadeParameter(paramName, paramElement) {
         this.paramName = paramName;
         this.paramElement = paramElement;
-        this.proxy = proxy;
         this.referencedParameters = [];
     }
     
@@ -75,6 +73,10 @@ var UnoChoice = UnoChoice || (function($) {
      */
     CascadeParameter.prototype.getParameterName = function() {
         return this.paramName;
+    }
+    
+    CascadeParameter.prototype.getParameterElement = function() {
+        return this.paramElement;
     }
     
     CascadeParameter.prototype.getReferencedParameters = function() {
@@ -98,45 +100,198 @@ var UnoChoice = UnoChoice || (function($) {
     CascadeParameter.prototype.update = function() {
     	var parametersString = this.asText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
     	this.proxy.doUpdate(paramsString);
-    	var choiceType = undefined;
-        cascade.proxy.getChoiceType(function(type) {
-           choiceType = type.responseText;
-        });
-    	if (!choiceType) {
-    		console.log('Failed to retrieve parameter choice type!');
-    		return;
-    	}
-    	
     	var _self = this;
     	cascade.proxy.getChoices(function (t) {
     		var choices = t.responseText;
         	var data = JSON.parse(choices);
-        	var cascade = _self.cascadeParameters[data[0]];
-        	if (selects == true) {
-        	  var newValues = data[1];
-        	  var newKeys = data[2];
-            } else {
-        	  var newValues = data[1];
-        	}
+        	var newValues = data[1];
+    	    var newKeys = data[2];
         	
         	var selectedElements = new Array();
         	// filter selected elements and create a matrix for selection
         	// some elements may have key or values with the suffix :selected
         	// we want to remove these suffixes
         	for (var i = 0; i < newValues.length; i++) {
-        		newValue = newValues[i];
+        		var newValue = newValues[i];
         		if (newValue && newValue.endsWith(':selected')) {
         			selectedElements.push(i);
         			newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
         		}
         		
-        		if (selects == true) {
-        			newKey = newKeys[i];
-        			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
-	        			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
-	        		}
+    			var newKey = newKeys[i];
+    			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
+        			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
         		}
         	}
+        	
+        	// FIXME
+        	// http://stackoverflow.com/questions/6364748/change-the-options-array-of-a-select-list
+            var parameterElement = _self.getParameterElement();
+            if (parameterElement.tagName == 'SELECT') { // handle SELECT's
+	            while (parameterElement.options.length > 0) {
+	            	parameterElement.remove(parameterElement.options.length - 1);
+	            }
+        
+	            for (i = 0; i < newValues.length; i++) {
+	                var opt = document.createElement('option');
+	                var value = newKeys[i];
+	                var entry = newValues[i];
+	                if (!entry instanceof String) {
+	                    opt.text = JSON.stringify(entry);
+	                    opt.value = JSON.stringify(value); //JSON.stringify(entry);
+	                } else {
+	                    opt.text = entry;
+	                    opt.value = value;
+	                }
+	                if (selectedElements.indexOf(i) >= 0) {
+	                	opt.setAttribute('selected', 'selected');
+	                }
+	                parameterElement.add(opt, null);
+	            }
+	            var originalArray = [];
+                for (i = 0; i < cascade.paramElement.options.length; ++i) {
+                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+                }
+            	cascade.paramElement.originalOptions = originalArray;
+            	
+            	// Update original values, used in the index.jelly
+            	var originalArray = [];
+                for (i = 0; i < cascade.paramElement.options.length; ++i) {
+                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+                }
+            	cascade.paramElement.originalOptions = originalArray;
+            	if (oldSel.getAttribute('multiple') == 'multiple')
+            	   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
+            } else if (parameterElement.tagName == 'DIV') {
+            	if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') {
+            		var table = oldSel.children[0];
+            		var tbody = table.children[0];
+            		
+            		trs = findElementsBySelector(tbody, 'tr', false);
+            		if (tbody) {
+                		for (i = 0; i < trs.length; i++) {
+                			tbody.removeChild(trs[i]);
+                		}
+                	} else {
+                	   tbody = document.createElement('tbody');
+                	   table.appendChild(tbody);
+                	}
+            		
+            		var originalArray = [];
+            		// Check whether it is a radio or checkbox element
+            		if (oldSel.className == 'dynamic_checkbox') {
+	                	for (i = 0; i < newValues.length; i++) {
+	                		var entry = newValues[i];
+	                		// <TR>
+			                var tr = document.createElement('tr');
+			                var idValue = 'ecp_' + cascade.paramName + '_' + i;
+			                idValue = idValue.replace(' ', '_');
+			                tr.setAttribute('id', idValue);
+			                tr.setAttribute('style', 'white-space:nowrap');
+			                // <TD>
+			                var td = document.createElement('td');
+			                // <INPUT>
+			                var input = document.createElement('input');
+			                // <LABEL>
+			                var label = document.createElement('label');
+			                
+			                if (selectedElements.indexOf(i) >= 0) {
+			                	input.setAttribute('checked', 'checked');
+			                }
+			                if (!entry instanceof String) {
+			                	input.setAttribute('json', JSON.stringify(entry));
+			                	input.setAttribute('name', 'value');
+			                	input.setAttribute("value", JSON.stringify(entry));
+			                	input.setAttribute("class", " ");
+			                	input.setAttribute("type", "checkbox");
+			                	label.className = "attach-previous";
+			                	label.innerHTML = JSON.stringify(entry);
+			                } else {
+			                    input.setAttribute('json', entry);
+			                	input.setAttribute('name', 'value');
+			                	input.setAttribute("value", entry);
+			                	input.setAttribute("class", " ");
+			                	input.setAttribute("type", "checkbox");
+			                	label.className = "attach-previous";
+			                	label.innerHTML = entry;
+			                }
+			                
+			                originalArray.push(entry);
+			                
+			                // Put everything together
+			                td.appendChild(input);
+			                td.appendChild(label);
+			                tr.appendChild(td);
+			                tbody.appendChild(tr);
+			            }
+			            
+			            cascade.paramElement.originalOptions = originalArray;
+			        } else { // radio
+			             for (i = 0; i < newValues.length; i++) {
+                            var entry = newValues[i];
+                            // <TR>
+                            var tr = document.createElement('tr');
+                            var idValue = 'ecp_' + cascade.paramName + '_' + i;
+                            idValue = idValue.replace(' ', '_');
+                            //tr.setAttribute('id', idValue); // will use the ID for the hidden value element
+                            tr.setAttribute('style', 'white-space:nowrap');
+                            // <TD>
+                            var td = document.createElement('td');
+                            // <INPUT>
+                            var input = document.createElement('input');
+                            // <LABEL>
+                            var label = document.createElement('label');
+                            // <HIDDEN>
+                            var hiddenValue = document.createElement('input');
+                            
+                            if (selectedElements.indexOf(i) >= 0) {
+			                	input.setAttribute('checked', 'checked');
+			                }
+                            if (!entry instanceof String) {
+                                input.setAttribute('json', JSON.stringify(entry));
+                                input.setAttribute('name', cascade.paramName);
+                                input.setAttribute("value", JSON.stringify(entry));
+                                input.setAttribute("class", " ");
+                                input.setAttribute("type", "radio");
+                                input.setAttribute('onclick', 'radioButtonSelect("'+cascade.paramName+'", "'+idValue+'")');
+                                label.className = "attach-previous";
+                                label.innerHTML = JSON.stringify(entry);
+                            } else {
+                                input.setAttribute('json', entry);
+                                input.setAttribute('name', cascade.paramName);
+                                input.setAttribute("value", entry);
+                                input.setAttribute("class", " ");
+                                input.setAttribute("type", "radio");
+                                input.setAttribute('onclick', 'radioButtonSelect("'+cascade.paramName+'", "'+idValue+'")');
+                                label.className = "attach-previous";
+                                label.innerHTML = entry;
+                            }
+                            
+                            hiddenValue.setAttribute('json', entry);
+                            hiddenValue.setAttribute('name', '');
+                            hiddenValue.setAttribute("value", entry);
+                            hiddenValue.setAttribute("class", cascade.paramName);
+                            hiddenValue.setAttribute("type", "hidden");
+                            hiddenValue.setAttribute('id', idValue);
+                            
+                            originalArray.push(entry);
+                            
+                            // Put everything together
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            td.appendChild(hiddenValue);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
+                            var endTr = document.createElement('tr');
+                            endTr.setAttribute('style', 'display: none');
+                            endTr.setAttribute('class', 'radio-block-end');
+                            tbody.appendChild(endTr);
+                        }
+                        cascade.paramElement.originalOptions = originalArray;
+			        } // if (oldSel.className == 'dynamic_checkbox') 
+			        oldSel.style.height = '' + (23 * (newValues.length > 10 ? 10 : newValues.length)) + 'px';
+                } // if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') 
+            } // if (oldSel.tagName == 'SELECT') { // else if (oldSel.tagName == 'DIV') {
     	});
     }
 
@@ -155,6 +310,8 @@ var UnoChoice = UnoChoice || (function($) {
     	this.paramName = paramName;
     	this.paramElement = paramElement;
     	this.cascadeParameters = [];
+    	// Add event listener
+    	this.paramElement.change(this.updateCascadeParameters);
     }
     
     ReferencedParameter.prototype.updateCascadeParameters = function() {

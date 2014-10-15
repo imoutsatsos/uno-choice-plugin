@@ -55,12 +55,12 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.biouno.unochoice.CascadableParameter#getChoices(int)
+	 * @see org.biouno.unochoice.CascadableParameter#getChoicesForUI()
 	 */
 	@JavaScriptMethod
-	public List<Object> getChoices(int count) {
+	public List<Object> getChoicesForUI() {
 		Map<Object, Object> mapResult = getChoices(getParameters());
-		return Arrays.asList(count, mapResult.values(), mapResult.keySet());
+		return Arrays.<Object>asList(mapResult.values(), mapResult.keySet());
 	}
 	
 	/*
