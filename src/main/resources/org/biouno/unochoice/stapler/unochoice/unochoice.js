@@ -59,8 +59,9 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * @param paramName parameter name
      * @param paramElement parameter HTML element
+     * @param proxy Stapler proxy object that references the CascadeChoiceParameter
      */
-    /* public */ function CascadeParameter(paramName, paramElement) {
+    /* public */ function CascadeParameter(paramName, paramElement, proxy) {
         this.paramName = paramName;
         this.paramElement = paramElement;
         this.referencedParameters = [];
@@ -75,37 +76,62 @@ var UnoChoice = UnoChoice || (function($) {
         return this.paramName;
     }
     
+    /**
+     * Gets the parameter HTML element.
+     * 
+     * @return HTML element
+     */
     CascadeParameter.prototype.getParameterElement = function() {
         return this.paramElement;
     }
     
+    /**
+     * Gets the array of referenced parameters.
+     * 
+     * @return Array of the ReferencedParameter's
+     */
     CascadeParameter.prototype.getReferencedParameters = function() {
     	return this.referencedParameters;
     }
     
-    CascadeParameter.prototype.asText = function() {
+    /**
+     * Used to create the request string that will update the cascade parameter values. Returns a
+     * String, with name=value for each referenced parameter.
+     * 
+     * @return String with name=value for each referenced parameter
+     */
+    CascadeParameter.prototype.getReferencedParametersAsText = function() {
     	var parameterValues = new Array();
 		
 		// get the parameters' values
 		for (var j = 0; j < this.getReferencedParameters(); j++) {
 			var referencedParameter = this.getReferencedParameters()[j];
+			var name = referencedParameter.getParameterName();
 			var value = getParameterValue(referencedParameter);
-			parameterValues.push(value);
+			parameterValues.push(name + '=' + value);
 		}
 		
 		var parametersString = parameterValues.join(SEPARATOR);
 		return parametersString;
     }
     
+    /**
+     * Updates the CascadeParameter object.
+     * 
+     * TODO: explain what happens here
+     */
     CascadeParameter.prototype.update = function() {
-    	var parametersString = this.asText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
+    	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
+    	// Update the CascadeChoiceParameter Map of parameters
     	this.proxy.doUpdate(paramsString);
-    	var _self = this;
-    	cascade.proxy.getChoices(function (t) {
+    	// Now we get the updated choices, after the Groovy script is eval'd using the updated Map of parameters
+    	// The inner function is called with the response provided by Stapler. Then we update the HTML elements.
+    	var _self = this; // re-reference this to use within the inner function
+    	this.proxy.getChoicesForUI(function (t) {
     		var choices = t.responseText;
         	var data = JSON.parse(choices);
-        	var newValues = data[1];
-    	    var newKeys = data[2];
+        	var newValues = data[0];
+    	    var newKeys = data[1];
         	
         	var selectedElements = new Array();
         	// filter selected elements and create a matrix for selection
@@ -148,20 +174,19 @@ var UnoChoice = UnoChoice || (function($) {
 	                }
 	                parameterElement.add(opt, null);
 	            }
+	            
+	            if (oldSel.getAttribute('multiple') == 'multiple') {
+            	   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
+            	}
+	            
+	            // Update the values for the filtering
 	            var originalArray = [];
                 for (i = 0; i < cascade.paramElement.options.length; ++i) {
                     originalArray.push(cascade.paramElement.options[i].innerHTML);
                 }
-            	cascade.paramElement.originalOptions = originalArray;
-            	
-            	// Update original values, used in the index.jelly
-            	var originalArray = [];
-                for (i = 0; i < cascade.paramElement.options.length; ++i) {
-                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+                if (_self.paramElement.filterElement) {
+                	_self.paramElement.filterElement.setOriginalArray(originalArray);
                 }
-            	cascade.paramElement.originalOptions = originalArray;
-            	if (oldSel.getAttribute('multiple') == 'multiple')
-            	   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
             } else if (parameterElement.tagName == 'DIV') {
             	if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') {
             		var table = oldSel.children[0];
@@ -225,7 +250,10 @@ var UnoChoice = UnoChoice || (function($) {
 			                tbody.appendChild(tr);
 			            }
 			            
-			            cascade.paramElement.originalOptions = originalArray;
+			            // Update the values for the filtering
+		                if (_self.paramElement.filterElement) {
+		                	_self.paramElement.filterElement.setOriginalArray(originalArray);
+		                }
 			        } else { // radio
 			             for (i = 0; i < newValues.length; i++) {
                             var entry = newValues[i];
@@ -287,7 +315,10 @@ var UnoChoice = UnoChoice || (function($) {
                             endTr.setAttribute('class', 'radio-block-end');
                             tbody.appendChild(endTr);
                         }
-                        cascade.paramElement.originalOptions = originalArray;
+			            // Update the values for the filtering
+		                if (_self.paramElement.filterElement) {
+		                	_self.paramElement.filterElement.setOriginalArray(originalArray);
+		                }
 			        } // if (oldSel.className == 'dynamic_checkbox') 
 			        oldSel.style.height = '' + (23 * (newValues.length > 10 ? 10 : newValues.length)) + 'px';
                 } // if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') 
@@ -312,6 +343,10 @@ var UnoChoice = UnoChoice || (function($) {
     	this.cascadeParameters = [];
     	// Add event listener
     	this.paramElement.change(this.updateCascadeParameters);
+    }
+    
+    ReferencedParameter.prototype.getParameterName = function() {
+    	return this.paramName;
     }
     
     ReferencedParameter.prototype.updateCascadeParameters = function() {
@@ -381,6 +416,10 @@ var UnoChoice = UnoChoice || (function($) {
      */
     FilterElement.prototype.getOriginalArray = function() {
         return this.originalArray;
+    }
+    
+    FilterElement.prototype.setOriginalArray = function(originalArray) {
+    	this.originalArray = originalArray;
     }
     
     /**
