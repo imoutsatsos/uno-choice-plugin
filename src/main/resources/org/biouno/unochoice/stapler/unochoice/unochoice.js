@@ -337,11 +337,22 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * @param paramName parameter name
      * @param paramElement parameter HTML element
+     * @param cascadeParameter CascadeParameter
      */
-    /* public */ function ReferencedParameter(paramName, paramElement) {
+    /* public */ function ReferencedParameter(paramName, paramElement, cascadeParameter) {
     	this.paramName = paramName;
     	this.paramElement = paramElement;
-    	this.cascadeParameters = [];
+    	this.cascadeParameter = cascadeParameter;
+    	// Add event listener
+    	var _self = this;
+    	jQuery(this.paramElement).change(function (e) {
+    		console.log('loading...');
+    		jQuery(".behavior-loading").show();
+    		_self.cascadeParameter.update();
+    		jQuery(".behavior-loading").hide();
+    	});
+    	
+    	cascadeParameter.getReferencedParameters().push(this);
     }
     
     ReferencedParameter.prototype.getParameterName = function() {
@@ -352,10 +363,8 @@ var UnoChoice = UnoChoice || (function($) {
     	return this.paramElement;
     }
     
-    ReferencedParameter.prototype.updateCascadeParameters = function() {
-    	for (var i = 0; i < this.cascadeParameters.length ; i++) {
-    		this.cascadeParameters[i].update();
-    	}
+    ReferencedParameter.prototype.getCascadeParameter = function() {
+    	return this.cascadeParameter;
     }
 
     // --- Filter Element
