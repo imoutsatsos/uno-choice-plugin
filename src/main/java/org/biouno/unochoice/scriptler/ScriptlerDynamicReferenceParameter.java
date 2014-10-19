@@ -12,6 +12,7 @@ import java.util.Set;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.biouno.unochoice.AbstractCascadableParameter;
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.kohsuke.stapler.Ancestor;
@@ -38,7 +39,7 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * 
  * @since 0.1
  */
-public class ScriptlerDynamicReferenceParameter extends AbstractCascadableScriptlerParameter {
+public class ScriptlerDynamicReferenceParameter extends AbstractCascadableParameter {
 
 	/*
 	 * Serial UID.
@@ -50,7 +51,7 @@ public class ScriptlerDynamicReferenceParameter extends AbstractCascadableScript
 	@DataBoundConstructor
 	public ScriptlerDynamicReferenceParameter(String name, String description, 
 			String scriptlerScriptId, ScriptlerScriptParameter[] parameters, String elementType, String referencedParameters) {
-		super(name, description, scriptlerScriptId, parameters, referencedParameters);
+		super(name, description, scriptlerScriptId, /* fallback */null, referencedParameters);
 		this.elementType = elementType;
 	}
 	

@@ -102,7 +102,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		final Object value;
 		try {
 			ScriptCallback<Object, Exception> callback = new ScriptCallback<Object, Exception>(getName(), script, parameters);
-			ScriptCallback<Object, Exception> fallback = new ScriptCallback<Object, Exception>(getName(), fallbackScript, parameters);
+			ScriptCallback<Object, Exception> fallback = null;
+			if (fallbackScript != null)
+				fallback = new ScriptCallback<Object, Exception>(getName(), fallbackScript, parameters);
 			value = Utils.executeScript(callback, fallback, parameters);
 		} catch (Throwable e) {
 			return Collections.EMPTY_MAP;

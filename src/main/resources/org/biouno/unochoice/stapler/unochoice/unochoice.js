@@ -64,6 +64,7 @@ var UnoChoice = UnoChoice || (function($) {
     /* public */ function CascadeParameter(paramName, paramElement, proxy) {
         this.paramName = paramName;
         this.paramElement = paramElement;
+        this.proxy = proxy;
         this.referencedParameters = [];
     }
     
@@ -102,9 +103,8 @@ var UnoChoice = UnoChoice || (function($) {
      */
     CascadeParameter.prototype.getReferencedParametersAsText = function() {
     	var parameterValues = new Array();
-		
 		// get the parameters' values
-		for (var j = 0; j < this.getReferencedParameters(); j++) {
+		for (var j = 0; j < this.getReferencedParameters().length; j++) {
 			var referencedParameter = this.getReferencedParameters()[j];
 			var name = referencedParameter.getParameterName();
 			var value = getParameterValue(referencedParameter);
@@ -122,8 +122,9 @@ var UnoChoice = UnoChoice || (function($) {
      */
     CascadeParameter.prototype.update = function() {
     	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
+    	console.log('Referenced parameters: ' + parametersString);
     	// Update the CascadeChoiceParameter Map of parameters
-    	this.proxy.doUpdate(paramsString);
+    	this.proxy.doUpdate(parametersString);
     	// Now we get the updated choices, after the Groovy script is eval'd using the updated Map of parameters
     	// The inner function is called with the response provided by Stapler. Then we update the HTML elements.
     	var _self = this; // re-reference this to use within the inner function
@@ -175,17 +176,17 @@ var UnoChoice = UnoChoice || (function($) {
 	                parameterElement.add(opt, null);
 	            }
 	            
-	            if (oldSel.getAttribute('multiple') == 'multiple') {
-            	   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
-            	}
+	            //if (oldSel.getAttribute('multiple') == 'multiple') {
+            	//   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
+            	//}
 	            
 	            // Update the values for the filtering
 	            var originalArray = [];
-                for (i = 0; i < cascade.paramElement.options.length; ++i) {
-                    originalArray.push(cascade.paramElement.options[i].innerHTML);
+                for (i = 0; i < _self.getParameterElement().options.length; ++i) {
+                    originalArray.push(_self.getParameterElement().options[i].innerHTML);
                 }
-                if (_self.paramElement.filterElement) {
-                	_self.paramElement.filterElement.setOriginalArray(originalArray);
+                if (_self.getParameterElement().filterElement) {
+                	_self.getParameterElement().filterElement.setOriginalArray(originalArray);
                 }
             } else if (parameterElement.tagName == 'DIV') {
             	if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') {
@@ -341,12 +342,14 @@ var UnoChoice = UnoChoice || (function($) {
     	this.paramName = paramName;
     	this.paramElement = paramElement;
     	this.cascadeParameters = [];
-    	// Add event listener
-    	this.paramElement.change(this.updateCascadeParameters);
     }
     
     ReferencedParameter.prototype.getParameterName = function() {
     	return this.paramName;
+    }
+    
+    ReferencedParameter.prototype.getParameterElement = function() {
+    	return this.paramElement;
     }
     
     ReferencedParameter.prototype.updateCascadeParameters = function() {
@@ -590,19 +593,21 @@ var UnoChoice = UnoChoice || (function($) {
      * <p>When there are multiple elements as return value, we append all the values to an Array and return its 
      * value as string (i.e. toString()).</p>
      * 
-     * @param e HTML element
+     * @param htmlParameter HTML element
      * @return <code>String</code> the value of the HTML element used as parameter value in Jenkins, as a string
      */
-     /* public */ function getParameterValue(e) {
+     /* public */ function getParameterValue(htmlParameter) {
+    	var e = htmlParameter.getParameterElement();
+    	e = jQuery(e);
         var value = '';
         if (e.attr('name') == 'value') {
             value = getElementValue(e);
         }  else if (e.prop('tagName') == 'DIV') {
-            var subElements = $(e).find('input[name="value"]');
+            var subElements = e.find('input[name="value"]');
             if (subElements) {
                 var valueBuffer = Array();
                 subElements.each(function() {
-                    var tempValue = getElementValue($(this));
+                    var tempValue = getElementValue(jQuery(this));
                     if (tempValue)
                         valueBuffer.push(tempValue);
                 });
@@ -622,11 +627,12 @@ var UnoChoice = UnoChoice || (function($) {
      * Gets the value of a HTML element as string. If the returned value is an Array it gets serialized first. 
      * Correctly handles SELECT, CHECKBOX, RADIO, and other types. 
      * 
-     * @param e HTML element
+     * @param htmlParameter HTML element
      * @return <code>String</code> the returned value as string. Empty by default.
      */
-    function getElementValue(e) {
+    function getElementValue(htmlParameter) {
         var value = '';
+        var e = jQuery(htmlParameter);
         if (e.prop('tagName') == 'SELECT') {
             value = getSelectValues(e);
         } else if (e.attr('type') == 'checkbox' || e.attr('type') == 'radio') {
@@ -682,7 +688,7 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * <p>TODO: example</p>
      */
-    function makeStaplerProxy2(url, crumb, methods) {
+    /* public */ function makeStaplerProxy2(url, crumb, methods) {
         if (url.substring(url.length - 1) !== '/') url+='/';
         var proxy = {};
 
@@ -760,5 +766,6 @@ var UnoChoice = UnoChoice || (function($) {
     instance.CascadeParameter = CascadeParameter;
     instance.ReferencedParameter = ReferencedParameter;
     instance.FilterElement = FilterElement;
+    instance.makeStaplerProxy2 = makeStaplerProxy2;
     return instance;
 })(jQuery);

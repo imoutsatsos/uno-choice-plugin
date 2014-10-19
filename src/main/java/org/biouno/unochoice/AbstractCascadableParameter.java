@@ -1,10 +1,12 @@
 package org.biouno.unochoice;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 /**
@@ -79,6 +81,22 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
 	public List<Object> getChoicesForUI() {
 		Map<Object, Object> mapResult = getChoices(getParameters());
 		return Arrays.<Object>asList(mapResult.values(), mapResult.keySet());
+	}
+	
+	public String[] getReferencedParametersAsArray() {
+		String referencedParameters = this.getReferencedParameters();
+		if (StringUtils.isNotBlank(referencedParameters)) {
+			String[] array = referencedParameters.split(",");
+			List<String> list = new ArrayList<String>();
+			for (String value : array) {
+				value = value.trim();
+				if (StringUtils.isNotBlank(value)) {
+					list.add(value);
+				}
+			}
+			return list.toArray(new String[0]);
+		}
+		return new String[]{};
 	}
 	
 }

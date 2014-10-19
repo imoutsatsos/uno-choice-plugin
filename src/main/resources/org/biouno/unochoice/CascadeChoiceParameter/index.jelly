@@ -5,45 +5,45 @@
   <script type="text/javascript">
     // source, references table
     var referencedParameters = Array();
-    <j:forEach var="value" items="${it.getReferencedParamatersAsArray()}">
-        //console.log("${value}");
+    <j:forEach var="value" items="${it.getReferencedParametersAsArray()}">
         // add the element we want to monitor
         referencedParameters.push("${value}");
     </j:forEach>
-  
-    window.objects = window.objects || {};
+    
     if (window.makeStaplerProxy) {
         window.__old__makeStaplerProxy = window.makeStaplerProxy;
-        window.makeStaplerProxy = makeStaplerProxy2;
+        window.makeStaplerProxy = UnoChoice.makeStaplerProxy2;
     }
-    var cascadeChoiceParameterDefinition = <st:bind value="${it}"/>; // Create Jenkins proxy
+    var cascadeChoiceParameter = <st:bind value="${it}"/>; // Create Jenkins proxy
     if (window.makeStaplerProxy) {
         window.makeStaplerProxy = window.__old__makeStaplerProxy;
     }
     // find the cascade parameter element
-    divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+    var divs = jQuery('div[name="parameter"]');
     var parameterElement = null;
     for (var j = 0; j &lt; divs.length ; j++) {
-    	div = divs[j];
-    	var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
-    	if (hiddenNames[0].value == '${it.getName()}') {
-    		var children = div.children;
-		    for (var k = 0; k &lt; children.length; ++k) {
-		        child = children[k];
-		        if (child.getAttribute('name') == 'value' || child.id.indexOf('ecp_') > -1) {
-		            parameterElement = child;
-		            break;
-		        }
-		    }
+    	var div = divs[j];
+    	var hiddenNames = jQuery('input[name="name"]');
+    	for (var k = 0; k &lt; hiddenNames.length ; k++) {
+    	   if (hiddenNames.get(k).value == '${it.getName()}') {
+               var children = div.children;
+               for (var l = 0; l &lt; children.length; ++l) {
+                   var child = children[l];
+                   if (child.getAttribute('name') == 'value' || child.id.indexOf('ecp_') > -1) {
+                       parameterElement = child;
+                       break;
+                   }
+               }
+           }
     	}
     }
-    var cascadeParameter = new CascadeParameter('${it.getName()}', parameterElement, cascadeChoiceParameterDefinition);
+    var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterElement, cascadeChoiceParameter);
     
     for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
         var parameterElement = null;
-        divs = findElementsBySelector(null, 'div[name="parameter"]', false);
+        var divs = jQuery('div[name="parameter"]');
         for (var j = 0; j &lt; divs.length ; j++) {
-        	div = divs[j];
+        	var div = divs[j];
         	var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
         	if (hiddenNames[0].value == referencedParameters[i]) {
         		var children = div.children;
@@ -66,36 +66,11 @@
         	}
         }
         
-        var referencedParameter = null;
-        if (!window.objects[referencedParameters[i]]) {
-        	referencedParameter = new ReferencedParameter(referencedParameters[i], parameterElement);
-        	cascadeParameter.referencedParameters.push(referencedParameter);
-        	referencedParameter.cascadeParameters.push(cascadeParameter);
-            window.objects[referencedParameters[i]] = referencedParameter;
-        } else {
-        	referencedParameter = window.objects[referencedParameters[i]];
-        	cascadeParameter.referencedParameters.push(referencedParameter);
-        	referencedParameter.cascadeParameters.push(cascadeParameter);
-        }
+        var referencedParameter = new UnoChoice.ReferencedParameter(referencedParameters[i], parameterElement, cascadeParameter);
     }
     
-    var parameterDivs = findElementsBySelector(null, 'div[name="parameter"]', false);
-    for (i = 0; i &lt; parameterDivs.length ; ++i) {
-        var hiddenNames = findElementsBySelector(parameterDivs[i], 'input[name="name"]', false);
-        for (j = 0; j &lt; hiddenNames.length; ++j) {
-            if (window.objects[hiddenNames[j].value] != undefined) {
-                // here we have the desired element to monitor
-                parameterDivs[i].hiddenName = hiddenNames[j].value;
-                parameterDivs[i].addEventListener('change', function(evt) {
-                    window.objects[this.hiddenName].updateCascadeParameter(evt);
-                }, false);
-            }
-        }
-    }
-    
-    for (var entry in window.objects) {
-    	window.objects[entry].updateCascadeParameter(null);
-    }
+    console.log('Updating cascade of parameter [${it.getName()}] ...');
+    cascadeParameter.update();
     
   </script>
 </j:jelly>

@@ -4,6 +4,7 @@ import hudson.Extension;
 
 import java.util.Set;
 
+import org.biouno.unochoice.AbstractCascadableParameter;
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 
@@ -17,7 +18,7 @@ import org.jenkinsci.plugins.scriptler.config.Script;
  * 
  * @author Bruno P. Kinoshita
  */
-public class ScriptlerCascadeChoiceParameter extends AbstractCascadableScriptlerParameter {
+public class ScriptlerCascadeChoiceParameter extends AbstractCascadableParameter {
 
 	/* 
 	 * Serial UID.
@@ -37,7 +38,7 @@ public class ScriptlerCascadeChoiceParameter extends AbstractCascadableScriptler
 	protected ScriptlerCascadeChoiceParameter(String name, String description, String scriptlerScriptId,
 			ScriptlerScriptParameter[] scriptParameters, String choiceType, Boolean filterable, 
 			String referencedParameters) {
-		super(name, description, scriptlerScriptId, scriptParameters, referencedParameters);
+		super(name, description, scriptlerScriptId, /* fallback */null, referencedParameters);
 		this.choiceType = choiceType;
 		this.filterable = filterable;
 	}
@@ -48,11 +49,13 @@ public class ScriptlerCascadeChoiceParameter extends AbstractCascadableScriptler
 	 */
 	@Override
 	public String getChoiceType() {
-		return this.choiceType;
+		return choiceType;
 	}
 	
 	/**
-	 * @return the filter flat
+	 * Gets the filter flag.
+	 * 
+	 * @return filter flag
 	 */
 	public Boolean getFilterable() {
 		return filterable;

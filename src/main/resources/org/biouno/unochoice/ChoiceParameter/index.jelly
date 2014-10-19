@@ -4,7 +4,6 @@
   <st:include page="../common/choiceParameterCommon.jelly"/>
   <script type="text/javascript">
     <j:if test="${it.filterable}">
-    console.log('#${paramName}');
     var parentDiv = jQuery('#${paramName}');
     var parameterHtmlElement = parentDiv.find('*[name="value"]');
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
