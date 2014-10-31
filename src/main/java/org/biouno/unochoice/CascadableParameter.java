@@ -1,7 +1,6 @@
 package org.biouno.unochoice;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * A parameter that monitors other referenced parameters. When any of these parameters change, 
@@ -13,14 +12,6 @@ import java.util.Map;
  */
 public interface CascadableParameter<T> extends ScriptableParameter<T> {
 
-	/**
-	 * Gets the current parameters, be it before or after other referenced parameters 
-	 * triggered an update.
-	 * 
-	 * @return the current parameters
-	 */
-	public Map<Object, Object> getParameters();
-	
 	/**
 	 * Gets the list of referenced parameters. If any of these parameters change in the
 	 * UI we will update our current parameters.

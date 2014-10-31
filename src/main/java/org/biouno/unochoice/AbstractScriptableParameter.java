@@ -89,8 +89,18 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		return fallbackScript;
 	}
 	
+	/**
+	 * Gets the current parameters, be it before or after other referenced parameters 
+	 * triggered an update.
+	 * 
+	 * @return the current parameters
+	 */
+	public Map<Object, Object> getParameters() {
+		return Collections.emptyMap();
+	}
+	
 	public Map<Object, Object> getChoices() {
-		return this.getChoices(Collections.emptyMap());
+		return this.getChoices(getParameters());
 	}
 	
 	/*

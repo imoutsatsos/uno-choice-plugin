@@ -34,11 +34,7 @@
  * features is limited. Specially in the UI, as for example, elements that are updated reacting to changes in 
  * other elements (e.g. city and state combo boxes).</p>
  * 
- * <p>This module <strong>depends on JQuery</strong>, and on methods provided by Jenkins:</p>
- * 
- * <ul>
- *     <li>findElementsBySelector(startNode,selector,includeSelf) - looks for elements using YUI and DOM</li>
- * </ul>
+ * <p>This module <strong>depends on JQuery</strong> only.</p>
  * 
  * @param $ jQuery global var
  * @author Bruno P. Kinoshita <brunodepaulak@yahoo.com.br>
@@ -66,6 +62,7 @@ var UnoChoice = UnoChoice || (function($) {
         this.paramElement = paramElement;
         this.proxy = proxy;
         this.referencedParameters = [];
+        this.filterElement = null;
     }
     
     /**
@@ -96,6 +93,19 @@ var UnoChoice = UnoChoice || (function($) {
     }
     
     /**
+     * Gets the filter element.
+     * 
+     * @return FilterElement
+     */
+    CascadeParameter.prototype.getFilterElement = function() {
+    	return this.filterElement;
+    }
+    
+    CascadeParameter.prototype.setFilterElement = function(e) {
+    	this.filterElement = e;
+    }
+    
+    /**
      * Used to create the request string that will update the cascade parameter values. Returns a
      * String, with name=value for each referenced parameter.
      * 
@@ -107,7 +117,7 @@ var UnoChoice = UnoChoice || (function($) {
 		for (var j = 0; j < this.getReferencedParameters().length; j++) {
 			var referencedParameter = this.getReferencedParameters()[j];
 			var name = referencedParameter.getParameterName();
-			var value = getParameterValue(referencedParameter);
+			var value = getParameterValue(referencedParameter.getParameterElement());
 			parameterValues.push(name + '=' + value);
 		}
 		
@@ -122,14 +132,16 @@ var UnoChoice = UnoChoice || (function($) {
      */
     CascadeParameter.prototype.update = function() {
     	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
-    	console.log('Referenced parameters: ' + parametersString);
+    	console.log('Values retrieved from Referenced Parameters: ' + parametersString);
     	// Update the CascadeChoiceParameter Map of parameters
     	this.proxy.doUpdate(parametersString);
     	// Now we get the updated choices, after the Groovy script is eval'd using the updated Map of parameters
     	// The inner function is called with the response provided by Stapler. Then we update the HTML elements.
     	var _self = this; // re-reference this to use within the inner function
+    	console.log('Calling Java server code to update HTML elements...');
     	this.proxy.getChoicesForUI(function (t) {
     		var choices = t.responseText;
+    		console.log('Values returned from server: ' + choices);
         	var data = JSON.parse(choices);
         	var newValues = data[0];
     	    var newKeys = data[1];
@@ -149,6 +161,10 @@ var UnoChoice = UnoChoice || (function($) {
     			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
         			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
         		}
+        	}
+        	
+        	if (_self.getFilterElement()) {
+        		console.log('Updating values in filter array');
         	}
         	
         	// FIXME
@@ -183,34 +199,33 @@ var UnoChoice = UnoChoice || (function($) {
 	            // Update the values for the filtering
 	            var originalArray = [];
                 for (i = 0; i < _self.getParameterElement().options.length; ++i) {
-                    originalArray.push(_self.getParameterElement().options[i].innerHTML);
+                    originalArray.push(_self.getParameterElement().options[i]);
                 }
-                if (_self.getParameterElement().filterElement) {
-                	_self.getParameterElement().filterElement.setOriginalArray(originalArray);
+                if (_self.getFilterElement()) {
+                	_self.getFilterElement().setOriginalArray(originalArray);
                 }
             } else if (parameterElement.tagName == 'DIV') {
-            	if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') {
-            		var table = oldSel.children[0];
+            	if (parameterElement.children.length > 0 && parameterElement.children[0].tagName == 'TABLE') {
+            		var table = parameterElement.children[0];
             		var tbody = table.children[0];
             		
-            		trs = findElementsBySelector(tbody, 'tr', false);
             		if (tbody) {
-                		for (i = 0; i < trs.length; i++) {
-                			tbody.removeChild(trs[i]);
-                		}
+                		jQuery(tbody).empty();
                 	} else {
                 	   tbody = document.createElement('tbody');
                 	   table.appendChild(tbody);
                 	}
             		
+            		var trs = tbody.children;
+            		
             		var originalArray = [];
             		// Check whether it is a radio or checkbox element
-            		if (oldSel.className == 'dynamic_checkbox') {
+            		if (parameterElement.className == 'dynamic_checkbox') {
 	                	for (i = 0; i < newValues.length; i++) {
 	                		var entry = newValues[i];
 	                		// <TR>
 			                var tr = document.createElement('tr');
-			                var idValue = 'ecp_' + cascade.paramName + '_' + i;
+			                var idValue = 'ecp_' + _self.getParameterName() + '_' + i;
 			                idValue = idValue.replace(' ', '_');
 			                tr.setAttribute('id', idValue);
 			                tr.setAttribute('style', 'white-space:nowrap');
@@ -242,7 +257,7 @@ var UnoChoice = UnoChoice || (function($) {
 			                	label.innerHTML = entry;
 			                }
 			                
-			                originalArray.push(entry);
+			                originalArray.push(input);
 			                
 			                // Put everything together
 			                td.appendChild(input);
@@ -252,15 +267,15 @@ var UnoChoice = UnoChoice || (function($) {
 			            }
 			            
 			            // Update the values for the filtering
-		                if (_self.paramElement.filterElement) {
-		                	_self.paramElement.filterElement.setOriginalArray(originalArray);
+		                if (_self.getFilterElement()) {
+		                	_self.getFilterElement().setOriginalArray(originalArray);
 		                }
 			        } else { // radio
 			             for (i = 0; i < newValues.length; i++) {
                             var entry = newValues[i];
                             // <TR>
                             var tr = document.createElement('tr');
-                            var idValue = 'ecp_' + cascade.paramName + '_' + i;
+                            var idValue = 'ecp_' + _self.getParameterName() + '_' + i;
                             idValue = idValue.replace(' ', '_');
                             //tr.setAttribute('id', idValue); // will use the ID for the hidden value element
                             tr.setAttribute('style', 'white-space:nowrap');
@@ -282,16 +297,16 @@ var UnoChoice = UnoChoice || (function($) {
                                 input.setAttribute("value", JSON.stringify(entry));
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
-                                input.setAttribute('onclick', 'radioButtonSelect("'+cascade.paramName+'", "'+idValue+'")');
+                                input.setAttribute('onclick', 'UnoChoice.fakeSelectRadioButton("'+cascade.paramName+'", "'+idValue+'")');
                                 label.className = "attach-previous";
                                 label.innerHTML = JSON.stringify(entry);
                             } else {
                                 input.setAttribute('json', entry);
-                                input.setAttribute('name', cascade.paramName);
+                                input.setAttribute('name', _self.getParameterName());
                                 input.setAttribute("value", entry);
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
-                                input.setAttribute('onclick', 'radioButtonSelect("'+cascade.paramName+'", "'+idValue+'")');
+                                input.setAttribute('onclick', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
                                 label.className = "attach-previous";
                                 label.innerHTML = entry;
                             }
@@ -299,11 +314,11 @@ var UnoChoice = UnoChoice || (function($) {
                             hiddenValue.setAttribute('json', entry);
                             hiddenValue.setAttribute('name', '');
                             hiddenValue.setAttribute("value", entry);
-                            hiddenValue.setAttribute("class", cascade.paramName);
+                            hiddenValue.setAttribute("class", _self.getParameterName());
                             hiddenValue.setAttribute("type", "hidden");
                             hiddenValue.setAttribute('id', idValue);
                             
-                            originalArray.push(entry);
+                            originalArray.push(input);
                             
                             // Put everything together
                             td.appendChild(input);
@@ -317,11 +332,14 @@ var UnoChoice = UnoChoice || (function($) {
                             tbody.appendChild(endTr);
                         }
 			            // Update the values for the filtering
-		                if (_self.paramElement.filterElement) {
-		                	_self.paramElement.filterElement.setOriginalArray(originalArray);
+		                if (_self.getFilterElement()) {
+		                	_self.getFilterElement().setOriginalArray(originalArray);
 		                }
 			        } // if (oldSel.className == 'dynamic_checkbox') 
-			        oldSel.style.height = '' + (23 * (newValues.length > 10 ? 10 : newValues.length)) + 'px';
+            		/*
+            		 * This height is equivalent to setting the number of rows displayed in a select/multiple
+            		 */
+            		parameterElement.style.height = '' + (23 * (newValues.length > 10 ? 10 : newValues.length)) + 'px';
                 } // if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') 
             } // if (oldSel.tagName == 'SELECT') { // else if (oldSel.tagName == 'DIV') {
     	});
@@ -346,7 +364,7 @@ var UnoChoice = UnoChoice || (function($) {
     	// Add event listener
     	var _self = this;
     	jQuery(this.paramElement).change(function (e) {
-    		console.log('loading...');
+    		console.log('Cascading changes from parameter ' + _self.paramName + '...');
     		jQuery(".behavior-loading").show();
     		_self.cascadeParameter.update();
     		jQuery(".behavior-loading").hide();
@@ -391,10 +409,10 @@ var UnoChoice = UnoChoice || (function($) {
                 var table = paramElement.children[0];
                 var tbody = table.children[0];
                 
-                var trs = tbody.find('tr');
+                var trs = jQuery(tbody).find('tr');
                 for (i = 0; i < trs.length ; ++i) {
-                    var tds = trs[i].find('td');
-                    var inputs = tds[0].find('input');
+                    var tds = jQuery(trs[i]).find('td');
+                    var inputs = jQuery(tds[0]).find('input');
                     var input = inputs[0];
                     this.originalArray.push(input);
                 }
@@ -463,7 +481,7 @@ var UnoChoice = UnoChoice || (function($) {
                    jQuery(filteredElement).append(opt);
                }
             } else if (tagName == 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
-               if (filteredElement.children().length > 0 && $(filteredElement.children[0]).prop('tagName') == 'TABLE') {
+               if (jQuery(filteredElement).children().length > 0 && $(jQuery(filteredElement).children[0]).prop('tagName') == 'TABLE') {
                     var table = filteredElement.children[0];
                     var tbody = table.children[0];
                     
@@ -472,7 +490,6 @@ var UnoChoice = UnoChoice || (function($) {
                         tbody.remove(trs[i]);
                     }
                     
-                    var originalArray = [];
                     if (filteredElement.className == 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
                             var entry = newOptions[i];
@@ -606,8 +623,7 @@ var UnoChoice = UnoChoice || (function($) {
      * @return <code>String</code> the value of the HTML element used as parameter value in Jenkins, as a string
      */
      /* public */ function getParameterValue(htmlParameter) {
-    	var e = htmlParameter.getParameterElement();
-    	e = jQuery(e);
+    	var e = jQuery(htmlParameter);
         var value = '';
         if (e.attr('name') == 'value') {
             value = getElementValue(e);

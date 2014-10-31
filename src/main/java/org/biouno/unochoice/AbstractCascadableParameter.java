@@ -47,7 +47,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.biouno.unochoice.CascadableParameter#getParameters()
+	 * @see org.biouno.unochoice.AbstractScriptableParameter#getParameters()
 	 */
 	public Map<Object, Object> getParameters() {
 		return parameters;

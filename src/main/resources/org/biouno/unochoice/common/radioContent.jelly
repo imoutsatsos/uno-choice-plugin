@@ -5,34 +5,34 @@
     <j:set var="index" value="0"/>
     <table id="tbl_ecp_${it.name}">
       <j:forEach var="iter" items="${it.getChoices()}" indexVar="indexVar">
+        <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
+          <j:arg type="java.lang.Object" value="${iter.value}" />
+        </j:invokeStatic>
+        <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedValue">
+          <j:arg type="java.lang.Object" value="${iter.value}" />
+        </j:invokeStatic>
+        <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedKey">
+          <j:arg type="java.lang.Object" value="${iter.key}" />
+        </j:invokeStatic>
         <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
-            <td>
-                <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
-                    <j:arg type="java.lang.Object" value="${iter.value}" />
-                </j:invokeStatic>
-                <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedValue">
-                    <j:arg type="java.lang.Object" value="${iter.value}" />
-                </j:invokeStatic>
-                <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedKey">
-                    <j:arg type="java.lang.Object" value="${iter.key}" />
-                </j:invokeStatic>
-                <j:choose>
-                    <j:when test="${selected}">
-                        <input json="${escapedValue}" checked="checked" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="radioButtonSelect(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
-                    </j:when>
-                    <j:otherwise>
-                        <input json="${escapedValue}" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="radioButtonSelect(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
-                    </j:otherwise>
-                </j:choose>
-                <label class="attach-previous">${escapedValue}</label>
-                <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="radio_${it.name}_${indexVar}" />
-            </td>
+          <td>
+            <j:choose>
+              <j:when test="${selected}">
+                <input json="${escapedValue}" checked="checked" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
+              </j:when>
+              <j:otherwise>
+                <input json="${escapedValue}" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;radio_${it.name}_${indexVar}&quot;)" />
+              </j:otherwise>
+            </j:choose>
+            <label class="attach-previous">${escapedValue}</label>
+            <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="radio_${it.name}_${indexVar}" />
+          </td>
         </tr>
         <j:set var="index" value="${index + 1}"/>
       </j:forEach>
-  </table>
+    </table>
   </div>
-<script>
+<script type="text/javascript">
 <![CDATA[
   (function() {
       var f = function() {
@@ -57,5 +57,5 @@
       f();
   })();
 ]]>
-  </script>
+</script>
 </j:jelly>

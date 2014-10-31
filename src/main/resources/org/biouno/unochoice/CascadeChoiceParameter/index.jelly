@@ -20,7 +20,11 @@
     }
     // find the cascade parameter element
     var parentDiv = jQuery('#${paramName}');
-    var parameterHtmlElement = jQuery(parentDiv.get(0)).find('*[name="value"]');
+    var parameterHtmlElement = parentDiv.find('DIV');
+    if (!parameterHtmlElement || parameterHtmlElement.length == 0) {
+        console.log('Could not find element by name, perhaps it is a DIV?');
+        parameterHtmlElement = parentDiv.find('*[name="value"]');
+    }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
         var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterHtmlElement.get(0), cascadeChoiceParameter);
     
@@ -28,8 +32,8 @@
         <j:if test="${it.filterable}">
         var filterHtmlElement = parentDiv.find('.uno_choice_filter');
         if (filterHtmlElement &amp;&amp; filterHtmlElement.get(0)) {
-            filterElement = new UnoChoice.FilterElement(parameterHtmlElement.get(0), filterHtmlElement.get(0));
-            parameterHtmlElement.filterElement = filterElement; // TBD: not very elegant
+            var filterElement = new UnoChoice.FilterElement(parameterHtmlElement.get(0), filterHtmlElement.get(0));
+            cascadeParameter.setFilterElement(filterElement);
         } else {
             console.log('Filter error: Missing filter element!');
         }
