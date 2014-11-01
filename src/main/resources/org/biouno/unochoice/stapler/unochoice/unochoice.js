@@ -24,6 +24,9 @@
 
 'use strict';
 
+if ($)
+	$.noConflict();
+
 /**
  * <h2>Uno Choice Javascript module.</h2>
  * 
@@ -176,7 +179,7 @@ var UnoChoice = UnoChoice || (function($) {
 	            }
         
 	            for (i = 0; i < newValues.length; i++) {
-	                var opt = document.createElement('option');
+	            	var opt = document.createElement('option');
 	                var value = newKeys[i];
 	                var entry = newValues[i];
 	                if (!entry instanceof String) {
@@ -343,6 +346,10 @@ var UnoChoice = UnoChoice || (function($) {
                 } // if (oldSel.children.length > 0 && oldSel.children[0].tagName == 'TABLE') 
             } // if (oldSel.tagName == 'SELECT') { // else if (oldSel.tagName == 'DIV') {
     	});
+    	
+    	// propagate change
+    	console.log('Propagating change event from ' + this.getParameterName());
+    	jQuery(this.getParameterElement()).trigger('change');
     }
 
     // --- Referenced Parameter
@@ -365,9 +372,9 @@ var UnoChoice = UnoChoice || (function($) {
     	var _self = this;
     	jQuery(this.paramElement).change(function (e) {
     		console.log('Cascading changes from parameter ' + _self.paramName + '...');
-    		jQuery(".behavior-loading").show();
+    		//jQuery(".behavior-loading").show();
+    		//jQuery(_self.cascadeParameter.getParameterElement).loading(true);
     		_self.cascadeParameter.update();
-    		jQuery(".behavior-loading").hide();
     	});
     	
     	cascadeParameter.getReferencedParameters().push(this);
@@ -458,7 +465,7 @@ var UnoChoice = UnoChoice || (function($) {
      */
     FilterElement.prototype.initEventHandler = function() {
         var _self = this;
-        jQuery(this.filterElement).keyup(function(e) {
+        jQuery(_self.filterElement).keyup(function(e) {
             //var filterElement = e.target;
             var filterElement = _self.getFilterElement();
             var filteredElement = _self.getParameterElement();
@@ -467,9 +474,15 @@ var UnoChoice = UnoChoice || (function($) {
             var options = _self.originalArray;
             var newOptions = Array();
             for (var i = 0; i < options.length; i++) {
-                if (options[i].innerHTML.toLowerCase().match(text)) {
-                    newOptions.push(options[i]);
-                }
+            	if (options[i].tagName == 'INPUT') {
+            		if (options[i].value.toLowerCase().match(text)) {
+                        newOptions.push(options[i]);
+                    }
+            	} else {
+            		if (options[i].innerHTML.toLowerCase().match(text)) {
+                        newOptions.push(options[i]);
+                    }
+            	}
             }
             var tagName = filteredElement.tagName;
             if (tagName == 'SELECT') { // handle SELECT's
@@ -481,14 +494,12 @@ var UnoChoice = UnoChoice || (function($) {
                    jQuery(filteredElement).append(opt);
                }
             } else if (tagName == 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
-               if (jQuery(filteredElement).children().length > 0 && $(jQuery(filteredElement).children[0]).prop('tagName') == 'TABLE') {
+               if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName == 'TABLE') {
                     var table = filteredElement.children[0];
                     var tbody = table.children[0];
                     
-                    trs = tbody.find('tr');
-                    for (var i = 0; i < trs.length; i++) {
-                        tbody.remove(trs[i]);
-                    }
+                    var trs = jQuery(tbody).find('tr');
+                    jQuery(tbody).empty();
                     
                     if (filteredElement.className == 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
@@ -497,8 +508,8 @@ var UnoChoice = UnoChoice || (function($) {
                             var tr = document.createElement('tr');
                             var idValue = 'ecp_' + e.target.paramName + '_' + i;
                             idValue = idValue.replace(' ', '_');
-                            tr.attr('id', idValue);
-                            tr.attr('style', 'white-space:nowrap');
+                            tr.setAttribute('id', idValue);
+                            tr.setAttribute('style', 'white-space:nowrap');
                             // TD
                             var td = document.createElement('td');
                             // INPUT
@@ -506,28 +517,31 @@ var UnoChoice = UnoChoice || (function($) {
                             // LABEL
                             var label = document.createElement('label');
                             
-                            if (!entry instanceof String) {
-                                input.attr('json', JSON.stringify(entry.value));
-                                input.attr('name', 'value');
-                                input.attr("value", JSON.stringify(entry.value));
-                                input.attr("class", " ");
-                                input.attr("type", "checkbox");
-                                label.addClass("attach-previous");
-                                label.innerHTML = JSON.stringify(entry);
+                            if (!(entry instanceof String)) {
+                            	label.className = "attach-previous";
+                            	if (entry.tagName == 'INPUT') {
+                            		input = entry;
+                            		label.innerHTML = input.getAttribute('value');
+                            	} else {
+                            		input.setAttribute('json', JSON.stringify(entry.value));
+                                    input.setAttribute('name', 'value');
+                                    input.setAttribute("value", JSON.stringify(entry.value));
+                                    input.setAttribute("type", "radio");
+                                    label.innerHTML = input;
+                            	}
                             } else {
-                                input.attr('json', entry);
-                                input.attr('name', 'value');
-                                input.attr("value", entry);
-                                input.attr("class", " ");
-                                input.attr("type", "checkbox");
-                                label.addClass("attach-previous");
+                                input.setAttribute('json', entry);
+                                input.setAttribute('name', 'value');
+                                input.setAttribute("value", entry);
+                                input.setAttribute("type", "checkbox");
+                                label.className = "attach-previous";
                                 label.innerHTML = entry;
                             }
                             // Put everything together
-                            td.append(input);
-                            td.append(label);
-                            tr.append(td);
-                            tbody.append(tr);
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
                         }
                     } else {
                         for (var i = 0; i < newOptions.length; i++) {
@@ -536,8 +550,8 @@ var UnoChoice = UnoChoice || (function($) {
                             var tr = document.createElement('tr');
                             var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
                             idValue = idValue.replace(' ', '_');
-                            tr.attr('id', idValue);
-                            tr.attr('style', 'white-space:nowrap');
+                            tr.setAttribute('id', idValue);
+                            tr.setAttribute('style', 'white-space:nowrap');
                             // TD
                             var td = document.createElement('td');
                             // INPUT
@@ -545,28 +559,31 @@ var UnoChoice = UnoChoice || (function($) {
                             // LABEL
                             var label = document.createElement('label');
                             
-                            if (!entry instanceof String) {
-                                input.attr('json', JSON.stringify(entry));
-                                input.attr('name', 'value');
-                                input.attr("value", JSON.stringify(entry));
-                                input.attr("class", " ");
-                                input.attr("type", "radio");
-                                label.addClass("attach-previous");
-                                label.innerHTML = JSON.stringify(entry);
+                            if (!(entry instanceof String)) {
+                            	label.className = "attach-previous";
+                            	if (entry.tagName == 'INPUT') {
+                            		input = entry;
+                            		label.innerHTML = input.getAttribute('value');
+                            	} else {
+                            		input.setAttribute('json', JSON.stringify(entry));
+                                    input.setAttribute('name', 'value');
+                                    input.setAttribute("value", JSON.stringify(entry));
+                                    input.setAttribute("type", "radio");
+                                    label.innerHTML = input;
+                            	}
                             } else {
-                                input.attr('json', entry);
-                                input.attr('name', 'value');
-                                input.attr("value", entry);
-                                input.attr("class", " ");
-                                input.attr("type", "radio");
-                                label.addClass("attach-previous");
+                                input.setAttribute('json', entry);
+                                input.setAttribute('name', 'value');
+                                input.setAttribute("value", entry);
+                                input.setAttribute("type", "radio");
+                                label.className = "attach-previous";
                                 label.innerHTML = entry;
                             }
                             // Put everything together
-                            td.append(input);
-                            td.append(label);
-                            tr.append(td);
-                            tbody.append(tr);
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
                         }
                     }
                 }
@@ -597,12 +614,12 @@ var UnoChoice = UnoChoice || (function($) {
      */
      /* public */ function fakeSelectRadioButton(clazzName, id) {
         // deselect all radios with the class=clazzName
-        var radios = $('input[class="'+clazzName+'"]');
+        var radios = jQuery('input[class="'+clazzName+'"]');
         radios.each(function(index) {
-            $(this).attr('name', '');        
+        	jQuery(this).attr('name', '');        
         });
         // select the radio with the id=id
-        var radio = $('#' + id);
+        var radio = jQuery('#' + id);
         if (radio && radio.length > 0)
             radio[0].setAttribute('name', 'value');
     }
@@ -626,7 +643,7 @@ var UnoChoice = UnoChoice || (function($) {
     	var e = jQuery(htmlParameter);
         var value = '';
         if (e.attr('name') == 'value') {
-            value = getElementValue(e);
+            value = getElementValue(htmlParameter);
         }  else if (e.prop('tagName') == 'DIV') {
             var subElements = e.find('input[name="value"]');
             if (subElements) {

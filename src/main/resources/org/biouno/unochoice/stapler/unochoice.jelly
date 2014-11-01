@@ -2,5 +2,20 @@
 Use it like <st:adjunct include="org.kohsuke.stapler.angularjs"/>
 -->
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+  <style type="text/css">
+  .js-loading-overlay {
+  
+  position:absolute;
+  top:0; bottom:0;
+  left:0; right:0;
+  
+  z-index:199;
+  
+  background:#fff;
+  opacity:0.5;
+  
+  border-radius: inherit;
+  }
+  </style>
   <script src="${it.packageUrl}/unochoice/unochoice.js" type="text/javascript" />
 </j:jelly>
