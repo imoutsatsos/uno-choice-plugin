@@ -32,13 +32,13 @@
  * Create fixture DIV (hack for running with phantomJS and Maven)
  */
 QUnit.testStart(function() {
- 	var fixtures = $('#qunit-tests').find('#qunit-fixture');
+ 	var fixtures = jQuery('#qunit-tests').find('#qunit-fixture');
  	fixtures.each(function() {
- 		$(this).remove();
+ 		jQuery(this).remove();
  	});
  	var hiddenDiv = document.createElement("div");
- 	$(hiddenDiv).attr('id', 'qunit-fixture');
- 	$('#qunit-tests').append(hiddenDiv);
+ 	jQuery(hiddenDiv).attr('id', 'qunit-fixture');
+ 	jQuery('#qunit-tests').append(hiddenDiv);
  });
 
 /**
@@ -59,23 +59,23 @@ QUnit.test("Tests UnoChoice module was loaded", function () {
  * Tests for the fakeSelectRadioButton function.
  */
 QUnit.test("Test fakeSelectRadioButton", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	$fixture.append("<input type='radio' name='group1' class='myClazz' id='option1' />");
 	$fixture.append("<input type='radio' name='group1' class='myClazz' id='option2' />");
 	$fixture.append("<input type='radio' name='group1' class='myClazz' id='option3' />");
 	UnoChoice.fakeSelectRadioButton("myClazz", "option2");
-	equal("", $("#option1").attr('name'), "option1 is empty");
-	equal("value", $("#option2").attr('name'), "option2 is not empty");
-	equal("", $("#option3").attr('name'), "option3 is empty");
+	equal("", jQuery("#option1").attr('name'), "option1 is empty");
+	equal("value", jQuery("#option2").attr('name'), "option2 is not empty");
+	equal("", jQuery("#option3").attr('name'), "option3 is empty");
 });
 
 /**
  * Tests for the getParameterValue / getSelectValues function.
  */
 QUnit.test("Test getParameterValue", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	$fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
-	var select = $("select");
+	var select = jQuery("select");
 	var arr = UnoChoice.getParameterValue(select);
 	equal(arr, '1,3', 'the content is correct');
 });
@@ -84,10 +84,10 @@ QUnit.test("Test getParameterValue", function() {
  * Tests for the getParameterValue / getElementValue function. Using select.
  */
 QUnit.test("Test getElementValue using select", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	
 	$fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
-	var select = $("select");
+	var select = jQuery("select");
 	var arr = UnoChoice.getParameterValue(select);
 	equal(arr, '1,3', 'element value is correct for select');
 });
@@ -96,10 +96,10 @@ QUnit.test("Test getElementValue using select", function() {
  * Tests for the getParameterValue / getElementValue function. Using checkbox.
  */
 QUnit.test("Test getElementValue using checkbox", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	
 	$fixture.append("<input id='checkbox1' type='checkbox' name='value' checked='checked' value='123' />");
-	var e = $("#checkbox1");
+	var e = jQuery("#checkbox1");
 	var val = UnoChoice.getParameterValue(e);
 	equal(val, '123', 'element value is correct for checkbox');
 });
@@ -108,10 +108,10 @@ QUnit.test("Test getElementValue using checkbox", function() {
  * Tests for the getParameterValue / getElementValue function. Using text.
  */
 QUnit.test("Test getElementValue using text", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	
 	$fixture.append("<input id='input1' type='text' name='value' checked='checked' value='1234' />");
-	var e = $("#input1");
+	var e = jQuery("#input1");
 	var val = UnoChoice.getParameterValue(e);
 	equal(val, '1234', 'element value is correct for text');
 });
@@ -120,10 +120,10 @@ QUnit.test("Test getElementValue using text", function() {
  * Tests for the getParameterValue / getElementValue function. Using empty select.
  */
 QUnit.test("Test getElementValue using empty select", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	
 	$fixture.append("<select name='value'></select>");
-	var select = $("select");
+	var select = jQuery("select");
 	var val = UnoChoice.getParameterValue(select);
 	equal(val, '', 'element value is correct for empty select');
 });
@@ -132,7 +132,7 @@ QUnit.test("Test getElementValue using empty select", function() {
  * Tests for the getParameterValue / getElementValue function. Using empty div.
  */
 QUnit.test("Test getElementValue using div", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	
 	$fixture.append("<div id='div1'>" +
 			"<span>E agora?</span>" +
@@ -141,7 +141,7 @@ QUnit.test("Test getElementValue using div", function() {
 			"<input type='text' name='value' value='123432'/>" +
 			"</div>" +
 			"</div>");
-	var e = $("#div1");
+	var e = jQuery("#div1");
 	var val = UnoChoice.getParameterValue(e);
 	equal(val, '123432', 'element value is correct for div');
 });
@@ -150,10 +150,10 @@ QUnit.test("Test getElementValue using div", function() {
  * Tests for the getParameterValue / getElementValue function. Using files.
  */
 QUnit.test("Test getElementValue using files", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	
 	$fixture.append("<input type='file' name='myfile' value='1.txt'/>");
-	var e = $("input[type='file']");
+	var e = jQuery("input[type='file']");
 	var val = UnoChoice.getParameterValue(e);
 	equal(val, '', 'element value is correct for files'); // cannot set value due to security
 });
@@ -162,7 +162,7 @@ QUnit.test("Test getElementValue using files", function() {
  * Tests for the CascadeParameter.
  */
 QUnit.test("Test CascadeParameter class", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	var cascadeParameter = new UnoChoice.CascadeParameter('sample-param', $fixture, /*proxy*/ undefined);
 	ok(cascadeParameter, 'cascade parameter object creation working');
 	deepEqual('sample-param', cascadeParameter.getParameterName(), 'parameter name is retrieved correctly');
@@ -176,7 +176,7 @@ QUnit.test("Test CascadeParameter class", function() {
  * Tests for FilteredElement.
  */
 QUnit.test("Test FilteredElement with selects", function() {
-	var $fixture = $("#qunit-fixture");
+	var $fixture = jQuery("#qunit-fixture");
 	$fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Bruno</option><option value="2">Nuno</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>');
 	$fixture.append('<input class="uno_choice_filter" type="text" value="" name="test" placeholder="Filter">');
     var parameterHtmlElement = $fixture.find('*[name="value"]');
