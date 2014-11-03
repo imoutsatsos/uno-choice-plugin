@@ -46,13 +46,10 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * solution, since we are using a ParameterDefinition extension point, but it 
  * actually <b>doesn't provide any parameter value</b>.</p>
  * 
- * <p>This kind of parameter is only for reference. The dynamic in the name is due 
- * to its ability to <b>use past artifacts to display information for users before 
- * they submit a job</b>. An use case is when you have several job parameters, but 
- * your input values may vary depending on previous executions.</p>
- * 
- * <p>The artifacts of previous builds can be used to produce input text boxes, 
- * HTML (un) ordered lists, formatted HTML or simple image galleries.</p>
+ * <p>This kind of parameter is only for reference. An use case is when you have several
+ * job parameters, but your input values may vary depending on previous executions. You 
+ * can get the previous executions by accessing from your Groovy code the jenkinsProject
+ * variable.</p>
  * 
  * @author Bruno P. Kinoshita
  * @since 0.1
@@ -62,18 +59,31 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 	/*
 	 * Serial UID.
 	 */
-	private static final long serialVersionUID = -4621118101234054700L;
-
+	private static final long serialVersionUID = 3583160434198488019L;
+	
 	private static final String JENKINS_PROJECT_VARIABLE_NAME = "jenkinsProject";
 	private static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
 	
-	private final String elementType;
+	/**
+	 * Choice type.
+	 */
+	private final String choiceType;
 	
+	/**
+	 * Constructor called from Jelly with parameters.
+	 * 
+	 * @param name name
+	 * @param description description
+	 * @param script script
+	 * @param fallbackScript fallback script
+	 * @param choiceType choice type
+	 * @param referencedParameters referenced parameters
+	 */
 	@DataBoundConstructor
 	public DynamicReferenceParameter(String name, String description, String script, String fallbackScript, 
-			String elementType, String referencedParameters) {
+			String choiceType, String referencedParameters) {
 		super(name, description, script, fallbackScript, referencedParameters);
-		this.elementType = elementType;
+		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 	}
 	
 	/*
@@ -82,11 +92,14 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 	 */
 	@Override
 	public String getChoiceType() {
-		return this.elementType;
+		return this.choiceType;
 	}
 	
 	/**
-	 * Gets each artifact, and the project as parameters to the groovy script.
+	 * {@inheritDoc}
+	 * 
+	 * This parameter also includes the Jenkins project and build objects in the Groovy variables map. It
+	 * means that you can use these two in your code for rendering the parameter.
 	 */
 	@JavaScriptMethod
 	public void doUpdate(String parameters) {

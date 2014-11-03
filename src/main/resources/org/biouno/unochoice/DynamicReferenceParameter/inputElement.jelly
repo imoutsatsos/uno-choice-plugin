@@ -1,5 +1,5 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-    <input id='inputElement_${it.uuid}' type="text" value="${it.scriptResultAsString}" readonly="readonly" disabled="disabled" />
+  <input id='inputElement_${paramName}' type="text" value="${it.getChoicesAsString()}" readonly="readonly" disabled="disabled" />
 </j:jelly>

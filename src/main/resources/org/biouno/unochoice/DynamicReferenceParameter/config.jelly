@@ -1,22 +1,22 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <f:entry title="${%Name}">
+  <f:entry title="${%Name}" field="name">
     <f:textbox name="parameter.name" value="${instance.name}" />
   </f:entry>
-  <f:entry title="${%Groovy Script}" field="script" help="${rootURL}/../plugin/uno-choice/help-dynamicReferenceScript.html">
+  <f:entry title="${%Script}" field="script">
     <f:textarea name="parameter.script" value="${instance.script}" />
   </f:entry>
-  <f:entry title="${%Default Script}" field="defaultScript">
-    <f:textarea name="parameter.defaultScript" value="${instance.defaultScript}" />
+  <f:entry title="${%Fallback Script}" field="fallbackScript">
+    <f:textarea name="parameter.fallbackScript" value="${instance.fallbackScript}" />
   </f:entry>
-  <f:entry title="${%Description}" help="/help/parameter/description.html">
+  <f:entry title="${%Description}" field="description" help="/help/parameter/description.html">
     <f:textarea name="parameter.description" value="${instance.description}" />
   </f:entry>
-  <f:entry name="type" title="${%Element Type}" field="elementType">
-    <select name="parameter.elementType">
+  <f:entry name="type" title="${%Choice Type}" field="choiceType">
+    <select name="parameter.choiceType">
       <j:choose>
-        <j:when test="${instance.elementType eq 'ET_TEXT_BOX'}">
+        <j:when test="${instance.choiceType eq 'ET_TEXT_BOX'}">
           <option value="ET_TEXT_BOX" selected="selected">${%Input text box}</option>
         </j:when>
         <j:otherwise>
@@ -24,7 +24,7 @@
         </j:otherwise>
       </j:choose>
       <j:choose>
-        <j:when test="${instance.elementType eq 'ET_ORDERED_LIST'}">
+        <j:when test="${instance.choiceType eq 'ET_ORDERED_LIST'}">
           <option value="ET_ORDERED_LIST" selected="selected">${%Ordered list}</option>
         </j:when>
         <j:otherwise>
@@ -32,7 +32,7 @@
         </j:otherwise>
       </j:choose>
       <j:choose>
-        <j:when test="${instance.elementType eq 'ET_UNORDERED_LIST'}">
+        <j:when test="${instance.choiceType eq 'ET_UNORDERED_LIST'}">
           <option value="ET_UNORDERED_LIST" selected="selected">${%Unordered list}</option>
         </j:when>
         <j:otherwise>
@@ -40,7 +40,7 @@
         </j:otherwise>
       </j:choose>
       <j:choose>
-        <j:when test="${instance.elementType eq 'ET_FORMATTED_HTML'}">
+        <j:when test="${instance.choiceType eq 'ET_FORMATTED_HTML'}">
           <option value="ET_FORMATTED_HTML" selected="selected">${%Formatted HTML}</option>
         </j:when>
         <j:otherwise>
@@ -48,7 +48,7 @@
         </j:otherwise>
       </j:choose>
       <j:choose>
-        <j:when test="${instance.elementType eq 'ET_FORMATTED_HIDDEN_HTML'}">
+        <j:when test="${instance.choiceType eq 'ET_FORMATTED_HIDDEN_HTML'}">
           <option value="ET_FORMATTED_HIDDEN_HTML" selected="selected">${%Formatted Hidden HTML}</option>
         </j:when>
         <j:otherwise>
@@ -56,7 +56,7 @@
         </j:otherwise>
       </j:choose>
       <j:choose>
-        <j:when test="${instance.elementType eq 'ET_IMAGE_GALLERY'}">
+        <j:when test="${instance.choiceType eq 'ET_IMAGE_GALLERY'}">
           <option value="ET_IMAGE_GALLERY" selected="selected">${%Simple image gallery}</option>
         </j:when>
         <j:otherwise>
@@ -65,10 +65,7 @@
       </j:choose>
     </select>
   </f:entry>
-  <f:entry title="${%Referenced parameters}" help="${rootURL}/../plugin/uno-choice/help-referencedParameters.html">
+  <f:entry title="${%Referenced parameters}" field="referencedParameters" help="${rootURL}/../plugin/uno-choice/help-referencedParameters.html">
     <f:textbox name="parameter.referencedParameters" value="${instance.referencedParameters}" />
-  </f:entry>
-  <f:entry title="${%Include pattern}" help="${rootUrl}/descriptor/hudson.tasks.ArtifactArchiver/help/artifacts">
-    <f:textbox name="parameter.includes" value="${instance.includes}" />
   </f:entry>
 </j:jelly>
