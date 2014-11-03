@@ -50,7 +50,7 @@ var UnoChoice = UnoChoice || (function($) {
     var SEPARATOR = '__LESEP__';
     
     // Plug-in classes
-
+    
     // --- Cascade Parameter
 
     /**
@@ -390,6 +390,36 @@ var UnoChoice = UnoChoice || (function($) {
     
     ReferencedParameter.prototype.getCascadeParameter = function() {
     	return this.cascadeParameter;
+    }
+    
+    // --- Dynamic Reference Parameter
+    
+    /**
+     * A parameter that is used only as a render mechanism for other referenced parameters.
+     * 
+     * @param paramName parameter name
+     * @param paramElement parameter HTML element
+     * @param proxy Stapler proxy object that references the CascadeChoiceParameter
+     */
+    /* public */ function DynamicReferenceParameter(paramName, paramElement, proxy) {
+    	this.paramName = paramName;
+        this.paramElement = paramElement;
+        this.proxy = proxy;
+        this.referencedParameters = [];
+    }
+    
+    /**
+     * Extend the cascade parameter.
+     */
+    DynamicReferenceParameter.prototype = new CascadeParameter();
+    
+    /**
+     * Updates the CascadeParameter object.
+     * 
+     * TODO: explain what happens here
+     */
+    DynamicReferenceParameter.prototype.update = function() {
+    	// FIXME: write the dynamic reference impl
     }
 
     // --- Filter Element
