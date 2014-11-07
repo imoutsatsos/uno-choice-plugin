@@ -55,14 +55,6 @@
           <option value="ET_FORMATTED_HIDDEN_HTML">${%Formatted Hidden HTML}</option>
         </j:otherwise>
       </j:choose>
-      <j:choose>
-        <j:when test="${instance.choiceType eq 'ET_IMAGE_GALLERY'}">
-          <option value="ET_IMAGE_GALLERY" selected="selected">${%Simple image gallery}</option>
-        </j:when>
-        <j:otherwise>
-          <option value="ET_IMAGE_GALLERY">${%Simple image gallery}</option>
-        </j:otherwise>
-      </j:choose>
     </select>
   </f:entry>
   <f:entry title="${%Referenced parameters}" field="referencedParameters" help="${rootURL}/../plugin/uno-choice/help-referencedParameters.html">

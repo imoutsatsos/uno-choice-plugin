@@ -10,7 +10,7 @@
     <j:arg type="java.lang.String" value="" />
   </j:invokeStatic>
   <j:set var="paramName" value="${paramName}" />
-  <j:if test="${elementType eq 'ET_FORMATTED_HIDDEN_HTML'}">
+  <j:if test="${choiceType eq 'ET_FORMATTED_HIDDEN_HTML'}">
     <j:set var="cssclazz" value="hidden_uno_choice_parameter" />    
   </j:if>
   <f:entry title="${it.name}" description="${it.description}">
@@ -55,37 +55,43 @@
         window.__old__makeStaplerProxy = window.makeStaplerProxy;
         window.makeStaplerProxy = UnoChoice.makeStaplerProxy2;
     }
-    var cascadeChoiceParameter = <st:bind value="${it}"/>; // Create Jenkins proxy
+    var dynamicReferenceParameter = <st:bind value="${it}"/>; // Create Jenkins proxy
     if (window.makeStaplerProxy) {
         window.makeStaplerProxy = window.__old__makeStaplerProxy;
     }
     // find the cascade parameter element
     var parentDiv = jQuery('#${paramName}');
-    var parameterHtmlElement = parentDiv.find('DIV');
-    if (!parameterHtmlElement || parameterHtmlElement.length == 0) {
-        console.log('Could not find element by name, perhaps it is a DIV?');
-        parameterHtmlElement = parentDiv.find('*[name="value"]');
+    
+    var parameterHtmlElement = null;
+    for(var i = 0; i &lt; parentDiv.children().length; i++) {
+        var child = parentDiv.children()[i];
+        if (child.getAttribute('name') == 'value' || child.id.indexOf('ecp_') &gt; -1) {
+            parameterHtmlElement = jQuery(child);
+            break;
+        }
+        if (child.id.indexOf('inputElement_') &gt; -1) {
+            parameterHtmlElement = jQuery(child);
+            break;
+        }
+        if (child.id.indexOf('formattedHtml_') &gt; -1) {
+            parameterHtmlElement = jQuery(child);
+            break;
+        }
+        if (child.id.indexOf('imageGallery_') &gt; -1) {
+            parameterHtmlElement = jQuery(child);
+            break;
+        }
     }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
-        var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterHtmlElement.get(0), cascadeChoiceParameter);
+        var dynamicParameter = new UnoChoice.DynamicReferenceParameter('${it.getName()}', parameterHtmlElement.get(0), dynamicReferenceParameter);
     
-        // filter
-        <j:if test="${it.filterable}">
-        var filterHtmlElement = parentDiv.find('.uno_choice_filter');
-        if (filterHtmlElement &amp;&amp; filterHtmlElement.get(0)) {
-            var filterElement = new UnoChoice.FilterElement(parameterHtmlElement.get(0), filterHtmlElement.get(0));
-            cascadeParameter.setFilterElement(filterElement);
-        } else {
-            console.log('Filter error: Missing filter element!');
-        }
-        </j:if>
-        
         for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
             var parameterElement = null;
+            // FIXME: review the block below
             var divs = jQuery('div[name="parameter"]');
             for (var j = 0; j &lt; divs.length ; j++) {
                 var div = divs[j];
-                var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+                var hiddenNames = jQuery(div).find('input[name="name"]');
                 if (hiddenNames[0].value == referencedParameters[i]) {
                     var children = div.children;
                     for (var k = 0; k &lt; children.length; ++k) {
@@ -107,12 +113,19 @@
                 }
             }
             
-            new UnoChoice.ReferencedParameter(referencedParameters[i], parameterElement, cascadeParameter);
+            if (div &amp;&amp; div.getAttribute('class') == 'hidden_uno_choice_parameter') {
+              var parentTbody = jQuery(div).parents('tbody');
+              if (parentTbody &amp;&amp; parentTbody.length > 0) {
+                jQuery(parentTbody.get(0)).attr('style', 'visibility:hidden;position:absolute;');
+              }
+            }
+            
+            new UnoChoice.ReferencedParameter(referencedParameters[i], parameterElement, dynamicParameter);
         }
         
         // call update methods in Java passing the HTML values
         console.log('Updating cascade of parameter [${it.getName()}] ...');
-        cascadeParameter.update();
+        dynamicParameter.update();
     } else {
         console.log('Parameter error: Missing parameter [${paramName}] HTML element!');
     }

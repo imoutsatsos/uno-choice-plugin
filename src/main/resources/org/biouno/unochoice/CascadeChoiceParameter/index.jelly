@@ -41,10 +41,11 @@
         
         for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
             var parameterElement = null;
+            // FIXME: review the block below
             var divs = jQuery('div[name="parameter"]');
             for (var j = 0; j &lt; divs.length ; j++) {
                 var div = divs[j];
-                var hiddenNames = findElementsBySelector(div, 'input[name="name"]', false);
+                var hiddenNames = jQuery(div).find('input[name="name"]');
                 if (hiddenNames[0].value == referencedParameters[i]) {
                     var children = div.children;
                     for (var k = 0; k &lt; children.length; ++k) {

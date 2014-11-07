@@ -414,12 +414,67 @@ var UnoChoice = UnoChoice || (function($) {
     DynamicReferenceParameter.prototype = new CascadeParameter();
     
     /**
-     * Updates the CascadeParameter object.
+     * Updates the DynamicReferenceParameter object.
      * 
      * TODO: explain what happens here
      */
     DynamicReferenceParameter.prototype.update = function() {
-    	// FIXME: write the dynamic reference impl
+    	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
+    	console.log('Values retrieved from Referenced Parameters: ' + parametersString);
+    	// Update the Map of parameters
+    	this.proxy.doUpdate(parametersString);
+    	
+        var parameterElement = this.getParameterElement();
+        
+        // Here depending on the HTML element we might need to call a method to return a Map of elements, 
+        // or maybe call a string to put as value in a INPUT.
+        if (parameterElement.tagName == 'OL') { // handle OL's
+        	console.log('Calling Java server code to update HTML elements...');
+        	this.proxy.getChoicesForUI(function (t) {
+        		jQuery(parameterElement).empty(); // remove all children elements
+        		var choices = t.responseText;
+        		console.log('Values returned from server: ' + choices);
+            	var data = JSON.parse(choices);
+            	var newValues = data[0];
+        	    var newKeys = data[1];
+        	    
+        	    for (i = 0; i < newValues.length; ++i) {
+                    var li = document.createElement('li');
+                    li.innerHTML = newValues[i];
+                    parameterElement.appendChild(li); // append new elements
+                }
+        	});
+        } else if (parameterElement.tagName == 'UL') { // handle OL's
+        	jQuery(parameterElement).empty(); // remove all children elements
+        	console.log('Calling Java server code to update HTML elements...');
+        	this.proxy.getChoicesForUI(function (t) {
+        		var choices = t.responseText;
+        		console.log('Values returned from server: ' + choices);
+            	var data = JSON.parse(choices);
+            	var newValues = data[0];
+        	    var newKeys = data[1];
+        	    
+        	    for (i = 0; i < newValues.length; ++i) {
+                    var li = document.createElement('li');
+                    li.innerHTML = newValues[i];
+                    parameterElement.appendChild(li); // append new elements
+                }
+        	});
+        } else if (parameterElement.id.indexOf('inputElement_') > -1) { // handle input text boxes
+            this.proxy.getChoicesAsStringForUI(function (t) {
+                var options = t.responseText;
+                parameterElement.value = options;
+            });
+        } else if (parameterElement.id.indexOf('formattedHtml_') > -1) { // handle formatted HTML
+            this.proxy.getChoicesAsStringForUI(function (t) {
+                var options = t.responseText;
+                parameterElement.innerHTML = JSON.parse(options);
+            });
+        }
+    	
+    	// propagate change
+    	console.log('Propagating change event from ' + this.getParameterName());
+    	jQuery(parameterElement).trigger('change');
     }
 
     // --- Filter Element
@@ -836,6 +891,7 @@ var UnoChoice = UnoChoice || (function($) {
     instance.fakeSelectRadioButton = fakeSelectRadioButton;
     instance.getParameterValue = getParameterValue;
     instance.CascadeParameter = CascadeParameter;
+    instance.DynamicReferenceParameter = DynamicReferenceParameter;
     instance.ReferencedParameter = ReferencedParameter;
     instance.FilterElement = FilterElement;
     instance.makeStaplerProxy2 = makeStaplerProxy2;
