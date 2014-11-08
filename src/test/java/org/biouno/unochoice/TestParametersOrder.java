@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.biouno.unochoice.groovy.ChoiceParameter;
 import org.junit.Test;
 import org.jvnet.hudson.test.Bug;
 

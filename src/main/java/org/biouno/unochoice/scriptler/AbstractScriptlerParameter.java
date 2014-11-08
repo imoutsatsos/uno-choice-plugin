@@ -101,4 +101,29 @@ public abstract class AbstractScriptlerParameter extends AbstractUnoChoiceParame
 		return Collections.EMPTY_MAP;
 	}
 	
+	public String getChoicesAsString() {
+		return getChoicesAsString(getParameters());
+	}
+	
+	public String getChoicesAsString(Map<Object, Object> parameters) {
+		final Object value = eval(parameters);
+		if (value != null) 
+			return value.toString();
+		return "";
+	}
+	
+	private Object eval(Map<Object, Object> parameters) {
+		final Object value;
+		try {
+			ScriptCallback<Object, Exception> callback = new ScriptCallback<Object, Exception>(getName(), script, parameters);
+			ScriptCallback<Object, Exception> fallback = null;
+			if (fallbackScript != null)
+				fallback = new ScriptCallback<Object, Exception>(getName(), fallbackScript, parameters);
+			value = Utils.executeScript(callback, fallback, parameters);
+			return value;
+		} catch (Throwable e) {
+			return Collections.EMPTY_MAP;
+		}
+	}
+	
 }

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice;
+package org.biouno.unochoice.groovy;
 
 import hudson.model.ParameterValue;
 import hudson.model.StringParameterValue;
@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.biouno.unochoice.AbstractUnoChoiceParameter;
+import org.biouno.unochoice.ScriptableParameter;
 import org.biouno.unochoice.util.ScriptCallback;
 import org.biouno.unochoice.util.Utils;
 

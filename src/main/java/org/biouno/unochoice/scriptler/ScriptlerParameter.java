@@ -24,10 +24,12 @@
 
 package org.biouno.unochoice.scriptler;
 
+import java.util.Map;
+
 import org.biouno.unochoice.ScriptableParameter;
 
 /**
- * A parameter that uses a Scriptler script to get a list of parameters.
+ * A parameter that is obtained through the execution of a Scriptler script.
  * 
  * @author Bruno P. Kinoshita
  * @since 0.20
@@ -35,4 +37,10 @@ import org.biouno.unochoice.ScriptableParameter;
  */
 public interface ScriptlerParameter<T> extends ScriptableParameter<T> {
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.biouno.unochoice.ScriptableParameter#getChoices(java.util.Map)
+	 */
+	public T getChoices(Map<Object, Object> parameters);
+	
 }

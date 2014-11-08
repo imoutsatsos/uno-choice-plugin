@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package org.biouno.unochoice.scriptler;
 
 import hudson.Extension;
@@ -6,12 +30,14 @@ import java.util.Set;
 
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * A parameter that renderss its options as a choice (select) HTML component, using a
- * Scriptler parameter that returns a list or a map.
+ * A parameter that renders its options as a choice (select) HTML component, using a
+ * Scriptler script that returns a list or a map.
  *
  * @author Bruno P. Kinoshita
+ * @since 0.20
  */
 public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
 
@@ -30,20 +56,37 @@ public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
 	 */
 	private final Boolean filterable;
 	
-	protected ScriptlerChoiceParameter(String name, String description, String scriptlerScriptId,
+	/**
+	 * Constructor called from Jelly with parameters.
+	 *
+	 * @param name name
+	 * @param description description
+	 * @param scriptlerScriptId Scriptler script ID
+	 * @param scriptParameters Scriptler script parameters
+	 * @param choiceType choice type
+	 * @param filterable filter flag
+	 */
+	@DataBoundConstructor
+	public ScriptlerChoiceParameter(String name, String description, String scriptlerScriptId,
 			ScriptlerScriptParameter[] scriptParameters, String choiceType, Boolean filterable) {
 		super(name, description, scriptlerScriptId, scriptParameters);
 		this.choiceType = choiceType;
 		this.filterable = filterable;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.biouno.unochoice.AbstractUnoChoiceParameter#getChoiceType()
+	 */
 	@Override
 	public String getChoiceType() {
 		return this.choiceType;
 	}
 	
 	/**
-	 * @return the filter flag
+	 * Gets the filter flag.
+	 * 
+	 * @return filter flag
 	 */
 	public Boolean getFilterable() {
 		return filterable;

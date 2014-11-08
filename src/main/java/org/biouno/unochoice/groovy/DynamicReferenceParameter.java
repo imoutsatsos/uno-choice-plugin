@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice;
+package org.biouno.unochoice.groovy;
 
 import hudson.Extension;
 import hudson.model.AbstractBuild;
@@ -50,6 +50,8 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * job parameters, but your input values may vary depending on previous executions. You 
  * can get the previous executions by accessing from your Groovy code the jenkinsProject
  * variable.</p>
+ * 
+ * <p>Its options are retrieved from the evaluation of a Groovy script.</p>
  * 
  * @author Bruno P. Kinoshita
  * @since 0.1
