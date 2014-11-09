@@ -1,0 +1,10 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <f:entry title="${%Script}" field="script">
+    <f:textarea name="parameter.script" value="${instance.script}" />
+  </f:entry>
+  <f:entry title="${%Fallback Script}" field="fallbackScript">
+    <f:textarea name="parameter.fallbackScript" value="${instance.fallbackScript}" />
+  </f:entry>
+</j:jelly>

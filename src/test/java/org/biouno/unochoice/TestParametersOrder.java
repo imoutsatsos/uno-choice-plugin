@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.biouno.unochoice.groovy.ChoiceParameter;
+import org.biouno.unochoice.model.GroovyScript;
 import org.junit.Test;
 import org.jvnet.hudson.test.Bug;
 
@@ -22,7 +22,7 @@ public class TestParametersOrder {
 		parameters.put("A", "A");
 		
 		ChoiceParameter parameter = new ChoiceParameter(
-				"script001", "", "return ['D', 'C', 'B', 'A']", null,
+				"script001", "", new GroovyScript("return ['D', 'C', 'B', 'A']", null),
 				ChoiceParameter.PARAMETER_TYPE_MULTI_SELECT, true);
 		
 		Map<Object, Object> result = parameter.getChoices(Collections.<Object, Object>emptyMap());

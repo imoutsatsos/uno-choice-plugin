@@ -24,18 +24,11 @@
 
 package org.biouno.unochoice.util;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import hudson.Util;
 import hudson.remoting.Callable;
 
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.logging.Logger;
 
-import jenkins.model.Jenkins;
-
-import org.codehaus.groovy.control.CompilerConfiguration;
+import org.biouno.unochoice.model.Script;
 
 /**
  * A callable (Jenkins remoting API) object that executes the script locally (when executed in the master)
@@ -44,17 +37,15 @@ import org.codehaus.groovy.control.CompilerConfiguration;
  * @author dynamic-parameter-plugin
  * @author Bruno P. Kinoshita
  */
-public class ScriptCallback<C, T extends Throwable> implements Callable<C, T> {
+public class ScriptCallback<T extends Throwable> implements Callable<Object, T> {
 	
 	private static final long serialVersionUID = 4524316203276099968L;
 	
-	private static final Logger LOGGER = Logger.getLogger(ScriptCallback.class.getName());
-	
 	private final String name;
-	private final String script;
+	private final Script script;
 	private Map<Object, Object> parameters;
 
-	public ScriptCallback(String name, String script, Map<Object, Object> parameters) {
+	public ScriptCallback(String name, Script script, Map<Object, Object> parameters) {
 		this.name = name;
 		this.script = script;
 		this.parameters = parameters;
@@ -64,33 +55,16 @@ public class ScriptCallback<C, T extends Throwable> implements Callable<C, T> {
 		return name;
 	}
 	
-	public C call() throws T {
-		// we can add class paths here too if needed
-		ClassLoader cl = null;
-		try {
-			cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
-		} catch (Exception e) {
-			LOGGER.finest(e.getMessage());
-		}
-		if (cl == null) {
-			cl = Thread.currentThread().getContextClassLoader();
-		}
-		
-		final Binding context = new Binding();
-		
-		// @SuppressWarnings("unchecked")
-		final Map<String, String> envVars = System.getenv();
-		for (Entry<Object, Object> parameter : parameters.entrySet()) {
-			Object value = parameter.getValue();
-			if (value != null && value instanceof String) {
-				value = Util.replaceMacro((String) value, envVars);
-				context.setVariable(parameter.getKey().toString(), value);
-			}
-		}
-		
-		final GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
-		@SuppressWarnings("unchecked")
-		final C eval = (C) shell.evaluate(script);
+	public Map<Object, Object> getParameters() {
+		return parameters;
+	}
+	
+	public Script getScript() {
+		return script;
+	}
+	
+	public Object call() throws T {
+		final Object eval = script.eval();
 		return eval;
 	}
 	

@@ -1,4 +1,4 @@
-package org.biouno.unochoice.scriptler;
+package org.biouno.unochoice.model;
 
 import org.jenkinsci.plugins.scriptler.config.Parameter;
 import org.kohsuke.stapler.DataBoundConstructor;

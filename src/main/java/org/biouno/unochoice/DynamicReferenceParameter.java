@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice.scriptler;
+package org.biouno.unochoice;
 
 import hudson.Extension;
 import hudson.model.AbstractBuild;
@@ -31,14 +31,11 @@ import hudson.model.ParameterDefinition;
 import hudson.util.FormValidation;
 
 import java.util.List;
-import java.util.Set;
 
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
-import org.biouno.unochoice.groovy.DynamicReferenceParameter.DescriptorImpl;
-import org.biouno.unochoice.util.Utils;
-import org.jenkinsci.plugins.scriptler.config.Script;
+import org.biouno.unochoice.model.Script;
 import org.kohsuke.stapler.Ancestor;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
@@ -55,17 +52,17 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
  * can get the previous executions by accessing from your Groovy code the jenkinsProject
  * variable.</p>
  * 
- * <p>Its options are retrieved from the evaluation of a Scriptler script.</p>
+ * <p>Its options are retrieved from the evaluation of a Groovy script.</p>
  * 
  * @author Bruno P. Kinoshita
  * @since 0.1
  */
-public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascadableParameter {
+public class DynamicReferenceParameter extends AbstractCascadableParameter {
 
 	/*
 	 * Serial UID.
 	 */
-	private static final long serialVersionUID = 4356548854837925398L;
+	private static final long serialVersionUID = 3583160434198488019L;
 	
 	private static final String JENKINS_PROJECT_VARIABLE_NAME = "jenkinsProject";
 	private static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
@@ -75,12 +72,20 @@ public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascada
 	 */
 	private final String choiceType;
 	
+	/**
+	 * Constructor called from Jelly with parameters.
+	 * 
+	 * @param name name
+	 * @param description description
+	 * @param script script
+	 * @param choiceType choice type
+	 * @param referencedParameters referenced parameters
+	 */
 	@DataBoundConstructor
-	public ScriptlerDynamicReferenceParameter(String name, String description, 
-			String scriptlerScriptId, ScriptlerScriptParameter[] parameters, String choiceType, 
-			String referencedParameters) {
-		super(name, description, scriptlerScriptId, parameters, referencedParameters);
-		this.choiceType = choiceType;
+	public DynamicReferenceParameter(String name, String description, Script script, 
+			String choiceType, String referencedParameters) {
+		super(name, description, script, referencedParameters);
+		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 	}
 	
 	/*
@@ -91,9 +96,12 @@ public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascada
 	public String getChoiceType() {
 		return this.choiceType;
 	}
-
+	
 	/**
-	 * Gets each artifact, and the project as parameters to the groovy script.
+	 * {@inheritDoc}
+	 * 
+	 * This parameter also includes the Jenkins project and build objects in the Groovy variables map. It
+	 * means that you can use these two in your code for rendering the parameter.
 	 */
 	@JavaScriptMethod
 	public void doUpdate(String parameters) {
@@ -118,7 +126,7 @@ public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascada
 	// --- descriptor
 	
 	@Extension
-	public static final class DescriptorImpl extends ParameterDescriptor {
+	public static final class DescriptorImpl extends UnoChoiceParameterDescriptor {
 		
 		private AbstractProject<?, ?> project;
 
@@ -127,9 +135,7 @@ public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascada
 		 * A bit hacky, probably using another extension point would be a good idea.
 		 */
 		@Override
-		public ParameterDefinition newInstance(StaplerRequest req,
-				JSONObject formData)
-				throws hudson.model.Descriptor.FormException {
+		public ParameterDefinition newInstance(StaplerRequest req, JSONObject formData) throws hudson.model.Descriptor.FormException {
 			List<Ancestor> ancestors = req.getAncestors();
 			AbstractProject<?, ?> project = null;
 			for (Ancestor ancestor : ancestors) {
@@ -149,7 +155,7 @@ public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascada
 		
 		@Override
 		public String getDisplayName() {
-			return "Uno-Choice Dynamic Reference Parameter (Scriptler)";
+			return "Uno-Choice Dynamic Reference Parameter";
 		}
 		
 		public FormValidation doCheckRequired(@QueryParameter String value) {
@@ -158,10 +164,6 @@ public class ScriptlerDynamicReferenceParameter extends AbstractScriptlerCascada
                 return FormValidation.error("This field is required.");
             }
             return FormValidation.ok();
-		}
-		
-		public Set<Script> getScripts() {
-			return Utils.getAllScriptlerScripts();
 		}
 		
 	}

@@ -1,8 +1,6 @@
-package org.biouno.unochoice.groovy;
+package org.biouno.unochoice;
 
 import java.util.List;
-
-import org.biouno.unochoice.ScriptableParameter;
 
 /**
  * A parameter that monitors other referenced parameters. When any of these parameters change, 

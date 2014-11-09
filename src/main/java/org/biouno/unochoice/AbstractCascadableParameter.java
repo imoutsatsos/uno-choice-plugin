@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice.groovy;
+package org.biouno.unochoice;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.biouno.unochoice.model.Script;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 /**
@@ -56,8 +57,8 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
 	private final String referencedParameters;
 	
 	protected AbstractCascadableParameter(String name, String description,
-			String script, String fallbackScript, String referencedParameters) {
-		super(name, description, script, fallbackScript);
+			Script script, String referencedParameters) {
+		super(name, description, script);
 		this.referencedParameters = referencedParameters;
 	}
 

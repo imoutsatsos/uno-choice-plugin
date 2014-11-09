@@ -24,13 +24,16 @@
 
 package org.biouno.unochoice;
 
+import hudson.DescriptorExtensionList;
 import hudson.model.ParameterValue;
 import hudson.model.SimpleParameterDefinition;
+import hudson.model.ParameterDefinition;
 import hudson.model.StringParameterValue;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
@@ -136,4 +139,12 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
 	 */
 	public abstract String getChoiceType();
 	
+	public ParameterDescriptor getDescriptor() {
+		return (ParameterDescriptor) Jenkins.getInstance().getDescriptor(getClass());
+	}
+	
+	public static DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all() {
+		return Jenkins.getInstance().<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
+	}
+
 }

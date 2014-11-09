@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice.groovy;
+package org.biouno.unochoice;
 
 import hudson.model.ParameterValue;
 import hudson.model.StringParameterValue;
@@ -34,10 +34,8 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.biouno.unochoice.AbstractUnoChoiceParameter;
-import org.biouno.unochoice.ScriptableParameter;
+import org.biouno.unochoice.model.Script;
 import org.biouno.unochoice.util.ScriptCallback;
-import org.biouno.unochoice.util.Utils;
 
 /**
  * Base class for parameters with scripts.
@@ -54,8 +52,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	
 	protected static final String SEPARATOR = "__LESEP__"; // used to split values that come from the UI via Ajax POST's
 	
-	private final String script;
-	private final String fallbackScript;
+	protected final Script script;
 
 	/**
 	 * Inherited constructor.
@@ -65,12 +62,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	 * @param name name
 	 * @param description description
 	 * @param script script used to generate the list of parameter values
-	 * @param fallbackScript script used in case the original script fails
 	 */
-	protected AbstractScriptableParameter(String name, String description, String script, String fallbackScript) {
+	protected AbstractScriptableParameter(String name, String description, Script script) {
 		super(name, description);
 		this.script = script;
-		this.fallbackScript = fallbackScript;
 	}
 	
 	/**
@@ -78,17 +73,8 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	 * 
 	 * @return the script
 	 */
-	public String getScript() {
+	public Script getScript() {
 		return script;
-	}
-	
-	/**
-	 * Gets the fallback script.
-	 * 
-	 * @return the fallback script
-	 */
-	public String getFallbackScript() {
-		return fallbackScript;
 	}
 	
 	/**
@@ -138,16 +124,13 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		return "";
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Object eval(Map<Object, Object> parameters) {
-		final Object value;
 		try {
-			ScriptCallback<Object, Exception> callback = new ScriptCallback<Object, Exception>(getName(), script, parameters);
-			ScriptCallback<Object, Exception> fallback = null;
-			if (fallbackScript != null)
-				fallback = new ScriptCallback<Object, Exception>(getName(), fallbackScript, parameters);
-			value = Utils.executeScript(callback, fallback, parameters);
-			return value;
+			final ScriptCallback<Exception> callback = new ScriptCallback(getName(), script, parameters);
+			return callback.call();
 		} catch (Throwable e) {
+			LOGGER.log(Level.SEVERE, "Error executing script for dynamic parameter '%s'", e);
 			return Collections.EMPTY_MAP;
 		}
 	}

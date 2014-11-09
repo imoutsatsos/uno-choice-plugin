@@ -22,30 +22,27 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice.scriptler;
+package org.biouno.unochoice;
 
 import hudson.Extension;
 
-import java.util.Set;
-
-import org.biouno.unochoice.util.Utils;
-import org.jenkinsci.plugins.scriptler.config.Script;
+import org.apache.commons.lang.StringUtils;
+import org.biouno.unochoice.model.Script;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
- * A parameter that renders its options as a choice (select) HTML component, using a
- * Scriptler script that returns a list or a map.
- *
+ * A parameter that renders its options as a choice (select) HTML component.
+ * 
  * @author Bruno P. Kinoshita
- * @since 0.20
+ * @since 0.1
  */
-public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
+public class ChoiceParameter extends AbstractScriptableParameter {
 
 	/*
 	 * Serial UID.
 	 */
-	private static final long serialVersionUID = 6416418319327891747L;
-
+	private static final long serialVersionUID = -4449319038169585222L;
+	
 	/**
 	 * Choice type.
 	 */
@@ -61,16 +58,14 @@ public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
 	 *
 	 * @param name name
 	 * @param description description
-	 * @param scriptlerScriptId Scriptler script ID
-	 * @param scriptParameters Scriptler script parameters
+	 * @param script script
 	 * @param choiceType choice type
 	 * @param filterable filter flag
 	 */
 	@DataBoundConstructor
-	public ScriptlerChoiceParameter(String name, String description, String scriptlerScriptId,
-			ScriptlerScriptParameter[] scriptParameters, String choiceType, Boolean filterable) {
-		super(name, description, scriptlerScriptId, scriptParameters);
-		this.choiceType = choiceType;
+	public ChoiceParameter(String name, String description, Script script, String choiceType, Boolean filterable) {
+		super(name, description, script);
+		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
 		this.filterable = filterable;
 	}
 	
@@ -92,18 +87,14 @@ public class ScriptlerChoiceParameter extends AbstractScriptlerParameter {
 		return filterable;
 	}
 	
-	// ---descriptor
+	// --- descriptor
 	
 	@Extension
-	public static final class DescriptImpl extends ParameterDescriptor {
+	public static final class DescriptImpl extends UnoChoiceParameterDescriptor {
 		
 		@Override
 		public String getDisplayName() {
-			return "Uno-Choice Dynamic Choice Parameter (Scriptler)";
-		}
-		
-		public Set<Script> getScripts() {
-			return Utils.getAllScriptlerScripts();
+			return "Uno-Choice Dynamic Choice Parameter";
 		}
 		
 	}
