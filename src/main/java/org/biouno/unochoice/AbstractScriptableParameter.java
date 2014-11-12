@@ -130,7 +130,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 			final ScriptCallback<Exception> callback = new ScriptCallback(getName(), script, parameters);
 			return callback.call();
 		} catch (Throwable e) {
-			LOGGER.log(Level.SEVERE, "Error executing script for dynamic parameter '%s'", e);
+			LOGGER.log(Level.SEVERE, "Error executing script for dynamic parameter", e);
 			return Collections.EMPTY_MAP;
 		}
 	}

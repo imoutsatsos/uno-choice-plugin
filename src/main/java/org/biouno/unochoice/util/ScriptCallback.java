@@ -29,6 +29,7 @@ import hudson.remoting.Callable;
 import java.util.Map;
 
 import org.biouno.unochoice.model.Script;
+import org.jenkinsci.remoting.RoleChecker;
 
 /**
  * A callable (Jenkins remoting API) object that executes the script locally (when executed in the master)
@@ -43,9 +44,9 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
 	
 	private final String name;
 	private final Script script;
-	private Map<Object, Object> parameters;
+	private Map<String, String> parameters;
 
-	public ScriptCallback(String name, Script script, Map<Object, Object> parameters) {
+	public ScriptCallback(String name, Script script, Map<String, String> parameters) {
 		this.name = name;
 		this.script = script;
 		this.parameters = parameters;
@@ -55,7 +56,7 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
 		return name;
 	}
 	
-	public Map<Object, Object> getParameters() {
+	public Map<String, String> getParameters() {
 		return parameters;
 	}
 	
@@ -64,8 +65,12 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
 	}
 	
 	public Object call() throws T {
-		final Object eval = script.eval();
+		final Object eval = script.eval(getParameters());
 		return eval;
+	}
+
+	public void checkRoles(RoleChecker roleChecker) throws SecurityException {
+		// FIXME: wut?
 	}
 	
 }
