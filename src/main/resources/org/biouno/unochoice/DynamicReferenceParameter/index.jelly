@@ -4,6 +4,7 @@
   <st:adjunct includes="org.kohsuke.stapler.jquery"/>
   <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
   <j:set var="choiceType" value="${it.choiceType}"/>
+  <j:set var="omitValueField" value="${it.omitValueField}"/>
   <j:set var="cssclazz" value="" />
   <j:invokeStatic var="paramName" className="org.biouno.unochoice.util.Utils" method="createRandomParameterName">
     <j:arg type="java.lang.String" value="choice-parameter" />
@@ -19,26 +20,36 @@
       <j:choose>
         <j:when test="${choiceType eq 'ET_TEXT_BOX'}">
           <st:include page="inputElement.jelly"/>
-          <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          <j:if test="${!omitValueField}">
+            <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          </j:if>
         </j:when>
         <j:when test="${choiceType eq 'ET_ORDERED_LIST'}">
           <st:include page="orderedList.jelly"/>
-          <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          <j:if test="${!omitValueField}">
+            <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          </j:if>
         </j:when>
         <j:when test="${choiceType eq 'ET_UNORDERED_LIST'}">
           <st:include page="unorderedList.jelly"/>
-          <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          <j:if test="${!omitValueField}">
+            <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          </j:if>
         </j:when>
         <j:when test="${choiceType eq 'ET_FORMATTED_HTML'}">
           <st:include page="formattedHtml.jelly"/>
-          <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          <j:if test="${!omitValueField}">
+            <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          </j:if>
         </j:when>
         <j:when test="${choiceType eq 'ET_FORMATTED_HIDDEN_HTML'}">
           <st:include page="formattedHtml.jelly"/>
         </j:when>
         <j:when test="${choiceType eq 'ET_IMAGE_GALLERY'}">
           <st:include page="imageGallery.jelly"/>
-          <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          <j:if test="${!omitValueField}">
+            <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          </j:if>
         </j:when>
       </j:choose>
     </div>

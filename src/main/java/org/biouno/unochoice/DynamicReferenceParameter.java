@@ -34,6 +34,7 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.biouno.unochoice.model.Script;
 import org.kohsuke.stapler.Ancestor;
@@ -72,6 +73,8 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 	 */
 	private final String choiceType;
 	
+	private final Boolean omitValueField;
+	
 	/**
 	 * Constructor called from Jelly with parameters.
 	 * 
@@ -80,12 +83,15 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 	 * @param script script
 	 * @param choiceType choice type
 	 * @param referencedParameters referenced parameters
+	 * @param omitValueField used in the UI to decide whether to include a hidden empty &lt;input name=value&gt;. 
+	 * <code>false</code> by default.
 	 */
 	@DataBoundConstructor
 	public DynamicReferenceParameter(String name, String description, Script script, 
-			String choiceType, String referencedParameters) {
+			String choiceType, String referencedParameters, Boolean omitValueField) {
 		super(name, description, script, referencedParameters);
 		this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
+		this.omitValueField = BooleanUtils.toBooleanDefaultIfNull(omitValueField, Boolean.FALSE);
 	}
 	
 	/*
@@ -95,6 +101,10 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 	@Override
 	public String getChoiceType() {
 		return this.choiceType;
+	}
+	
+	public Boolean getOmitValueField() {
+		return omitValueField;
 	}
 	
 	/**
