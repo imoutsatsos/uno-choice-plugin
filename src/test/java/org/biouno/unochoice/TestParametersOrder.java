@@ -8,9 +8,7 @@ import java.util.Map;
 
 import org.biouno.unochoice.model.GroovyScript;
 import org.junit.Test;
-import org.jvnet.hudson.test.Bug;
 
-@Bug(26)
 public class TestParametersOrder {
 
 	@Test

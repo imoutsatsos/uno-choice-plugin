@@ -107,18 +107,18 @@ public class GroovyScript extends AbstractScript {
 		final GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
 		try {
 			return shell.evaluate(script);
-		} catch (CompilationFailedException cfe1) {
+		} catch (RuntimeException re) {
 			if (this.fallbackScript != null) {
 				try {
-					LOGGER.log(Level.WARNING, "Fallback to default script...", cfe1);
+					LOGGER.log(Level.FINEST, "Fallback to default script...", re);
 					return shell.evaluate(fallbackScript);
 				} catch (CompilationFailedException cfe2) {
-					LOGGER.log(Level.SEVERE, "Error executing fallback script", cfe2);
+					LOGGER.log(Level.WARNING, "Error executing fallback script", cfe2);
 					throw cfe2;
 				}
 			} else {
 				LOGGER.log(Level.WARNING, "No fallback script configured for '%s'");
-				throw cfe1;
+				throw re;
 			}
 		}
 	}
