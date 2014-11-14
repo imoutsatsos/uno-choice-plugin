@@ -1,4 +1,4 @@
 <div>
-  This is a plug-in intended to supply the needs of bioinformatics researchers for dynamic 
-  parameters and other UI elements.
+  This plug-in provides additional parameter types for jobs, that allow you to cascade
+  changes and render images or other HTML elements instead of the traditional parameter.
 </div>
