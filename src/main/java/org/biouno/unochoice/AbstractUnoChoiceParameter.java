@@ -48,103 +48,103 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefinition implements UnoChoiceParameter {
 
-	/*
-	 * Le logger.
-	 */
-	protected static final Logger LOGGER = Logger.getLogger(AbstractUnoChoiceParameter.class.getName());
-	
-	/*
-	 * Serial UID.
-	 */
-	private static final long serialVersionUID = -6027543114170652870L;
-	
-	/*
-	 * Constants.
-	 */
-	public static final String PARAMETER_TYPE_SINGLE_SELECT = "PT_SINGLE_SELECT"; // default choice type
-	public static final String PARAMETER_TYPE_MULTI_SELECT = "PT_MULTI_SELECT";
-	public static final String PARAMETER_TYPE_CHECK_BOX = "PT_CHECKBOX";
-	public static final String PARAMETER_TYPE_RADIO = "PT_RADIO";
-	
-	public static final String ELEMENT_TYPE_TEXT_BOX = "ET_TEXT_BOX"; // default choice type
-	public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
-	public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
-	public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
-	public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
-	public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
-	
-  	public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
+    /*
+     * Le logger.
+     */
+    protected static final Logger LOGGER = Logger.getLogger(AbstractUnoChoiceParameter.class.getName());
+    
+    /*
+     * Serial UID.
+     */
+    private static final long serialVersionUID = -6027543114170652870L;
+    
+    /*
+     * Constants.
+     */
+    public static final String PARAMETER_TYPE_SINGLE_SELECT = "PT_SINGLE_SELECT"; // default choice type
+    public static final String PARAMETER_TYPE_MULTI_SELECT = "PT_MULTI_SELECT";
+    public static final String PARAMETER_TYPE_CHECK_BOX = "PT_CHECKBOX";
+    public static final String PARAMETER_TYPE_RADIO = "PT_RADIO";
+    
+    public static final String ELEMENT_TYPE_TEXT_BOX = "ET_TEXT_BOX"; // default choice type
+    public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
+    public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
+    public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
+    public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
+    public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
+    
+      public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
 
-  	/**
-  	 * Inherited constructor.
-  	 * 
-  	 * {@inheritDoc}.
-  	 * 
-  	 * @param name name
-  	 * @param description description
-  	 */
-	protected AbstractUnoChoiceParameter(String name, String description) {
-		super(name, description);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see hudson.model.SimpleParameterDefinition#createValue(java.lang.String)
-	 */
-	@Override
-	public ParameterValue createValue(String value) {
-		if (LOGGER.isLoggable(Level.FINE)) {
-			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "createValue", value);
-		}
-		final String description = getDescription();
-		final String name = getName();
-		final StringParameterValue parameterValue = new StringParameterValue(name, value, description);
-		return parameterValue;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see hudson.model.ParameterDefinition#createValue(org.kohsuke.stapler.StaplerRequest, net.sf.json.JSONObject)
-	 */
-	@Override
-	public ParameterValue createValue(StaplerRequest request, JSONObject json) {
-		if (LOGGER.isLoggable(Level.FINE)) {
-			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "createValue", new Object[] {request, json});
-		}
-		final JSONObject parameterJsonModel = new JSONObject(false);
-	    final Object value = json.get("value");
-	    final Object name = json.get("name");
-	    final String valueAsText;
-	    
-	    if (JSONUtils.isArray(value)) {
-	    	valueAsText = ((JSONArray) value).join(",", true);
-	    } else {
-	    	valueAsText = String.valueOf(value);
-	    }
-	    
-	    parameterJsonModel.put("name",  name);
-	    parameterJsonModel.put("value", valueAsText);
+      /**
+       * Inherited constructor.
+       * 
+       * {@inheritDoc}.
+       * 
+       * @param name name
+       * @param description description
+       */
+    protected AbstractUnoChoiceParameter(String name, String description) {
+        super(name, description);
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see hudson.model.SimpleParameterDefinition#createValue(java.lang.String)
+     */
+    @Override
+    public ParameterValue createValue(String value) {
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "createValue", value);
+        }
+        final String description = getDescription();
+        final String name = getName();
+        final StringParameterValue parameterValue = new StringParameterValue(name, value, description);
+        return parameterValue;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see hudson.model.ParameterDefinition#createValue(org.kohsuke.stapler.StaplerRequest, net.sf.json.JSONObject)
+     */
+    @Override
+    public ParameterValue createValue(StaplerRequest request, JSONObject json) {
+        if (LOGGER.isLoggable(Level.FINE)) {
+            LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "createValue", new Object[] {request, json});
+        }
+        final JSONObject parameterJsonModel = new JSONObject(false);
+        final Object value = json.get("value");
+        final Object name = json.get("name");
+        final String valueAsText;
+        
+        if (JSONUtils.isArray(value)) {
+            valueAsText = ((JSONArray) value).join(",", true);
+        } else {
+            valueAsText = String.valueOf(value);
+        }
+        
+        parameterJsonModel.put("name",  name);
+        parameterJsonModel.put("value", valueAsText);
 
-	    StringParameterValue parameterValue = request.bindJSON(StringParameterValue.class, parameterJsonModel);
-	    parameterValue.setDescription(getDescription());
-	    return parameterValue;
-	}
-	
-	/**
-	 * <p>Gets the choice type.</p>
-	 * 
-	 * <p>This method can be called from Javascript</p>
-	 * 
-	 * @return choice type
-	 */
-	public abstract String getChoiceType();
-	
-	public ParameterDescriptor getDescriptor() {
-		return (ParameterDescriptor) Jenkins.getInstance().getDescriptor(getClass());
-	}
-	
-	public static DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all() {
-		return Jenkins.getInstance().<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
-	}
+        StringParameterValue parameterValue = request.bindJSON(StringParameterValue.class, parameterJsonModel);
+        parameterValue.setDescription(getDescription());
+        return parameterValue;
+    }
+    
+    /**
+     * <p>Gets the choice type.</p>
+     * 
+     * <p>This method can be called from Javascript</p>
+     * 
+     * @return choice type
+     */
+    public abstract String getChoiceType();
+    
+    public ParameterDescriptor getDescriptor() {
+        return (ParameterDescriptor) Jenkins.getInstance().getDescriptor(getClass());
+    }
+    
+    public static DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all() {
+        return Jenkins.getInstance().<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
+    }
 
 }

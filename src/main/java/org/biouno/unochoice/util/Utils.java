@@ -6,9 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 
-public final class Utils {
-	
-	private Utils() {} // hidden constructor
+public class Utils {
 	
 	public static Set<Script> getAllScriptlerScripts() {
 		final Set<Script> scripts = ScriptlerConfiguration.getConfiguration().getScripts();
