@@ -15,19 +15,19 @@
       <j:choose>
         <j:when test="${choiceType eq 'PT_SINGLE_SELECT'}">
           <select name="value">
-            <st:include page="../common/selectContent.jelly"/>
+            <st:include page="/org/biouno/unochoice/common/selectContent.jelly"/>
           </select>
         </j:when>
         <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
           <select name="value" multiple="multiple" size="${it.visibleItemCount}">
-            <st:include page="../common/selectContent.jelly"/>
+            <st:include page="/org/biouno/unochoice/common/selectContent.jelly"/>
           </select>
         </j:when>
         <j:when test="${choiceType eq 'PT_RADIO'}">
-          <st:include page="../common/radioContent.jelly"/>
+          <st:include page="/org/biouno/unochoice/common/radioContent.jelly"/>
         </j:when>
         <j:when test="${choiceType eq 'PT_CHECKBOX'}">
-          <st:include page="../common/checkboxContent.jelly"/>
+          <st:include page="/org/biouno/unochoice/common/checkboxContent.jelly"/>
         </j:when>
         <j:otherwise>
           <p>Unsupported element: ${choiceType}</p>

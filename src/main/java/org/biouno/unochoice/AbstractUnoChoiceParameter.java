@@ -71,7 +71,6 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
     public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
     public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
     public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
-    public static final String ELEMENT_TYPE_IMAGE_GALLERY = "ET_IMAGE_GALLERY";
     
       public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
 
