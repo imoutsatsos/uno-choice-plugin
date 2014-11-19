@@ -42,6 +42,12 @@
             <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
           </j:if>
         </j:when>
+        <j:when test="${choiceType eq 'ET_FORMATTED_HIDDEN_HTML'}">
+          <st:include page="formattedHtml.jelly"/>
+          <j:if test="${!omitValueField}">
+            <input type="text" name="value" value="" style="visibility: hidden; position: absolute;" />
+          </j:if>
+        </j:when>
       </j:choose>
     </div>
   </f:entry>
