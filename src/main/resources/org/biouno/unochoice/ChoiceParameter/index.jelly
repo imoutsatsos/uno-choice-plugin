@@ -5,7 +5,11 @@
   <script type="text/javascript">
     <j:if test="${it.filterable}">
     var parentDiv = jQuery('#${paramName}');
-    var parameterHtmlElement = parentDiv.find('*[name="value"]');
+    var parameterHtmlElement = parentDiv.find('DIV');
+    if (!parameterHtmlElement || parameterHtmlElement.length == 0) {
+        console.log('Could not find element by name, perhaps it is a DIV?');
+        parameterHtmlElement = parentDiv.find('*[name="value"]');
+    }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
         var filterHtmlElement = parentDiv.find('.uno_choice_filter');
         if (filterHtmlElement &amp;&amp; filterHtmlElement.get(0)) {
