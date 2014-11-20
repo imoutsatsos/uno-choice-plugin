@@ -54,7 +54,7 @@
                             parameterElement = child;
                             break;
                         } else if (child.tagName == 'DIV') {
-                            var subValues = child.find('input[name="value"]');
+                            var subValues = jQuery(child).find('input[name="value"]');
                             if (subValues &amp;&amp; subValues.get(0)) {
                                 parameterElement = child;
                                 break;
