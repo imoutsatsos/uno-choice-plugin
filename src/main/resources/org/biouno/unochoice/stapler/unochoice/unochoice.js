@@ -633,40 +633,39 @@ var UnoChoice = UnoChoice || (function($) {
                             var entry = newOptions[i];
                             // TR
                             var tr = document.createElement('tr');
-                            var idValue = 'ecp_' + e.srcElement.paramName + '_' + i;
+                            var idValue = '';
+                            if (!(entry instanceof String)) {
+                            	if (entry.tagName == 'INPUT') {
+                            		idValue = 'ecp_' + entry.getAttribute('name') + '_' + i;
+                            	}
+                            } else {
+                            	idValue = 'ecp_' + entry + '_' + i;
+                            }
                             idValue = idValue.replace(' ', '_');
                             tr.setAttribute('id', idValue);
                             tr.setAttribute('style', 'white-space:nowrap');
                             // TD
                             var td = document.createElement('td');
-                            // INPUT
+                            // INPUTs
+                            var jsonInput = document.createElement('input'); // used to help in the selection
                             var input = document.createElement('input');
                             // LABEL
                             var label = document.createElement('label');
                             
-                            if (!(entry instanceof String)) {
-                            	label.className = "attach-previous";
-                            	if (entry.tagName == 'INPUT') {
-                            		input = entry;
-                            		label.innerHTML = input.getAttribute('value');
-                            	} else {
-                            		input.setAttribute('json', JSON.stringify(entry));
-                                    input.setAttribute('name', 'value');
-                                    input.setAttribute("value", JSON.stringify(entry));
-                                    input.setAttribute("type", "radio");
-                                    label.innerHTML = input;
-                            	}
-                            } else {
-                                input.setAttribute('json', entry);
-                                input.setAttribute('name', 'value');
-                                input.setAttribute("value", entry);
-                                input.setAttribute("type", "radio");
-                                label.className = "attach-previous";
-                                label.innerHTML = entry;
-                            }
+                        	label.className = "attach-previous";
+                    		input = entry;
+                    		input.checked = false;
+                    		jsonInput.setAttribute('id', 'radio_' + input.getAttribute('name') + '_' + i);
+                    		jsonInput.setAttribute('json', input.getAttribute('json'));
+                    		jsonInput.setAttribute('name', '');
+                            jsonInput.setAttribute("value", input.getAttribute('value'));
+                            jsonInput.setAttribute("class", input.getAttribute('name'));
+                            jsonInput.setAttribute("type", "hidden");
+                    		label.innerHTML = input.getAttribute('value');
                             // Put everything together
                             td.appendChild(input);
                             td.appendChild(label);
+                            td.appendChild(jsonInput);
                             tr.appendChild(td);
                             tbody.appendChild(tr);
                         }
