@@ -692,20 +692,27 @@ var UnoChoice = UnoChoice || (function($) {
      * values to be submitted.</p>
      * 
      * @param clazzName HTML element class name
-     * @param id HTML unique element id
+     * @param element HTML element
      * 
      * @see issue #21 in GitHub - github.com/biouno/uno-choice-plugin/issues
      */
-     /* public */ function fakeSelectRadioButton(clazzName, id) {
+     /* public */ function fakeSelectRadioButton(clazzName, element) {
         // deselect all radios with the class=clazzName
         var radios = jQuery('input[class="'+clazzName+'"]');
         radios.each(function(index) {
         	jQuery(this).attr('name', '');        
         });
         // select the radio with the id=id
-        var radio = jQuery('#' + id);
-        if (radio && radio.length > 0)
-            radio[0].setAttribute('name', 'value');
+        var $this = jQuery(element);
+        var $parent = jQuery($this.parent().get(0));
+        var children = $parent.children();
+        console.log($parent);
+        for (var i = 0; i < children.length; i++) {
+        	var child = children[i];
+        	if (child.getAttribute('class') == clazzName) {
+        		child.setAttribute('name', 'value');
+        	}
+        }
     }
     
     /**
