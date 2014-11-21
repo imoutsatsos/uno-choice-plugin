@@ -22,18 +22,18 @@
       </j:choose>
       <j:choose>
         <j:when test="${instance.choiceType eq 'ET_ORDERED_LIST'}">
-          <option value="ET_ORDERED_LIST" selected="selected">${%Ordered list}</option>
+          <option value="ET_ORDERED_LIST" selected="selected">${%Numbered list}</option>
         </j:when>
         <j:otherwise>
-          <option value="ET_ORDERED_LIST">${%Ordered list}</option>
+          <option value="ET_ORDERED_LIST">${%Numbered list}</option>
         </j:otherwise>
       </j:choose>
       <j:choose>
         <j:when test="${instance.choiceType eq 'ET_UNORDERED_LIST'}">
-          <option value="ET_UNORDERED_LIST" selected="selected">${%Unordered list}</option>
+          <option value="ET_UNORDERED_LIST" selected="selected">${%Bullet items list}</option>
         </j:when>
         <j:otherwise>
-          <option value="ET_UNORDERED_LIST">${%Unordered list}</option>
+          <option value="ET_UNORDERED_LIST">${%Bullet items list}</option>
         </j:otherwise>
       </j:choose>
       <j:choose>
