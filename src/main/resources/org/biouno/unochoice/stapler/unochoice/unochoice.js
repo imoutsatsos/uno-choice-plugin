@@ -348,7 +348,8 @@ var UnoChoice = UnoChoice || (function($) {
     	
     	// propagate change
     	console.log('Propagating change event from ' + this.getParameterName());
-    	jQuery(this.getParameterElement()).trigger('change');
+    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
+    	jQuery(this.getParameterElement()).trigger(e);
     }
 
     // --- Referenced Parameter
@@ -370,10 +371,15 @@ var UnoChoice = UnoChoice || (function($) {
     	// Add event listener
     	var _self = this;
     	jQuery(this.paramElement).change(function (e) {
-    		console.log('Cascading changes from parameter ' + _self.paramName + '...');
-    		//jQuery(".behavior-loading").show();
-    		//jQuery(_self.cascadeParameter.getParameterElement).loading(true);
-    		_self.cascadeParameter.update();
+    		if (e.parameterName == _self.paramName) {
+    			console.log('Skipping self reference to avoid infinite loop!');
+    			e.stopImmediatePropagation();
+    		} else {
+	    		console.log('Cascading changes from parameter ' + _self.paramName + '...');
+	    		//jQuery(".behavior-loading").show();
+	    		//jQuery(_self.cascadeParameter.getParameterElement).loading(true);
+	    		_self.cascadeParameter.update();
+    		}
     	});
     	
     	cascadeParameter.getReferencedParameters().push(this);
@@ -473,7 +479,8 @@ var UnoChoice = UnoChoice || (function($) {
     	
     	// propagate change
     	console.log('Propagating change event from ' + this.getParameterName());
-    	jQuery(parameterElement).trigger('change');
+    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
+    	jQuery(this.getParameterElement()).trigger(e);
     }
 
     // --- Filter Element
