@@ -24,8 +24,7 @@
 
 'use strict';
 
-if ($)
-	$.noConflict();
+jQuery.noConflict();
 
 /**
  * <h2>Uno Choice Javascript module.</h2>
