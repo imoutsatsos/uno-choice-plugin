@@ -11,9 +11,12 @@
         <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedValue">
           <j:arg type="java.lang.Object" value="${iter.value}" />
         </j:invokeStatic>
+        <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedKey">
+          <j:arg type="java.lang.Object" value="${iter.key}" />
+        </j:invokeStatic>
         <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
           <td>
-            <f:checkbox name="value" title="${escapedValue}" checked="${selected}" value="${escapedValue}" json="${escapedValue}">${escapedValue}</f:checkbox>
+            <f:checkbox name="value" title="${escapedValue}" checked="${selected}" value="${escapedKey}" json="${escapedKey}" tooltip="${escapedValue}"></f:checkbox>
           </td>
         </tr>
         <j:set var="index" value="${index + 1}"/>

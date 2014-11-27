@@ -618,12 +618,13 @@ var UnoChoice = UnoChoice || (function($) {
                             var input = document.createElement('input');
                             // LABEL
                             var label = document.createElement('label');
-                            
+
                             if (!(entry instanceof String)) {
                             	label.className = "attach-previous";
                             	if (entry.tagName == 'INPUT') {
                             		input = entry;
-                            		label.innerHTML = input.getAttribute('value');
+                            		label.innerHTML = input.getAttribute('title');
+                            		label.title = input.getAttribute('title');
                             	} else {
                             		input.setAttribute('json', JSON.stringify(entry.value));
                                     input.setAttribute('name', 'value');
@@ -637,7 +638,8 @@ var UnoChoice = UnoChoice || (function($) {
                                 input.setAttribute("value", entry);
                                 input.setAttribute("type", "checkbox");
                                 label.className = "attach-previous";
-                                label.innerHTML = entry;
+                                label.title = entry.getAttribute('title');
+                                label.innerHTML = entry.getAttribute('title');
                             }
                             // Put everything together
                             td.appendChild(input);
@@ -722,7 +724,7 @@ var UnoChoice = UnoChoice || (function($) {
         // select the radio with the id=id
         var $this = jQuery(element);
         var parent = $this.parent().get(0);
-        console.log(parent);
+
         var children = parent.childNodes; 
         for (var i = 0; i < children.length; i++) {
         	var child = children[i];
