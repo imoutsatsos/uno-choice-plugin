@@ -18,10 +18,10 @@
           <td>
             <j:choose>
               <j:when test="${selected}">
-                <input json="${escapedValue}" checked="checked" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, this)" />
+                <input json="${escapedKey}" alt="${escapedValue}" checked="checked" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, this)" />
               </j:when>
               <j:otherwise>
-                <input json="${escapedValue}" name="${it.name}" value="${escapedValue}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, this)" />
+                <input json="${escapedKey}" alt="${escapedValue}" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, this)" />
               </j:otherwise>
             </j:choose>
             <label class="attach-previous">${escapedValue}</label>

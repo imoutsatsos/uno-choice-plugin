@@ -507,13 +507,24 @@ var UnoChoice = UnoChoice || (function($) {
                 var table = paramElement.children[0];
                 var tbody = table.children[0];
                 
-                var trs = jQuery(tbody).find('tr');
-                for (i = 0; i < trs.length ; ++i) {
-                    var tds = jQuery(trs[i]).find('td');
-                    var inputs = jQuery(tds[0]).find('input');
-                    var input = inputs[0];
-                    this.originalArray.push(input);
+                if (paramElement.className == 'dynamic_checkbox') {
+                	var trs = jQuery(tbody).find('tr');
+                    for (var i = 0; i < trs.length ; ++i) {
+                        var tds = jQuery(trs[i]).find('td');
+                        var inputs = jQuery(tds[0]).find('input');
+                        var input = inputs[0];
+                        this.originalArray.push(input);
+                    }
+                } else {
+                	var trs = jQuery(tbody).find('tr');
+                    for (var i = 0; i < trs.length ; ++i) {
+                        var tds = jQuery(trs[i]).find('td');
+                        var inputs = jQuery(tds[0]).find('input');
+                        var input = inputs[0];
+                        this.originalArray.push(input);
+                    }
                 }
+                
             }
         }
         this.initEventHandler();
@@ -667,7 +678,7 @@ var UnoChoice = UnoChoice || (function($) {
                             jsonInput.setAttribute("value", input.getAttribute('value'));
                             jsonInput.setAttribute("class", input.getAttribute('name'));
                             jsonInput.setAttribute("type", "hidden");
-                    		label.innerHTML = input.getAttribute('value');
+                    		label.innerHTML = input.getAttribute('alt');
                             // Put everything together
                             td.appendChild(input);
                             td.appendChild(label);
@@ -710,13 +721,13 @@ var UnoChoice = UnoChoice || (function($) {
         });
         // select the radio with the id=id
         var $this = jQuery(element);
-        var $parent = jQuery($this.parent().get(0));
-        var children = $parent.children();
-        console.log($parent);
+        var parent = $this.parent().get(0);
+        console.log(parent);
+        var children = parent.childNodes; 
         for (var i = 0; i < children.length; i++) {
         	var child = children[i];
-        	if (child.getAttribute('class') == clazzName) {
-        		child.setAttribute('name', 'value');
+        	if (child.className == clazzName) {
+        		child.name = 'value';
         	}
         }
     }
