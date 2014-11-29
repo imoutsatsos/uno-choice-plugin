@@ -26,7 +26,7 @@
         parameterHtmlElement = parentDiv.find('*[name="value"]');
     }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
-        var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterHtmlElement.get(0), cascadeChoiceParameter);
+        var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterHtmlElement.get(0), '${it.getRandomName()}', cascadeChoiceParameter);
     
         // filter
         <j:if test="${it.filterable}">

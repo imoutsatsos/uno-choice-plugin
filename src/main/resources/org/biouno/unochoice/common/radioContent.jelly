@@ -1,9 +1,9 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <div id="ecp_${it.name}" style="float:left; overflow-y:auto; padding-right:25px">
+  <div id="ecp_${it.randomName}" style="float:left; overflow-y:auto; padding-right:25px">
     <j:set var="index" value="0"/>
-    <table id="tbl_ecp_${it.name}">
+    <table id="tbl_ecp_${it.randomName}">
       <j:forEach var="iter" items="${it.getChoices()}" indexVar="indexVar">
         <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
           <j:arg type="java.lang.Object" value="${iter.value}" />
@@ -14,18 +14,19 @@
         <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeSelected" var="escapedKey">
           <j:arg type="java.lang.Object" value="${iter.key}" />
         </j:invokeStatic>
-        <tr id="ecp_${it.name}_${index}" style="white-space:nowrap">
+        <j:set var="id" value="ecp_${it.randomName}_${index}" />
+        <tr id="tbl_tr_ecp_${it.randomName}" style="white-space:nowrap">
           <td>
             <j:choose>
               <j:when test="${selected}">
-                <input json="${escapedKey}" alt="${escapedValue}" checked="checked" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, this)" />
+                <input json="${escapedKey}" alt="${escapedValue}" checked="checked" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;${id}&quot;)" />
               </j:when>
               <j:otherwise>
-                <input json="${escapedKey}" alt="${escapedValue}" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, this)" />
+                <input json="${escapedKey}" alt="${escapedValue}" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;${id}&quot;)" />
               </j:otherwise>
             </j:choose>
             <label class="attach-previous">${escapedValue}</label>
-            <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="radio_${it.name}_${indexVar}" />
+            <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="${id}" />
           </td>
         </tr>
         <j:set var="index" value="${index + 1}"/>
@@ -42,16 +43,16 @@
               maxCount = ${it.visibleItemCount};
           }
 
-          if(maxCount > 0 && document.getElementById("ecp_${it.name}_0").offsetHeight !=0) {
+          if(maxCount > 0 && document.getElementById("${id}").offsetHeight !=0) {
               for(var i=0; i< maxCount; i++) {
-                  height += document.getElementById("ecp_${it.name}_" + i).offsetHeight + 3;
+                  height += document.getElementById("${id}").offsetHeight + 3;
               }
           }
           else {
               height = maxCount * 25.5;
           }
           height = Math.floor(height);
-          document.getElementById("ecp_${it.name}").style.height = height + "px";
+          document.getElementById("ecp_${it.randomName}").style.height = height + "px";
       };
 
       f();

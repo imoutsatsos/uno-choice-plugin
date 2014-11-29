@@ -57,11 +57,13 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * @param paramName parameter name
      * @param paramElement parameter HTML element
+     * @param randomName randomName given to the parameter
      * @param proxy Stapler proxy object that references the CascadeChoiceParameter
      */
-    /* public */ function CascadeParameter(paramName, paramElement, proxy) {
+    /* public */ function CascadeParameter(paramName, paramElement, randomName, proxy) {
         this.paramName = paramName;
         this.paramElement = paramElement;
+        this.randomName = randomName;
         this.proxy = proxy;
         this.referencedParameters = [];
         this.filterElement = null;
@@ -92,6 +94,15 @@ var UnoChoice = UnoChoice || (function($) {
      */
     CascadeParameter.prototype.getReferencedParameters = function() {
     	return this.referencedParameters;
+    }
+    
+    /**
+     * Gets the parameter random name.
+     *
+     * @return String parameter random name 
+     */
+    CascadeParameter.prototype.getRandomName = function() {
+    	return this.randomName;
     }
     
     /**
@@ -227,7 +238,7 @@ var UnoChoice = UnoChoice || (function($) {
 	                		var entry = newValues[i];
 	                		// <TR>
 			                var tr = document.createElement('tr');
-			                var idValue = 'ecp_' + _self.getParameterName() + '_' + i;
+			                var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
 			                idValue = idValue.replace(' ', '_');
 			                tr.setAttribute('id', idValue);
 			                tr.setAttribute('style', 'white-space:nowrap');
@@ -277,7 +288,7 @@ var UnoChoice = UnoChoice || (function($) {
                             var entry = newValues[i];
                             // <TR>
                             var tr = document.createElement('tr');
-                            var idValue = 'ecp_' + _self.getParameterName() + '_' + i;
+                            var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
                             idValue = idValue.replace(' ', '_');
                             //tr.setAttribute('id', idValue); // will use the ID for the hidden value element
                             tr.setAttribute('style', 'white-space:nowrap');
@@ -602,13 +613,13 @@ var UnoChoice = UnoChoice || (function($) {
                     
                     var trs = jQuery(tbody).find('tr');
                     jQuery(tbody).empty();
-                    
                     if (filteredElement.className == 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
                             var entry = newOptions[i];
+                            console.log(entry);
                             // TR
                             var tr = document.createElement('tr');
-                            var idValue = 'ecp_' + e.target.paramName + '_' + i;
+                            var idValue = 'ecp_' + e.target.randomName + '_' + i;
                             idValue = idValue.replace(' ', '_');
                             tr.setAttribute('id', idValue);
                             tr.setAttribute('style', 'white-space:nowrap');
@@ -711,19 +722,19 @@ var UnoChoice = UnoChoice || (function($) {
      * values to be submitted.</p>
      * 
      * @param clazzName HTML element class name
-     * @param element HTML element
+     * @param id HTML element ID
      * 
      * @see issue #21 in GitHub - github.com/biouno/uno-choice-plugin/issues
      */
-     /* public */ function fakeSelectRadioButton(clazzName, element) {
+     /* public */ function fakeSelectRadioButton(clazzName, id) {
+    	var element = jQuery('#'+id).get(0);
         // deselect all radios with the class=clazzName
         var radios = jQuery('input[class="'+clazzName+'"]');
         radios.each(function(index) {
         	jQuery(this).attr('name', '');        
         });
         // select the radio with the id=id
-        var $this = jQuery(element);
-        var parent = $this.parent().get(0);
+        var parent = element.parentNode;
 
         var children = parent.childNodes; 
         for (var i = 0; i < children.length; i++) {

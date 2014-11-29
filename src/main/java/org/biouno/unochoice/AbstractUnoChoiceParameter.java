@@ -38,6 +38,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
 
+import org.apache.commons.lang.StringUtils;
+import org.biouno.unochoice.util.Utils;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -72,7 +74,9 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
     public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
     public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
     
-      public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
+    public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
+    
+    private String randomName;
 
       /**
        * Inherited constructor.
@@ -84,7 +88,19 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
        */
     protected AbstractUnoChoiceParameter(String name, String description) {
         super(name, description);
+        randomName = Utils.createRandomParameterName("choice-parameter", "");
     }
+    
+    /**
+     * Gets the randomly generated parameter name. Used in the UI for objecting binding.
+     * 
+     * @return a random string, created during object instantiation.
+     */
+    public String getRandomName() {
+    	if (StringUtils.isBlank(randomName))
+    		randomName = Utils.createRandomParameterName("choice-parameter", "");
+		return randomName;
+	}
     
     /*
      * (non-Javadoc)
