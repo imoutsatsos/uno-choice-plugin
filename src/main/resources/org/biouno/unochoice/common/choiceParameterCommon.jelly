@@ -15,7 +15,7 @@
           </select>
         </j:when>
         <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
-          <select name="value" multiple="multiple" size="${it.visibleItemCount}">
+          <select name="value" multiple="multiple" size="${it.getChoices().size()}">
             <st:include page="/org/biouno/unochoice/common/selectContent.jelly"/>
           </select>
         </j:when>

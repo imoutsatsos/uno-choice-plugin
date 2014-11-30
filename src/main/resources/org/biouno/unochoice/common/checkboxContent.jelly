@@ -17,7 +17,15 @@
         <j:set var="id" value="ecp_${it.randomName}_${index}" />
         <tr id="ecp_${it.randomName}_${index}" style="white-space:nowrap">
           <td>
-            <f:checkbox name="value" title="${escapedValue}" checked="${selected}" value="${escapedKey}" json="${escapedKey}" tooltip="${escapedValue}" class='dynamic_checkbox'></f:checkbox>
+            <j:choose>
+              <j:when test="${selected}">
+                <input json="${escapedKey}" name="value" value="${escapedKey}" class=" " type="checkbox" title="${escapedValue}" alt="${escapedValue}" checked="true" />
+              </j:when>
+              <j:otherwise>
+                <input json="${escapedKey}" name="value" value="${escapedKey}" class=" " type="checkbox" title="${escapedValue}" alt="${escapedValue}"  />
+              </j:otherwise>
+            </j:choose>
+            <label class="attach-previous" title="${escapedValue}">${escapedValue}</label>
           </td>
         </tr>
         <j:set var="index" value="${index + 1}"/>

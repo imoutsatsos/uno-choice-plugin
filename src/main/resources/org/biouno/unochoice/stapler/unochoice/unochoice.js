@@ -236,6 +236,7 @@ var UnoChoice = UnoChoice || (function($) {
             		if (parameterElement.className == 'dynamic_checkbox') {
 	                	for (i = 0; i < newValues.length; i++) {
 	                		var entry = newValues[i];
+	                		var key = newKeys[i];
 	                		// <TR>
 			                var tr = document.createElement('tr');
 			                var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
@@ -258,16 +259,20 @@ var UnoChoice = UnoChoice || (function($) {
 			                	input.setAttribute("value", JSON.stringify(entry));
 			                	input.setAttribute("class", " ");
 			                	input.setAttribute("type", "checkbox");
+			                	input.setAttribute("title", key);
+			                	input.setAttribute("alt", key);
 			                	label.className = "attach-previous";
-			                	label.innerHTML = JSON.stringify(entry);
+			                	label.innerHTML = key;
 			                } else {
 			                    input.setAttribute('json', entry);
 			                	input.setAttribute('name', 'value');
 			                	input.setAttribute("value", entry);
 			                	input.setAttribute("class", " ");
 			                	input.setAttribute("type", "checkbox");
+			                	input.setAttribute("title", key);
+			                	input.setAttribute("alt", key);
 			                	label.className = "attach-previous";
-			                	label.innerHTML = entry;
+			                	label.innerHTML = key;
 			                }
 			                
 			                originalArray.push(input);
@@ -286,6 +291,7 @@ var UnoChoice = UnoChoice || (function($) {
 			        } else { // radio
 			             for (i = 0; i < newValues.length; i++) {
                             var entry = newValues[i];
+                            var key = newKeys[i];
                             // <TR>
                             var tr = document.createElement('tr');
                             var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
@@ -310,18 +316,22 @@ var UnoChoice = UnoChoice || (function($) {
                                 input.setAttribute("value", JSON.stringify(entry));
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
-                                input.setAttribute('onclick', 'UnoChoice.fakeSelectRadioButton("'+cascade.paramName+'", "'+idValue+'")');
+                                input.setAttribute('alt', key);
+                                input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+cascade.paramName+'", "'+idValue+'")');
+                                input.setAttribute('otherId', idValue);
                                 label.className = "attach-previous";
-                                label.innerHTML = JSON.stringify(entry);
+                                label.innerHTML = key;
                             } else {
                                 input.setAttribute('json', entry);
                                 input.setAttribute('name', _self.getParameterName());
                                 input.setAttribute("value", entry);
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
-                                input.setAttribute('onclick', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
+                                input.setAttribute('alt', key);
+                                input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
+                                input.setAttribute('otherId', idValue);
                                 label.className = "attach-previous";
-                                label.innerHTML = entry;
+                                label.innerHTML = key;
                             }
                             
                             hiddenValue.setAttribute('json', entry);
@@ -329,6 +339,7 @@ var UnoChoice = UnoChoice || (function($) {
                             hiddenValue.setAttribute("value", entry);
                             hiddenValue.setAttribute("class", _self.getParameterName());
                             hiddenValue.setAttribute("type", "hidden");
+                            hiddenValue.setAttribute('title', key);
                             hiddenValue.setAttribute('id', idValue);
                             
                             originalArray.push(input);
@@ -588,9 +599,15 @@ var UnoChoice = UnoChoice || (function($) {
             var newOptions = Array();
             for (var i = 0; i < options.length; i++) {
             	if (options[i].tagName == 'INPUT') {
-            		if (options[i].value.toLowerCase().match(text)) {
-                        newOptions.push(options[i]);
-                    }
+            		if (options[i].getAttribute('alt') && options[i].getAttribute('alt') != options[i].value) {
+            			if (options[i].getAttribute('alt').toLowerCase().match(text)) {
+                            newOptions.push(options[i]);
+                        }
+            		} else {
+            			if (options[i].value.toLowerCase().match(text)) {
+                            newOptions.push(options[i]);
+                        }
+            		}
             	} else {
             		if (options[i].innerHTML.toLowerCase().match(text)) {
                         newOptions.push(options[i]);
@@ -616,7 +633,6 @@ var UnoChoice = UnoChoice || (function($) {
                     if (filteredElement.className == 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
                             var entry = newOptions[i];
-                            console.log(entry);
                             // TR
                             var tr = document.createElement('tr');
                             var idValue = 'ecp_' + e.target.randomName + '_' + i;
@@ -685,12 +701,13 @@ var UnoChoice = UnoChoice || (function($) {
                         	label.className = "attach-previous";
                     		input = entry;
                     		input.checked = false;
-                    		jsonInput.setAttribute('id', 'radio_' + input.getAttribute('name') + '_' + i);
+                    		jsonInput.setAttribute('id', input.getAttribute('otherid'));
                     		jsonInput.setAttribute('json', input.getAttribute('json'));
                     		jsonInput.setAttribute('name', '');
                             jsonInput.setAttribute("value", input.getAttribute('value'));
                             jsonInput.setAttribute("class", input.getAttribute('name'));
                             jsonInput.setAttribute("type", "hidden");
+                            jsonInput.setAttribute('title', input.getAttribute('alt'));
                     		label.innerHTML = input.getAttribute('alt');
                             // Put everything together
                             td.appendChild(input);
@@ -736,7 +753,7 @@ var UnoChoice = UnoChoice || (function($) {
         // select the radio with the id=id
         var parent = element.parentNode;
 
-        var children = parent.childNodes; 
+        var children = parent.childNodes;
         for (var i = 0; i < children.length; i++) {
         	var child = children[i];
         	if (child.className == clazzName) {

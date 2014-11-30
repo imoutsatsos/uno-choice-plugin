@@ -19,14 +19,16 @@
           <td>
             <j:choose>
               <j:when test="${selected}">
-                <input json="${escapedKey}" alt="${escapedValue}" checked="checked" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;${id}&quot;)" />
+                <input json="${escapedKey}" alt="${escapedValue}" otherid="${id}" checked="checked" name="${it.name}" value="${escapedKey}" class=" " type="radio" onchange="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;${id}&quot;)" />
+                <label class="attach-previous">${escapedValue}</label>
+                <input json="${escapedKey}" name="value" value="${escapedKey}" class="${it.name}" type="hidden" id="${id}" title="${escapedValue}" />
               </j:when>
               <j:otherwise>
-                <input json="${escapedKey}" alt="${escapedValue}" name="${it.name}" value="${escapedKey}" class=" " type="radio" onclick="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;${id}&quot;)" />
+                <input json="${escapedKey}" alt="${escapedValue}" otherid="${id}" name="${it.name}" value="${escapedKey}" class=" " type="radio" onchange="UnoChoice.fakeSelectRadioButton(&quot;${it.name}&quot;, &quot;${id}&quot;)" />
+                <label class="attach-previous">${escapedValue}</label>
+                <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="${id}" title="${escapedValue}" />
               </j:otherwise>
             </j:choose>
-            <label class="attach-previous">${escapedValue}</label>
-            <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="${id}" />
           </td>
         </tr>
         <j:set var="index" value="${index + 1}"/>

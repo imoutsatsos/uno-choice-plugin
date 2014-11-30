@@ -166,7 +166,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		if (LOGGER.isLoggable(Level.FINE)) {
 			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getVisibleItemCount");
 		}
-		final int choicesSize = getChoices(Collections.<Object, Object> emptyMap()).size();
+		final int choicesSize = getChoices().size();
 		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
 			return choicesSize;
 		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;
