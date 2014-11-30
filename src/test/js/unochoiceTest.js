@@ -63,7 +63,7 @@ QUnit.test("Test fakeSelectRadioButton", function() {
 	$fixture.append("<div><input type='radio' name='group1' class='myClazz' id='option1' /></div>");
 	$fixture.append("<div><input type='radio' name='group1' class='myClazz' id='option2' /></div>");
 	$fixture.append("<div><input type='radio' name='group1' class='myClazz' id='option3' /></div>");
-	UnoChoice.fakeSelectRadioButton("myClazz", jQuery('#option2'));
+	UnoChoice.fakeSelectRadioButton("myClazz", 'option2');
 	equal("", jQuery("#option1").attr('name'), "option1 is empty");
 	equal("value", jQuery("#option2").attr('name'), "option2 is not empty");
 	equal("", jQuery("#option3").attr('name'), "option3 is empty");
