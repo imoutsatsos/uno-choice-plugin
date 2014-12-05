@@ -254,25 +254,25 @@ var UnoChoice = UnoChoice || (function($) {
 			                	input.setAttribute('checked', 'checked');
 			                }
 			                if (!entry instanceof String) {
-			                	input.setAttribute('json', JSON.stringify(entry));
+			                	input.setAttribute('json', key);
 			                	input.setAttribute('name', 'value');
-			                	input.setAttribute("value", JSON.stringify(entry));
+			                	input.setAttribute("value", key);
 			                	input.setAttribute("class", " ");
 			                	input.setAttribute("type", "checkbox");
-			                	input.setAttribute("title", key);
-			                	input.setAttribute("alt", key);
+			                	input.setAttribute("title", JSON.stringify(entry));
+			                	input.setAttribute("alt", JSON.stringify(entry));
 			                	label.className = "attach-previous";
-			                	label.innerHTML = key;
+			                	label.innerHTML = JSON.stringify(entry);
 			                } else {
-			                    input.setAttribute('json', entry);
+			                    input.setAttribute('json', key);
 			                	input.setAttribute('name', 'value');
-			                	input.setAttribute("value", entry);
+			                	input.setAttribute("value", key);
 			                	input.setAttribute("class", " ");
 			                	input.setAttribute("type", "checkbox");
-			                	input.setAttribute("title", key);
-			                	input.setAttribute("alt", key);
+			                	input.setAttribute("title", entry);
+			                	input.setAttribute("alt", entry);
 			                	label.className = "attach-previous";
-			                	label.innerHTML = key;
+			                	label.innerHTML = entry;
 			                }
 			                
 			                originalArray.push(input);
@@ -311,35 +311,39 @@ var UnoChoice = UnoChoice || (function($) {
 			                	input.setAttribute('checked', 'checked');
 			                }
                             if (!entry instanceof String) {
-                                input.setAttribute('json', JSON.stringify(entry));
+                                input.setAttribute('json', key);
                                 input.setAttribute('name', cascade.paramName);
-                                input.setAttribute("value", JSON.stringify(entry));
+                                input.setAttribute("value", key);
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
-                                input.setAttribute('alt', key);
+                                input.setAttribute('alt', JSON.stringify(entry));
                                 input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+cascade.paramName+'", "'+idValue+'")');
                                 input.setAttribute('otherId', idValue);
                                 label.className = "attach-previous";
-                                label.innerHTML = key;
+                                label.innerHTML = JSON.stringify(entry);
                             } else {
-                                input.setAttribute('json', entry);
+                                input.setAttribute('json', key);
                                 input.setAttribute('name', _self.getParameterName());
-                                input.setAttribute("value", entry);
+                                input.setAttribute("value", key);
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
-                                input.setAttribute('alt', key);
+                                input.setAttribute('alt', entry);
                                 input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
                                 input.setAttribute('otherId', idValue);
                                 label.className = "attach-previous";
-                                label.innerHTML = key;
+                                label.innerHTML = entry;
                             }
                             
-                            hiddenValue.setAttribute('json', entry);
+                            hiddenValue.setAttribute('json', key);
                             hiddenValue.setAttribute('name', '');
-                            hiddenValue.setAttribute("value", entry);
+                            hiddenValue.setAttribute("value", key);
                             hiddenValue.setAttribute("class", _self.getParameterName());
                             hiddenValue.setAttribute("type", "hidden");
-                            hiddenValue.setAttribute('title', key);
+                            if (!entry instanceof String) {
+                            	hiddenValue.setAttribute('title', JSON.stringify(entry));
+                            } else {
+                            	hiddenValue.setAttribute('title', entry);
+                            }
                             hiddenValue.setAttribute('id', idValue);
                             
                             originalArray.push(input);
