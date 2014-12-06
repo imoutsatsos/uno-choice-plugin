@@ -31,6 +31,7 @@ import hudson.model.ParameterDefinition;
 import hudson.util.FormValidation;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONObject;
 
@@ -113,18 +114,18 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 	 * This parameter also includes the Jenkins project and build objects in the Groovy variables map. It
 	 * means that you can use these two in your code for rendering the parameter.
 	 */
-	@JavaScriptMethod
-	public void doUpdate(String parameters) {
-		super.doUpdate(parameters);
-		
+	@Override
+	public Map<Object, Object> getParameters() {
+		Map<Object, Object> parameters = super.getParameters();
 		final AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
 		if (project != null) {
-			getParameters().put(JENKINS_PROJECT_VARIABLE_NAME, project);
+			parameters.put(JENKINS_PROJECT_VARIABLE_NAME, project);
 			AbstractBuild<?, ?> build = project.getLastBuild();
 			if (build != null && build.getHasArtifacts()) {
-				getParameters().put(JENKINS_BUILD_VARIABLE_NAME, build);
+				parameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
 			}
 		}
+		return parameters;
 	}
 	
 	@JavaScriptMethod
