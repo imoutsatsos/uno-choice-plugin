@@ -47,15 +47,5 @@ public class TestDynamicReferenceParameter {
 		assertEquals("param001, param002", param.getReferencedParameters());
 		assertTrue(param.getOmitValueField());
 	}
-	
-	@Test
-	public void testParameters() {
-		GroovyScript script = new GroovyScript("return ['a', 'b']", "return ['EMPTY!']");
-		DynamicReferenceParameter param = new DynamicReferenceParameter(
-			"param000", "description", 
-			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
-			"param001, param002", true);
-		assertTrue(param.getParameters().isEmpty());
-	}
-	
+		
 }
