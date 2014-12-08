@@ -58,6 +58,9 @@
                             if (subValues &amp;&amp; subValues.get(0)) {
                                 parameterElement = child;
                                 break;
+                            } else {
+                                parameterElement = child;
+                                break;
                             }
                         } else if (child.getAttribute('type') == 'file') {
                             parameterElement = child;
