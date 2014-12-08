@@ -53,6 +53,8 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	protected static final String SEPARATOR = "__LESEP__"; // used to split values that come from the UI via Ajax POST's
 	
 	protected final Script script;
+	
+	private volatile int visibleItemCount = 1;
 
 	/**
 	 * Inherited constructor.
@@ -88,7 +90,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	}
 	
 	public Map<Object, Object> getChoices() {
-		return this.getChoices(getParameters());
+		Map<Object, Object> choices = this.getChoices(getParameters());
+		visibleItemCount = choices.size();
+		return choices;
 	}
 	
 	/*
@@ -99,7 +103,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 	public Map<Object, Object> getChoices(Map<Object, Object> parameters) {
 		final Object value = eval(parameters);
 		if (value instanceof Map) {
-			return (Map<Object, Object>) value;
+			Map<Object, Object> map = (Map<Object, Object>) value;
+			visibleItemCount = map.size();
+			return map;
 		}
 		if (value instanceof List) {
 			// here we take a list and return it as a map
@@ -107,6 +113,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 			for (Object o : (List<Object>) value) {
 				map.put(o, o);
 			}
+			visibleItemCount = map.size();
 			return map;
 		}
 		LOGGER.warning(String.format("Script parameter with name '%s' is not an instance of java.util.Map. The parameter value is %s", getName(), value));
@@ -166,7 +173,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		if (LOGGER.isLoggable(Level.FINE)) {
 			LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getVisibleItemCount");
 		}
-		final int choicesSize = getChoices().size();
+		if (visibleItemCount <= 0)
+			visibleItemCount = 1;
+		final int choicesSize = visibleItemCount;
 		if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
 			return choicesSize;
 		return DEFAULT_MAX_VISIBLE_ITEM_COUNT;

@@ -15,9 +15,21 @@
           </select>
         </j:when>
         <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
-          <select name="value" multiple="multiple" size="${it.getChoices().size()}">
+          <j:set var="multiple_select_id" value="multiple_select_${it.randomName}_${index}" />
+          <select name="value" multiple="multiple" size="1" id="${multiple_select_id}">
             <st:include page="/org/biouno/unochoice/common/selectContent.jelly"/>
           </select>
+          <script type="text/javascript">
+            <![CDATA[
+              (function() {
+                  var f = function() {
+                      var size = ${it.visibleItemCount};
+                      document.getElementById("${multiple_select_id}").size = size;
+                  };
+                  f();
+              })();
+            ]]>
+          </script>
         </j:when>
         <j:when test="${choiceType eq 'PT_RADIO'}">
           <st:include page="/org/biouno/unochoice/common/radioContent.jelly"/>
