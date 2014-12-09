@@ -172,7 +172,7 @@ var UnoChoice = UnoChoice || (function($) {
         		
     			var newKey = newKeys[i];
     			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
-        			newKey[i] = newKey[i].substring(0, newKey.indexOf(':selected'));
+    				newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':selected'));
         		}
         	}
         	
@@ -396,6 +396,8 @@ var UnoChoice = UnoChoice || (function($) {
     	this.cascadeParameter = cascadeParameter;
     	// Add event listener
     	var _self = this;
+    	console.log('The parameter ' + paramName + ' is now listening to changes from the following HTML element');
+    	console.log(this.paramElement);
     	jQuery(this.paramElement).change(function (e) {
     		if (e.parameterName == _self.paramName) {
     			console.log('Skipping self reference to avoid infinite loop!');
