@@ -205,9 +205,9 @@ var UnoChoice = UnoChoice || (function($) {
 	                parameterElement.add(opt, null);
 	            }
 	            
-	            //if (oldSel.getAttribute('multiple') == 'multiple') {
-            	//   oldSel.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
-            	//}
+	            if (parameterElement.getAttribute('multiple') == 'multiple') {
+	            	parameterElement.setAttribute('size', (newValues.length > 10 ? 10 : newValues.length) + 'px');
+            	}
 	            
 	            // Update the values for the filtering
 	            var originalArray = [];
@@ -396,8 +396,6 @@ var UnoChoice = UnoChoice || (function($) {
     	this.cascadeParameter = cascadeParameter;
     	// Add event listener
     	var _self = this;
-    	console.log('The parameter ' + paramName + ' is now listening to changes from the following HTML element');
-    	console.log(this.paramElement);
     	jQuery(this.paramElement).change(function (e) {
     		if (e.parameterName == _self.paramName) {
     			console.log('Skipping self reference to avoid infinite loop!');
