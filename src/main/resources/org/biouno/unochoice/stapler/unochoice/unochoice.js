@@ -145,7 +145,7 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * TODO: explain what happens here
      */
-    CascadeParameter.prototype.update = function() {
+    CascadeParameter.prototype.update = function(avoidRecursion) {
     	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
     	console.log('Values retrieved from Referenced Parameters: ' + parametersString);
     	// Update the CascadeChoiceParameter Map of parameters
@@ -378,15 +378,19 @@ var UnoChoice = UnoChoice || (function($) {
 //    	console.log('Propagating change event from ' + this.getParameterName());
 //    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
 //    	jQuery(this.getParameterElement()).trigger(e);
-    	var otherCascadeParameters = cascadeParameters;
-    	if (cascadeParameters && cascadeParameters.length > 0) {
-    		for (var i = 0; i < cascadeParameters.length; i++) {
-    			var other = cascadeParameters[i];
-    			if (this.referencesMe(other)) {
-    				console.log('Updating ' + other.getParameterName() + ' from ' + this.getParameterName());
-    				other.update();
-    			}
-    		}
+    	if (!avoidRecursion) {
+	    	var otherCascadeParameters = cascadeParameters;
+	    	if (cascadeParameters && cascadeParameters.length > 0) {
+	    		for (var i = 0; i < cascadeParameters.length; i++) {
+	    			var other = cascadeParameters[i];
+	    			if (this.referencesMe(other)) {
+	    				console.log('Updating ' + other.getParameterName() + ' from ' + this.getParameterName());
+	    				other.update(true);
+	    			}
+	    		}
+	    	}
+    	} else {
+    		console.log('Avoiding infinite loop due to recursion!');
     	}
     }
 
@@ -484,7 +488,7 @@ var UnoChoice = UnoChoice || (function($) {
      * 
      * TODO: explain what happens here
      */
-    DynamicReferenceParameter.prototype.update = function() {
+    DynamicReferenceParameter.prototype.update = function(avoidRecursion) {
     	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
     	console.log('Values retrieved from Referenced Parameters: ' + parametersString);
     	// Update the Map of parameters
@@ -542,15 +546,19 @@ var UnoChoice = UnoChoice || (function($) {
 //    	console.log('Propagating change event from ' + this.getParameterName());
 //    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
 //    	jQuery(this.getParameterElement()).trigger(e);
-        var otherCascadeParameters = cascadeParameters;
-    	if (cascadeParameters && cascadeParameters.length > 0) {
-    		for (var i = 0; i < cascadeParameters.length; i++) {
-    			var other = cascadeParameters[i];
-    			if (this.referencesMe(other)) {
-    				console.log('Updating ' + other.getParameterName() + ' from ' + this.getParameterName());
-    				other.update();
-    			}
-    		}
+        if (!avoidRecursion) {
+	    	var otherCascadeParameters = cascadeParameters;
+	    	if (cascadeParameters && cascadeParameters.length > 0) {
+	    		for (var i = 0; i < cascadeParameters.length; i++) {
+	    			var other = cascadeParameters[i];
+	    			if (this.referencesMe(other)) {
+	    				console.log('Updating ' + other.getParameterName() + ' from ' + this.getParameterName());
+	    				other.update(true);
+	    			}
+	    		}
+	    	}
+    	} else {
+    		console.log('Avoiding infinite loop due to recursion!');
     	}
     }
 
