@@ -27,7 +27,7 @@
     }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
         var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterHtmlElement.get(0), '${it.getRandomName()}', cascadeChoiceParameter);
-    
+        UnoChoice.cascadeParameters.push(cascadeParameter);
         // filter
         <j:if test="${it.filterable}">
         var filterHtmlElement = parentDiv.find('.uno_choice_filter');

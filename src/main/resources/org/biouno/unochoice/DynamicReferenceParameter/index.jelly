@@ -92,7 +92,7 @@
     }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
         var dynamicParameter = new UnoChoice.DynamicReferenceParameter('${it.getName()}', parameterHtmlElement.get(0), dynamicReferenceParameter);
-    
+        UnoChoice.cascadeParameters.push(dynamicParameter); // TODO review wether it is right or not to add a dynamic parameter here
         for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
             var parameterElement = null;
             // FIXME: review the block below

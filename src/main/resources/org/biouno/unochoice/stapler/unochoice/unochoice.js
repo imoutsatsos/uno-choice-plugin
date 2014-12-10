@@ -48,6 +48,8 @@ var UnoChoice = UnoChoice || (function($) {
     
     var SEPARATOR = '__LESEP__';
     
+    var cascadeParameters = [];
+    
     // Plug-in classes
     
     // --- Cascade Parameter
@@ -373,9 +375,42 @@ var UnoChoice = UnoChoice || (function($) {
     	});
     	
     	// propagate change
-    	console.log('Propagating change event from ' + this.getParameterName());
-    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
-    	jQuery(this.getParameterElement()).trigger(e);
+//    	console.log('Propagating change event from ' + this.getParameterName());
+//    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
+//    	jQuery(this.getParameterElement()).trigger(e);
+    	var otherCascadeParameters = cascadeParameters;
+    	if (cascadeParameters && cascadeParameters.length > 0) {
+    		for (var i = 0; i < cascadeParameters.length; i++) {
+    			var other = cascadeParameters[i];
+    			if (this.referencesMe(other)) {
+    				console.log('Updating ' + other.getParameterName() + ' from ' + this.getParameterName());
+    				other.update();
+    			}
+    		}
+    	}
+    }
+
+    /**
+     * Returns <code>true</code> iff the given parameter is not null, and one of its
+     * reference parameters is the same parameter as <code>this</code>. In other words,
+     * it returns whether or not the given parameter references this parameter.
+     *
+     * @since 0.22
+     * @param cascadeParameter a given parameter
+     * @return <code>bool</code> <code>true</code> iff the given parameter references this parameter
+     */
+    CascadeParameter.prototype.referencesMe = function(cascadeParameter) {
+    	if (!cascadeParameter || 
+			!cascadeParameter.getReferencedParameters() ||
+			cascadeParameter.getReferencedParameters().length == 0) 
+    		return false;
+    	for (var i = 0; i < cascadeParameter.getReferencedParameters().length; i++) {
+    		var referencedParameter = cascadeParameter.getReferencedParameters()[i];
+    		
+    		if (referencedParameter.getParameterName() == this.getParameterName()) 
+    			return true;
+    	}
+    	return false;
     }
 
     // --- Referenced Parameter
@@ -504,9 +539,19 @@ var UnoChoice = UnoChoice || (function($) {
         }
     	
     	// propagate change
-    	console.log('Propagating change event from ' + this.getParameterName());
-    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
-    	jQuery(this.getParameterElement()).trigger(e);
+//    	console.log('Propagating change event from ' + this.getParameterName());
+//    	var e = jQuery.Event('change', {parameterName: this.getParameterName()});
+//    	jQuery(this.getParameterElement()).trigger(e);
+        var otherCascadeParameters = cascadeParameters;
+    	if (cascadeParameters && cascadeParameters.length > 0) {
+    		for (var i = 0; i < cascadeParameters.length; i++) {
+    			var other = cascadeParameters[i];
+    			if (this.referencesMe(other)) {
+    				console.log('Updating ' + other.getParameterName() + ' from ' + this.getParameterName());
+    				other.update();
+    			}
+    		}
+    	}
     }
 
     // --- Filter Element
@@ -952,5 +997,6 @@ var UnoChoice = UnoChoice || (function($) {
     instance.ReferencedParameter = ReferencedParameter;
     instance.FilterElement = FilterElement;
     instance.makeStaplerProxy2 = makeStaplerProxy2;
+    instance.cascadeParameters = cascadeParameters;
     return instance;
 })(jQuery);
