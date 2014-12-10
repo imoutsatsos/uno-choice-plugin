@@ -164,13 +164,13 @@ var UnoChoice = UnoChoice || (function($) {
         	// some elements may have key or values with the suffix :selected
         	// we want to remove these suffixes
         	for (var i = 0; i < newValues.length; i++) {
-        		var newValue = newValues[i];
+        		var newValue = String(newValues[i]);
         		if (newValue && newValue.endsWith(':selected')) {
         			selectedElements.push(i);
         			newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
         		}
         		
-    			var newKey = newKeys[i];
+    			var newKey = String(newKeys[i]);
     			if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
     				newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':selected'));
         		}
