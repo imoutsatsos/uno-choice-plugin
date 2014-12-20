@@ -11,7 +11,7 @@
 
 	<groupId>org.biouno</groupId>
 	<artifactId>uno-choice</artifactId>
-	<version>0.22-SNAPSHOT</version>
+	<version>0.22</version>
 	<packaging>hpi</packaging>
 	<name>Uno-Choice Plug-in</name>
 	<description>This plug-in provides additional parameter types for jobs, that allow you to cascade changes and render images or other HTML elements instead of the traditional parameter.</description>
