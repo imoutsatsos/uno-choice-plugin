@@ -28,9 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jenkinsci.plugins.scriptler.config.Parameter;
 import org.jenkinsci.plugins.scriptler.config.Script;
@@ -80,12 +78,6 @@ public class TestScriptlerScript {
 		
 		List<Integer> returnValue = (List<Integer>) script.eval();
 		assertEquals(Arrays.asList(new Integer[]{1,2,3}), returnValue);
-		
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put("flag", "true");
-		
-		returnValue = (List<Integer>) script.eval(parameters);
-		assertEquals(Arrays.asList(new Integer[]{1000, 100, 1}), returnValue);
 	}
 	
 }
