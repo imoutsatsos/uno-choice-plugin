@@ -134,7 +134,7 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
         if (JSONUtils.isArray(value)) {
             valueAsText = ((JSONArray) value).join(",", true);
         } else {
-            valueAsText = String.valueOf(value);
+            valueAsText = (value == null) ? "" : String.valueOf(value);
         }
         
         parameterJsonModel.put("name",  name);
