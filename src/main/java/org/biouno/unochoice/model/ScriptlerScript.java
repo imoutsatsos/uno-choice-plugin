@@ -25,6 +25,7 @@
 package org.biouno.unochoice.model;
 
 import hudson.Extension;
+import hudson.Util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,9 +77,18 @@ public class ScriptlerScript extends AbstractScript {
 	}
 
 	public Object eval(Map<String, String> parameters) {
-		if (parameters != null && parameters.size() > 0)
-			getParameters().putAll(parameters);
-		return this.toGroovyScript().eval(this.getParameters());
+		Map<String, String> evaledParameters = new HashMap<String, String>();
+		// if we have any parameter that came from UI, let's eval and use them
+		if (parameters != null && parameters.size() > 0) {
+			for (String key : this.getParameters().keySet()) {
+				String value = this.getParameters().get(key);
+				value = Util.replaceMacro((String) value, parameters);
+				evaledParameters.put(key, value);
+			}
+		} else {
+			evaledParameters = this.getParameters();
+		}
+		return this.toGroovyScript().eval(evaledParameters);
 	}
 	
 	// --- utility methods for conversion
