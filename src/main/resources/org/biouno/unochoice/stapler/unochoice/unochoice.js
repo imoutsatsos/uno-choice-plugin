@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * 
- * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ * Copyright (c) <2014-2015> <Ioannis Moutsatsos, Bruno P. Kinoshita>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -776,6 +776,11 @@ var UnoChoice = UnoChoice || (function($) {
                     }
                 }
             }
+
+            // Propagate the changes made by the filter
+            console.log('Propagating change event after filtering');
+            var e = jQuery.Event('change', {parameterName: 'Filter Element Event'});
+            jQuery(filteredElement).trigger(e);
         });
     }
     
