@@ -154,7 +154,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 		Object firstElement = "";
 		final Map<Object, Object> choices = getChoices(Collections.<Object, Object> emptyMap());
 		if (choices != null && choices.size() > 0) {
-			firstElement = choices.get(0);
+			firstElement = choices.entrySet().iterator().next().getValue();
 		}
 		final String name = getName();
 		final String value = ObjectUtils.toString(firstElement, ""); // Jenkins doesn't like null parameter values
