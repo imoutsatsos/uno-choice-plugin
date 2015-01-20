@@ -116,6 +116,11 @@ var UnoChoice = UnoChoice || (function($) {
     	return this.filterElement;
     }
     
+    /**
+     * Sets the filter element.
+     *
+     * @param e FilterElement
+     */
     CascadeParameter.prototype.setFilterElement = function(e) {
     	this.filterElement = e;
     }
@@ -123,7 +128,7 @@ var UnoChoice = UnoChoice || (function($) {
     /**
      * Used to create the request string that will update the cascade parameter values. Returns a
      * String, with name=value for each referenced parameter.
-     * 
+     *
      * @return String with name=value for each referenced parameter
      */
     CascadeParameter.prototype.getReferencedParametersAsText = function() {
@@ -142,8 +147,19 @@ var UnoChoice = UnoChoice || (function($) {
     
     /**
      * Updates the CascadeParameter object.
-     * 
-     * TODO: explain what happens here
+     *
+     * <p>Once this method gets called, it will call the Java code (using a modified-sync Stapler proxy),
+     * that is responsible for updating the referenced parameter values. The Java method receives the value of
+     * other referenced parameters.</p>
+     *
+     * <p>Then, we call the Java code again, now to decide the next values to be displayed. From here, the
+     * flow gets split into several branches, one for each HTML element type supported (SELECT, INPUT, UL, etc).
+     * Each HTML element gets rendered accordingly and events are triggered.</p>
+     *
+     * <p>In the last part of the method, before updating other elements, it checks for recursive calls. If
+     * this parameter references itself, we need to avoid updating it forever.</p>
+     *
+     * @param avoidRecursion boolean flag to decide whether we want to permit self-reference parameters or not
      */
     CascadeParameter.prototype.update = function(avoidRecursion) {
     	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
@@ -484,9 +500,20 @@ var UnoChoice = UnoChoice || (function($) {
     DynamicReferenceParameter.prototype = new CascadeParameter();
     
     /**
-     * Updates the DynamicReferenceParameter object.
-     * 
-     * TODO: explain what happens here
+     * <p>Updates the DynamicReferenceParameter object. Debug information goes into the browser console.</p>
+     *
+     * <p>Once this method gets called, it will call the Java code (using a modified-sync Stapler proxy),
+     * that is responsible for updating the referenced parameter values. The Java method receives the value of
+     * other referenced parameters.</p>
+     *
+     * <p>Then, we call the Java code again, now to decide the next values to be displayed. From here, the
+     * flow gets split into several branches, one for each HTML element type supported (SELECT, INPUT, UL, etc).
+     * Each HTML element gets rendered accordingly and events are triggered.</p>
+     *
+     * <p>In the last part of the method, before updating other elements, it checks for recursive calls. If
+     * this parameter references itself, we need to avoid updating it forever.</p>
+     *
+     * @param avoidRecursion boolean flag to decide whether we want to permit self-reference parameters or not
      */
     DynamicReferenceParameter.prototype.update = function(avoidRecursion) {
     	var parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
@@ -628,7 +655,7 @@ var UnoChoice = UnoChoice || (function($) {
     }
     
     /**
-     * Gets an array with the original options of a filtered element. Useful for recreating the initial setting.
+     * Gets an array with the original options of the filtered element. Useful for recreating the initial setting.
      * 
      * @return <code>Array</code> with HTML elements
      */
@@ -636,8 +663,24 @@ var UnoChoice = UnoChoice || (function($) {
         return this.originalArray;
     }
     
+    /**
+     * Sets the array with the original options of the filtered element. Once the array has been
+     * set, it empties the value of the filter input box, thus allowing the user to type in again.
+     *
+     * @param originalArray
+     */
     FilterElement.prototype.setOriginalArray = function(originalArray) {
     	this.originalArray = originalArray;
+    	this.clearFilterElement();
+    }
+    
+    /**
+     * Clears the filter input box.
+     *
+     * @since 0.23
+     */
+    FilterElement.prototype.clearFilterElement = function() {
+    	this.getFilterElement().value = '';
     }
     
     /**
@@ -927,8 +970,6 @@ var UnoChoice = UnoChoice || (function($) {
      * <p>This function is the same as makeStaplerProxy available in Jenkins core, but executes calls 
      * <strong>synchronously</strong>. Since many parameters must be filled only after other parameters have been 
      * updated, calling Jenkins methods assynchronously causes several unpredictable errors.</p>
-     * 
-     * <p>TODO: example</p>
      */
     /* public */ function makeStaplerProxy2(url, crumb, methods) {
         if (url.substring(url.length - 1) !== '/') url+='/';
