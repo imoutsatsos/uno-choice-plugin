@@ -23,7 +23,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<phantomjs.executable>/opt/phantomjs-1.9.7-linux-x86_64/bin/phantomjs</phantomjs.executable>
+		<phantomjs.executable>phantomjs</phantomjs.executable>
 	</properties>
 
 	<scm>
