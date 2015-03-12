@@ -826,7 +826,7 @@ var UnoChoice = UnoChoice || (function($) {
                 value = valueBuffer.toString();
             }
         } else if (e.attr('type') == 'file') {
-            var filesList = e.files;
+            var filesList = e.get(0).files;
             if (filesList && filesList.length > 0) {
                 var firstFile = filesList[0]; // ignoring other files... but we could use it...
                 value = firstFile.name;
