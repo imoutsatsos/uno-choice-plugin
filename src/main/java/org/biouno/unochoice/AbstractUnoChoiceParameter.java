@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- * 
- * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
- * 
+ *
+ * Copyright (c) <2014-2015> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -44,7 +44,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Abstract Uno Choice parameter. Provides basic methods common to all Uno Choice parameters.
- * 
+ *
  * @author Bruno P. Kinoshita
  * @since 0.20
  */
@@ -54,12 +54,12 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
      * Le logger.
      */
     protected static final Logger LOGGER = Logger.getLogger(AbstractUnoChoiceParameter.class.getName());
-    
+
     /*
      * Serial UID.
      */
     private static final long serialVersionUID = -6027543114170652870L;
-    
+
     /*
      * Constants.
      */
@@ -67,22 +67,22 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
     public static final String PARAMETER_TYPE_MULTI_SELECT = "PT_MULTI_SELECT";
     public static final String PARAMETER_TYPE_CHECK_BOX = "PT_CHECKBOX";
     public static final String PARAMETER_TYPE_RADIO = "PT_RADIO";
-    
+
     public static final String ELEMENT_TYPE_TEXT_BOX = "ET_TEXT_BOX"; // default choice type
     public static final String ELEMENT_TYPE_ORDERED_LIST = "ET_ORDERED_LIST";
     public static final String ELEMENT_TYPE_UNORDERED_LIST = "ET_UNORDERED_LIST";
     public static final String ELEMENT_TYPE_FORMATTED_HTML = "ET_FORMATTED_HTML";
     public static final String ELEMENT_TYPE_FORMATTED_HIDDEN_HTML = "ET_FORMATTED_HIDDEN_HTML";
-    
+
     public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
-    
+
     private String randomName;
 
       /**
        * Inherited constructor.
-       * 
+       *
        * {@inheritDoc}.
-       * 
+       *
        * @param name name
        * @param description description
        */
@@ -90,18 +90,18 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
         super(name, description);
         randomName = Utils.createRandomParameterName("choice-parameter", "");
     }
-    
+
     /**
      * Gets the randomly generated parameter name. Used in the UI for objecting binding.
-     * 
+     *
      * @return a random string, created during object instantiation.
      */
     public String getRandomName() {
-    	if (StringUtils.isBlank(randomName))
-    		randomName = Utils.createRandomParameterName("choice-parameter", "");
-		return randomName;
-	}
-    
+        if (StringUtils.isBlank(randomName))
+            randomName = Utils.createRandomParameterName("choice-parameter", "");
+        return randomName;
+    }
+
     /*
      * (non-Javadoc)
      * @see hudson.model.SimpleParameterDefinition#createValue(java.lang.String)
@@ -116,7 +116,7 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
         final StringParameterValue parameterValue = new StringParameterValue(name, value, description);
         return parameterValue;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see hudson.model.ParameterDefinition#createValue(org.kohsuke.stapler.StaplerRequest, net.sf.json.JSONObject)
@@ -130,13 +130,13 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
         final Object value = json.get("value");
         final Object name = json.get("name");
         final String valueAsText;
-        
+
         if (JSONUtils.isArray(value)) {
             valueAsText = ((JSONArray) value).join(",", true);
         } else {
             valueAsText = (value == null) ? "" : String.valueOf(value);
         }
-        
+
         parameterJsonModel.put("name",  name);
         parameterJsonModel.put("value", valueAsText);
 
@@ -144,20 +144,20 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
         parameterValue.setDescription(getDescription());
         return parameterValue;
     }
-    
+
     /**
      * <p>Gets the choice type.</p>
-     * 
+     *
      * <p>This method can be called from Javascript</p>
-     * 
+     *
      * @return choice type
      */
     public abstract String getChoiceType();
-    
+
     public ParameterDescriptor getDescriptor() {
         return (ParameterDescriptor) Jenkins.getInstance().getDescriptor(getClass());
     }
-    
+
     public static DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all() {
         return Jenkins.getInstance().<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
     }

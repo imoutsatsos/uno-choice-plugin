@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- * 
- * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
- * 
+ *
+ * Copyright (c) <2014-2015> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,148 +43,165 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+/**
+ * A Groovy script.
+ *
+ * @author Bruno P. Kinoshita
+ * @since 0.23
+ */
 public class GroovyScript extends AbstractScript {
-	
-	/*
-	 * Serial UID.
-	 */
-	private static final long serialVersionUID = -4886250205110550815L;
 
-	private static final Logger LOGGER = Logger.getLogger(GroovyScript.class.getName());
+    /*
+     * Serial UID.
+     */
+    private static final long serialVersionUID = -4886250205110550815L;
 
-	private final String script;
-	
-	@Nullable
-	private final String fallbackScript;
-	
-	@DataBoundConstructor
-	public GroovyScript(String script, String fallbackScript) {
-		this.script = script;
-		this.fallbackScript = fallbackScript;
-	}
+    private static final Logger LOGGER = Logger.getLogger(GroovyScript.class.getName());
 
-	/**
-	 * @return the script
-	 */
-	public String getScript() {
-		return script;
-	}
+    /**
+     * Script content.
+     */
+    private final String script;
 
-	/**
-	 * @return the fallbackScript
-	 */
-	public String getFallbackScript() {
-		return fallbackScript;
-	}
+    @Nullable
+    private final String fallbackScript;
 
-	public Object eval() {
-		return eval(Collections.<String, String>emptyMap());
-	}
+    @DataBoundConstructor
+    public GroovyScript(String script, String fallbackScript) {
+        this.script = script;
+        this.fallbackScript = fallbackScript;
+    }
 
-	public Object eval(Map<String, String> parameters) throws RuntimeException {
-		ClassLoader cl = null;
-		try {
-			cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
-		} catch (Exception e) {
-			LOGGER.finest(e.getMessage());
-		}
-		if (cl == null) {
-			cl = Thread.currentThread().getContextClassLoader();
-		}
-		
-		final Binding context = new Binding();
-		
-		// @SuppressWarnings("unchecked")
-		final Map<String, String> envVars = System.getenv();
-		for (Entry<String, String> parameter : parameters.entrySet()) {
-			Object value = parameter.getValue();
-			if (value != null) {
-				if (value instanceof String) {
-					value = Util.replaceMacro((String) value, envVars);
-				}
-				context.setVariable(parameter.getKey().toString(), value);
-			}
-		}
-		
-		final GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
-		try {
-			return shell.evaluate(script);
-		} catch (RuntimeException re) {
-			if (this.fallbackScript != null) {
-				try {
-					LOGGER.log(Level.FINEST, "Fallback to default script...", re);
-					return shell.evaluate(fallbackScript);
-				} catch (CompilationFailedException cfe2) {
-					LOGGER.log(Level.WARNING, "Error executing fallback script", cfe2);
-					throw cfe2;
-				}
-			} else {
-				LOGGER.log(Level.WARNING, "No fallback script configured for '%s'");
-				throw re;
-			}
-		}
-	}
+    /**
+     * @return the script
+     */
+    public String getScript() {
+        return script;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "GroovyScript [script=" + script + ", fallbackScript="
-				+ fallbackScript + "]";
-	}
+    /**
+     * @return the fallbackScript
+     */
+    public String getFallbackScript() {
+        return fallbackScript;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((fallbackScript == null) ? 0 : fallbackScript.hashCode());
-		result = prime * result + ((script == null) ? 0 : script.hashCode());
-		return result;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.biouno.unochoice.model.Script#eval()
+     */
+    public Object eval() {
+        return eval(Collections.<String, String>emptyMap());
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		GroovyScript other = (GroovyScript) obj;
-		if (fallbackScript == null) {
-			if (other.fallbackScript != null)
-				return false;
-		} else if (!fallbackScript.equals(other.fallbackScript))
-			return false;
-		if (script == null) {
-			if (other.script != null)
-				return false;
-		} else if (!script.equals(other.script))
-			return false;
-		return true;
-	}
-	
-	// --- descriptor
-	
-	@Extension
-	public static class DescriptorImpl extends ScriptDescriptor {
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see hudson.model.Descriptor#getDisplayName()
-		 */
-		@Override
-		public String getDisplayName() {
-			return "Groovy Script"; 
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
+     */
+    public Object eval(Map<String, String> parameters) throws RuntimeException {
+        ClassLoader cl = null;
+        try {
+            cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
+        } catch (Exception e) {
+            LOGGER.finest(e.getMessage());
+        }
+        if (cl == null) {
+            cl = Thread.currentThread().getContextClassLoader();
+        }
+
+        final Binding context = new Binding();
+
+        // @SuppressWarnings("unchecked")
+        final Map<String, String> envVars = System.getenv();
+        for (Entry<String, String> parameter : parameters.entrySet()) {
+            Object value = parameter.getValue();
+            if (value != null) {
+                if (value instanceof String) {
+                    value = Util.replaceMacro((String) value, envVars);
+                }
+                context.setVariable(parameter.getKey().toString(), value);
+            }
+        }
+
+        final GroovyShell shell = new GroovyShell(cl, context, CompilerConfiguration.DEFAULT);
+        try {
+            return shell.evaluate(script);
+        } catch (RuntimeException re) {
+            if (this.fallbackScript != null) {
+                try {
+                    LOGGER.log(Level.FINEST, "Fallback to default script...", re);
+                    return shell.evaluate(fallbackScript);
+                } catch (CompilationFailedException cfe2) {
+                    LOGGER.log(Level.WARNING, "Error executing fallback script", cfe2);
+                    throw cfe2;
+                }
+            } else {
+                LOGGER.log(Level.WARNING, "No fallback script configured for '%s'");
+                throw re;
+            }
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "GroovyScript [script=" + script + ", fallbackScript="
+                + fallbackScript + "]";
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((fallbackScript == null) ? 0 : fallbackScript.hashCode());
+        result = prime * result + ((script == null) ? 0 : script.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GroovyScript other = (GroovyScript) obj;
+        if (fallbackScript == null) {
+            if (other.fallbackScript != null)
+                return false;
+        } else if (!fallbackScript.equals(other.fallbackScript))
+            return false;
+        if (script == null) {
+            if (other.script != null)
+                return false;
+        } else if (!script.equals(other.script))
+            return false;
+        return true;
+    }
+
+    // --- descriptor
+
+    @Extension
+    public static class DescriptorImpl extends ScriptDescriptor {
+        /*
+         * (non-Javadoc)
+         *
+         * @see hudson.model.Descriptor#getDisplayName()
+         */
+        @Override
+        public String getDisplayName() {
+            return "Groovy Script"; 
+        }
+    }
 
 }

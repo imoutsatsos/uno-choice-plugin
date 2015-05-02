@@ -1,25 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.580.1</version><!-- which version of Jenkins is this plugin built 
-			against? -->
+		<version>1.580.1</version><!-- which version of Jenkins is this plugin 
+			built against? -->
 	</parent>
 
 	<groupId>org.biouno</groupId>
 	<artifactId>uno-choice</artifactId>
-	<version>0.25-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>hpi</packaging>
-	<name>Uno-Choice Plug-in</name>
-	<description>This plug-in provides additional parameter types for jobs, that allow you to cascade changes and render images or other HTML elements instead of the traditional parameter.</description>
 
-	<organization>
-		<name>BioUno</name>
-		<url>http://www.biouno.org</url>
-	</organization>
+	<name>Active Choices Plug-in</name>
+	<description>This plug-in provides additional parameter types for jobs, that allow you to cascade changes and	render images or other HTML elements instead of the traditional parameter.</description>
+
+	<url>https://wiki.jenkins-ci.org/display/JENKINS/Active+Choices+Plugin</url>
+
+	<issueManagement>
+		<system>JIRA</system>
+		<url>https://issues.jenkins-ci.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+JENKINS+AND+status+in+%28Open%2C+"In+Progress"%2C+Reopened%29+AND+component+%3D+${project.artifactId}</url>
+	</issueManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,72 +31,59 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:git://github.com/biouno/uno-choice-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:biouno/uno-choice-plugin.git</developerConnection>
-		<url>http://github.com/biouno/uno-choice-plugin</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<connection>scm:git:git://github.com/jenkinsci/active-choices-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:jenkinsci/active-choices-plugin.git</developerConnection>
+		<url>http://github.com/jenkinsci/active-choices-plugin</url>
+		<tag>HEAD</tag>
+	</scm>
 
-	<!-- get every artifact through repo.jenkins-ci.org, which proxies all the 
-		artifacts that we need -->
-	<repositories>
-		<repository>
-			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<distributionManagement>
-		<repository>
-			<id>jenkins.repo.release</id>
-			<name>Repository for Releases</name>
-			<url>${jenkins.repo.path}/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>jenkins.repo.snapshot</id>
-			<name>Repository for Snapshots</name>
-			<url>${jenkins.repo.path}/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+	<developers>
+		<developer>
+			<id>kinow</id>
+			<name>Bruno P. Kinoshita</name>
+			<timezone>Pacific/Auckland</timezone>
+		</developer>
+		<developer>
+			<id>imoutsatsos</id>
+			<name>Ioannis K. Moutsatsos</name>
+		</developer>
+	</developers>
 
 	<dependencies>
+		<!-- Scriptler is used to eval Groovy parameters -->
 		<dependency>
 			<groupId>org.jenkins-ci.plugins</groupId>
 			<artifactId>scriptler</artifactId>
 			<version>2.7</version>
 		</dependency>
+		<!-- JQuery is included only once -->
 		<dependency>
 			<groupId>org.kohsuke.stapler</groupId>
 			<artifactId>stapler-adjunct-jquery</artifactId>
 			<version>1.8.3-0</version>
 		</dependency>
-	    <dependency>
-	        <groupId>org.mockito</groupId>
-	        <artifactId>mockito-core</artifactId>
-	        <version>1.9.5</version>
-	        <scope>test</scope>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.powermock</groupId>
-	        <artifactId>powermock-module-junit4</artifactId>
-	        <version>1.5.1</version>
-	        <scope>test</scope>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.powermock</groupId>
-	        <artifactId>powermock-api-mockito</artifactId>
-	        <version>1.5.1</version>
-	        <scope>test</scope>
-	    </dependency>
+		<!-- testing -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
+	<!-- running JS tests -->
 	<build>
 		<plugins>
 			<plugin>
@@ -126,5 +117,21 @@
 			</plugin>
 		</plugins>
 	</build>
+
+    <!-- get every artifact through repo.jenkins-ci.org, which proxies all the 
+        artifacts that we need -->
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>

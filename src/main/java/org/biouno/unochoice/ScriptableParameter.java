@@ -1,18 +1,18 @@
 /*
  * The MIT License (MIT)
- * 
- * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
- * 
+ *
+ * Copyright (c) <2014-2015> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,19 +28,19 @@ import java.util.Map;
 
 /**
  * A parameter that is obtained through the execution of a script.
- * 
+ *
  * @author Bruno P. Kinoshita
  * @since 0.20
  */
 public interface ScriptableParameter<T> extends UnoChoiceParameter {
 
-	/**
-	 * Evaluates a script and returns its result as a Map. List values are automatically handled and converted to
-	 * Maps too.
-	 * 
-	 * @param parameters parameters
-	 * @return script result as Map
-	 */
-	T getChoices(Map<Object, Object> parameters);
-	
+    /**
+     * Evaluates a script and returns its result as a Map. List values are automatically handled and converted to
+     * Maps too.
+     *
+     * @param parameters parameters
+     * @return script result as Map
+     */
+    T getChoices(Map<Object, Object> parameters);
+
 }
