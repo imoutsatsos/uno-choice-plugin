@@ -103,7 +103,7 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
 
         @Override
         public String getDisplayName() {
-            return "Active Choices Cascade Dynamic Choice Parameter";
+            return "Active Choices Reactive Parameter";
         }
 
     }

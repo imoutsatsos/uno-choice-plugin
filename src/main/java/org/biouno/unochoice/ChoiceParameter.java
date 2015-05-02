@@ -94,7 +94,7 @@ public class ChoiceParameter extends AbstractScriptableParameter {
 
         @Override
         public String getDisplayName() {
-            return "Active Choices Dynamic Choice Parameter";
+            return "Active Choices Parameter";
         }
 
     }

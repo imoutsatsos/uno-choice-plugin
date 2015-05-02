@@ -166,7 +166,7 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 
         @Override
         public String getDisplayName() {
-            return "Active Choices Dynamic Reference Parameter";
+            return "Active Choices Reactive Reference Parameter";
         }
 
         public FormValidation doCheckRequired(@QueryParameter String value) {
