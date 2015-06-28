@@ -87,7 +87,8 @@ public class ScriptlerScript extends AbstractScript {
      * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
      */
     public Object eval(Map<String, String> parameters) {
-        Map<String, String> evaledParameters = new HashMap<String, String>();
+        final Map<String, String> envVars = System.getenv();
+        Map<String, String> evaledParameters = new HashMap<String, String>(envVars);
         // if we have any parameter that came from UI, let's eval and use them
         if (parameters != null && parameters.size() > 0) {
             // fill our map with the given parameters
