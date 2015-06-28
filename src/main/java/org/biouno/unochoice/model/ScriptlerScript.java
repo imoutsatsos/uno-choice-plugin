@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -87,7 +88,7 @@ public class ScriptlerScript extends AbstractScript {
      * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
      */
     public Object eval(Map<String, String> parameters) {
-        final Map<String, String> envVars = System.getenv();
+        final Map<String, String> envVars = Utils.getSystemEnv();
         Map<String, String> evaledParameters = new HashMap<String, String>(envVars);
         // if we have any parameter that came from UI, let's eval and use them
         if (parameters != null && parameters.size() > 0) {
@@ -100,7 +101,7 @@ public class ScriptlerScript extends AbstractScript {
                 evaledParameters.put(key, value);
             }
         } else {
-            evaledParameters = this.getParameters();
+            evaledParameters.putAll(this.getParameters());
         }
         return this.toGroovyScript().eval(evaledParameters);
     }

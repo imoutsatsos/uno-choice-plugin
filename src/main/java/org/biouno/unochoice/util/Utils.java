@@ -24,6 +24,7 @@
 
 package org.biouno.unochoice.util;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -98,4 +99,14 @@ public class Utils {
         return paramName;
     }
 
+    /**
+     * Helped method to return the system environment variables. The main advantage
+     * over calling the System.getenv method directly, is that we can mock this call
+     * (System is final).
+     *
+     * @return System environment variables as map
+     */
+    public static Map<String, String> getSystemEnv() {
+        return System.getenv();
+    }
 }
