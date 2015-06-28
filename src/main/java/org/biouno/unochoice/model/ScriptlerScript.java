@@ -90,9 +90,9 @@ public class ScriptlerScript extends AbstractScript {
         Map<String, String> evaledParameters = new HashMap<String, String>();
         // if we have any parameter that came from UI, let's eval and use them
         if (parameters != null && parameters.size() > 0) {
-        	// fill our map with the given parameters
-        	evaledParameters.putAll(parameters);
-        	// and now try to expand env vars
+            // fill our map with the given parameters
+            evaledParameters.putAll(parameters);
+            // and now try to expand env vars
             for (String key : this.getParameters().keySet()) {
                 String value = this.getParameters().get(key);
                 value = Util.replaceMacro((String) value, parameters);
