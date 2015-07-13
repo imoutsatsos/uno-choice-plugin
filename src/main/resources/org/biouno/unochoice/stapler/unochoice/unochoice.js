@@ -815,7 +815,7 @@ var UnoChoice = UnoChoice || (function($) {
         if (e.attr('name') == 'value') {
             value = getElementValue(htmlParameter);
         }  else if (e.prop('tagName') == 'DIV') {
-            var subElements = e.find('input[name="value"]');
+            var subElements = e.find('[name="value"]');
             if (subElements) {
                 var valueBuffer = Array();
                 subElements.each(function() {
