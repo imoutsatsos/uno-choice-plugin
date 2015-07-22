@@ -5,7 +5,14 @@
     <f:textbox name="parameter.name" value="${instance.name}" />
   </f:entry>
   <f:entry title="${%Script}">
-    <f:hetero-radio field="script" descriptors="${descriptor.getApplicableResultSeekers(instance)}" />
+    <j:choose>
+      <j:when test="${null != it}">
+        <f:hetero-radio field="script" descriptors="${descriptor.getApplicableResultSeekers(it)}" />
+      </j:when>
+      <j:otherwise>
+        <f:hetero-radio field="script" descriptors="${descriptor.getApplicableResultSeekers(instance)}" />
+      </j:otherwise>
+    </j:choose>
   </f:entry>
   <f:entry title="${%Description}" field="description" help="/help/parameter/description.html">
     <f:textarea name="parameter.description" value="${instance.description}" />
