@@ -107,7 +107,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<executable>${phantomjs.executable}</executable>
+					<executable>${basedir}/src/test/js/runner.sh</executable>
 					<arguments>
 						<argument>${basedir}/src/test/js/lib/runner.js</argument>
 						<argument>${basedir}/src/test/js/lib/tests.html</argument>
