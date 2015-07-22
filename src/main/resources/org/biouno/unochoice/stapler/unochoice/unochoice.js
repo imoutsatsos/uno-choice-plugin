@@ -847,9 +847,9 @@ var UnoChoice = UnoChoice || (function($) {
         if (e.prop('tagName') == 'SELECT') {
             value = getSelectValues(e);
         } else if (e.attr('type') == 'checkbox' || e.attr('type') == 'radio') {
-            value = (e.attr('checked')== true || e.attr('checked')== 'checked') ? e.attr('value'): '';
+            value = (e.attr('checked') !== undefined) ? e.val(): '';
         } else {
-            value = e.attr('value');
+            value = e.val();
         }
         if (value instanceof Array)
             value = value.toString()
