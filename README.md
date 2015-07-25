@@ -25,8 +25,7 @@ parameter type.
 
 # Building
 
-You must have phantomjs in your $PATH in order to build the project. It is used to
-run JS unit tests, using QUnit, JQuery and the plug-in's own code.
+If you have phantomjs in your $PATH, or if you edit pom.xml, you can run the JavaScript tests too with QUnit. It is executed with the Maven Exec Plug-in, but if you don't have phantomjs installed, the plug-in will simply ignore it and run only the Java tests.
 
 `mvn clean test install`
 
