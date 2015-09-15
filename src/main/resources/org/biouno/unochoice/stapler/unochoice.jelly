@@ -1,5 +1,5 @@
 <!--
-Use it like <st:adjunct include="org.kohsuke.stapler.angularjs"/>
+Use it like <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
 -->
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
   <style type="text/css">
