@@ -99,6 +99,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      * (non-Javadoc)
      * @see org.biouno.unochoice.ScriptableParameter#getChoices(java.util.Map)
      */
+    @Override
     @SuppressWarnings("unchecked") // due to Web + Java and scripts integration
     public Map<Object, Object> getChoices(Map<Object, Object> parameters) {
         final Object value = eval(parameters);
@@ -117,7 +118,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
             return map;
         }
         LOGGER.warning(String.format("Script parameter with name '%s' is not an instance of java.util.Map. The parameter value is %s", getName(), value));
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     public String getChoicesAsString() {
@@ -136,9 +137,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         try {
             final ScriptCallback<Exception> callback = new ScriptCallback(getName(), script, parameters);
             return callback.call();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error executing script for dynamic parameter", e);
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
     }
 
@@ -153,7 +154,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         }
         Object firstElement = "";
         final Map<Object, Object> choices = getChoices(Collections.<Object, Object> emptyMap());
-        if (choices != null && choices.size() > 0) {
+        if (choices != null && !choices.isEmpty()) {
             firstElement = choices.entrySet().iterator().next().getValue();
         }
         final String name = getName();

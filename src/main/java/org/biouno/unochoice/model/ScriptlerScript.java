@@ -24,10 +24,8 @@
 
 package org.biouno.unochoice.model;
 
-import hudson.Extension;
-import hudson.Util;
-
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +33,9 @@ import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.kohsuke.stapler.DataBoundConstructor;
+
+import hudson.Extension;
+import hudson.Util;
 
 /**
  * A scriptler script.
@@ -47,17 +48,18 @@ public class ScriptlerScript extends AbstractScript {
     /*
      * Serial UID.
      */
-    private static final long serialVersionUID = -4833367326600112145L;
+    private static final long serialVersionUID = -6600327523009436354L;
 
     private final String scriptlerScriptId;
 
+    // Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
     private final Map<String, String> parameters;
 
     @DataBoundConstructor
     public ScriptlerScript(String scriptlerScriptId, List<ScriptlerScriptParameter> parameters) {
         super();
         this.scriptlerScriptId = scriptlerScriptId;
-        this.parameters = new HashMap<String, String>();
+        this.parameters = new LinkedHashMap<String, String>();
         if (parameters != null) {
             for (ScriptlerScriptParameter parameter : parameters) {
                 this.parameters.put(parameter.getName(), parameter.getValue());
@@ -79,6 +81,7 @@ public class ScriptlerScript extends AbstractScript {
         return parameters;
     }
 
+    @Override
     public Object eval() {
         return eval(null);
     }
@@ -87,11 +90,12 @@ public class ScriptlerScript extends AbstractScript {
      * (non-Javadoc)
      * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
      */
+    @Override
     public Object eval(Map<String, String> parameters) {
         final Map<String, String> envVars = Utils.getSystemEnv();
         Map<String, String> evaledParameters = new HashMap<String, String>(envVars);
         // if we have any parameter that came from UI, let's eval and use them
-        if (parameters != null && parameters.size() > 0) {
+        if (parameters != null && !parameters.isEmpty()) {
             // fill our map with the given parameters
             evaledParameters.putAll(parameters);
             // and now try to expand env vars

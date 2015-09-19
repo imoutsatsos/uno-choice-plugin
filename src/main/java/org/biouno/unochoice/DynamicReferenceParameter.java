@@ -170,8 +170,8 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
         }
 
         public FormValidation doCheckRequired(@QueryParameter String value) {
-            value = StringUtils.strip(value);
-            if (value == null || value.equals("")) {
+            String strippedValue = StringUtils.strip(value);
+            if ("".equals(strippedValue)) {
                 return FormValidation.error("This field is required.");
             }
             return FormValidation.ok();

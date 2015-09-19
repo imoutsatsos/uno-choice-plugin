@@ -154,6 +154,7 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
      */
     public abstract String getChoiceType();
 
+    @Override
     public ParameterDescriptor getDescriptor() {
         return (ParameterDescriptor) Jenkins.getInstance().getDescriptor(getClass());
     }

@@ -45,6 +45,7 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
 
     private final String name;
     private final Script script;
+    // Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
     private Map<String, String> parameters;
 
     public ScriptCallback(String name, Script script, Map<String, String> parameters) {
@@ -65,11 +66,13 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
         return script;
     }
 
+    @Override
     public Object call() throws T {
         final Object eval = script.eval(getParameters());
         return eval;
     }
 
+    @Override
     public void checkRoles(RoleChecker roleChecker) throws SecurityException {
         // FIXME: check script roles and add security
     }

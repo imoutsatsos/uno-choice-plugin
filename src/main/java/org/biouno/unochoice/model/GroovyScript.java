@@ -90,6 +90,7 @@ public class GroovyScript extends AbstractScript {
      * (non-Javadoc)
      * @see org.biouno.unochoice.model.Script#eval()
      */
+    @Override
     public Object eval() {
         return eval(Collections.<String, String>emptyMap());
     }
@@ -98,12 +99,13 @@ public class GroovyScript extends AbstractScript {
      * (non-Javadoc)
      * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
      */
+    @Override
     public Object eval(Map<String, String> parameters) throws RuntimeException {
         ClassLoader cl = null;
         try {
             cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
         } catch (Exception e) {
-            LOGGER.finest(e.getMessage());
+            LOGGER.log(Level.FINEST, e.getMessage(), e);
         }
         if (cl == null) {
             cl = Thread.currentThread().getContextClassLoader();

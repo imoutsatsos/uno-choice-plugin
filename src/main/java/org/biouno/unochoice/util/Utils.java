@@ -39,6 +39,8 @@ import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
  */
 public class Utils {
 
+    private Utils() {}
+
     /**
      * Returns all scriptler scripts available.
      *

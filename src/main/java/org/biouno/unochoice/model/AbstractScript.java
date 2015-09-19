@@ -42,12 +42,13 @@ public abstract class AbstractScript implements Script, Describable<AbstractScri
      */
     private static final long serialVersionUID = 4027103576278802323L;
 
+    @Override
     @SuppressWarnings("unchecked")
     public Descriptor<AbstractScript> getDescriptor() {
         return Jenkins.getInstance().getDescriptor(getClass());
     }
 
-    public static <T, P> DescriptorExtensionList<AbstractScript, ScriptDescriptor> all() {
+    public static DescriptorExtensionList<AbstractScript, ScriptDescriptor> all() {
         return Jenkins.getInstance().<AbstractScript, ScriptDescriptor> getDescriptorList(AbstractScript.class);
     }
 

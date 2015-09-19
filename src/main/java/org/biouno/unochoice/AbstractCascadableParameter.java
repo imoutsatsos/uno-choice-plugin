@@ -49,6 +49,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
     /**
      * Map with parameters in the UI.
      */
+    // Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
     protected final Map<Object, Object> parameters = new LinkedHashMap<Object, Object>();
 
     /**
@@ -66,6 +67,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
      * (non-Javadoc)
      * @see org.biouno.unochoice.CascadableParameter#getReferencedParameters()
      */
+    @Override
     public String getReferencedParameters() {
         return referencedParameters;
     }
@@ -74,6 +76,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
      * (non-Javadoc)
      * @see org.biouno.unochoice.AbstractScriptableParameter#getParameters()
      */
+    @Override
     public Map<Object, Object> getParameters() {
         return parameters;
     }
@@ -84,6 +87,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
      * (non-Javadoc)
      * @see org.biouno.unochoice.CascadableParameter#doUpdate(java.lang.String)
      */
+    @Override
     @JavaScriptMethod
     public void doUpdate(String parameters) {
         getParameters().clear();
@@ -106,6 +110,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
      * (non-Javadoc)
      * @see org.biouno.unochoice.CascadableParameter#getChoicesForUI()
      */
+    @Override
     @JavaScriptMethod
     public List<Object> getChoicesForUI() {
         Map<Object, Object> mapResult = getChoices(getParameters());
