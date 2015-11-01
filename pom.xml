@@ -29,6 +29,31 @@
 		<phantomjs.executable>phantomjs</phantomjs.executable>
 	</properties>
 
+	<profiles>
+	  <profile>
+		<id>Windows</id>
+		<activation>
+		  <os>
+			<family>Windows</family>
+		  </os>
+		</activation>
+		<properties>
+		  <file.extension>.bat</file.extension>
+		</properties>
+	  </profile>
+	  <profile>
+		<id>unix</id>
+		<activation>
+		  <os>
+			<family>unix</family>
+		  </os>
+		</activation>
+		<properties>
+		  <file.extension>.sh</file.extension>
+		</properties>
+	  </profile>
+	</profiles>
+	
 	<scm>
 		<connection>scm:git:git://github.com/jenkinsci/active-choices-plugin.git</connection>
 		<developerConnection>scm:git:git@github.com:jenkinsci/active-choices-plugin.git</developerConnection>
@@ -107,7 +132,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<executable>${basedir}/src/test/js/runner.sh</executable>
+					<executable>${basedir}/src/test/js/runner${file.extension}</executable>
 					<arguments>
 						<argument>${basedir}/src/test/js/lib/runner.js</argument>
 						<argument>${basedir}/src/test/js/lib/tests.html</argument>
