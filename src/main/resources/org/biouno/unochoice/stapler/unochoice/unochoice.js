@@ -357,9 +357,9 @@ var UnoChoice = UnoChoice || (function($) {
             } // if (oldSel.tagName == 'SELECT') { // else if (oldSel.tagName == 'DIV') {
         });
         // propagate change
-//        console.log('Propagating change event from ' + this.getParameterName());
-//        var e = jQuery.Event('change', {parameterName: this.getParameterName()});
-//        jQuery(this.getParameterElement()).trigger(e);
+        // console.log('Propagating change event from ' + this.getParameterName());
+        // var e = jQuery.Event('change', {parameterName: this.getParameterName()});
+        // jQuery(this.getParameterElement()).trigger(e);
         if (!avoidRecursion) {
             var otherCascadeParameters = cascadeParameters;
             if (cascadeParameters && cascadeParameters.length > 0) {
@@ -519,9 +519,9 @@ var UnoChoice = UnoChoice || (function($) {
             });
         }
         // propagate change
-//        console.log('Propagating change event from ' + this.getParameterName());
-//        var e = jQuery.Event('change', {parameterName: this.getParameterName()});
-//        jQuery(this.getParameterElement()).trigger(e);
+        // console.log('Propagating change event from ' + this.getParameterName());
+        // var e = jQuery.Event('change', {parameterName: this.getParameterName()});
+        // jQuery(this.getParameterElement()).trigger(e);
         if (!avoidRecursion) {
             var otherCascadeParameters = cascadeParameters;
             if (cascadeParameters && cascadeParameters.length > 0) {
