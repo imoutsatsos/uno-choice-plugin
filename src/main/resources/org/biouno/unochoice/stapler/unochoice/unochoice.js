@@ -295,6 +295,9 @@ var UnoChoice = UnoChoice || (function($) {
                             var hiddenValue = document.createElement('input');
                             if (selectedElements.indexOf(i) >= 0) {
                                 input.setAttribute('checked', 'checked');
+                                hiddenValue.setAttribute('name', 'value');
+                            } else {
+                            	hiddenValue.setAttribute('name', '');
                             }
                             if (!entry instanceof String) {
                                 input.setAttribute('json', key);
@@ -320,7 +323,6 @@ var UnoChoice = UnoChoice || (function($) {
                                 label.innerHTML = entry;
                             }
                             hiddenValue.setAttribute('json', key);
-                            hiddenValue.setAttribute('name', '');
                             hiddenValue.setAttribute("value", key);
                             hiddenValue.setAttribute("class", _self.getParameterName());
                             hiddenValue.setAttribute("type", "hidden");
