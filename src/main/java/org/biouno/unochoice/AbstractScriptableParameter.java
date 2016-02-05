@@ -39,6 +39,7 @@ import org.kohsuke.stapler.Ancestor;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
+import hudson.model.AbstractItem;
 import hudson.model.ParameterValue;
 import hudson.model.Project;
 import hudson.model.StringParameterValue;
@@ -112,12 +113,12 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         final StaplerRequest currentRequest = Stapler.getCurrentRequest();
         String projectName = null;
         if (currentRequest != null) {
-            final Ancestor ancestor = currentRequest.findAncestor(Project.class);
+            final Ancestor ancestor = currentRequest.findAncestor(AbstractItem.class);
             if (ancestor != null) {
                 final Object o = ancestor.getObject();
-                if (o instanceof Project) {
-                    final Project<?, ?> project = (Project<?, ?>) o;
-                    projectName = project.getName();
+                if (o instanceof AbstractItem) {
+                    final AbstractItem parentItem = (AbstractItem) o;
+                    projectName = parentItem.getName();
                 }
             }
         }
