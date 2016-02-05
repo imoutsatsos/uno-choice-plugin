@@ -24,23 +24,27 @@
 
 package org.biouno.unochoice;
 
-import hudson.DescriptorExtensionList;
-import hudson.model.ParameterValue;
-import hudson.model.SimpleParameterDefinition;
-import hudson.model.ParameterDefinition;
-import hudson.model.StringParameterValue;
-
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.servlet.ServletException;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+import org.biouno.unochoice.util.Utils;
+import org.kohsuke.stapler.StaplerRequest;
+
+import hudson.DescriptorExtensionList;
+import hudson.model.FileParameterValue;
+import hudson.model.ParameterDefinition;
+import hudson.model.ParameterValue;
+import hudson.model.SimpleParameterDefinition;
+import hudson.model.StringParameterValue;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
-
-import org.apache.commons.lang.StringUtils;
-import org.biouno.unochoice.util.Utils;
-import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Abstract Uno Choice parameter. Provides basic methods common to all Uno Choice parameters.
@@ -144,23 +148,44 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "createValue", new Object[] {request, json});
         }
-        final JSONObject parameterJsonModel = new JSONObject(false);
-        final Object value = json.get("value");
-        final Object name = json.get("name");
-        final String valueAsText;
-
-        if (JSONUtils.isArray(value)) {
-            valueAsText = ((JSONArray) value).join(",", true);
+        if (json.containsKey("file")) {
+            // copied from FileParameterDefinition
+            FileItem src;
+            try {
+                src = request.getFileItem( json.getString("file") );
+            } catch (ServletException e) {
+                LOGGER.log(Level.SEVERE, "Fatal error while reading uploaded file: " + e.getMessage(), e);
+                return null;
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "IO error while reading uploaded file: " + e.getMessage(), e);
+                return null;
+            }
+            if ( src == null ) {
+                // the requested file parameter wasn't uploaded
+                return null;
+            }
+            FileParameterValue p = new FileParameterValue(getName(), src);
+            p.setDescription(getDescription());
+            return p;
         } else {
-            valueAsText = (value == null) ? "" : String.valueOf(value);
+            final JSONObject parameterJsonModel = new JSONObject(false);
+            final Object value = json.get("value");
+            final Object name = json.get("name");
+            final String valueAsText;
+
+            if (JSONUtils.isArray(value)) {
+                valueAsText = ((JSONArray) value).join(",", true);
+            } else {
+                valueAsText = (value == null) ? "" : String.valueOf(value);
+            }
+
+            parameterJsonModel.put("name",  name);
+            parameterJsonModel.put("value", valueAsText);
+
+            StringParameterValue parameterValue = request.bindJSON(StringParameterValue.class, parameterJsonModel);
+            parameterValue.setDescription(getDescription());
+            return parameterValue;
         }
-
-        parameterJsonModel.put("name",  name);
-        parameterJsonModel.put("value", valueAsText);
-
-        StringParameterValue parameterValue = request.bindJSON(StringParameterValue.class, parameterJsonModel);
-        parameterValue.setDescription(getDescription());
-        return parameterValue;
     }
 
     /**
