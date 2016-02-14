@@ -48,7 +48,6 @@ public interface CascadableParameter<T> extends ScriptableParameter<T> {
      * Evaluates a script and returns its result as a Map. List values are automatically handled and converted to
      * Maps too.
      *
-     * @param parameters parameters
      * @return script result as Map
      */
     public List<Object> getChoicesForUI();
