@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ApprovalContext;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import groovy.lang.Binding;
@@ -88,10 +89,10 @@ public class GroovyScript extends AbstractScript {
 
     private Object readResolve() {
         if (script != null) {
-            secureScript = new SecureGroovyScript(script, false, null);
+            secureScript = new SecureGroovyScript(script, false, null).configuring(ApprovalContext.create());
         }
         if (fallbackScript != null) {
-            secureFallbackScript = new SecureGroovyScript(fallbackScript, false, null);
+            secureFallbackScript = new SecureGroovyScript(fallbackScript, false, null).configuring(ApprovalContext.create());
         }
         return this;
     }
