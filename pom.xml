@@ -11,7 +11,7 @@
 
 	<groupId>org.biouno</groupId>
 	<artifactId>uno-choice</artifactId>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5-alpha-1</version>
 	<packaging>hpi</packaging>
 
 	<name>Active Choices Plug-in</name>
@@ -58,7 +58,7 @@
 		<connection>scm:git:git://github.com/jenkinsci/active-choices-plugin.git</connection>
 		<developerConnection>scm:git:git@github.com:jenkinsci/active-choices-plugin.git</developerConnection>
 		<url>http://github.com/jenkinsci/active-choices-plugin</url>
-		<tag>HEAD</tag>
+		<tag>uno-choice-1.5-alpha-1</tag>
 	</scm>
 
 	<developers>
