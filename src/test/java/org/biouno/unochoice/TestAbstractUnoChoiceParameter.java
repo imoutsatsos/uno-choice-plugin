@@ -30,8 +30,13 @@ import hudson.model.StringParameterValue;
 import net.sf.json.JSONObject;
 
 import org.biouno.unochoice.model.GroovyScript;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval;
+import org.jenkinsci.plugins.scriptsecurity.scripts.languages.GroovyLanguage;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.StaplerRequest;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -39,9 +44,21 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class TestAbstractUnoChoiceParameter {
 
+    private final String SCRIPT = "return ['a', 'b']";
+    private final String FALLBACK_SCRIPT = "return ['EMPTY!']";
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
+
+    @Before
+    public void setUp() throws Exception {
+        ScriptApproval.get().preapprove(SCRIPT, GroovyLanguage.get());
+        ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
+    }
+
 	@Test
 	public void testCreateValue() {
-		GroovyScript script = new GroovyScript("return ['a', 'b']", "return ['EMPTY!']");
+	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
 		ChoiceParameter param = new ChoiceParameter("name", "description", script, "choiceType", true);
 		ParameterValue value = param.createValue("value");
 		
@@ -58,7 +75,5 @@ public class TestAbstractUnoChoiceParameter {
 		
 		assertEquals("value", value.getValue().toString());
 	}
-	
-	
-	
+
 }

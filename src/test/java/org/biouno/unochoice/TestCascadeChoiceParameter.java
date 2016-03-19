@@ -32,13 +32,30 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.biouno.unochoice.model.GroovyScript;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval;
+import org.jenkinsci.plugins.scriptsecurity.scripts.languages.GroovyLanguage;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
 
 public class TestCascadeChoiceParameter {
 
+    private final String SCRIPT = "return ['a', 'b']";
+    private final String FALLBACK_SCRIPT = "return ['EMPTY!']";
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
+
+    @Before
+    public void setUp() throws Exception {
+        ScriptApproval.get().preapprove(SCRIPT, GroovyLanguage.get());
+        ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
+    }
+
 	@Test
 	public void testConstructor() {
-		GroovyScript script = new GroovyScript("return ['a', 'b']", "return ['EMPTY!']");
+	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
 		CascadeChoiceParameter param = new CascadeChoiceParameter(
 			"param000", "description", 
 			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
@@ -54,7 +71,7 @@ public class TestCascadeChoiceParameter {
 	
 	@Test
 	public void testParameters() {
-		GroovyScript script = new GroovyScript("return ['a', 'b']", "return ['EMPTY!']");
+	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
 		CascadeChoiceParameter param = new CascadeChoiceParameter(
 			"param000", "description", 
 			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 

@@ -33,9 +33,14 @@ import java.util.Map;
 
 import org.biouno.unochoice.model.GroovyScript;
 import org.biouno.unochoice.model.ScriptlerScriptParameter;
+import org.junit.Rule;
 import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
 
 public class TestScriptCallback {
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
 	@Test
 	public void testScriptCallback() {

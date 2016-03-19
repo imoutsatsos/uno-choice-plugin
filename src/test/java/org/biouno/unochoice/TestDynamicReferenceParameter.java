@@ -28,13 +28,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.biouno.unochoice.model.GroovyScript;
+import org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval;
+import org.jenkinsci.plugins.scriptsecurity.scripts.languages.GroovyLanguage;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.jvnet.hudson.test.JenkinsRule;
 
 public class TestDynamicReferenceParameter {
 
+    private final String SCRIPT = "return ['D', 'C', 'B', 'A']";
+    private final String FALLBACK_SCRIPT = "";
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
+
+    @Before
+    public void setUp() throws Exception {
+        ScriptApproval.get().preapprove(SCRIPT, GroovyLanguage.get());
+        ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
+    }
+    
 	@Test
 	public void testConstructor() {
-		GroovyScript script = new GroovyScript("return ['a', 'b']", "return ['EMPTY!']");
+		GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
 		DynamicReferenceParameter param = new DynamicReferenceParameter(
 			"param000", "description", 
 			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 

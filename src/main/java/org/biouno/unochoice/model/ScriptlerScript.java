@@ -32,6 +32,7 @@ import java.util.Map;
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
+import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import hudson.Extension;
@@ -119,7 +120,7 @@ public class ScriptlerScript extends AbstractScript {
      */
     public GroovyScript toGroovyScript() {
         final Script scriptler   = ScriptHelper.getScript(getScriptlerScriptId(), true);
-        return new GroovyScript(scriptler.script, null);
+        return new GroovyScript(new SecureGroovyScript(scriptler.script, false, null), null);
     }
 
     // --- descriptor
