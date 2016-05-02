@@ -74,6 +74,7 @@ public class GroovyScript extends AbstractScript {
     /**
      * Secure fallback script content.
      */
+    @Nullable
     private SecureGroovyScript secureFallbackScript;
 
     @Deprecated
@@ -84,7 +85,9 @@ public class GroovyScript extends AbstractScript {
     @DataBoundConstructor
     public GroovyScript(SecureGroovyScript script, SecureGroovyScript fallbackScript) {
         this.secureScript = script.configuringWithNonKeyItem();
-        this.secureFallbackScript = fallbackScript.configuringWithNonKeyItem();
+        if (fallbackScript != null) {
+            this.secureFallbackScript = fallbackScript.configuringWithNonKeyItem();
+        }
     }
 
     private Object readResolve() {
