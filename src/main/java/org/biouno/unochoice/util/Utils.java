@@ -131,9 +131,13 @@ public class Utils {
     public static Project<?, ?> getProjectByName(String projectName) {
         Jenkins instance = Jenkins.getInstance();
         if (instance != null) {
-            Object o = instance.getItem(projectName);
-            if (o instanceof Project)
-                return (Project<?, ?>) o;
+        	@SuppressWarnings("rawtypes")
+			List<Project> projects = instance.getAllItems(Project.class);
+        	for (Project<?, ?> p : projects) {
+        		if (p.getName().equals(projectName)) {
+        			return p;
+        		}
+        	}
         }
         return null;
     }
