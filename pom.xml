@@ -1,23 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.jenkins-ci.plugins</groupId>
-		<artifactId>plugin</artifactId>
-		<version>1.580.1</version><!-- which version of Jenkins is this plugin 
-			built against? -->
-	</parent>
+    <parent>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>1.580.1</version><!-- which version of Jenkins is this plugin built against? -->
+    </parent>
 
-	<groupId>org.biouno</groupId>
-	<artifactId>uno-choice</artifactId>
-	<version>1.5-alpha-2-SNAPSHOT</version>
-	<packaging>hpi</packaging>
+    <groupId>org.biouno</groupId>
+    <artifactId>uno-choice</artifactId>
+    <version>1.5-alpha-2-SNAPSHOT</version>
+    <packaging>hpi</packaging>
 
-	<name>Active Choices Plug-in</name>
-	<description>This plug-in provides additional parameter types for jobs, that allow you to cascade changes and render images or other HTML elements instead of the traditional parameter.</description>
+    <name>Active Choices Plug-in</name>
+    <description>This plug-in provides additional parameter types for jobs, that allow you to cascade changes and render images or other HTML elements instead of the traditional parameter.</description>
 
-	<url>https://wiki.jenkins-ci.org/display/JENKINS/Active+Choices+Plugin</url>
+    <url>https://wiki.jenkins-ci.org/display/JENKINS/Active+Choices+Plugin</url>
 
     <licenses>
         <license>
@@ -27,143 +27,117 @@
         </license>
     </licenses>
 
-	<issueManagement>
-		<system>JIRA</system>
-		<url>https://issues.jenkins-ci.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+JENKINS+AND+status+in+%28Open%2C+"In+Progress"%2C+Reopened%29+AND+component+%3D+${project.artifactId}</url>
-	</issueManagement>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>https://issues.jenkins-ci.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+JENKINS+AND+status+in+%28Open%2C+"In+Progress"%2C+Reopened%29+AND+component+%3D+${project.artifactId}</url>
+    </issueManagement>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<phantomjs.executable>phantomjs</phantomjs.executable>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <phantomjs.executable>phantomjs</phantomjs.executable>
+    </properties>
 
-	<profiles>
-	  <profile>
-		<id>Windows</id>
-		<activation>
-		  <os>
-			<family>Windows</family>
-		  </os>
-		</activation>
-		<properties>
-		  <file.extension>.bat</file.extension>
-		</properties>
-	  </profile>
-	  <profile>
-		<id>unix</id>
-		<activation>
-		  <os>
-			<family>unix</family>
-		  </os>
-		</activation>
-		<properties>
-		  <file.extension>.sh</file.extension>
-		</properties>
-	  </profile>
-	</profiles>
-	
-	<scm>
-		<connection>scm:git:git://github.com/jenkinsci/active-choices-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:jenkinsci/active-choices-plugin.git</developerConnection>
-		<url>http://github.com/jenkinsci/active-choices-plugin</url>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:git://github.com/jenkinsci/active-choices-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:jenkinsci/active-choices-plugin.git</developerConnection>
+        <url>http://github.com/jenkinsci/active-choices-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
 
-	<developers>
-		<developer>
-			<id>kinow</id>
-			<name>Bruno P. Kinoshita</name>
-			<timezone>Pacific/Auckland</timezone>
-		</developer>
-		<developer>
-			<id>imoutsatsos</id>
-			<name>Ioannis K. Moutsatsos</name>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>kinow</id>
+            <name>Bruno P. Kinoshita</name>
+            <timezone>Pacific/Auckland</timezone>
+        </developer>
+        <developer>
+            <id>imoutsatsos</id>
+            <name>Ioannis K. Moutsatsos</name>
+        </developer>
+    </developers>
 
-	<dependencies>
-		<!-- Scriptler is used to eval Groovy parameters -->
-		<dependency>
-			<groupId>org.jenkins-ci.plugins</groupId>
-			<artifactId>scriptler</artifactId>
-			<version>2.9</version>
-		</dependency>
-		<!-- JQuery is included only once -->
-		<dependency>
-			<groupId>org.kohsuke.stapler</groupId>
-			<artifactId>stapler-adjunct-jquery</artifactId>
-			<version>1.8.3-0</version>
-		</dependency>
+    <dependencies>
+        <!-- Scriptler is used to eval Groovy parameters -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>scriptler</artifactId>
+            <version>2.9</version>
+        </dependency>
+        <!-- JQuery is included only once -->
+        <dependency>
+            <groupId>org.kohsuke.stapler</groupId>
+            <artifactId>stapler-adjunct-jquery</artifactId>
+            <version>1.8.3-0</version>
+        </dependency>
         <!-- script-security plug-in integration -->
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>script-security</artifactId>
             <version>1.19</version>
         </dependency>
-		<!-- testing -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>1.9.5</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.5.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.5.1</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- testing -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.5.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jenkins-ci.modules</groupId>
             <artifactId>sshd</artifactId>
             <version>1.6</version>
             <scope>test</scope>
         </dependency>
-	</dependencies>
+    </dependencies>
 
-	<!-- running JS tests -->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>InjectedTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>PhantomJS Unit Testing</id>
-						<phase>test</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<executable>${basedir}/src/test/js/runner${file.extension}</executable>
-					<arguments>
-						<argument>${basedir}/src/test/js/lib/runner.js</argument>
-						<argument>${basedir}/src/test/js/lib/tests.html</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <!-- running JS tests -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>InjectedTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>PhantomJS Unit Testing</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>${basedir}/src/test/js/runner${file.extension}</executable>
+                    <arguments>
+                        <argument>${basedir}/src/test/js/lib/runner.js</argument>
+                        <argument>${basedir}/src/test/js/lib/tests.html</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-    <!-- get every artifact through repo.jenkins-ci.org, which proxies all the 
-        artifacts that we need -->
+    <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>
@@ -177,5 +151,30 @@
             <url>http://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>Windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <file.extension>.bat</file.extension>
+            </properties>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <file.extension>.sh</file.extension>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
