@@ -24,15 +24,14 @@
 
 package org.biouno.unochoice.util;
 
-import hudson.remoting.Callable;
-import jenkins.security.Roles;
-
 import java.util.Map;
 
 import org.biouno.unochoice.model.Script;
 import org.jenkinsci.remoting.Role;
 import org.jenkinsci.remoting.RoleChecker;
 import org.jenkinsci.remoting.RoleSensitive;
+
+import hudson.remoting.Callable;
 
 /**
  * A callable (Jenkins remoting API) object that executes the script locally (when executed in the master)
