@@ -24,16 +24,7 @@
 
 package org.biouno.unochoice;
 
-import hudson.Extension;
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
-import hudson.model.ParameterDefinition;
-import hudson.util.FormValidation;
-
 import java.util.List;
-import java.util.Map;
-
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,6 +34,12 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
+
+import hudson.Extension;
+import hudson.model.AbstractProject;
+import hudson.model.ParameterDefinition;
+import hudson.util.FormValidation;
+import net.sf.json.JSONObject;
 
 /**
  * <p>Provides a <b>dynamic reference parameter</b> for users. This is a not so elegant
@@ -64,10 +61,7 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
     /*
      * Serial UID.
      */
-    private static final long serialVersionUID = 3583160434198488019L;
-
-    private static final String JENKINS_PROJECT_VARIABLE_NAME = "jenkinsProject";
-    private static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
+    private static final long serialVersionUID = 8261526672604361397L;
 
     /**
      * Choice type.
@@ -126,26 +120,6 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
 
     public Boolean getOmitValueField() {
         return omitValueField;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * This parameter also includes the Jenkins project and build objects in the Groovy variables map. It
-     * means that you can use these two in your code for rendering the parameter.
-     */
-    @Override
-    public Map<Object, Object> getParameters() {
-        Map<Object, Object> parameters = super.getParameters();
-        final AbstractProject<?, ?> project = ((DescriptorImpl) getDescriptor()).getProject();
-        if (project != null) {
-            parameters.put(JENKINS_PROJECT_VARIABLE_NAME, project);
-            AbstractBuild<?, ?> build = project.getLastBuild();
-            if (build != null && build.getHasArtifacts()) {
-                parameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
-            }
-        }
-        return parameters;
     }
 
     @JavaScriptMethod

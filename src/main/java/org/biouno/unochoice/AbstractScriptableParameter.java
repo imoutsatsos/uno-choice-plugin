@@ -39,6 +39,7 @@ import org.kohsuke.stapler.Ancestor;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
+import hudson.model.AbstractBuild;
 import hudson.model.AbstractItem;
 import hudson.model.ParameterValue;
 import hudson.model.Project;
@@ -65,6 +66,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      * Constant used to add the project in the environment variables map.
      */
     protected static final String JENKINS_PROJECT_VARIABLE_NAME = "jenkinsProject";
+    /**
+     * Constant used to add the build in the environment variables map.
+     */
+    protected static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
     /**
      * Number of visible items on the screen.
      */
@@ -158,8 +163,13 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
             // otherwise, in case we don't have the item name, we iterate looking for a job that uses this UUID
             project = Utils.findProjectByParameterUUID(this.getRandomName());
         }
-        if (project != null)
+        if (project != null) {
             helperParameters.put(JENKINS_PROJECT_VARIABLE_NAME, project);
+            AbstractBuild<?, ?> build = project.getLastBuild();
+            if (build != null && build.getHasArtifacts()) {
+                helperParameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
+            }
+        }
         return helperParameters;
     }
 
