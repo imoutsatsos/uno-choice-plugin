@@ -297,7 +297,7 @@ var UnoChoice = UnoChoice || (function($) {
                                 input.setAttribute('checked', 'checked');
                                 hiddenValue.setAttribute('name', 'value');
                             } else {
-                            	hiddenValue.setAttribute('name', '');
+                                hiddenValue.setAttribute('name', '');
                             }
                             if (!entry instanceof String) {
                                 input.setAttribute('json', key);
