@@ -212,7 +212,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 
     public String getChoicesAsString(Map<Object, Object> parameters) {
         final Object value = eval(parameters);
-        if (value != null) 
+        if (value != null)
             return value.toString();
         return "";
     }
