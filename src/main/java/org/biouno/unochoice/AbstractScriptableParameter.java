@@ -263,9 +263,8 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         }
         if (visibleItemCount <= 0)
             visibleItemCount = 1;
-        final int choicesSize = visibleItemCount;
-        if (choicesSize < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
-            return choicesSize;
+        if (visibleItemCount < DEFAULT_MAX_VISIBLE_ITEM_COUNT)
+            return visibleItemCount;
         return DEFAULT_MAX_VISIBLE_ITEM_COUNT;
     }
 
