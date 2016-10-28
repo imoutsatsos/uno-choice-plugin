@@ -9,7 +9,7 @@ PHANTOMJS_EXEC=$(which phantomjs)
 
 if [[ -x $PHANTOMJS_EXEC ]];
 	then
-	phantomjs $1 $2
+	phantomjs "$1" "$2"
 else
 	exit 0
 fi
