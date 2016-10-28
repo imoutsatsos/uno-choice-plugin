@@ -53,44 +53,44 @@ public class TestCascadeChoiceParameter {
         ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
     }
 
-	@Test
-	public void testConstructor() {
-	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
-		CascadeChoiceParameter param = new CascadeChoiceParameter(
-			"param000", "description", 
-			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
-			"param001, param002", true);
-		
-		assertEquals("param000", param.getName());
-		assertEquals("description", param.getDescription());
-		assertEquals(script, param.getScript());
-		assertEquals("ET_FORMATTED_HIDDEN_HTML", param.getChoiceType());
-		assertEquals("param001, param002", param.getReferencedParameters());
-		assertTrue(param.getFilterable());
-	}
-	
-	@Test
-	public void testParameters() {
-	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
-		CascadeChoiceParameter param = new CascadeChoiceParameter(
-			"param000", "description", 
-			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
-			"param001, param002", true);
-		assertTrue(param.getParameters().isEmpty());
-		
-		param.doUpdate("param001=A__LESEP__param002=B__LESEP__param003=");
-		
-		Map<String, String> expected = new LinkedHashMap<String, String>();
-		expected.put("param001", "A");
-		expected.put("param002", "B");
-		expected.put("param003", "");
-		assertEquals(expected, param.getParameters());
-		
-		param.doUpdate("");
-		expected.clear();
-		assertEquals(expected, param.getParameters());
-		
-		assertEquals(Arrays.asList("param001", "param002"), Arrays.asList(param.getReferencedParametersAsArray()));
-	}
-	
+    @Test
+    public void testConstructor() {
+        GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
+        CascadeChoiceParameter param = new CascadeChoiceParameter(
+            "param000", "description", 
+            script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
+            "param001, param002", true);
+        
+        assertEquals("param000", param.getName());
+        assertEquals("description", param.getDescription());
+        assertEquals(script, param.getScript());
+        assertEquals("ET_FORMATTED_HIDDEN_HTML", param.getChoiceType());
+        assertEquals("param001, param002", param.getReferencedParameters());
+        assertTrue(param.getFilterable());
+    }
+    
+    @Test
+    public void testParameters() {
+        GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
+        CascadeChoiceParameter param = new CascadeChoiceParameter(
+            "param000", "description", 
+            script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
+            "param001, param002", true);
+        assertTrue(param.getParameters().isEmpty());
+        
+        param.doUpdate("param001=A__LESEP__param002=B__LESEP__param003=");
+        
+        Map<String, String> expected = new LinkedHashMap<String, String>();
+        expected.put("param001", "A");
+        expected.put("param002", "B");
+        expected.put("param003", "");
+        assertEquals(expected, param.getParameters());
+        
+        param.doUpdate("");
+        expected.clear();
+        assertEquals(expected, param.getParameters());
+        
+        assertEquals(Arrays.asList("param001", "param002"), Arrays.asList(param.getReferencedParametersAsArray()));
+    }
+    
 }

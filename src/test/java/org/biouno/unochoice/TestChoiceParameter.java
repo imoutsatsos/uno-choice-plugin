@@ -49,17 +49,17 @@ public class TestChoiceParameter {
         ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
     }
 
-	@Test
-	public void testConstructor() {
-	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
-		ChoiceParameter param = new ChoiceParameter(
-			"param000", "description", 
-			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, true);
-		
-		assertEquals("param000", param.getName());
-		assertEquals("description", param.getDescription());
-		assertEquals(script, param.getScript());
-		assertEquals("ET_FORMATTED_HIDDEN_HTML", param.getChoiceType());
-		assertTrue(param.getFilterable());
-	}
+    @Test
+    public void testConstructor() {
+        GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
+        ChoiceParameter param = new ChoiceParameter(
+            "param000", "description", 
+            script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, true);
+        
+        assertEquals("param000", param.getName());
+        assertEquals("description", param.getDescription());
+        assertEquals(script, param.getScript());
+        assertEquals("ET_FORMATTED_HIDDEN_HTML", param.getChoiceType());
+        assertTrue(param.getFilterable());
+    }
 }

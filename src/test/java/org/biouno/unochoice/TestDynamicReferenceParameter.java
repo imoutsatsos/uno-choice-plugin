@@ -49,20 +49,20 @@ public class TestDynamicReferenceParameter {
         ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
     }
     
-	@Test
-	public void testConstructor() {
-		GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
-		DynamicReferenceParameter param = new DynamicReferenceParameter(
-			"param000", "description", 
-			script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
-			"param001, param002", true);
-		
-		assertEquals("param000", param.getName());
-		assertEquals("description", param.getDescription());
-		assertEquals(script, param.getScript());
-		assertEquals("ET_FORMATTED_HIDDEN_HTML", param.getChoiceType());
-		assertEquals("param001, param002", param.getReferencedParameters());
-		assertTrue(param.getOmitValueField());
-	}
-		
+    @Test
+    public void testConstructor() {
+        GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
+        DynamicReferenceParameter param = new DynamicReferenceParameter(
+            "param000", "description", 
+            script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
+            "param001, param002", true);
+        
+        assertEquals("param000", param.getName());
+        assertEquals("description", param.getDescription());
+        assertEquals(script, param.getScript());
+        assertEquals("ET_FORMATTED_HIDDEN_HTML", param.getChoiceType());
+        assertEquals("param001, param002", param.getReferencedParameters());
+        assertTrue(param.getOmitValueField());
+    }
+        
 }

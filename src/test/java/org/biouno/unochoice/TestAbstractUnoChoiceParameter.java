@@ -56,24 +56,24 @@ public class TestAbstractUnoChoiceParameter {
         ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
     }
 
-	@Test
-	public void testCreateValue() {
-	    GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
-		ChoiceParameter param = new ChoiceParameter("name", "description", script, "choiceType", true);
-		ParameterValue value = param.createValue("value");
-		
-		assertEquals("value", value.getValue().toString());
-		
-		JSONObject json = new JSONObject();
-		json.put("name", "name");
-		json.put("value", "value");
-		
-		StaplerRequest request = PowerMockito.mock(StaplerRequest.class);
-		PowerMockito.when(request.bindJSON(StringParameterValue.class, json)).thenReturn((StringParameterValue) value);
-		
-		value = param.createValue(request, json);
-		
-		assertEquals("value", value.getValue().toString());
-	}
+    @Test
+    public void testCreateValue() {
+        GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
+        ChoiceParameter param = new ChoiceParameter("name", "description", script, "choiceType", true);
+        ParameterValue value = param.createValue("value");
+        
+        assertEquals("value", value.getValue().toString());
+        
+        JSONObject json = new JSONObject();
+        json.put("name", "name");
+        json.put("value", "value");
+        
+        StaplerRequest request = PowerMockito.mock(StaplerRequest.class);
+        PowerMockito.when(request.bindJSON(StringParameterValue.class, json)).thenReturn((StringParameterValue) value);
+        
+        value = param.createValue(request, json);
+        
+        assertEquals("value", value.getValue().toString());
+    }
 
 }
