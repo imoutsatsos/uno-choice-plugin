@@ -55,7 +55,7 @@ public class TestChoiceParameter {
         ChoiceParameter param = new ChoiceParameter(
             "param000", "description", 
             script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, true);
-        
+
         assertEquals("param000", param.getName());
         assertEquals("description", param.getDescription());
         assertEquals(script, param.getScript());

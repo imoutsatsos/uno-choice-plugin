@@ -188,7 +188,6 @@ public class Utils {
         return false;
     }
 
-
     /**
      * Get the parameter definitions for the given project.
      *

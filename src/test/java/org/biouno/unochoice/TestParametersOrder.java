@@ -45,13 +45,13 @@ public class TestParametersOrder {
 
     @Rule
     public JenkinsRule j = new JenkinsRule();
-    
+
     @Before
     public void setUp() throws Exception {
         ScriptApproval.get().preapprove(SCRIPT, GroovyLanguage.get());
         ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
     }
-    
+
     @Test
     public void testParametersOrder() {
         Map<Object, Object> parameters = new LinkedHashMap<Object, Object>();
@@ -59,13 +59,13 @@ public class TestParametersOrder {
         parameters.put("C", "C");
         parameters.put("B", "B");
         parameters.put("A", "A");
-        
+
         ChoiceParameter parameter = new ChoiceParameter(
                 "script001", "description", "random name", new GroovyScript(SCRIPT, FALLBACK_SCRIPT),
                 ChoiceParameter.PARAMETER_TYPE_MULTI_SELECT, true);
-        
+
         Map<Object, Object> result = parameter.getChoices(Collections.<Object, Object>emptyMap());
         assertArrayEquals(parameters.keySet().toArray(), result.keySet().toArray());
     }
-    
+
 }

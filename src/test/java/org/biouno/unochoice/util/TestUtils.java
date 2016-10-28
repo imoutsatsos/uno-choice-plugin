@@ -42,7 +42,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Utils.class})
 public class TestUtils {
-    
+
     @Test
     public void testGetAllScriptlerScripts() {
         Set<Script> fakeScripts = new HashSet<Script>();
@@ -61,38 +61,38 @@ public class TestUtils {
         assertFalse(Utils.isSelected(""));
         assertFalse(Utils.isSelected("a"));
     }
-    
+
     @Test
     public void testEscapeSelected() {
         String escaped = Utils.escapeSelected(null);
         assertEquals("", escaped);
-        
+
         escaped = Utils.escapeSelected("");
         assertEquals("", escaped);
-        
+
         escaped = Utils.escapeSelected("a:selected");
         assertEquals("a", escaped);
-        
+
         escaped = Utils.escapeSelected("a");
         assertEquals("a", escaped);
     }
-    
+
     @Test
     public void testRandomParameterName() {
         String paramName = Utils.createRandomParameterName("test", "param");
         assertNotNull(paramName);
         assertTrue(paramName.startsWith("test"));
         assertTrue(paramName.endsWith("param"));
-        
+
         paramName = Utils.createRandomParameterName(null, "param");
         assertNotNull(paramName);
         assertFalse(paramName.startsWith("test"));
         assertTrue(paramName.endsWith("param"));
-        
+
         paramName = Utils.createRandomParameterName("test", null);
         assertNotNull(paramName);
         assertTrue(paramName.startsWith("test"));
         assertFalse(paramName.endsWith("param"));
     }
-    
+
 }

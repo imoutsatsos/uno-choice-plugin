@@ -48,7 +48,7 @@ public class TestDynamicReferenceParameter {
         ScriptApproval.get().preapprove(SCRIPT, GroovyLanguage.get());
         ScriptApproval.get().preapprove(FALLBACK_SCRIPT, GroovyLanguage.get());
     }
-    
+
     @Test
     public void testConstructor() {
         GroovyScript script = new GroovyScript(SCRIPT, FALLBACK_SCRIPT);
@@ -56,7 +56,7 @@ public class TestDynamicReferenceParameter {
             "param000", "description", 
             script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, 
             "param001, param002", true);
-        
+
         assertEquals("param000", param.getName());
         assertEquals("description", param.getDescription());
         assertEquals(script, param.getScript());
@@ -64,5 +64,5 @@ public class TestDynamicReferenceParameter {
         assertEquals("param001, param002", param.getReferencedParameters());
         assertTrue(param.getOmitValueField());
     }
-        
+
 }

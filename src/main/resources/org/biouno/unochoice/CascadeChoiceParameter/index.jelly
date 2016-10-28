@@ -10,7 +10,7 @@
         // add the element we want to monitor
         referencedParameters.push("${value}");
     </j:forEach>
-    
+
     if (window.makeStaplerProxy) {
         window.__old__makeStaplerProxy = window.makeStaplerProxy;
         window.makeStaplerProxy = UnoChoice.makeStaplerProxy2;
@@ -39,7 +39,7 @@
             console.log('Filter error: Missing filter element!');
         }
         </j:if>
-        
+
         for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
             var parameterElement = null;
             // FIXME: review the block below
@@ -70,16 +70,16 @@
                     }
                 }
             }
-            
+
             new UnoChoice.ReferencedParameter(referencedParameters[i], parameterElement, cascadeParameter);
         }
-        
+
         // call update methods in Java passing the HTML values
         console.log('Updating cascade of parameter [${it.getName()}] ...');
         cascadeParameter.update();
     } else {
         console.log('Parameter error: Missing parameter [${paramName}] HTML element!');
     }
-    
+
   </script>
 </j:jelly>

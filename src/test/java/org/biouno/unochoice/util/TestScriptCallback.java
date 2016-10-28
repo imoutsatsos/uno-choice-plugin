@@ -55,9 +55,9 @@ public class TestScriptCallback {
             script, 
             parameters
         );
-        
+
         assertEquals("callback1", sc.getName());
         assertEquals(sc.getScript(), script);
     }
-    
+
 }
