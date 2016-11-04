@@ -38,6 +38,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 import groovy.lang.Binding;
 import hudson.Extension;
+import hudson.PluginManager;
 import hudson.Util;
 import jenkins.model.Jenkins;
 
@@ -129,11 +130,15 @@ public class GroovyScript extends AbstractScript {
      */
     @Override
     public Object eval(Map<String, String> parameters) throws RuntimeException {
+        final Jenkins instance = Jenkins.getInstance();
         ClassLoader cl = null;
-        try {
-            cl = Jenkins.getInstance().getPluginManager().uberClassLoader;
-        } catch (Exception e) {
-            LOGGER.log(Level.FINEST, e.getMessage(), e);
+        if (instance != null) {
+            try {
+                PluginManager pluginManager = instance.getPluginManager();
+                cl = pluginManager.uberClassLoader;
+            } catch (Exception e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
+            }
         }
         if (cl == null) {
             cl = Thread.currentThread().getContextClassLoader();

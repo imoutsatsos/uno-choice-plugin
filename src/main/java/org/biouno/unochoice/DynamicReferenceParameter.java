@@ -141,16 +141,18 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
          */
         @Override
         public ParameterDefinition newInstance(StaplerRequest req, JSONObject formData) throws hudson.model.Descriptor.FormException {
-            List<Ancestor> ancestors = req.getAncestors();
-            AbstractProject<?, ?> project = null;
-            for (Ancestor ancestor : ancestors) {
-                Object object = ancestor.getObject();
-                if (object instanceof AbstractProject<?, ?>) {
-                    project = (AbstractProject<?, ?>) object;
-                    break;
+            if (req != null) {
+                List<Ancestor> ancestors = req.getAncestors();
+                AbstractProject<?, ?> project = null;
+                for (Ancestor ancestor : ancestors) {
+                    Object object = ancestor.getObject();
+                    if (object instanceof AbstractProject<?, ?>) {
+                        project = (AbstractProject<?, ?>) object;
+                        break;
+                    }
                 }
+                this.project = project;
             }
-            this.project = project;
             return super.newInstance(req, formData);
         }
 

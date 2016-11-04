@@ -36,6 +36,7 @@ import org.biouno.unochoice.util.Utils;
 import org.kohsuke.stapler.StaplerRequest;
 
 import hudson.DescriptorExtensionList;
+import hudson.model.Descriptor;
 import hudson.model.FileParameterValue;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParameterValue;
@@ -199,11 +200,24 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
 
     @Override
     public ParameterDescriptor getDescriptor() {
-        return (ParameterDescriptor) Jenkins.getInstance().getDescriptor(getClass());
+        ParameterDescriptor parameterDescriptor = null;
+        final Jenkins instance = Jenkins.getInstance();
+        if (instance != null) {
+            Descriptor<?> descriptor = instance.getDescriptor(getClass());
+            if (descriptor != null) {
+                parameterDescriptor = (ParameterDescriptor) descriptor;
+            }
+        }
+        return parameterDescriptor;
     }
 
     public static DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all() {
-        return Jenkins.getInstance().<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
+        DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all = null;
+        final Jenkins instance = Jenkins.getInstance();
+        if (instance != null) {
+            all = instance.<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
+        }
+        return all;
     }
 
 }

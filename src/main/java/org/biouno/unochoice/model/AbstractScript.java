@@ -45,11 +45,21 @@ public abstract class AbstractScript implements Script, Describable<AbstractScri
     @Override
     @SuppressWarnings("unchecked")
     public Descriptor<AbstractScript> getDescriptor() {
-        return Jenkins.getInstance().getDescriptor(getClass());
+        final Jenkins instance = Jenkins.getInstance();
+        Descriptor<AbstractScript> descriptor = null;
+        if (instance != null) {
+            descriptor = instance.getDescriptor(getClass());
+        }
+        return descriptor;
     }
 
     public static DescriptorExtensionList<AbstractScript, ScriptDescriptor> all() {
-        return Jenkins.getInstance().<AbstractScript, ScriptDescriptor> getDescriptorList(AbstractScript.class);
+        final Jenkins instance = Jenkins.getInstance();
+        DescriptorExtensionList<AbstractScript, ScriptDescriptor> all = null;
+        if (instance != null) {
+            all = instance.<AbstractScript, ScriptDescriptor> getDescriptorList(AbstractScript.class);
+        }
+        return all;
     }
 
 }
