@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <phantomjs.executable>phantomjs</phantomjs.executable>
-        <jenkins.version>1.580.1</jenkins.version>
+        <jenkins.version>1.651.3</jenkins.version>
         <java.level>6</java.level>
     </properties>
 
@@ -79,21 +79,21 @@
         </dependency>
         <!-- testing -->
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.9.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
-            <version>1.5.1</version>
+            <version>1.6.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
-            <version>1.5.1</version>
+            <version>1.6.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>2.0.2-beta</version>
             <scope>test</scope>
         </dependency>
         <dependency>
