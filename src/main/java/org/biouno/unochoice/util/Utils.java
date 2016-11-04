@@ -29,6 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.biouno.unochoice.AbstractUnoChoiceParameter;
@@ -38,6 +42,9 @@ import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
+import hudson.slaves.NodeProperty;
+import hudson.slaves.NodePropertyDescriptor;
+import hudson.util.DescribableList;
 import jenkins.model.Jenkins;
 
 /**
@@ -55,7 +62,7 @@ public class Utils {
      *
      * @return all scriptler scripts available in Jenkins
      */
-    public static Set<Script> getAllScriptlerScripts() {
+    public static @Nonnull Set<Script> getAllScriptlerScripts() {
         final Set<Script> scripts = ScriptlerConfiguration.getConfiguration().getScripts();
         return scripts;
     }
@@ -69,7 +76,7 @@ public class Utils {
      * @param obj parameter value
      * @return {@code true} if the parameter name contains the :selected suffix {@code false} otherwise.
      */
-    public static boolean isSelected(Object obj) {
+    public static boolean isSelected(@Nullable Object obj) {
         if (obj == null)
             return false;
         final String text = obj.toString();
@@ -82,7 +89,7 @@ public class Utils {
      * @param obj parameter value
      * @return escaped parameter value
      */
-    public static String escapeSelected(Object obj) {
+    public static @Nonnull String escapeSelected(@Nullable Object obj) {
         if (obj == null)
             return "";
         final String text = obj.toString();
@@ -100,7 +107,7 @@ public class Utils {
      * @param suffix parameter suffix
      * @return random parameter name
      */
-    public static String createRandomParameterName(String prefix, String suffix) {
+    public static @Nonnull String createRandomParameterName(@Nullable String prefix, @Nullable String suffix) {
         String paramName = "";
         if (StringUtils.isNotBlank(prefix))
             paramName = prefix + "-";
@@ -117,7 +124,7 @@ public class Utils {
      *
      * @return System environment variables as map
      */
-    public static Map<String, String> getSystemEnv() {
+    public static @Nonnull Map<String, String> getSystemEnv() {
         return System.getenv();
     }
 
@@ -128,7 +135,7 @@ public class Utils {
      * @param projectName project name in Jenkins
      * @return Project or {@code null} if none with this name
      */
-    public static Project<?, ?> getProjectByName(String projectName) {
+    public static @CheckForNull Project<?, ?> getProjectByName(@Nonnull String projectName) {
         Jenkins instance = Jenkins.getInstance();
         if (instance != null) {
             @SuppressWarnings("rawtypes")
@@ -151,7 +158,7 @@ public class Utils {
      * @return {@code null} if the current project cannot be found
      */
     @SuppressWarnings("rawtypes")
-    public static Project findProjectByParameterUUID(String parameterUUID) {
+    public static @CheckForNull Project findProjectByParameterUUID(@Nonnull String parameterUUID) {
         Jenkins instance = Jenkins.getInstance();
         if (instance != null) {
             List<Project> projects = instance.getAllItems(Project.class);
@@ -174,7 +181,7 @@ public class Utils {
      * @return {@code true} if the project contains this parameter definition.
      */
     @SuppressWarnings("rawtypes")
-    private static boolean isParameterDefintionOf(String parameterUUID, Project project) {
+    private static boolean isParameterDefintionOf(@Nonnull String parameterUUID, @Nonnull Project project) {
         List<ParameterDefinition> parameterDefinitions = getProjectParameterDefinitions(project);
         for (ParameterDefinition pd : parameterDefinitions) {
             if (pd instanceof AbstractUnoChoiceParameter) {
@@ -197,7 +204,7 @@ public class Utils {
      * @return parameter definitions or an empty list
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static List<ParameterDefinition> getProjectParameterDefinitions(Project project) {
+    public static @Nonnull List<ParameterDefinition> getProjectParameterDefinitions(@Nonnull Project project) {
         ParametersDefinitionProperty parametersDefinitionProperty = (ParametersDefinitionProperty) project
                 .getProperty(ParametersDefinitionProperty.class);
         if (parametersDefinitionProperty != null) {
@@ -208,4 +215,5 @@ public class Utils {
         }
         return Collections.EMPTY_LIST;
     }
+
 }
