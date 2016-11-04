@@ -66,7 +66,7 @@ public class GroovyScript extends AbstractScript {
     /**
      * Secure script content.
      */
-    private SecureGroovyScript secureScript;
+    private transient SecureGroovyScript secureScript;
 
     @Nullable
     @Deprecated
@@ -76,7 +76,7 @@ public class GroovyScript extends AbstractScript {
      * Secure fallback script content.
      */
     @Nullable
-    private SecureGroovyScript secureFallbackScript;
+    private transient SecureGroovyScript secureFallbackScript;
 
     @Deprecated
     public GroovyScript(String script, String fallbackScript) {
@@ -85,7 +85,9 @@ public class GroovyScript extends AbstractScript {
 
     @DataBoundConstructor
     public GroovyScript(SecureGroovyScript script, SecureGroovyScript fallbackScript) {
-        this.secureScript = script.configuringWithNonKeyItem();
+        if (script != null) {
+            this.secureScript = script.configuringWithNonKeyItem();
+        }
         if (fallbackScript != null) {
             this.secureFallbackScript = fallbackScript.configuringWithNonKeyItem();
         }
@@ -96,7 +98,8 @@ public class GroovyScript extends AbstractScript {
             secureScript = new SecureGroovyScript(script, false, null).configuring(ApprovalContext.create());
         }
         if (fallbackScript != null) {
-            secureFallbackScript = new SecureGroovyScript(fallbackScript, false, null).configuring(ApprovalContext.create());
+            secureFallbackScript = new SecureGroovyScript(fallbackScript, false, null)
+                    .configuring(ApprovalContext.create());
         }
         return this;
     }
@@ -117,19 +120,24 @@ public class GroovyScript extends AbstractScript {
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.biouno.unochoice.model.Script#eval()
      */
     @Override
     public Object eval() {
-        return eval(Collections.<String, String>emptyMap());
+        return eval(Collections.<String, String> emptyMap());
     }
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
      */
     @Override
     public Object eval(Map<String, String> parameters) throws RuntimeException {
+        if (secureScript == null) {
+            return null;
+        }
         final Jenkins instance = Jenkins.getInstance();
         ClassLoader cl = null;
         if (instance != null) {
@@ -176,29 +184,35 @@ public class GroovyScript extends AbstractScript {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "GroovyScript [script=" + secureScript.getScript() + ", fallbackScript="
-                + (secureFallbackScript != null ? secureFallbackScript.getScript() : "") + "]";
+        final String secureScriptText = (secureScript != null) ? secureScript.getScript() : "";
+        final String fallbackScriptText = (secureFallbackScript != null) ? secureFallbackScript.getScript() : "";
+        return "GroovyScript [script=" + secureScriptText + ", fallbackScript=" + fallbackScriptText + "]";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((secureFallbackScript == null) ? 0 : secureFallbackScript.hashCode());
+        result = prime * result + ((secureFallbackScript == null) ? 0 : secureFallbackScript.hashCode());
         result = prime * result + ((secureScript == null) ? 0 : secureScript.hashCode());
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -234,7 +248,7 @@ public class GroovyScript extends AbstractScript {
          */
         @Override
         public String getDisplayName() {
-            return "Groovy Script"; 
+            return "Groovy Script";
         }
     }
 
