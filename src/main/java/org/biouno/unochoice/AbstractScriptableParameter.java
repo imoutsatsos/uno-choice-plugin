@@ -154,7 +154,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      * @return Map with helper parameters
      */
     private Map<Object, Object> getHelperParameters() {
+        // map with parameters
         final Map<Object, Object> helperParameters = new LinkedHashMap<Object, Object>();
+
+        // First, if the project name is set, we then find the project by its name, and inject into the map
         Project<?, ?> project = null;
         if (StringUtils.isNotBlank(this.projectName)) {
             // first we try to get the item given its name, which is more efficient
@@ -170,6 +173,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
                 helperParameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
             }
         }
+
+        // Here we inject the global node properties
+        final Map<String, Object> globalNodeProperties = Utils.getGlobalNodeProperties();
+        helperParameters.putAll(globalNodeProperties);
         return helperParameters;
     }
 

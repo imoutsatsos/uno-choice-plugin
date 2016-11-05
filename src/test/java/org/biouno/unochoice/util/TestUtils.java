@@ -29,19 +29,27 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jenkinsci.plugins.scriptler.config.Script;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.jvnet.hudson.test.JenkinsRule;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import hudson.slaves.EnvironmentVariablesNodeProperty;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Utils.class})
 public class TestUtils {
+
+    @Rule JenkinsRule jenkins = new JenkinsRule();
 
     @Test
     public void testGetAllScriptlerScripts() {
@@ -93,6 +101,18 @@ public class TestUtils {
         assertNotNull(paramName);
         assertTrue(paramName.startsWith("test"));
         assertFalse(paramName.endsWith("param"));
+    }
+
+    @Test
+    public void testGetGlobalNodeProperties() {
+        Map<?,?> map = Utils.getGlobalNodeProperties();
+        Map<String, String> testMap = new HashMap<String, String>();
+        testMap.put("time", "20:13:13");
+        EnvironmentVariablesNodeProperty.Entry entry = new EnvironmentVariablesNodeProperty.Entry("time", testMap.get("time"));
+        EnvironmentVariablesNodeProperty envVarsNodeProp = new EnvironmentVariablesNodeProperty(entry);
+        jenkins.jenkins.getGlobalNodeProperties().add(envVarsNodeProp);
+        map = Utils.getGlobalNodeProperties();
+        assertEquals("20:13:13", map.values().iterator().next());
     }
 
 }

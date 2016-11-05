@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) <2014-2015> <Ioannis Moutsatsos, Bruno P. Kinoshita>
+ * Copyright (c) 2014-2016 Ioannis Moutsatsos, Bruno P. Kinoshita
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 package org.biouno.unochoice.util;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +43,7 @@ import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
+import hudson.slaves.EnvironmentVariablesNodeProperty;
 import hudson.slaves.NodeProperty;
 import hudson.slaves.NodePropertyDescriptor;
 import hudson.util.DescribableList;
@@ -216,4 +218,27 @@ public class Utils {
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     * Get a map with the global node properties.
+     *
+     * @since 1.6
+     * @return map with global node properties
+     */
+    public static @Nonnull Map<String, Object> getGlobalNodeProperties() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Jenkins instance = Jenkins.getInstance();
+        if (instance != null) {
+            DescribableList<NodeProperty<?>, NodePropertyDescriptor> globalNodeProperties = instance
+                    .getGlobalNodeProperties();
+            if (globalNodeProperties != null) {
+                for (NodeProperty<?> nodeProperty : globalNodeProperties) {
+                    if (nodeProperty instanceof EnvironmentVariablesNodeProperty) {
+                        EnvironmentVariablesNodeProperty envNodeProperty = (EnvironmentVariablesNodeProperty) nodeProperty;
+                        map.putAll(envNodeProperty.getEnvVars());
+                    }
+                }
+            }
+        }
+        return map;
+    }
 }
