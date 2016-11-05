@@ -23,7 +23,7 @@
  */
 
 /**
- * Tests for global node properties issue.
+ * Tests for global node properties issue. See JENKINS-34818.
  * @since 1.6
  */
-package org.biouno.unochoice.issue35101;
+package org.biouno.unochoice.issue34818;

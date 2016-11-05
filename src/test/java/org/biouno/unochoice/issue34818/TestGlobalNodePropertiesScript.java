@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.biouno.unochoice.issue35101;
+package org.biouno.unochoice.issue34818;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,6 +38,7 @@ import org.jenkinsci.plugins.scriptsecurity.scripts.languages.GroovyLanguage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 
 import hudson.slaves.EnvironmentVariablesNodeProperty;
@@ -47,6 +48,7 @@ import hudson.slaves.EnvironmentVariablesNodeProperty;
  * 
  * @since 1.6
  */
+@Issue("JENKINS-34818")
 public class TestGlobalNodePropertiesScript {
 
     @Rule
