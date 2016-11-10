@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<FindBugsFilter>
+    <Match>
+       <Class name="org.biouno.unochoice.model.GroovyScript" />
+       <Bug pattern="SE_BAD_FIELD" />
+    </Match>
+</FindBugsFilter>
