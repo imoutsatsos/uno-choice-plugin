@@ -10,7 +10,7 @@
     <j:when test="${empty(scripts)}">
       <f:entry title="">
         <div>
-          ${%WarnNoScript}
+          ${%WarnNoScript} <a href="${rootURL}/scriptler">scriptler</a>
         </div>
       </f:entry>
     </j:when>
@@ -61,18 +61,13 @@
   <st:once>
     <script type="text/javascript">
 Event.observe(window, 'load', function() {
-  var all = document.getElementsByName('scriptlerScriptId');
-  for(var i = 0; i &lt; all.length; i++) {
-    all.item(i).disabled=<j:out value="${!h.hasPermission(it.build,descriptor.requiredPermission)}" />;
-    scriptler_initDetailLink('<j:out value="${rootURL}" />', all.item(i));
-    scriptler_showParams(all.item(i), all.item(i).value);
-  }
-  // remember the job name to send it along with the form
-  var jobName = document.getElementsByName('name').item(0).value;
-  var allBackupJobNames = document.getElementsByName('backupJobName');
-  for(var i = 0; i &lt; allBackupJobNames.length; i++) {
-    allBackupJobNames.item(i).value = jobName;
-  }
+    var all = new Array();
+    all = document.getElementsByName('scriptlerScriptId');
+    for(var i = 0; i &lt; all.length; i++) {
+        all.item(i).disabled=<j:out value="${!h.hasPermission(it.build,descriptor.requiredPermission)}" />;
+        scriptler_initDetailLink('<j:out value="${rootURL}" />', all.item(i));
+        scriptler_showParams(all.item(i), all.item(i).value);
+    }
 });
     </script>
   </st:once>
