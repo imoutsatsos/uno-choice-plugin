@@ -53,7 +53,7 @@ public class GroovyScript extends AbstractScript {
     /*
      * Serial UID.
      */
-    private static final long serialVersionUID = -4886250205110550815L;
+    private static final long serialVersionUID = -3741105849416473898L;
 
     private static final Logger LOGGER = Logger.getLogger(GroovyScript.class.getName());
 
