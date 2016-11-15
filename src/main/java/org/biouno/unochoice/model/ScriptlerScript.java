@@ -24,6 +24,7 @@
 
 package org.biouno.unochoice.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,9 +35,12 @@ import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.StaplerRequest;
 
 import hudson.Extension;
 import hudson.Util;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * A scriptler script.
@@ -94,7 +98,7 @@ public class ScriptlerScript extends AbstractScript {
     @Override
     public Object eval(Map<String, String> parameters) {
         final Map<String, String> envVars = Utils.getSystemEnv();
-        Map<String, String> evaledParameters = new HashMap<String, String>(envVars);
+        Map<String, String> evaledParameters = new LinkedHashMap<String, String>(envVars);
         // if we have any parameter that came from UI, let's eval and use them
         if (parameters != null && !parameters.isEmpty()) {
             // fill our map with the given parameters
@@ -119,7 +123,7 @@ public class ScriptlerScript extends AbstractScript {
      * @return a GroovyScript
      */
     public GroovyScript toGroovyScript() {
-        final Script scriptler   = ScriptHelper.getScript(getScriptlerScriptId(), true);
+        final Script scriptler = ScriptHelper.getScript(getScriptlerScriptId(), true);
         return new GroovyScript(new SecureGroovyScript(scriptler.script, false, null), null);
     }
 
@@ -137,6 +141,42 @@ public class ScriptlerScript extends AbstractScript {
             return "Scriptler Script"; 
         }
 
+        @Override
+        public AbstractScript newInstance(StaplerRequest req, JSONObject jsonObject) throws FormException {
+            ScriptlerScript script = null;
+            String scriptScriptId = jsonObject.getString("scriptlerScriptId");
+            if (scriptScriptId != null && !scriptScriptId.trim().equals("")) {
+                List<ScriptlerScriptParameter> parameters = new ArrayList<ScriptlerScriptParameter>();
+
+                final JSONObject defineParams = jsonObject.getJSONObject("defineParams");
+                if (defineParams != null && !defineParams.isNullObject()) {
+                    JSONObject argsObj = defineParams.optJSONObject("parameters");
+                    if (argsObj == null) {
+                        JSONArray argsArrayObj = defineParams.optJSONArray("parameters");
+                        if (argsArrayObj != null) {
+                            for (int i = 0; i < argsArrayObj.size(); i++) {
+                                JSONObject obj = argsArrayObj.getJSONObject(i);
+                                String name = obj.getString("name");
+                                String value = obj.getString("value");
+                                if (name != null && !name.trim().equals("") && value != null) {
+                                    ScriptlerScriptParameter param = new ScriptlerScriptParameter(name, value);
+                                    parameters.add(param);
+                                }
+                            }
+                        }
+                    } else {
+                        String name = argsObj.getString("name");
+                        String value = argsObj.getString("value");
+                        if (name != null && !name.trim().equals("") && value != null) {
+                            ScriptlerScriptParameter param = new ScriptlerScriptParameter(name, value);
+                            parameters.add(param);
+                        }
+                    }
+                }
+                script = new ScriptlerScript(scriptScriptId, parameters);
+            }
+            return script;
+        }
     }
 
 }
