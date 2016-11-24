@@ -44,6 +44,11 @@ public class ChoiceParameter extends AbstractScriptableParameter {
     private static final long serialVersionUID = -4449319038169585222L;
 
     /**
+     * Default length to active filter feature.
+     */
+    private static final int DEFAULT_FILTER_LENGTH = 1;
+
+    /**
      * Choice type.
      */
     private final String choiceType;
@@ -52,6 +57,11 @@ public class ChoiceParameter extends AbstractScriptableParameter {
      * Filter flag.
      */
     private final Boolean filterable;
+
+    /**
+     * Filter Length
+     */
+    private final Integer filterLength;
 
     /**
      * Constructor called from Jelly with parameters.
@@ -67,24 +77,44 @@ public class ChoiceParameter extends AbstractScriptableParameter {
         super(name, description, script);
         this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
         this.filterable = filterable;
+        this.filterLength = null;
     }
 
     /**
      * Constructor called from Jelly with parameters.
-     *
      * @param name name
      * @param description description
-     * @param randomName parameter random generated name (uuid)
+     * @param randomName parameter random generated name
      * @param script script
      * @param choiceType choice type
      * @param filterable filter flag
+     * @deprecated see JENKINS-31625
      */
-    @DataBoundConstructor
     public ChoiceParameter(String name, String description, String randomName, Script script, String choiceType,
-            Boolean filterable) {
+                           Boolean filterable) {
         super(name, description, randomName, script);
         this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
         this.filterable = filterable;
+        this.filterLength = null;
+    }
+
+    /**
+     * Constructor called from Jelly with parameters.
+     * @param name name
+     * @param description description
+     * @param randomName parameter random generated name
+     * @param script script
+     * @param choiceType choice type
+     * @param filterable filter flag
+     * @param filterLength length when filter start filtering
+     */
+    @DataBoundConstructor
+    public ChoiceParameter(String name, String description, String randomName, Script script, String choiceType,
+                           Boolean filterable, Integer filterLength) {
+        super(name, description, randomName, script);
+        this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
+        this.filterable = filterable;
+        this.filterLength = filterLength;
     }
 
     /*
@@ -97,12 +127,19 @@ public class ChoiceParameter extends AbstractScriptableParameter {
     }
 
     /**
-     * Gets the filter flag.
-     *
+     * Get the filter flag.
      * @return filter flag
      */
     public Boolean getFilterable() {
         return filterable;
+    }
+
+    /**
+     * Get the filter length.
+     * @return filter length
+     */
+    public Integer getFilterLength() {
+        return filterLength == null ? DEFAULT_FILTER_LENGTH : filterLength;
     }
 
     // --- descriptor
