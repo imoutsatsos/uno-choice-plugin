@@ -45,7 +45,7 @@ import hudson.slaves.EnvironmentVariablesNodeProperty;
 
 /**
  * Test that scripts can access global node properties.
- * 
+ *
  * @since 1.5.x
  */
 @Issue("JENKINS-34818")
