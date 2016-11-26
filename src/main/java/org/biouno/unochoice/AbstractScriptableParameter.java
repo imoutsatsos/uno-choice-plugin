@@ -57,11 +57,15 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
     /*
      * Serial UID.
      */
-    private static final long serialVersionUID = -6533352776594510145L;
+    private static final long serialVersionUID = 1322134413144485771L;
     /**
      * Used to split values that come from the UI via Ajax POST's
      */
     protected static final String SEPARATOR = "__LESEP__";
+    /**
+     * Used to split values when scripts return values like A=2, B=3.
+     */
+    protected static final String EQUALS    = "=";
     /**
      * Constant used to add the project in the environment variables map.
      */

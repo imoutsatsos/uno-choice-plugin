@@ -45,7 +45,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
     /*
      * Serial UID. 
      */
-    private static final long serialVersionUID = 6992538803651219246L;
+    private static final long serialVersionUID = 3795727126307053346L;
     /**
      * Map with parameters in the UI.
      */
@@ -114,7 +114,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
         getParameters().clear();
         final String[] params = parameters.split(SEPARATOR);
         for (String param : params) {
-            final String[] nameValue = param.split("=");
+            final String[] nameValue = param.split(EQUALS);
             if (nameValue.length == 1) {
                 final String name = nameValue[0].trim();
                 if (name.length() > 0)
@@ -122,6 +122,19 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
             } else if (nameValue.length == 2) {
                 final String name = nameValue[0];
                 final String value = nameValue[1];
+                getParameters().put(name, value);
+            } else if (nameValue.length > 2) {
+                // TBD: we can eliminate this branch by splitting only on the first EQUALS
+                final String name = nameValue[0];
+                final StringBuilder sb = new StringBuilder();
+                // rebuild the rest of the string, skipping the first value
+                for (int i = 1; i < nameValue.length; ++i) {
+                    sb.append(nameValue[i]);
+                    if (i+1 < nameValue.length) {
+                        sb.append(EQUALS);
+                    }
+                }
+                final String value = sb.toString();
                 getParameters().put(name, value);
             }
         }
