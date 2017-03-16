@@ -131,7 +131,7 @@ var UnoChoice = UnoChoice || (function($) {
     /**
      * Updates the CascadeParameter object.
      *
-     * <p>Once this method gets called, it will call the Java code (using a modified-sync Stapler proxy),
+     * <p>Once this method gets called, it will call the Java code (using Stapler proxy),
      * that is responsible for updating the referenced parameter values. The Java method receives the value of
      * other referenced parameters.</p>
      *
@@ -460,7 +460,7 @@ var UnoChoice = UnoChoice || (function($) {
     /**
      * <p>Updates the DynamicReferenceParameter object. Debug information goes into the browser console.</p>
      *
-     * <p>Once this method gets called, it will call the Java code (using a modified-sync Stapler proxy),
+     * <p>Once this method gets called, it will call the Java code (using Stapler proxy),
      * that is responsible for updating the referenced parameter values. The Java method receives the value of
      * other referenced parameters.</p>
      *
