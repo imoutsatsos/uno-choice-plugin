@@ -44,11 +44,6 @@ public class ChoiceParameter extends AbstractScriptableParameter {
     private static final long serialVersionUID = -4449319038169585222L;
 
     /**
-     * Default length to active filter feature.
-     */
-    private static final int DEFAULT_FILTER_LENGTH = 1;
-
-    /**
      * Choice type.
      */
     private final String choiceType;
@@ -139,7 +134,7 @@ public class ChoiceParameter extends AbstractScriptableParameter {
      * @return filter length
      */
     public Integer getFilterLength() {
-        return filterLength == null ? DEFAULT_FILTER_LENGTH : filterLength;
+        return filterLength == null ? 1 : filterLength;
     }
 
     // --- descriptor

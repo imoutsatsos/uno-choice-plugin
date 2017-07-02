@@ -65,7 +65,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
     /**
      * Used to split values when scripts return values like A=2, B=3.
      */
-    protected static final String EQUALS    = "=";
+    protected static final String EQUALS = "=";
     /**
      * Constant used to add the project in the environment variables map.
      */

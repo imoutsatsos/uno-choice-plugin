@@ -547,7 +547,7 @@ var UnoChoice = UnoChoice || (function($) {
      *
      * @param paramElement parameter HTML element being filtered
      * @param filterElement HTML element where the user enter the filter
-     * @param filterLength length when filter start filtering
+     * @param filterLength filter length
      */
     /* public */ function FilterElement(paramElement, filterElement, filterLength) {
         this.paramElement = paramElement;
@@ -610,7 +610,8 @@ var UnoChoice = UnoChoice || (function($) {
         return this.originalArray;
     }
     /**
-     * @return length when filter start filtering
+     * Get the filter length.
+     * @return filter length
      */
     FilterElement.prototype.getFilterLength = function() {
         return this.filterLength;
@@ -645,7 +646,7 @@ var UnoChoice = UnoChoice || (function($) {
             var filteredElement = _self.getParameterElement();
             var text = filterElement.value.toLowerCase();
             if (text.length != 0 && text.length < _self.getFilterLength()) {
-                console.log("Filter pattern to short " + text.length + " < " + _self.getFilterLength());
+                //console.log("Filter pattern too short: [" + text.length + " < " + _self.getFilterLength() + "]");
                 return;
             }
             var options = _self.originalArray;
