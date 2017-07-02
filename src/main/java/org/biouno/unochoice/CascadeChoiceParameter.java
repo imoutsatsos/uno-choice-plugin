@@ -148,7 +148,7 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
      * @return filter length
      */
      public Integer getFilterLength() {
-         return filterLength == null ? 1 : filterLength;
+         return filterLength == null ? (Integer) 1 : filterLength;
      }
 
     // --- descriptor
