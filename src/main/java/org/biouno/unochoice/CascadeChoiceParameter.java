@@ -62,8 +62,7 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
 
     /**
      * Filter length. Defines a minimum number of characters that must be entered before the filter
-     * is activated. If this value is, for example, 4, then only when the 5th element is entered,
-     * then the filter will be activated.
+     * is activated.
      */
     private final Integer filterLength;
 

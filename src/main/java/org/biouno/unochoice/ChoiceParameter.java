@@ -54,7 +54,8 @@ public class ChoiceParameter extends AbstractScriptableParameter {
     private final Boolean filterable;
 
     /**
-     * Filter Length
+     * Filter length. Defines a minimum number of characters that must be entered before the filter
+     * is activated.
      */
     private final Integer filterLength;
 
