@@ -87,6 +87,8 @@ public class TestPersistingParameters {
 
     private ScriptlerManagement scriptler;
 
+    private File scriptFile = null;
+
     @Before
     public void setUp() throws Exception {
         ScriptApproval.get().preapprove(SCRIPT_PARAM001, new GroovyLanguage());
@@ -97,9 +99,9 @@ public class TestPersistingParameters {
         // scriptler setup
         scriptler = j.getInstance().getExtensionList(ScriptlerManagement.class).get(0);
         ScriptlerHelper scriptlerHelper = new ScriptlerHelper(scriptler);
-        File f = new File("dummy.groovy");
-        FileUtils.writeStringToFile(f, SCRIPT_PARAM001);
-        FileItem fi = new FileItemImpl(f);
+        scriptFile = File.createTempFile("uno-choice", "dummy.groovy");
+        FileUtils.writeStringToFile(scriptFile, SCRIPT_PARAM001);
+        FileItem fi = new FileItemImpl(scriptFile);
         scriptlerHelper.saveScript(fi, true, "dummy.groovy");
 
         scriptler.getConfiguration().getScriptById("dummy.groovy")
@@ -212,9 +214,7 @@ public class TestPersistingParameters {
                             assertEquals(SCRIPT_PARAM002, scriptText);
                             assertEquals(SCRIPT_FALLBACK_PARAM002, fallbackScriptText);
                         } else {
-                            String scriptScriptId = ((ScriptlerScript) leScript).getScriptlerScriptId();
-                            String scriptText = FileUtils.readFileToString(new File(
-                                    scriptler.getConfiguration().getScriptById(scriptScriptId).getScriptPath()));
+                            String scriptText = FileUtils.readFileToString(scriptFile);
                             assertTrue("Found an empty script!", StringUtils.isNotBlank(scriptText));
                             assertEquals(SCRIPT_PARAM001, scriptText);
                             assertTrue("Wrong number of parameters for scriptler parameter!",
