@@ -866,7 +866,7 @@ var UnoChoice = UnoChoice || (function($) {
         if (e.prop('tagName') == 'SELECT') {
             value = getSelectValues(e);
         } else if (e.attr('type') == 'checkbox' || e.attr('type') == 'radio') {
-            value = (e.attr('checked') !== undefined) ? e.val(): '';
+            value = e.prop('checked') ? e.val(): '';
         } else {
             value = e.val();
         }
