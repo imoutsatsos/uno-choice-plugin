@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.biouno.unochoice.util.Utils;
+import org.jenkinsci.plugins.scriptler.ScriptlerManagement;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
@@ -128,8 +129,12 @@ public class ScriptlerScript extends AbstractScript {
 
     // --- descriptor
 
-    @Extension
+    @Extension(optional = true)
     public static class DescriptorImpl extends ScriptDescriptor {
+        static {
+            // make sure this class fails to load during extension discovery if scriptler isn't present
+            ScriptlerManagement.getScriptlerHomeDirectory();
+        }
         /*
          * (non-Javadoc)
          *
