@@ -61,7 +61,7 @@ public class GroovyScript extends AbstractScript {
      * Script content.
      */
     @Deprecated
-    private String script;
+    private transient String script;
 
     /**
      * Secure script content.
@@ -70,7 +70,7 @@ public class GroovyScript extends AbstractScript {
 
     @Nullable
     @Deprecated
-    private String fallbackScript;
+    private transient String fallbackScript;
 
     /**
      * Secure fallback script content.
