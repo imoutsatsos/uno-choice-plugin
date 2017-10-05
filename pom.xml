@@ -77,6 +77,12 @@
             <artifactId>script-security</artifactId>
             <version>1.24</version>
         </dependency>
+        <!-- escaping output of dynamic reference parameters -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>antisamy-markup-formatter</artifactId>
+            <version>1.5</version>
+        </dependency>
         <!-- testing -->
         <dependency>
             <groupId>org.powermock</groupId>
