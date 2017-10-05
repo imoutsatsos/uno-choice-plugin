@@ -33,6 +33,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.biouno.unochoice.model.Script;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
+import org.kohsuke.stapler.json.JsonHttpResponse;
 
 /**
  * Base class for cascadable parameters, providing basic and utility methods.
@@ -138,6 +139,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
                 getParameters().put(name, value);
             }
         }
+        throw new JsonHttpResponse(null);
     }
 
     /*
