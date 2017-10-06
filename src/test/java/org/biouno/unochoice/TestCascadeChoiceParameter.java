@@ -39,6 +39,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.kohsuke.stapler.HttpResponses;
 
 public class TestCascadeChoiceParameter {
 
@@ -79,7 +80,11 @@ public class TestCascadeChoiceParameter {
                 CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HIDDEN_HTML, "param001, param002", true, 0);
         assertTrue(param.getParameters().isEmpty());
 
-        param.doUpdate("param001=A__LESEP__param002=B__LESEP__param003=");
+        try {
+            param.doUpdate("param001=A__LESEP__param002=B__LESEP__param003=");
+        } catch (HttpResponses.HttpResponseException response) {
+            // ignore
+        }
 
         Map<String, String> expected = new LinkedHashMap<String, String>();
         expected.put("param001", "A");
@@ -87,7 +92,11 @@ public class TestCascadeChoiceParameter {
         expected.put("param003", "");
         assertEquals(expected, param.getParameters());
 
-        param.doUpdate("");
+        try {
+            param.doUpdate("");
+        } catch (HttpResponses.HttpResponseException response) {
+            // ignore
+        }
         expected.clear();
         assertEquals(expected, param.getParameters());
 

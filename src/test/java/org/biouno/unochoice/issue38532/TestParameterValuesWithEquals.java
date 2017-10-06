@@ -39,6 +39,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.kohsuke.stapler.HttpResponses;
 
 /**
  * Test that scripts can access global node properties.
@@ -81,7 +82,11 @@ public class TestParameterValuesWithEquals {
                 true);
         // should be a String
         String listValue = listParam.getDefaultParameterValue().getValue().toString();
-        listSelectionParam.doUpdate(String.format(String.format("%s=%s", listParam.getName(), listValue)));
+        try {
+            listSelectionParam.doUpdate(String.format(String.format("%s=%s", listParam.getName(), listValue)));
+        } catch (HttpResponses.HttpResponseException response) {
+            // ignore
+        }
         // as this is a formatted hidden HTML...
         String listSelectionValue = listSelectionParam.getChoicesAsString();
 
