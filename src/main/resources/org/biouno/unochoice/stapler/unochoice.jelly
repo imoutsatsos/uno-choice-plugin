@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true' ?>
 <!--
 Use it like <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
 -->

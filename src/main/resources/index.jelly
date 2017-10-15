@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true' ?>
 <div>
   This plug-in provides additional parameter types for jobs, that allow you to cascade
   changes and render images or other HTML elements instead of the traditional parameter.
