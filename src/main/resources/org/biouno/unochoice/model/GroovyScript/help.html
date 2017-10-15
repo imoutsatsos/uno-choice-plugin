@@ -1,0 +1,11 @@
+<div>
+    <p>Use a Groovy script to define the parameter.</p>
+    <p>The <strong>Script</strong> will be evaluated first, and if it fails (e.g. throws an exception),
+        the <strong>Fallback Script</strong> will be used as a fallback.</p>
+    <p>This script integrates with <a href="https://plugins.jenkins.io/script-security" target="_blank">Script Security plugin</a>
+        to allow regular Jenkins users to configure this parameter, while limiting what they can do for security.</p>
+    <hr/>
+    <p>If this script is used for any of the <em>HTML</em> choice types of an <em>Active Choices Reactive Reference Parameter</em>,
+        the resulting HTML output will be sanitized to remove everything but basic formatting, like <code>script</code> tags, unless the script runs outside the sandbox.
+        This mode requires approval from a Jenkins administrator to prevent cross-site scripting (HTML) and arbitrary code execution (Groovy).</p>
+</div>
