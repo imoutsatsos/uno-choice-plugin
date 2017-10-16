@@ -8,6 +8,6 @@
   </j:invokeStatic>
   <j:set var="paramName" value="${paramName}" scope="parent" />
   <div id='formattedHtml_${paramName}'>
-    ${it.getChoicesAsString()}
+    <j:out value="${it.getChoicesAsString()}"/>
   </div>
 </j:jelly>
