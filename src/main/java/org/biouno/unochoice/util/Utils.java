@@ -40,14 +40,18 @@ import org.biouno.unochoice.AbstractUnoChoiceParameter;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 
+import hudson.model.Item;
+import hudson.model.Items;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
+import hudson.security.ACL;
 import hudson.slaves.EnvironmentVariablesNodeProperty;
 import hudson.slaves.NodeProperty;
 import hudson.slaves.NodePropertyDescriptor;
 import hudson.util.DescribableList;
 import jenkins.model.Jenkins;
+import org.acegisecurity.Authentication;
 
 /**
  * Utility methods.
@@ -136,16 +140,14 @@ public class Utils {
      * @since 1.3
      * @param projectName project name in Jenkins
      * @return Project or {@code null} if none with this name
+     * @deprecated The choice is arbitrary if there are multiple matches; use {@link Item#getFullName} and {@link Jenkins#getItemByFullName(String, Class)} instead.
      */
+    @SuppressWarnings("rawtypes")
     public static @CheckForNull Project<?, ?> getProjectByName(@Nonnull String projectName) {
-        Jenkins instance = Jenkins.getInstance();
-        if (instance != null) {
-            @SuppressWarnings("rawtypes")
-            List<Project> projects = instance.getAllItems(Project.class);
-            for (Project<?, ?> p : projects) {
-                if (p.getName().equals(projectName)) {
-                    return p;
-                }
+        Authentication auth = Jenkins.getAuthentication();
+        for (Project p : Items.allItems(ACL.SYSTEM, Jenkins.getInstance(), Project.class)) {
+            if (p.getName().equals(projectName) && p.getACL().hasPermission(auth, Item.READ)) {
+                return p;
             }
         }
         return null;
@@ -161,13 +163,10 @@ public class Utils {
      */
     @SuppressWarnings("rawtypes")
     public static @CheckForNull Project findProjectByParameterUUID(@Nonnull String parameterUUID) {
-        Jenkins instance = Jenkins.getInstance();
-        if (instance != null) {
-            List<Project> projects = instance.getAllItems(Project.class);
-            for (Project project : projects) {
-                if (isParameterDefintionOf(parameterUUID, project)) {
-                    return project;
-                }
+        Authentication auth = Jenkins.getAuthentication();
+        for (Project p : Items.allItems(ACL.SYSTEM, Jenkins.getInstance(), Project.class)) {
+            if (isParameterDefintionOf(parameterUUID, p) && p.getACL().hasPermission(auth, Item.READ)) {
+                return p;
             }
         }
         return null;

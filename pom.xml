@@ -6,7 +6,8 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>2.35</version>
+        <version>3.0</version>
+        <relativePath />
     </parent>
 
     <groupId>org.biouno</groupId>
@@ -35,7 +36,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <phantomjs.executable>phantomjs</phantomjs.executable>
-        <jenkins.version>2.7.3</jenkins.version>
+        <jenkins.version>2.46.3</jenkins.version>
         <java.level>7</java.level>
     </properties>
 
@@ -109,17 +110,17 @@
             <version>2.0.2-beta</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+        <dependency> <!-- TODO why is this here? -->
             <groupId>org.jenkins-ci.modules</groupId>
             <artifactId>sshd</artifactId>
-            <version>1.6</version>
+            <version>1.11</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <!-- placate requireUpperBounds in 2.31+ parent POM -->
             <groupId>org.jenkins-ci.modules</groupId>
             <artifactId>instance-identity</artifactId>
-            <version>1.5.1</version>
+            <version>2.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
