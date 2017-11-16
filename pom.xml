@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <phantomjs.executable>phantomjs</phantomjs.executable>
-        <jenkins.version>2.7.3</jenkins.version>
+        <jenkins.version>2.46.3</jenkins.version>
         <java.level>7</java.level>
     </properties>
 
