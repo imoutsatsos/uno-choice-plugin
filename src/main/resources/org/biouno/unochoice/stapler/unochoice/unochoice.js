@@ -903,6 +903,75 @@ var UnoChoice = UnoChoice || (function($) {
         var d = text.length - pattern.length;
         return d >= 0 && text.lastIndexOf(pattern) === d;
     };
+    // Hacks in Jenkins core
+    /**
+     * <p>This function is the same as makeStaplerProxy available in Jenkins core, but executes calls
+     * <strong>synchronously</strong>. Since many parameters must be filled only after other parameters have been
+     * updated, calling Jenkins methods assynchronously causes several unpredictable errors.</p>
+     */
+    /* public */ function makeStaplerProxy2(url, crumb, methods) {
+        if (url.substring(url.length - 1) !== '/') url+='/';
+        var proxy = {};
+        var stringify;
+        if (Object.toJSON) // needs to use Prototype.js if it's present. See commit comment for discussion
+            stringify = Object.toJSON;  // from prototype
+        else if (typeof(JSON)=="object" && JSON.stringify)
+            stringify = JSON.stringify; // standard
+        var genMethod = function(methodName) {
+            proxy[methodName] = function() {
+                var args = arguments;
+                // the final argument can be a callback that receives the return value
+                var callback = (function(){
+                    if (args.length==0) return null;
+                    var tail = args[args.length-1];
+                    return (typeof(tail)=='function') ? tail : null;
+                })();
+                // 'arguments' is not an array so we convert it into an array
+                var a = [];
+                for (var i=0; i<args.length-(callback!=null?1:0); i++)
+                    a.push(args[i]);
+                if(window.jQuery === window.$) { //Is jQuery the active framework?
+                    $.ajax({
+                        type: "POST",
+                        url: url+methodName,
+                        data: stringify(a),
+                        contentType: 'application/x-stapler-method-invocation;charset=UTF-8',
+                        headers: {'Crumb':crumb},
+                        dataType: "json",
+                        async: "false", // Here's the juice
+                        success: function(data, textStatus, jqXHR) {
+                            if (callback!=null) {
+                                var t = {};
+                                t.responseObject = function() {
+                                    return data;
+                                };
+                                callback(t);
+                            }
+                        }
+                    });
+                } else { //Assume prototype should work
+                    new Ajax.Request(url+methodName, {
+                        method: 'post',
+                        requestHeaders: {'Content-type':'application/x-stapler-method-invocation;charset=UTF-8','Crumb':crumb},
+                        postBody: stringify(a),
+                        asynchronous: false, // and here
+                        onSuccess: function(t) {
+                            if (callback!=null) {
+                                t.responseObject = function() {
+                                    return eval('('+this.responseText+')');
+                                };
+                                callback(t);
+                            }
+                        }
+                    });
+                }
+            }
+        };
+        for(var mi = 0; mi < methods.length; mi++) {
+            genMethod(methods[mi]);
+        }
+        return proxy;
+    }
     // Deciding on what is exported and returning instance
     //instance.endsWith = endsWith;
     instance.fakeSelectRadioButton = fakeSelectRadioButton;
@@ -911,6 +980,7 @@ var UnoChoice = UnoChoice || (function($) {
     instance.DynamicReferenceParameter = DynamicReferenceParameter;
     instance.ReferencedParameter = ReferencedParameter;
     instance.FilterElement = FilterElement;
+    instance.makeStaplerProxy2 = makeStaplerProxy2;
     instance.cascadeParameters = cascadeParameters;
     return instance;
 })(jQuery);

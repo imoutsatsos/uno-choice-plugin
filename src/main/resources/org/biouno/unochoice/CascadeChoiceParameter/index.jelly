@@ -12,7 +12,14 @@
         referencedParameters.push("${value}");
     </j:forEach>
 
+    if (window.makeStaplerProxy) {
+        window.__old__makeStaplerProxy = window.makeStaplerProxy;
+        window.makeStaplerProxy = UnoChoice.makeStaplerProxy2;
+    }
     var cascadeChoiceParameter = <st:bind value="${it}"/>; // Create Jenkins proxy
+    if (window.makeStaplerProxy) {
+        window.makeStaplerProxy = window.__old__makeStaplerProxy;
+    }
     // find the cascade parameter element
     var parentDiv = jQuery('#${paramName}');
     var parameterHtmlElement = parentDiv.find('DIV');
