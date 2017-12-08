@@ -75,6 +75,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      */
     protected static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
     /**
+     * Constant used to add the parameter name in the enviroment variables map.
+     */
+    protected static final String JENKINS_PARAMETER_VARIABLE_NAME = "jenkinsParameter";
+    /**
      * Number of visible items on the screen.
      */
     private volatile int visibleItemCount = 1;
@@ -177,6 +181,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
                 helperParameters.put(JENKINS_BUILD_VARIABLE_NAME, build);
             }
         }
+
+        // Here we set the parameter name
+        helperParameters.put(JENKINS_PARAMETER_VARIABLE_NAME, this);
 
         // Here we inject the global node properties
         final Map<String, Object> globalNodeProperties = Utils.getGlobalNodeProperties();
