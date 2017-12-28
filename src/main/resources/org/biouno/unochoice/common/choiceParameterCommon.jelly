@@ -8,8 +8,8 @@
   <j:set var="choiceType" value="${it.choiceType}"/>
   <j:set var="escapeEntryTitleAndDescription" value="false"/>
   <f:entry title="${it.name}" description="${it.description}">
-    <div name="parameter" description="${h.escape(it.description)}" id='${paramName}'>
-      <input type="hidden" name="name" value="${it.name}" />
+    <div name="parameter" description="${it.formattedDescription}" id='${paramName}'>
+      <input type="hidden" name="name" value="${h.escape(it.name)}" />
       <j:choose>
         <j:when test="${choiceType eq 'PT_SINGLE_SELECT'}">
           <select name="value">
