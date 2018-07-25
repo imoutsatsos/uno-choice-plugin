@@ -36,7 +36,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <phantomjs.executable>phantomjs</phantomjs.executable>
-        <jenkins.version>2.46.3</jenkins.version>
+        <jenkins.version>2.60.3</jenkins.version>
         <java.level>7</java.level>
     </properties>
 
@@ -127,7 +127,7 @@
             <!-- placate requireUpperBounds in 2.31+ parent POM -->
             <groupId>org.jenkins-ci.modules</groupId>
             <artifactId>ssh-cli-auth</artifactId>
-            <version>1.2</version>
+            <version>1.4</version>
         </dependency>
         <dependency>
             <!-- placate requireUpperBounds in 2.31+ parent POM -->
