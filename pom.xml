@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.kohsuke.stapler</groupId>
             <artifactId>stapler-adjunct-jquery</artifactId> <!-- TODO why is this not using org.jenkins-ci.plugins:jquery instead?! -->
-            <version>1.11.2-0</version>
+            <version>1.12.4-0</version>
             <exclusions>
                 <exclusion> <!-- TODO INFRA-1310 pending 1.12.4-0 -->
                     <groupId>org.kohsuke.stapler</groupId>
