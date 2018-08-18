@@ -44,6 +44,7 @@ import hudson.model.AbstractItem;
 import hudson.model.ParameterValue;
 import hudson.model.Project;
 import hudson.model.StringParameterValue;
+import jenkins.model.Jenkins;
 
 /**
  * Base class for parameters with scripts.
@@ -90,6 +91,10 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      * The project name.
      */
     private final String projectName;
+    /**
+     * The project Full Name (including folder).
+     */
+    private final String projectFullName;
 
     /**
      * Inherited constructor.
@@ -105,6 +110,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         super(name, description);
         this.script = script;
         this.projectName = null;
+        this.projectFullName = null;
     }
 
     /**
@@ -125,6 +131,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         // performance wise approach first.
         final StaplerRequest currentRequest = Stapler.getCurrentRequest();
         String projectName = null;
+        String projectFullName = null;
         if (currentRequest != null) {
             final Ancestor ancestor = currentRequest.findAncestor(AbstractItem.class);
             if (ancestor != null) {
@@ -132,10 +139,12 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
                 if (o instanceof AbstractItem) {
                     final AbstractItem parentItem = (AbstractItem) o;
                     projectName = parentItem.getName();
+                    projectFullName = parentItem.getFullName();
                 }
             }
         }
         this.projectName = projectName;
+        this.projectFullName = projectFullName;
     }
 
     /**
@@ -167,8 +176,11 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
 
         // First, if the project name is set, we then find the project by its name, and inject into the map
         Project<?, ?> project = null;
-        if (StringUtils.isNotBlank(this.projectName)) {
-            // first we try to get the item given its name, which is more efficient
+        if (StringUtils.isNotBlank(this.projectFullName)) {
+            // First try full name if exists
+            project = Jenkins.getInstance().getItemByFullName(this.projectFullName, Project.class);
+        } else if (StringUtils.isNotBlank(this.projectName)) {
+            // next we try to get the item given its name, which is more efficient
             project = Utils.getProjectByName(this.projectName);
         } else {
             // otherwise, in case we don't have the item name, we iterate looking for a job that uses this UUID
