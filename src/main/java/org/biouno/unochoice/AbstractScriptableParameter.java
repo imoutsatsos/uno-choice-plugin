@@ -182,7 +182,9 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         } else if (StringUtils.isNotBlank(this.projectName)) {
             // next we try to get the item given its name, which is more efficient
             project = Utils.getProjectByName(this.projectName);
-        } else {
+        } 
+        // Last chance, if we were unable to get project from name and full name, try uuid
+        if (project == null) {
             // otherwise, in case we don't have the item name, we iterate looking for a job that uses this UUID
             project = Utils.findProjectByParameterUUID(this.getRandomName());
         }
