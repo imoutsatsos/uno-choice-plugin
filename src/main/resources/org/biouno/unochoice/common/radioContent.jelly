@@ -54,6 +54,7 @@
           else {
               height = maxCount * 25.5;
           }
+
           height = Math.floor(height);
           document.getElementById("ecp_${it.randomName}").style.height = height + "px";
       };
