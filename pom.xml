@@ -140,6 +140,7 @@
     <!-- running JS tests -->
     <build>
         <plugins>
+            <!-- TODO: re-enable, probably with google-chrome headless or qunit/npm instead
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -161,6 +162,7 @@
                     </arguments>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.jenkins-ci.tools</groupId>
                 <artifactId>maven-hpi-plugin</artifactId>
