@@ -32,13 +32,16 @@ import java.util.Map;
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.ScriptlerManagement;
 import org.jenkinsci.plugins.scriptler.config.Script;
+import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 import hudson.Extension;
 import hudson.Util;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -180,6 +183,30 @@ public class ScriptlerScript extends AbstractScript {
                 script = new ScriptlerScript(scriptScriptId, parameters);
             }
             return script;
+        }
+
+        private ScriptlerManagement getScriptler() {
+            return Jenkins.getInstance().getExtensionList(ScriptlerManagement.class).get(0);
+        }
+
+        private ScriptlerConfiguration getConfig() {
+            return getScriptler().getConfiguration();
+        }
+
+        /**
+         * gets the argument description to be displayed on the screen when selecting a config in the dropdown
+         *
+         * @param scriptlerScriptId
+         *            the config id to get the arguments description for
+         * @return the description
+         */
+        @JavaScriptMethod
+        public JSONArray getParameters(String scriptlerScriptId) {
+            final Script script = getConfig().getScriptById(scriptlerScriptId);
+            if (script != null && script.getParameters() != null) {
+                return JSONArray.fromObject(script.getParameters());
+            }
+            return null;
         }
     }
 
