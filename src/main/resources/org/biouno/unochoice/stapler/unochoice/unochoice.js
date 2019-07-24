@@ -160,8 +160,9 @@ var UnoChoice = UnoChoice || (function($) {
             var newValues = data[0];
             var newKeys = data[1];
             var selectedElements = new Array();
-            // filter selected elements and create a matrix for selection
-            // some elements may have key or values with the suffix :selected
+            var disabledElements = new Array();
+            // filter selected and disabled elements and create a matrix for selection and disabled
+            // some elements may have key or values with the suffixes :selected and :disabled
             // we want to remove these suffixes
             for (var i = 0; i < newValues.length; i++) {
                 var newValue = String(newValues[i]);
@@ -169,9 +170,16 @@ var UnoChoice = UnoChoice || (function($) {
                     selectedElements.push(i);
                     newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
                 }
+                if (newValue && newValue.endsWith(':disabled')) {
+                    disabledElements.push(i);
+                    newValues[i] = newValues[i].substring(0, newValue.indexOf(':disabled'));
+                }
                 var newKey = String(newKeys[i]);
                 if (newKey && typeof newKey == "string" && newKey.endsWith(':selected')) {
                     newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':selected'));
+                }
+                if (newKey && typeof newKey == "string" && newKey.endsWith(':disabled')) {
+                    newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':disabled'));
                 }
             }
             if (_self.getFilterElement()) {
@@ -197,6 +205,9 @@ var UnoChoice = UnoChoice || (function($) {
                     }
                     if (selectedElements.indexOf(i) >= 0) {
                         opt.setAttribute('selected', 'selected');
+                    }
+                    if (disabledElements.indexOf(i) >= 0) {
+                        opt.setAttribute('disabled', 'disabled');
                     }
                     parameterElement.add(opt, null);
                 }
@@ -242,6 +253,9 @@ var UnoChoice = UnoChoice || (function($) {
                             var label = document.createElement('label');
                             if (selectedElements.indexOf(i) >= 0) {
                                 input.setAttribute('checked', 'checked');
+                            }
+                            if (disabledElements.indexOf(i) >= 0) {
+                                input.setAttribute('disabled', 'disabled');
                             }
                             if (!entry instanceof String) {
                                 input.setAttribute('json', key);
@@ -298,6 +312,9 @@ var UnoChoice = UnoChoice || (function($) {
                                 hiddenValue.setAttribute('name', 'value');
                             } else {
                                 hiddenValue.setAttribute('name', '');
+                            }
+                            if (disabledElements.indexOf(i) >= 0) {
+                                input.setAttribute('disabled', 'disabled');
                             }
                             if (!entry instanceof String) {
                                 input.setAttribute('json', key);
@@ -423,7 +440,7 @@ var UnoChoice = UnoChoice || (function($) {
                 jQuery(".behavior-loading").show();
                 // start updating in separate async function so browser will be able to repaint and show 'loading' animation , see JENKINS-34487
                 setTimeout(function () {
-                   _self.cascadeParameter.update(); 
+                   _self.cascadeParameter.update();
                    jQuery(".behavior-loading").hide();
                 }, 0);
             }

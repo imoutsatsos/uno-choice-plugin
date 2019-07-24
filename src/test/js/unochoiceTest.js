@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) <2014> <Ioannis Moutsatsos, Bruno P. Kinoshita>
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -74,7 +74,7 @@ QUnit.test("Test fakeSelectRadioButton", function() {
  */
 QUnit.test("Test getParameterValue", function() {
     var $fixture = jQuery("#qunit-fixture");
-    $fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
+    $fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2' disabled>2</option><option value='3' selected>3</option></select>");
     var select = jQuery("select");
     var arr = UnoChoice.getParameterValue(select);
     equal(arr, '1,3', 'the content is correct');
@@ -85,8 +85,8 @@ QUnit.test("Test getParameterValue", function() {
  */
 QUnit.test("Test getElementValue using select", function() {
     var $fixture = jQuery("#qunit-fixture");
-    
-    $fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2'>2</option><option value='3' selected>3</option></select>");
+
+    $fixture.append("<select name='value' multiple><option value='1' selected>1</option><option value='2' disabled>2</option><option value='3' selected>3</option></select>");
     var select = jQuery("select");
     var arr = UnoChoice.getParameterValue(select);
     equal(arr, '1,3', 'element value is correct for select');
@@ -97,7 +97,7 @@ QUnit.test("Test getElementValue using select", function() {
  */
 QUnit.test("Test getElementValue using checkbox", function() {
     var $fixture = jQuery("#qunit-fixture");
-    
+
     $fixture.append("<input id='checkbox1' type='checkbox' name='value' checked='checked' value='123' />");
     var e = jQuery("#checkbox1");
     var val = UnoChoice.getParameterValue(e);
@@ -109,7 +109,7 @@ QUnit.test("Test getElementValue using checkbox", function() {
  */
 QUnit.test("Test getElementValue using text", function() {
     var $fixture = jQuery("#qunit-fixture");
-    
+
     $fixture.append("<input id='input1' type='text' name='value' checked='checked' value='1234' />");
     var e = jQuery("#input1");
     var val = UnoChoice.getParameterValue(e);
@@ -121,7 +121,7 @@ QUnit.test("Test getElementValue using text", function() {
  */
 QUnit.test("Test getElementValue using empty select", function() {
     var $fixture = jQuery("#qunit-fixture");
-    
+
     $fixture.append("<select name='value'></select>");
     var select = jQuery("select");
     var val = UnoChoice.getParameterValue(select);
@@ -133,7 +133,7 @@ QUnit.test("Test getElementValue using empty select", function() {
  */
 QUnit.test("Test getElementValue using div", function() {
     var $fixture = jQuery("#qunit-fixture");
-    
+
     $fixture.append("<div id='div1'>" +
             "<span>E agora?</span>" +
             "<div class='sub'>" +
@@ -151,7 +151,7 @@ QUnit.test("Test getElementValue using div", function() {
  */
 QUnit.test("Test getElementValue using files", function() {
     var $fixture = jQuery("#qunit-fixture");
-    
+
     $fixture.append("<input type='file' name='myfile' value='1.txt'/>");
     var e = jQuery("input[type='file']");
     var val = UnoChoice.getParameterValue(e);
@@ -177,7 +177,7 @@ QUnit.test("Test CascadeParameter class", function() {
  */
 QUnit.test("Test FilteredElement with selects", function() {
     var $fixture = jQuery("#qunit-fixture");
-    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Bruno</option><option value="2">Nuno</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>');
+    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Bruno</option><option value="2">Nuno</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7" disabled>7</option><option value="8">8</option></select>');
     $fixture.append('<input class="uno_choice_filter" type="text" value="" name="test" placeholder="Filter">');
     var parameterHtmlElement = $fixture.find('*[name="value"]');
     if (parameterHtmlElement && parameterHtmlElement.get(0)) {
@@ -201,7 +201,7 @@ QUnit.test("Test FilteredElement with selects", function() {
  */
 QUnit.test("Test FilteredElement with selects", function() {
     var $fixture = jQuery("#qunit-fixture");
-    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Bruno</option><option value="2">Nuno</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>');
+    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Bruno</option><option value="2">Nuno</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7" disabled>7</option><option value="8">8</option></select>');
     $fixture.append('<input class="uno_choice_filter" type="text" value="" name="test" placeholder="Filter">');
     var parameterHtmlElement = $fixture.find('*[name="value"]');
     if (parameterHtmlElement && parameterHtmlElement.get(0)) {
@@ -225,7 +225,7 @@ QUnit.test("Test FilteredElement with selects", function() {
  */
 QUnit.test("Test FilteredElement with selects and set filtered pattern length: positive", function() {
     var $fixture = jQuery("#qunit-fixture");
-    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Brunos</option><option value="2">Nunos</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>');
+    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Brunos</option><option value="2">Nunos</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7" disabled>7</option><option value="8">8</option></select>');
     $fixture.append('<input class="uno_choice_filter" type="text" value="" name="test" placeholder="Filter">');
     var parameterHtmlElement = $fixture.find('*[name="value"]');
     if (parameterHtmlElement && parameterHtmlElement.get(0)) {
@@ -249,7 +249,7 @@ QUnit.test("Test FilteredElement with selects and set filtered pattern length: p
  */
 QUnit.test("Test FilteredElement with selects and set filtered pattern length: negative", function() {
     var $fixture = jQuery("#qunit-fixture");
-    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Brunos</option><option value="2">Nunos</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>');
+    $fixture.append('<select name="value" multiple="multiple" size="8"><option value="1">Brunos</option><option value="2">Nunos</option><option value="3">Joe</option><option selected="true" value="4">Jeea</option><option value="5">5</option><option value="6">6</option><option value="7" disabled>7</option><option value="8">8</option></select>');
     $fixture.append('<input class="uno_choice_filter" type="text" value="" name="test" placeholder="Filter">');
     var parameterHtmlElement = $fixture.find('*[name="value"]');
     if (parameterHtmlElement && parameterHtmlElement.get(0)) {
