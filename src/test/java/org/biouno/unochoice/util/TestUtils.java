@@ -111,14 +111,13 @@ public class TestUtils {
 
     @Test
     public void testGetGlobalNodeProperties() {
-        Map<?, ?> map = Utils.getGlobalNodeProperties();
         Map<String, String> testMap = new HashMap<String, String>();
         testMap.put("time", "20:13:13");
         EnvironmentVariablesNodeProperty.Entry entry = new EnvironmentVariablesNodeProperty.Entry("time",
                 testMap.get("time"));
         EnvironmentVariablesNodeProperty envVarsNodeProp = new EnvironmentVariablesNodeProperty(entry);
         j.jenkins.getGlobalNodeProperties().add(envVarsNodeProp);
-        map = Utils.getGlobalNodeProperties();
+        Map<?, ?> map = Utils.getGlobalNodeProperties();
         assertEquals("20:13:13", map.values().iterator().next());
     }
 
