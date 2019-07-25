@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -176,7 +177,7 @@ public class TestPersistingParameters {
         FreeStyleProject project = j.createFreeStyleProject();
 
         ScriptlerScriptParameter scriptlerScriptParameters = new ScriptlerScriptParameter("arg1", "bla");
-        ScriptlerScript scriptParam001 = new ScriptlerScript("dummy.groovy", Arrays.asList(scriptlerScriptParameters));
+        ScriptlerScript scriptParam001 = new ScriptlerScript("dummy.groovy", Collections.singletonList(scriptlerScriptParameters));
         ChoiceParameter param001 = new ChoiceParameter("param001", "param001 description", "random-name",
                 scriptParam001, AbstractUnoChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, true, 1);
         GroovyScript scriptParam002 = new GroovyScript(new SecureGroovyScript(SCRIPT_PARAM002, false, null),
@@ -217,10 +218,9 @@ public class TestPersistingParameters {
                             String scriptText = FileUtils.readFileToString(scriptFile);
                             assertTrue("Found an empty script!", StringUtils.isNotBlank(scriptText));
                             assertEquals(SCRIPT_PARAM001, scriptText);
-                            assertTrue("Wrong number of parameters for scriptler parameter!",
-                                    ((ScriptlerScript) leScript).getParameters().size() == 1);
-                            assertTrue("Wrong scriptler parameter name!", ((ScriptlerScript) leScript).getParameters()
-                                    .keySet().iterator().next().equals("arg1"));
+                            assertEquals("Wrong number of parameters for scriptler parameter!", 1, ((ScriptlerScript) leScript).getParameters().size());
+                            assertEquals("Wrong scriptler parameter name!", "arg1", ((ScriptlerScript) leScript).getParameters()
+                                    .keySet().iterator().next());
                         }
                     }
                 }

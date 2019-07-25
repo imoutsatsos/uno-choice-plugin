@@ -76,7 +76,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      */
     protected static final String JENKINS_BUILD_VARIABLE_NAME = "jenkinsBuild";
     /**
-     * Constant used to add the parameter name in the enviroment variables map.
+     * Constant used to add the parameter name in the environment variables map.
      */
     protected static final String JENKINS_PARAMETER_VARIABLE_NAME = "jenkinsParameter";
     /**

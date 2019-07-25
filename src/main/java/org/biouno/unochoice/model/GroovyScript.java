@@ -243,11 +243,9 @@ public class GroovyScript extends AbstractScript {
         } else if (!secureFallbackScript.equals(other.secureFallbackScript))
             return false;
         if (secureScript == null) {
-            if (other.secureScript != null)
-                return false;
-        } else if (!secureScript.equals(other.secureScript))
-            return false;
-        return true;
+            return other.secureScript == null;
+        }
+        return secureScript.equals(other.secureScript);
     }
 
     // --- descriptor

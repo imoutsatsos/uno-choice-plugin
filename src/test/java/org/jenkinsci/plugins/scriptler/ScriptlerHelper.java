@@ -26,7 +26,8 @@ package org.jenkinsci.plugins.scriptler;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * @see https://github.com/jenkinsci/scriptler-plugin/blob/5308c27816ed8da5924eedcc6cb12c5655a7e5b3/src/test/java/org/jenkinsci/plugins/scriptler/ScriptlerManagementHelper.java
+ * @see <a href="https://github.com/jenkinsci/scriptler-plugin/blob/5308c27816ed8da5924eedcc6cb12c5655a7e5b3/src/test/java/org/jenkinsci/plugins/scriptler/ScriptlerManagementHelper.java">
+ *     https://github.com/jenkinsci/scriptler-plugin/blob/5308c27816ed8da5924eedcc6cb12c5655a7e5b3/src/test/java/org/jenkinsci/plugins/scriptler/ScriptlerManagementHelper.java</a>
  */
 public class ScriptlerHelper {
     private final ScriptlerManagement scriptler;

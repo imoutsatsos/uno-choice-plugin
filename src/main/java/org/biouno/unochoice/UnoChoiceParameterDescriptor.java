@@ -42,9 +42,7 @@ public class UnoChoiceParameterDescriptor extends ParameterDescriptor {
 
     public List<Descriptor<? extends AbstractScript>> getApplicableResultSeekers() {
         List<Descriptor<? extends AbstractScript>> list = new LinkedList<Descriptor<? extends AbstractScript>>();
-        for (Descriptor<? extends AbstractScript> rs : AbstractScript.all()) {
-            list.add(rs);
-        }
+        for (Descriptor<? extends AbstractScript> rs : AbstractScript.all()) list.add(rs);
         return list;
     }
 
