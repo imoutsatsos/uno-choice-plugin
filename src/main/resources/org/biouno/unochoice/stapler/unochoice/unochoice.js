@@ -900,7 +900,7 @@ var UnoChoice = UnoChoice || (function($) {
     function endsWith(text, pattern) {
         var d = text.length - pattern.length;
         return d >= 0 && text.lastIndexOf(pattern) === d;
-    };
+    }
     // Hacks in Jenkins core
     /**
      * <p>This function is the same as makeStaplerProxy available in Jenkins core, but executes calls
