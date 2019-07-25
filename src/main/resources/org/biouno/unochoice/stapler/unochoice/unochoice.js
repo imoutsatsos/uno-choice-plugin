@@ -158,7 +158,7 @@ var UnoChoice = UnoChoice || (function($) {
             var data = JSON.parse(choices);
             var newValues = data[0];
             var newKeys = data[1];
-            var selectedElements = new Array();
+            var selectedElements = [];
             // filter selected elements and create a matrix for selection
             // some elements may have key or values with the suffix :selected
             // we want to remove these suffixes
@@ -551,7 +551,7 @@ var UnoChoice = UnoChoice || (function($) {
         this.paramElement = paramElement;
         this.filterElement = filterElement;
         this.filterLength = filterLength;
-        this.originalArray = new Array();
+        this.originalArray = [];
         // push existing values into originalArray array
         if (this.paramElement.tagName === 'SELECT') { // handle SELECTS
             var options = jQuery(paramElement).children().toArray();
