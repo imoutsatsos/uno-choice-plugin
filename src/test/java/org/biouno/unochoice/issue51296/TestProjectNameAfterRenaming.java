@@ -1,8 +1,4 @@
-/**
- * Tests for projectName being correct after renaming project. See JENKINS-51296.
- *
- * @since 2.2
- */
+
 package org.biouno.unochoice.issue51296;
 
 import static org.junit.Assert.assertTrue;
@@ -35,6 +31,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.junit.runner.RunWith;
 import hudson.model.AbstractItem;
 
+/**
+ * Tests for projectName being correct after renaming project. See JENKINS-51296.
+ *
+ * @since 2.2
+ */
 @Issue("JENKINS-51296")
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({StaplerRequest.class, Stapler.class})

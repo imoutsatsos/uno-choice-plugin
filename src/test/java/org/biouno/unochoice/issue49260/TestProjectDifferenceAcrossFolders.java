@@ -1,8 +1,4 @@
-/**
- * Tests for different folders having same Project name. See JENKINS-49260.
- *
- * @since 2.2
- */
+
 package org.biouno.unochoice.issue49260;
 
 import static org.junit.Assert.assertTrue;
@@ -36,6 +32,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.junit.runner.RunWith;
 import hudson.model.AbstractItem;
 
+/**
+ * Tests for different folders having same Project name. See JENKINS-49260.
+ *
+ * @since 2.2
+ */
 @Issue("JENKINS-49260")
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({StaplerRequest.class, Stapler.class})
