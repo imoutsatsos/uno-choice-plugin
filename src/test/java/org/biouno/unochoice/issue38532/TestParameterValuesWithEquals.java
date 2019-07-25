@@ -83,7 +83,7 @@ public class TestParameterValuesWithEquals {
         // should be a String
         String listValue = listParam.getDefaultParameterValue().getValue().toString();
         try {
-            listSelectionParam.doUpdate(String.format(String.format("%s=%s", listParam.getName(), listValue)));
+            listSelectionParam.doUpdate(String.format("%s=%s", listParam.getName(), listValue));
         } catch (HttpResponses.HttpResponseException response) {
             // ignore
         }

@@ -192,8 +192,7 @@ public class Utils {
      * @return {@code true} if the project contains this parameter definition.
      */
     private static boolean isParameterDefinitionOf(@Nonnull String parameterUUID, @Nonnull Project<?, ?> project) {
-        List<ParameterDefinition> parameterDefinitions = new ArrayList<ParameterDefinition>();
-        parameterDefinitions.addAll(getProjectParameterDefinitions(project));
+        List<ParameterDefinition> parameterDefinitions = new ArrayList<ParameterDefinition>(getProjectParameterDefinitions(project));
         for (List<ParameterDefinition> params : getBuildWrapperParameterDefinitions(project).values()) {
             parameterDefinitions.addAll(params);
         }
