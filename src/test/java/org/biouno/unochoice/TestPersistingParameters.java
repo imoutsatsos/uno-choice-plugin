@@ -217,10 +217,9 @@ public class TestPersistingParameters {
                             String scriptText = FileUtils.readFileToString(scriptFile);
                             assertTrue("Found an empty script!", StringUtils.isNotBlank(scriptText));
                             assertEquals(SCRIPT_PARAM001, scriptText);
-                            assertTrue("Wrong number of parameters for scriptler parameter!",
-                                    ((ScriptlerScript) leScript).getParameters().size() == 1);
-                            assertTrue("Wrong scriptler parameter name!", ((ScriptlerScript) leScript).getParameters()
-                                    .keySet().iterator().next().equals("arg1"));
+                            assertEquals("Wrong number of parameters for scriptler parameter!", 1, ((ScriptlerScript) leScript).getParameters().size());
+                            assertEquals("Wrong scriptler parameter name!", "arg1", ((ScriptlerScript) leScript).getParameters()
+                                    .keySet().iterator().next());
                         }
                     }
                 }

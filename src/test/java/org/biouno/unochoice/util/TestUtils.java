@@ -65,7 +65,7 @@ public class TestUtils {
         PowerMockito.mockStatic(Utils.class);
         PowerMockito.when(Utils.getAllScriptlerScripts()).thenReturn(fakeScripts);
         Set<Script> scripts = Utils.getAllScriptlerScripts();
-        assertTrue(scripts.size() == 1);
+        assertEquals(1, scripts.size());
     }
 
     @Test
