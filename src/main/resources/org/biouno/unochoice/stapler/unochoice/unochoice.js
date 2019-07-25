@@ -125,8 +125,7 @@ var UnoChoice = UnoChoice || (function($) {
             var value = getParameterValue(referencedParameter.getParameterElement());
             parameterValues.push(name + '=' + value);
         }
-        var parametersString = parameterValues.join(SEPARATOR);
-        return parametersString;
+        return parameterValues.join(SEPARATOR);
     }
     /**
      * Updates the CascadeParameter object.
@@ -513,8 +512,7 @@ var UnoChoice = UnoChoice || (function($) {
             });
         } else if (parameterElement.id.indexOf('inputElement_') > -1) { // handle input text boxes
             this.proxy.getChoicesAsStringForUI(function (t) {
-                var options = t.responseText;
-                parameterElement.value = options;
+                parameterElement.value = t.responseText;
             });
         } else if (parameterElement.id.indexOf('formattedHtml_') > -1) { // handle formatted HTML
             this.proxy.getChoicesAsStringForUI(function (t) {
