@@ -220,7 +220,6 @@ var UnoChoice = UnoChoice || (function($) {
                        tbody = document.createElement('tbody');
                        table.appendChild(tbody);
                     }
-                    var trs = tbody.children;
                     var originalArray = [];
                     // Check whether it is a radio or checkbox element
                     if (parameterElement.className === 'dynamic_checkbox') {
@@ -360,7 +359,6 @@ var UnoChoice = UnoChoice || (function($) {
         // var e = jQuery.Event('change', {parameterName: this.getParameterName()});
         // jQuery(this.getParameterElement()).trigger(e);
         if (!avoidRecursion) {
-            var otherCascadeParameters = cascadeParameters;
             if (cascadeParameters && cascadeParameters.length > 0) {
                 for (var i = 0; i < cascadeParameters.length; i++) {
                     var other = cascadeParameters[i];
@@ -488,7 +486,7 @@ var UnoChoice = UnoChoice || (function($) {
                 console.log('Values returned from server: ' + choices);
                 var data = JSON.parse(choices);
                 var newValues = data[0];
-                var newKeys = data[1];
+                // var newKeys = data[1];
                 for (i = 0; i < newValues.length; ++i) {
                     var li = document.createElement('li');
                     li.innerHTML = newValues[i];
@@ -503,7 +501,7 @@ var UnoChoice = UnoChoice || (function($) {
                 console.log('Values returned from server: ' + choices);
                 var data = JSON.parse(choices);
                 var newValues = data[0];
-                var newKeys = data[1];
+                // var newKeys = data[1];
                 for (i = 0; i < newValues.length; ++i) {
                     var li = document.createElement('li');
                     li.innerHTML = newValues[i];
@@ -525,7 +523,6 @@ var UnoChoice = UnoChoice || (function($) {
         // var e = jQuery.Event('change', {parameterName: this.getParameterName()});
         // jQuery(this.getParameterElement()).trigger(e);
         if (!avoidRecursion) {
-            var otherCascadeParameters = cascadeParameters;
             if (cascadeParameters && cascadeParameters.length > 0) {
                 for (var i = 0; i < cascadeParameters.length; i++) {
                     var other = cascadeParameters[i];
