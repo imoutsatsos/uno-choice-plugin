@@ -299,12 +299,12 @@ var UnoChoice = UnoChoice || (function($) {
                             }
                             if (!entry instanceof String) {
                                 input.setAttribute('json', key);
-                                input.setAttribute('name', cascade.paramName);
+                                input.setAttribute('name', _self.getParameterName());
                                 input.setAttribute("value", key);
                                 input.setAttribute("class", " ");
                                 input.setAttribute("type", "radio");
                                 input.setAttribute('alt', JSON.stringify(entry));
-                                input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+cascade.paramName+'", "'+idValue+'")');
+                                input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
                                 input.setAttribute('otherId', idValue);
                                 label.className = "attach-previous";
                                 label.innerHTML = JSON.stringify(entry);
