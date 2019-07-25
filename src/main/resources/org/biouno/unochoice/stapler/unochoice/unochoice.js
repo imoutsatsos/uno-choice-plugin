@@ -886,18 +886,6 @@ var UnoChoice = UnoChoice || (function($) {
         }
         return result;
     }
-    // Basic utility methods
-    /**
-     * Utility method to check if a text ends with a given pattern.
-     *
-     * @param text string
-     * @param pattern string
-     * @return <code>true</code> iff the string ends with the pattern, <code>false</code> otherwise.
-     */
-    function endsWith(text, pattern) {
-        var d = text.length - pattern.length;
-        return d >= 0 && text.lastIndexOf(pattern) === d;
-    }
     // Hacks in Jenkins core
     /**
      * <p>This function is the same as makeStaplerProxy available in Jenkins core, but executes calls
@@ -968,7 +956,6 @@ var UnoChoice = UnoChoice || (function($) {
         return proxy;
     }
     // Deciding on what is exported and returning instance
-    //instance.endsWith = endsWith;
     instance.fakeSelectRadioButton = fakeSelectRadioButton;
     instance.getParameterValue = getParameterValue;
     instance.CascadeParameter = CascadeParameter;
