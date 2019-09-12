@@ -92,6 +92,29 @@ public class TestUtils {
     }
 
     @Test
+    public void testIsDisabled() {
+        assertTrue(Utils.isDisabled("a:disabled"));
+        assertFalse(Utils.isDisabled(null));
+        assertFalse(Utils.isDisabled(""));
+        assertFalse(Utils.isDisabled("a"));
+    }
+
+    @Test
+    public void testEscapeDisabled() {
+        String escaped = Utils.escapeDisabled(null);
+        assertEquals("", escaped);
+
+        escaped = Utils.escapeDisabled("");
+        assertEquals("", escaped);
+
+        escaped = Utils.escapeDisabled("a:disabled");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeDisabled("a");
+        assertEquals("a", escaped);
+    }
+
+    @Test
     public void testRandomParameterName() {
         String paramName = Utils.createRandomParameterName("test", "param");
         assertNotNull(paramName);

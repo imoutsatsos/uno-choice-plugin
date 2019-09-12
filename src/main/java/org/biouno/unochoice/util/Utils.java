@@ -117,6 +117,37 @@ public class Utils {
     }
 
     /**
+     * Checks whether a parameter value contains the :disabled suffix, returning
+     * {@code true} if it does, {@code false} otherwise.
+     *
+     * @param obj parameter value
+     * @return {@code true} if the parameter name contains the :disabled suffix {@code false} otherwise.
+     */
+    public static boolean isDisabled(@Nullable Object obj) {
+        if (obj == null)
+            return false;
+        final String text = obj.toString();
+        return StringUtils.isNotBlank(text) && text.endsWith(":disabled");
+    }
+
+    /**
+     * Escapes the parameter value, removing the :disabled suffix.
+     *
+     * @param obj parameter value
+     * @return escaped parameter value
+     */
+    public static @Nonnull String escapeDisabled(@Nullable Object obj) {
+        if (obj == null)
+            return "";
+        final String text = obj.toString();
+        if (StringUtils.isBlank(text))
+            return "";
+        if (isDisabled(text))
+            return text.substring(0, text.indexOf(":disabled"));
+        return text;
+    }
+
+    /**
      * Creates a random parameter name.
      *
      * @param prefix parameter prefix
