@@ -41,6 +41,7 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 import hudson.Extension;
 import hudson.Util;
+import hudson.model.ManagementLink;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -185,12 +186,8 @@ public class ScriptlerScript extends AbstractScript {
             return script;
         }
 
-        private ScriptlerManagement getScriptler() {
+        private ManagementLink getScriptler() {
             return Jenkins.getInstance().getExtensionList(ScriptlerManagement.class).get(0);
-        }
-
-        private ScriptlerConfiguration getConfig() {
-            return getScriptler().getConfiguration();
         }
 
         /**
@@ -202,9 +199,13 @@ public class ScriptlerScript extends AbstractScript {
          */
         @JavaScriptMethod
         public JSONArray getParameters(String scriptlerScriptId) {
-            final Script script = getConfig().getScriptById(scriptlerScriptId);
-            if (script != null && script.getParameters() != null) {
-                return JSONArray.fromObject(script.getParameters());
+            final ManagementLink scriptler = this.getScriptler();
+            if (scriptler != null) {
+                ScriptlerManagement scriptlerManagement = (ScriptlerManagement) scriptler;
+                final Script script = scriptlerManagement.getConfiguration().getScriptById(scriptlerScriptId);
+                if (script != null && script.getParameters() != null) {
+                    return JSONArray.fromObject(script.getParameters());
+                }
             }
             return null;
         }
