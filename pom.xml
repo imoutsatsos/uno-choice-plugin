@@ -18,8 +18,8 @@
     <name>Active Choices Plug-in</name>
     <description>This plug-in provides additional parameter types for jobs, that allow you to cascade changes and render images or other HTML elements instead of the traditional parameter.</description>
 
-    <url>https://wiki.jenkins.io/display/JENKINS/Active+Choices+Plugin</url>
-
+    <url>https://github.com/jenkinsci/active-choices-plugin</url>
+    
     <licenses>
         <license>
             <name>The MIT license</name>
