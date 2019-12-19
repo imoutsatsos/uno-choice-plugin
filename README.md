@@ -1,44 +1,13 @@
-Older versions of this plugin may not be safe to use. Please review the
-following warnings before using an older version:
-
--   [Arbitrary code execution
-    vulnerability](https://jenkins.io/security/advisory/2017-04-10/){.external-link}
--   [Stored cross-site scripting
-    vulnerability](https://jenkins.io/security/advisory/2017-10-23/){.external-link}
-
-The Active Choices plugin allows the creation of **dynamic and
-interactive parameters** for freestyle Jenkins jobs. Active Choice
-**parameters** can be **dynamically updated** and can be **rendered as
-combo-boxes, check-boxes, radio-buttons or rich HTML**.
-
-Active Choices will load two extra Javascript files, JQuery and
-unochoice.js. Starting with v2.0 the plugin is again available in the
-Jenkins update center.
-
-**Starting with Active Choices v2.0, sandboxed **Groovy scripts
-for **Active Choices Reactive Reference Parameter** will no longer emit
-HTML that is considered unsafe, such as `<script>` tags. This may result
-in behavior changes on *Build With Parameters* forms, such as missing
-elements. To resolve this issue, Groovy scripts emitting HTML will need
-to be configured to run outside the script security sandbox, possibly
-requiring separate administrator approval in *In-Process Script
-Approval*.
-
-Earlier versions can be installed manually. Read this
-<https://groups.google.com/forum/#!topic/biouno-users/Y7RfkOvizZ8> and
-download the plugin manually from:
-<https://repo.jenkins-ci.org/releases/org/biouno/uno-choice/>
-
-Before filing issues, please take a look at the [Troubleshooting
-Page](https://wiki.jenkins.io/display/JENKINS/Troubleshooting)
-
 ## Overview
 
-The Active Choices plug-in provides additional Jenkins parameter types
-that can be rendered as user interface (UI) controls in job forms. It
-supports using system environment variables, global node properties, and
-you also have at least the Jenkins project in the Groovy context for
-Freestyle jobs at least.
+The Active Choices plugin is used in parametrized freestyle Jenkins jobs to create **scripted, dynamic and
+interactive job parameters**. Active Choice
+**parameters** can be **dynamically updated** and can be **rendered as
+combo-boxes, check-boxes, radio-buttons or rich HTML UI widgets**.
+
+Active Choice parameters are scripted using Groovy, or (optionally) Scriptler Groovy scripts. These custom scripts
+support the use of the Jenkins Java API, system environment variables, global node properties, and
+potentially external Java and Javascript libraries.
 
 Once the plugin is installed three new parameter types become available:
 
@@ -50,7 +19,7 @@ Active Choices parameters allow users to select value(s) for a job
 parameter. Parameter values can be:
 
 -   dynamically generated (using Groovy or a
-    [Scriptler](https://wiki.jenkins-ci.org/display/JENKINS/Scriptler+Plugin){.external-link}
+    [Scriptler](https://wiki.jenkins-ci.org/display/JENKINS/Scriptler+Plugin)
     script)
 -   dynamically updated based on other UI parameters
 -   multi-valued (can have more than one value)
@@ -74,8 +43,7 @@ provide a guide to their configuration
     lists, check boxes and radio buttons.
 -   A text box filter can be optionally shown to aid in filtering the
     value options.
--   ![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_011719_PM.jpg?version=1&modificationDate=1430759870000&api=v2){.confluence-embedded-image
-    .confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_011719_PM.jpg?version=1&modificationDate=1430759870000&api=v2)
 
 ## Active Choices Reactive and Reactive Reference Parameters
 
@@ -129,8 +97,7 @@ Reference configuration section.
 
 ### Rendering Example
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACRR_b03_param.gif?version=1&modificationDate=1435871630000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACRR_b03_param.gif?version=1&modificationDate=1435871630000&api=v2)
 
 In the example above the value options for the 'Professions' parameter
 get updated when the 'Gender' parameter changes.
@@ -144,8 +111,7 @@ updated.
 The following table summarizes the behavior and rendering
 characteristics of the three Active Choices parameter types.
 
-![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_012955_PM.jpg?version=1&modificationDate=1430760601000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_012955_PM.jpg?version=1&modificationDate=1430760601000&api=v2)
 
 ## Active Choices Parameter Type Configuration
 
@@ -159,8 +125,7 @@ We now describe the details of their configuration.
 
 ### Active Choices Parameter: Configuration Options (Example 01)
 
-![](https://wiki.jenkins.io/download/attachments/74875908/AC_param.gif?version=2&modificationDate=1435866421000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/AC_param.gif?version=2&modificationDate=1435866421000&api=v2)
 
 An Active Choices Parameter is configured by setting the following
 options in the parameter configuration
@@ -214,8 +179,7 @@ The Example 01 Active Choice parameter configuration generates the
 following build form UI control. The user can select a single 'State'
 option from a filterable drop down list.
 
-![](https://wiki.jenkins.io/download/attachments/74875908/AC_b01_param.gif?version=1&modificationDate=1435867415000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/AC_b01_param.gif?version=1&modificationDate=1435867415000&api=v2)
 
 #### Making 'Default' selections
 
@@ -228,10 +192,10 @@ those returned by the script.
 In the example below, we will make the State of 'Parana' the default
 selection when the parameter UI control is rendered.
 
-![](https://wiki.jenkins.io/download/attachments/74875908/AC_cb01_param.gif?version=1&modificationDate=1435868473000&api=v2){.confluence-embedded-image}
+![](https://wiki.jenkins.io/download/attachments/74875908/AC_cb01_param.gif?version=1&modificationDate=1435868473000&api=v2)
 
 We credit the developers of the [Dynamic Parameter
-plugin](https://wiki.jenkins-ci.org/display/JENKINS/Dynamic+Parameter+Plug-in){.external-link} with
+plugin](https://wiki.jenkins-ci.org/display/JENKINS/Dynamic+Parameter+Plug-in) with
 some of the initial concepts and code on which Active Choices was
 implemented. However, there are several important differences and
 improvements between the  Active Choices plugin and the original Dynamic
@@ -250,8 +214,7 @@ Parameter plugin:
 
 ### Active Choices Reactive Parameter: Configuration Options (Example 02)
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c02_param.gif?version=1&modificationDate=1435869402000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c02_param.gif?version=1&modificationDate=1435869402000&api=v2)
 
 An Active Choices Reactive parameter is configured with a set of similar
 options as those shown above for the Active Choices parameter. However,
@@ -281,8 +244,7 @@ parameters that satisfies the following requirements. The form:
     the selected State is dynamically displayed
 -   Allows the user to select one or more of the displayed Cities
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACR_b02_param.gif?version=2&modificationDate=1435870506000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACR_b02_param.gif?version=2&modificationDate=1435870506000&api=v2)
 
 The job UI is composed of two parameters:
 
@@ -343,8 +305,7 @@ list of Maven artifacts, given a group ID.
 
 ### Active Choices Reactive Reference Parameter: Configuration Options
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACRR_param.gif?version=1&modificationDate=1435872391000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACRR_param.gif?version=1&modificationDate=1435872391000&api=v2)
 
 A Reactive Reference parameter is configured with a set of similar
 options as those shown above for the Active Choices Reactive parameter.
@@ -384,8 +345,7 @@ is an 'input' element the value can be passed to the build. See the
 Below we present 3 examples of Reactive References with different Choice
 Types and their corresponding renderings in the Jenkins job UI.
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACRR_r03_param.gif?version=1&modificationDate=1435873274000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACRR_r03_param.gif?version=1&modificationDate=1435873274000&api=v2)
 
 Consider an example where the user needs to make a meal selection that
 complements the available wine selection. The food selection would be
@@ -399,14 +359,12 @@ selection from the WINE\_MENU (Note Referenced parameters=WINE\_MENU).
 As a result, when we make a WINE\_MENU selection we also get a
 WINE\_RULE that can guide the FOOD\_MENU selection.
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACR_r03.gif?version=1&modificationDate=1435928651000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACR_r03.gif?version=1&modificationDate=1435928651000&api=v2)
 
 ### Reactive Reference Configuration (Example 03)
 
 The complete configuration of the WINE\_RULE parameter is shown below.  
-![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03.png?version=1&modificationDate=1435929437000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03.png?version=1&modificationDate=1435929437000&api=v2)
 
 ### Reactive Reference Groovy script (Example 03)
 
@@ -470,7 +428,7 @@ As was mentioned earlier, in general the values of reactive reference
 parameters are not passed to the build. However, there are some
 scenarios where the ability to pass these values would be of interest.
 For a more extensive discussion of this feature you can read
-[here](https://github.com/biouno/uno-choice-plugin/wiki/Using-Uno-Choice-for-Dynamic-Input-Text-Box-Defaults){.external-link}.
+[here](https://github.com/biouno/uno-choice-plugin/wiki/Using-Uno-Choice-for-Dynamic-Input-Text-Box-Defaults).
 
 #### Scenario 1: Pass a dynamically created value that can be edited by the user
 
@@ -482,8 +440,7 @@ reactive reference configuration:
 -   Groovy Script returning an **HTML input element** with the dynamic
     default value
 -   Advanced Option set to
-    ![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03_Advanced.png?version=1&modificationDate=1435931255000&api=v2){.confluence-embedded-image
-    .confluence-content-image-border}
+    ![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03_Advanced.png?version=1&modificationDate=1435931255000&api=v2)
 
 #### Scenario 2: Pass a dynamically created value that is **hidden** (can't be edited by the user)
 
@@ -496,8 +453,7 @@ can be accomplished with the following reactive reference configuration:
 -   Groovy Script returning an **HTML input element** with the dynamic
     default value
 -   Advanced Option set to
-    ![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03_Advanced.png?version=1&modificationDate=1435931255000&api=v2){.confluence-embedded-image
-    .confluence-content-image-border}
+    ![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03_Advanced.png?version=1&modificationDate=1435931255000&api=v2)
 
     A 'Formatted Hidden HTML' Choice type is useful when you want to
     calculate values to use in the build, but these values should not be
@@ -518,7 +474,7 @@ can be accomplished with the following reactive reference configuration:
 This is an interesting application of the Reactive Reference parameter.
 It allows you to create custom UI parameter controls with improved
 interactivity. See
-[example](https://wiki.jenkins-ci.org/display/JENKINS/Reactive+Reference+Dynamic+Parameter+Controls){.external-link}
+[example](https://wiki.jenkins-ci.org/display/JENKINS/Reactive+Reference+Dynamic+Parameter+Controls)
 
 ### Advanced Option: Omit Value Field
 
@@ -531,8 +487,7 @@ You can click the Advanced button and there you will find an option to
 omit the value field. This will you let you define a value for the
 hidden parameter.
 
-![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03_advanced.gif?version=1&modificationDate=1435933116000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/ACR_c03_advanced.gif?version=1&modificationDate=1435933116000&api=v2)
 
 ### Using Active Choices with Scriptler scripts
 
@@ -540,7 +495,7 @@ We assume users that need to use Scriptler generated parameters are
 already familiar with the Scriptler Plug-in. If you need further
 information on how to use the Scriptler Plug-in, please refer to [its
 Wiki
-page](https://wiki.jenkins-ci.org/display/JENKINS/Scriptler+Plugin){.external-link}
+page](https://wiki.jenkins-ci.org/display/JENKINS/Scriptler+Plugin)
 first.
 
 Similarly to a Groovy script, a Scriptler script is also written in
@@ -572,8 +527,28 @@ expressions.
 
 The following example shows such an example where a complex options list
 is filtered using a regular expression.  
-![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_022629_PM.jpg?version=1&modificationDate=1430763997000&api=v2){.confluence-embedded-image
-.confluence-content-image-border}
+![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_022629_PM.jpg?version=1&modificationDate=1430763997000&api=v2)
+
+## Security
+Active Choice versions V v2.0 may not be safe to use. Please review the
+following warnings before using an older version:
+
+-   [Arbitrary code execution
+    vulnerability](https://jenkins.io/security/advisory/2017-04-10/)
+-   [Stored cross-site scripting
+    vulnerability](https://jenkins.io/security/advisory/2017-10-23/)
+
+**Starting with Active Choices v2.0, sandboxed **Groovy scripts
+for **Active Choices Reactive Reference Parameter** will no longer emit
+HTML that is considered unsafe, such as `<script>` tags. This may result
+in behavior changes on *Build With Parameters* forms, such as missing
+elements. To resolve this issue, Groovy scripts emitting HTML will need
+to be configured to run outside the script security sandbox, possibly
+requiring separate administrator approval in *In-Process Script
+Approval*.
+
+Active Choices will load two extra Javascript files, JQuery and
+unochoice.js.
 
 ## Languages Supported
 
@@ -587,8 +562,10 @@ is filtered using a regular expression.
 1.  \- The parameters are supposed to be handled only by humans, and at
     the moment do not work when the job is triggered by plug-ins, API or
     scripts. Please see [this
-    issue](https://issues.jenkins-ci.org/browse/JENKINS-28735){.external-link}
+    issue](https://issues.jenkins-ci.org/browse/JENKINS-28735)
     for more.
+2.  \- Before filing issues, please take a look at the [Troubleshooting
+Page](https://wiki.jenkins.io/display/JENKINS/Troubleshooting)
 
 # **Compatibility Matrix**
 
@@ -604,20 +581,20 @@ happening in any version of Hudson.
 
 ## Sponsors
 
-## ![](https://wiki.jenkins.io/download/attachments/74875908/tupilabs.png?version=1&modificationDate=1416498962000&api=v2){.confluence-embedded-image}
+## ![](https://wiki.jenkins.io/download/attachments/74875908/tupilabs.png?version=1&modificationDate=1416498962000&api=v2)
 
 For commercial support, please get contact us
-via [@tupilabs](https://twitter.com/tupilabs){.external-link}
+via [@tupilabs](https://twitter.com/tupilabs)
 
-## ![](https://wiki.jenkins.io/download/attachments/74875908/bio1-200x102.png?version=1&modificationDate=1424178857000&api=v2){.confluence-embedded-image}
+## ![](https://wiki.jenkins.io/download/attachments/74875908/bio1-200x102.png?version=1&modificationDate=1424178857000&api=v2)
 
-[BioUno](http://biouno.org){.external-link}
+[BioUno](http://biouno.org)
 
 ## Resources
 
 | URL                                                                                                                    | Description                                                                                                                                                           |
 |------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <http://biouno.org/publications.html>                                                                                  | Contains a list of resources for several plug-ins created in the [BioUno](http://biouno.org){.external-link} project, including Active Choices, R, and Image Gallery. |
+| <http://biouno.org/publications.html>                                                                                  | Contains a list of resources for several plug-ins created in the [BioUno](http://biouno.org) project, including Active Choices, R, and Image Gallery. |
 | <https://www.cloudbees.com/event/topic/jenkins-ci-open-source-continuous-integration-system-scientific-data-and-image> | In Ioannis Moutsatsos' talk, you can find slides about the Active Choices (née Uno-Choice) plug-in, as well as watch it being used too.                               |
 
 ## Release Notes
@@ -628,46 +605,46 @@ via [@tupilabs](https://twitter.com/tupilabs){.external-link}
 2.  Updated dependency ssh-cli-auth to 1.4,
 3.  Updated dependency script-security to 1.39
 4.  Updated stapler-adjunct-jquery to 1.12.4-0
-5.  [JENKINS-51296](https://issues.jenkins-ci.org/browse/JENKINS-51296){.external-link}:
+5.  [JENKINS-51296](https://issues.jenkins-ci.org/browse/JENKINS-51296):
     Project renaming is not propagated to Active Choices projectName
     (thanks to sebcworks)
-6.  [JENKINS-39665](https://issues.jenkins-ci.org/browse/JENKINS-39665){.external-link}:
+6.  [JENKINS-39665](https://issues.jenkins-ci.org/browse/JENKINS-39665):
     Unnecessary Scrollbars on build with parameters screen when using
     Active Choices Plugin (thanks to Lubomir Stanko)
-7.  [JENKINS-53356](https://issues.jenkins-ci.org/browse/JENKINS-53356){.external-link}:
+7.  [JENKINS-53356](https://issues.jenkins-ci.org/browse/JENKINS-53356):
     Scriptlet 'ViewScript' link and Required Parameters not displayed in
     configuration
 8.  Fixed javadocs issues, missing license headers, simplified if
     expressions, and other minor code improvements
 9.  [Pull Request
-    \#25](https://github.com/jenkinsci/active-choices-plugin/pull/25){.external-link}:
+    \#25](https://github.com/jenkinsci/active-choices-plugin/pull/25):
     Initial version. Allow to disable any select option with :disable
     (thanks to Ivan Aragonés Muniesa)
 
 ##### Version 2.1.1 (2018/08/25)
 
-1.  [JENKINS-49260](https://issues.jenkins-ci.org/browse/JENKINS-49260){.external-link}:
+1.  [JENKINS-49260](https://issues.jenkins-ci.org/browse/JENKINS-49260):
     this.binding.jenkinsProject not returning project of current build
-2.  [JENKINS-51296](https://issues.jenkins-ci.org/browse/JENKINS-51296){.external-link}:
+2.  [JENKINS-51296](https://issues.jenkins-ci.org/browse/JENKINS-51296):
     Project renaming is not propagated to Active Choices projectName
 3.  Updates to dependencies from Jenkins and plugins, in pom.xml  
 
 ##### Version 2.1 (2018/01/01)
 
-1.  [JENKINS-48230](https://issues.jenkins-ci.org/browse/JENKINS-48230){.external-link}:
+1.  [JENKINS-48230](https://issues.jenkins-ci.org/browse/JENKINS-48230):
     Discover parameters on jobs' wrappers 
-2.  [JENKINS-47908](https://issues.jenkins-ci.org/browse/JENKINS-47908){.external-link}:
+2.  [JENKINS-47908](https://issues.jenkins-ci.org/browse/JENKINS-47908):
     After upgrade to v2.0, the active choices updates randomly in the
     browser 
-3.  [JENKINS-48448](https://issues.jenkins-ci.org/browse/JENKINS-48448){.external-link}:
+3.  [JENKINS-48448](https://issues.jenkins-ci.org/browse/JENKINS-48448):
     Add a variable with the parameter name
-4.  [JENKINS-43380](https://issues.jenkins-ci.org/browse/JENKINS-43380){.external-link}:
+4.  [JENKINS-43380](https://issues.jenkins-ci.org/browse/JENKINS-43380):
     Input parameter HTML description not working   
 
 ##### Version 2.0 (2017/10/23)
 
 1.  [Fix security
-    vulnerability](https://jenkins.io/security/advisory/2017-10-23/){.external-link}
+    vulnerability](https://jenkins.io/security/advisory/2017-10-23/)
     1.  **Important:** **Sandboxed** Groovy scripts for **Active Choices
         Reactive Reference Parameter** will no longer emit HTML that is
         considered unsafe, such as \<script\> tags. This may result in
@@ -677,114 +654,114 @@ via [@tupilabs](https://twitter.com/tupilabs){.external-link}
         security sandbox, possibly requiring separate administrator
         approval in *In-Process Script Approval*.
 
-2.  [JENKINS-42685](https://issues.jenkins-ci.org/browse/JENKINS-42685){.external-link}:
+2.  [JENKINS-42685](https://issues.jenkins-ci.org/browse/JENKINS-42685):
     Remove custom stapler proxy as we can now use assync requests
-3.  [JENKINS-31625](https://issues.jenkins-ci.org/browse/JENKINS-31625){.external-link}:
+3.  [JENKINS-31625](https://issues.jenkins-ci.org/browse/JENKINS-31625):
     Add configuration parameter, which defines, when filter must started
     work
-4.  [JENKINS-36158](https://issues.jenkins-ci.org/browse/JENKINS-36158){.external-link}:
+4.  [JENKINS-36158](https://issues.jenkins-ci.org/browse/JENKINS-36158):
     Active choice reactive reference parameter not working on checkbox
     reference 
-5.  [JENKINS-43380](https://issues.jenkins-ci.org/browse/JENKINS-43380){.external-link}:
+5.  [JENKINS-43380](https://issues.jenkins-ci.org/browse/JENKINS-43380):
     Input parameter HTML description not working 
 6.  [Pull request
-    \#15](https://github.com/jenkinsci/active-choices-plugin/pull/15){.external-link}:
+    \#15](https://github.com/jenkinsci/active-choices-plugin/pull/15):
     Make Scriptler dependency optional (thanks to Daniel Beck)  
 
 ##### Version 1.5.3 (2017/03/11)
 
-1.  [JENKINS-34487](https://issues.jenkins-ci.org/browse/JENKINS-34487){.external-link}:
+1.  [JENKINS-34487](https://issues.jenkins-ci.org/browse/JENKINS-34487):
     Do not hang the browser when parameter re-evaluated (thanks to
     Vladimir Fedorov)
-2.  [JENKINS-38532](https://issues.jenkins-ci.org/browse/JENKINS-38532){.external-link}:
+2.  [JENKINS-38532](https://issues.jenkins-ci.org/browse/JENKINS-38532):
     Active Choices Reactive Reference Parameters don't parse equals
     character ('=') properly.
-3.  [JENKINS-34188](https://issues.jenkins-ci.org/browse/JENKINS-34188){.external-link}:
+3.  [JENKINS-34188](https://issues.jenkins-ci.org/browse/JENKINS-34188):
     jenkins.log noise: "script parameter ... is not an instance of
     Java.util.Map."
 
 ##### Version 1.5.2 (2016/11/16)
 
-1.  [JENKINS-39620](https://issues.jenkins-ci.org/browse/JENKINS-39620){.external-link}:
+1.  [JENKINS-39620](https://issues.jenkins-ci.org/browse/JENKINS-39620):
     Saving a job with Active Choice 1.4 parameters after upgrade to v1.5
     resets scriptlet parameters
-2.  [JENKINS-39760](https://issues.jenkins-ci.org/browse/JENKINS-39760){.external-link}:
+2.  [JENKINS-39760](https://issues.jenkins-ci.org/browse/JENKINS-39760):
     Active Choices Parameters lost of Job Config save
 
 ##### Version 1.5.1 (2016/11/11)
 
-1.  [JENKINS-36590](https://issues.jenkins-ci.org/browse/JENKINS-36590){.external-link}:
+1.  [JENKINS-36590](https://issues.jenkins-ci.org/browse/JENKINS-36590):
     Active-Choice jenkinsProject variable is not available under Folder
     or Multibranch-Multiconfiguration job
-2.  [JENKINS-37027](https://issues.jenkins-ci.org/browse/JENKINS-37027){.external-link}:
+2.  [JENKINS-37027](https://issues.jenkins-ci.org/browse/JENKINS-37027):
     'View selected script option' in build configuration displays wrong
     scriptler script
-3.  [JENKINS-34988](https://issues.jenkins-ci.org/browse/JENKINS-34988){.external-link}:
+3.  [JENKINS-34988](https://issues.jenkins-ci.org/browse/JENKINS-34988):
     this.binding.jenkinsProject not returning project of current build
 4.  Upgraded build plug-ins
 5.  Fixed Findbugs issues
 6.  Upgraded parent in order to be able to release to Jenkins plug-in
     repositories
-7.  [JENKINS-39620](https://issues.jenkins-ci.org/browse/JENKINS-39620){.external-link}:
+7.  [JENKINS-39620](https://issues.jenkins-ci.org/browse/JENKINS-39620):
     Saving a job with Active Choice 1.4 parameters after upgrade to v1.5
     resets scriptlet parameters
-8.  [JENKINS-39534](https://issues.jenkins-ci.org/browse/JENKINS-39534){.external-link}:
+8.  [JENKINS-39534](https://issues.jenkins-ci.org/browse/JENKINS-39534):
     When Jenkins restarts, the groovy scripts are lost
-9.  [JENKINS-34818](https://issues.jenkins-ci.org/browse/JENKINS-34818){.external-link}:
+9.  [JENKINS-34818](https://issues.jenkins-ci.org/browse/JENKINS-34818):
     Active Choice reactive parameter cannot access global parameters
 
 ##### Version 1.5.0 (2016/11/04)
 
 1.  Removed from the update center. Read more about it
-    [here](http://biouno.org/2016/11/11/what-happens-when-you-make-a-java-member-variable-transient-in-a-jenkins-plugin){.external-link}
+    [here](http://biouno.org/2016/11/11/what-happens-when-you-make-a-java-member-variable-transient-in-a-jenkins-plugin)
 
 ##### Version 1.4 (2016/02/14)
 
-1.  [JENKINS-32405](https://issues.jenkins-ci.org/browse/JENKINS-32405){.external-link}:
+1.  [JENKINS-32405](https://issues.jenkins-ci.org/browse/JENKINS-32405):
     Groovy script failed to run if build started by timer
-2.  [JENKINS-32461](https://issues.jenkins-ci.org/browse/JENKINS-32461){.external-link}:
+2.  [JENKINS-32461](https://issues.jenkins-ci.org/browse/JENKINS-32461):
     jenkinsProject variable is not available in Multi-configuration
     project
-3.  [JENKINS-32566](https://issues.jenkins-ci.org/browse/JENKINS-32566){.external-link}:
+3.  [JENKINS-32566](https://issues.jenkins-ci.org/browse/JENKINS-32566):
     Render an AC Reactive reference as a functional Jenkins File
     Parameter
 
 ##### Version 1.3 (2015/12/24)
 
-1.  [pull-request/6](https://github.com/jenkinsci/active-choices-plugin/pull/6){.external-link}:
+1.  [pull-request/6](https://github.com/jenkinsci/active-choices-plugin/pull/6):
     Let "PhantomJS Unit Testing" be able to run on both linux and
     windows...
-2.  [JENKINS-30824](https://issues.jenkins-ci.org/browse/JENKINS-30824){.external-link}:
+2.  [JENKINS-30824](https://issues.jenkins-ci.org/browse/JENKINS-30824):
     Active Choice Reactive Parameter - radios button value not passed to
     build (thanks to lyen liang for his PR showing how to fix it
-3.  [JENKINS-32044](https://issues.jenkins-ci.org/browse/JENKINS-32044){.external-link}:
+3.  [JENKINS-32044](https://issues.jenkins-ci.org/browse/JENKINS-32044):
     Fail to evaluate Boolean parameter to "on" when checked
-4.  [JENKINS-30592](https://issues.jenkins-ci.org/browse/JENKINS-30592){.external-link}:
+4.  [JENKINS-30592](https://issues.jenkins-ci.org/browse/JENKINS-30592):
     An AC Reactive Reference is always displayed unless it references a
     parameter
-5.  [JENKINS-32149](https://issues.jenkins-ci.org/browse/JENKINS-32149){.external-link}:
+5.  [JENKINS-32149](https://issues.jenkins-ci.org/browse/JENKINS-32149):
     Create random parameter name only once
-6.  [JENKINS-29476](https://issues.jenkins-ci.org/browse/JENKINS-29476){.external-link}:
+6.  [JENKINS-29476](https://issues.jenkins-ci.org/browse/JENKINS-29476):
     The 'jenkinsProject' variable is not set in the binding after
     restarting Jenkins (thanks to @perfhector for PR/5)
 
 ##### Version 1.2 (2015/07/22)
 
-1.  [pull-request/1](https://github.com/jenkinsci/active-choices-plugin/pull/1){.external-link}:
+1.  [pull-request/1](https://github.com/jenkinsci/active-choices-plugin/pull/1):
     Use value of Reactive Reference dynamic input controls as build
     parameters. See
-    [example](https://wiki.jenkins-ci.org/display/JENKINS/Reactive+Reference+Dynamic+Parameter+Controls){.external-link}
-2.  [pull-request/2](https://github.com/jenkinsci/active-choices-plugin/pull/2){.external-link}:
+    [example](https://wiki.jenkins-ci.org/display/JENKINS/Reactive+Reference+Dynamic+Parameter+Controls)
+2.  [pull-request/2](https://github.com/jenkinsci/active-choices-plugin/pull/2):
     Update unochoice.js
 
 ##### Version 1.1 (2015/06/28)
 
-1.  [JENKINS-29055](https://issues.jenkins-ci.org/browse/JENKINS-29055){.external-link}:
+1.  [JENKINS-29055](https://issues.jenkins-ci.org/browse/JENKINS-29055):
     Problem with Active Choices 1.0 and jQuery
-2.  [JENKINS-28764](https://issues.jenkins-ci.org/browse/JENKINS-28764){.external-link}:
+2.  [JENKINS-28764](https://issues.jenkins-ci.org/browse/JENKINS-28764):
     Environment variables are not expanded and thus cannot be used as
     parameter values to Scriptler scripts
-3.  [JENKINS-28785](https://issues.jenkins-ci.org/browse/JENKINS-28785){.external-link}:
+3.  [JENKINS-28785](https://issues.jenkins-ci.org/browse/JENKINS-28785):
     Referenced Parameters Not Passed to Scriptler Scripts
 
 ##### Version 1.0 (2015/06/03)
