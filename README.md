@@ -530,7 +530,7 @@ is filtered using a regular expression.
 ![](https://wiki.jenkins.io/download/attachments/74875908/Untitled_Clipping_050415_022629_PM.jpg?version=1&modificationDate=1430763997000&api=v2)
 
 ## Security
-Active Choice versions V v2.0 may not be safe to use. Please review the
+Active Choice versions before v2.0 may not be safe to use. Please review the
 following warnings before using an older version:
 
 -   [Arbitrary code execution
@@ -772,12 +772,6 @@ via [@tupilabs](https://twitter.com/tupilabs)
 ##### Versions released to BioUno update center
 
 The first commit happened on 2014/03/13, and the initial release on
-2014/03/21. There were 24 releases to the BioUno update center, the last
+2014/03/21. There were 24 releases to the [BioUno update center](http://biouno.org/jenkins-update-site.html), the last
 one being on 2015/03/26, when the project decided to publish it via
 Jenkins update center.
-
-## Roadmap (wish list)
-
-##### Version 1.x
-
-1.   Bug fixes based on user's feedback, and more unit tests.
