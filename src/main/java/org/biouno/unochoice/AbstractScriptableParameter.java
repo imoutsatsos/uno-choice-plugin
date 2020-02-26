@@ -24,6 +24,7 @@
 
 package org.biouno.unochoice;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -273,15 +274,36 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         if (LOGGER.isLoggable(Level.FINE)) {
             LOGGER.entering(AbstractUnoChoiceParameter.class.getName(), "getDefaultParameterValue");
         }
-        Object firstElement = "";
-        final Map<Object, Object> choices = getChoices(Collections.<Object, Object> emptyMap());
-        if (choices != null && !choices.isEmpty()) {
-            firstElement = choices.entrySet().iterator().next().getValue();
-        }
         final String name = getName();
-        final String value = ObjectUtils.toString(firstElement, ""); // Jenkins doesn't like null parameter values
+        String defaultValue = findDefaultValue(getChoices(Collections.<Object, Object> emptyMap()));
+        final String value = ObjectUtils.toString(defaultValue, ""); // Jenkins doesn't like null parameter values
         final StringParameterValue stringParameterValue = new StringParameterValue(name, value);
         return stringParameterValue;
+    }
+
+    private static String findDefaultValue(Map<Object, Object> choices) {
+        if (choices == null || choices.isEmpty()) {
+            return null;
+        }
+
+        List<String> defaultValues = new ArrayList<String>();
+        List<Object> values = new ArrayList<Object>(choices.values());
+        for (Object value : values) {
+            String valueText = ObjectUtils.toString(value, "");
+            if (valueText.endsWith(":selected")) {
+                defaultValues.add(valueText.substring(0, valueText.length() - ":selected".length()));
+            }
+        }
+        if (defaultValues.isEmpty()) {
+            return ObjectUtils.toString(values.get(0), null);
+        }
+
+        StringBuilder defaultValuesText = new StringBuilder();
+        for (String value : defaultValues) {
+            defaultValuesText.append(',');
+            defaultValuesText.append(value);
+        }
+        return defaultValuesText.toString().substring(1);
     }
 
     // --- type types
