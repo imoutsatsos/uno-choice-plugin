@@ -599,6 +599,10 @@ via [@tupilabs](https://twitter.com/tupilabs)
 
 ## Release Notes
 
+##### Version 2.3 (2020/??/??)
+
+1. [JENKINS-61068](https://issues.jenkins-ci.org/browse/JENKINS-61068): Active Choices radio parameter has incorrect default value on parambuild URL. Fixed by Adam Gabryś in [pr/32](https://github.com/jenkinsci/active-choices-plugin/pull/32) (thanks!).
+
 ##### Version 2.2 (2019/09/13)
 
 1.  Updated minimum version of Jenkins to 2.60.3
