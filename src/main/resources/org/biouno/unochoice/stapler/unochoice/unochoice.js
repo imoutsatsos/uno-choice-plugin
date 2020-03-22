@@ -161,24 +161,24 @@ var UnoChoice = UnoChoice || (function($) {
             var selectedElements = [];
             var disabledElements = [];
             // filter selected and disabled elements and create a matrix for selection and disabled
-            // some elements may have key or values with the suffixes :selected and :disabled
+            // some elements may have key or values with the suffixes :selected and/or :disabled
             // we want to remove these suffixes
             for (var i = 0; i < newValues.length; i++) {
                 var newValue = String(newValues[i]);
-                if (newValue && newValue.endsWith(':selected')) {
+                if (newValue && newValue.contains(':selected')) {
                     selectedElements.push(i);
-                    newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
+                    newValues[i] = newValues[i].replace(':selected','');
                 }
-                if (newValue && newValue.endsWith(':disabled')) {
+                if (newValue && newValue.contains(':disabled')) {
                     disabledElements.push(i);
-                    newValues[i] = newValues[i].substring(0, newValue.indexOf(':disabled'));
+                    newValues[i] = newValues[i].replace(':disabled','');
                 }
                 var newKey = String(newKeys[i]);
-                if (newKey && typeof newKey === "string" && newKey.endsWith(':selected')) {
-                    newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':selected'));
+                if (newKey && typeof newKey === "string" && newKey.contains(':selected')) {
+                    newKeys[i] = newKeys[i].replace(':selected','');
                 }
-                if (newKey && typeof newKey == "string" && newKey.endsWith(':disabled')) {
-                    newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':disabled'));
+                if (newKey && typeof newKey === "string" && newKey.contains(':disabled')) {
+                    newKeys[i] = newKeys[i].replace(':disabled','');
                 }
             }
             if (_self.getFilterElement()) {

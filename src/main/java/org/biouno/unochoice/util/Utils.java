@@ -96,7 +96,7 @@ public class Utils {
         if (obj == null)
             return false;
         final String text = obj.toString();
-        return StringUtils.isNotBlank(text) && text.endsWith(":selected");
+        return StringUtils.isNotBlank(text) && text.contains(":selected");
     }
 
     /**
@@ -112,7 +112,7 @@ public class Utils {
         if (StringUtils.isBlank(text))
             return "";
         if (isSelected(text))
-            return text.substring(0, text.indexOf(":selected"));
+            return text.replace(":selected","");
         return text;
     }
 
@@ -127,7 +127,7 @@ public class Utils {
         if (obj == null)
             return false;
         final String text = obj.toString();
-        return StringUtils.isNotBlank(text) && text.endsWith(":disabled");
+        return StringUtils.isNotBlank(text) && text.contains(":disabled");
     }
 
     /**
@@ -143,7 +143,7 @@ public class Utils {
         if (StringUtils.isBlank(text))
             return "";
         if (isDisabled(text))
-            return text.substring(0, text.indexOf(":disabled"));
+            return text.replace(":disabled","");
         return text;
     }
 
