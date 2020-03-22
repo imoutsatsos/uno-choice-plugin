@@ -194,6 +194,17 @@ selection when the parameter UI control is rendered.
 
 ![](https://wiki.jenkins.io/download/attachments/74875908/AC_cb01_param.gif?version=1&modificationDate=1435868473000&api=v2)
 
+#### Making 'Disabled' selections
+
+You also can **define disabled selections** by adding the suffix;
+**:disabled** to the element(s) you want to be disabled.
+In the example below, we will make various elements to be disabled and
+unmutable.
+
+**IMAGE HERE**
+
+As you can see, both **:selected** and **:disabled** can be specified at the same time.
+
 We credit the developers of the [Dynamic Parameter
 plugin](https://wiki.jenkins-ci.org/display/JENKINS/Dynamic+Parameter+Plug-in) with
 some of the initial concepts and code on which Active Choices was
