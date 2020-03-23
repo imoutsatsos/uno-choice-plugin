@@ -76,6 +76,7 @@ public class TestUtils {
         assertFalse(Utils.isSelected(null));
         assertFalse(Utils.isSelected(""));
         assertFalse(Utils.isSelected("a"));
+        assertFalse(Utils.isSelected("a:selected example"));
     }
 
     @Test
@@ -95,6 +96,9 @@ public class TestUtils {
         escaped = Utils.escapeSelected("a:disabled:selected");
         assertEquals("a:disabled", escaped);
 
+        escaped = Utils.escapeSelected("a:selected example");
+        assertEquals("a:selected example", escaped);
+
         escaped = Utils.escapeSelected("a");
         assertEquals("a", escaped);
     }
@@ -107,6 +111,7 @@ public class TestUtils {
         assertFalse(Utils.isDisabled(null));
         assertFalse(Utils.isDisabled(""));
         assertFalse(Utils.isDisabled("a"));
+        assertFalse(Utils.isDisabled("a:disabled example"));
     }
 
     @Test
@@ -125,6 +130,9 @@ public class TestUtils {
 
         escaped = Utils.escapeDisabled("a:disabled:selected");
         assertEquals("a:selected", escaped);
+
+        escaped = Utils.escapeDisabled("a:disabled example");
+        assertEquals("a:disabled example", escaped);
 
         escaped = Utils.escapeDisabled("a");
         assertEquals("a", escaped);
