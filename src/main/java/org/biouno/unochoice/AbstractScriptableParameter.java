@@ -291,7 +291,12 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         for (Object value : values) {
             String valueText = ObjectUtils.toString(value, "");
             if (Utils.isSelected(valueText)) {
-                defaultValues.add(Utils.escapeSelected(valueText));
+                if (Utils.isDisabled(valueText)) {
+                  defaultValues.add(Utils.escapeSelectedAndDisabled(valueText));
+                }
+                else {
+                  defaultValues.add(Utils.escapeSelected(valueText));
+                }
             }
         }
         if (defaultValues.isEmpty()) {

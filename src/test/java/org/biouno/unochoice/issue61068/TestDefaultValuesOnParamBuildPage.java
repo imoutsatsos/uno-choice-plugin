@@ -131,6 +131,19 @@ public class TestDefaultValuesOnParamBuildPage {
         assertEquals("Invalid parameter value!", "", parameterValue.getValue());
     }
 
+    @Test
+    public void testAllSuffixesAreTrimmed() {
+        ChoiceParameter parameter = createChoiceParameter(
+                ChoiceParameter.PARAMETER_TYPE_CHECK_BOX,
+                "return ['A:selected:disabled', 'B:disabled:selected', 'C', 'D:selected']"
+        );
+
+        ParameterValue parameterValue = parameter.getDefaultParameterValue();
+
+        assertEquals("Invalid parameter name!", PARAMETER_NAME, parameterValue.getName());
+        assertEquals("Invalid parameter value!", "A,B,D", parameterValue.getValue());
+    }
+
     private static final ChoiceParameter createChoiceParameter(String type, String script) {
         ScriptApproval.get().preapprove(script, GroovyLanguage.get());
         ScriptApproval.get().preapprove(DEFAULT_FALLBACK_SCRIPT, GroovyLanguage.get());

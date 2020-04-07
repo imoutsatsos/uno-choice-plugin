@@ -139,6 +139,39 @@ public class TestUtils {
     }
 
     @Test
+    public void testEscapeSelectedAndDisabled() {
+        String escaped = Utils.escapeSelectedAndDisabled(null);
+        assertEquals("", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("");
+        assertEquals("", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:selected:disabled");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled:selected");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:selected example");
+        assertEquals("a:selected example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled example");
+        assertEquals("a:disabled example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:selected:disabled example");
+        assertEquals("a:selected:disabled example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled:selected example");
+        assertEquals("a:disabled:selected example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a");
+        assertEquals("a", escaped);
+    }
+
+    @Test
     public void testRandomParameterName() {
         String paramName = Utils.createRandomParameterName("test", "param");
         assertNotNull(paramName);

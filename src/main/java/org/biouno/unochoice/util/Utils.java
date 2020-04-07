@@ -148,6 +148,23 @@ public class Utils {
     }
 
     /**
+     * Escapes the parameter value, removing the :selected and :disabled suffixes.
+     *
+     * @param obj parameter value
+     * @return escaped parameter value
+     */
+    public static @Nonnull String escapeSelectedAndDisabled(@Nullable Object obj) {
+        if (obj == null)
+            return "";
+        final String text = obj.toString();
+        if (StringUtils.isBlank(text))
+            return "";
+        if (isSelected(text) || isDisabled(text))
+            return escapeSelected(escapeDisabled(text));
+        return text;
+    }
+
+    /**
      * Creates a random parameter name.
      *
      * @param prefix parameter prefix
