@@ -613,6 +613,7 @@ via [@tupilabs](https://twitter.com/tupilabs)
 ##### Version 2.3 (2020/??/??)
 
 1. [JENKINS-61068](https://issues.jenkins-ci.org/browse/JENKINS-61068): Active Choices radio parameter has incorrect default value on parambuild URL. Fixed by Adam Gabryś in [pr/32](https://github.com/jenkinsci/active-choices-plugin/pull/32) (thanks!).
+2. [JENKINS-61751](https://issues.jenkins-ci.org/browse/JENKINS-61751): let :disabled and :deleted at the same (thanks to @ivarmu)
 
 ##### Version 2.2 (2019/09/13)
 
