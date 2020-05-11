@@ -71,9 +71,12 @@ public class TestUtils {
     @Test
     public void testIsSelected() {
         assertTrue(Utils.isSelected("a:selected"));
+        assertTrue(Utils.isSelected("a:selected:disabled"));
+        assertTrue(Utils.isSelected("a:disabled:selected"));
         assertFalse(Utils.isSelected(null));
         assertFalse(Utils.isSelected(""));
         assertFalse(Utils.isSelected("a"));
+        assertFalse(Utils.isSelected("a:selected example"));
     }
 
     @Test
@@ -87,6 +90,15 @@ public class TestUtils {
         escaped = Utils.escapeSelected("a:selected");
         assertEquals("a", escaped);
 
+        escaped = Utils.escapeSelected("a:selected:disabled");
+        assertEquals("a:disabled", escaped);
+
+        escaped = Utils.escapeSelected("a:disabled:selected");
+        assertEquals("a:disabled", escaped);
+
+        escaped = Utils.escapeSelected("a:selected example");
+        assertEquals("a:selected example", escaped);
+
         escaped = Utils.escapeSelected("a");
         assertEquals("a", escaped);
     }
@@ -94,9 +106,12 @@ public class TestUtils {
     @Test
     public void testIsDisabled() {
         assertTrue(Utils.isDisabled("a:disabled"));
+        assertTrue(Utils.isDisabled("a:selected:disabled"));
+        assertTrue(Utils.isDisabled("a:disabled:selected"));
         assertFalse(Utils.isDisabled(null));
         assertFalse(Utils.isDisabled(""));
         assertFalse(Utils.isDisabled("a"));
+        assertFalse(Utils.isDisabled("a:disabled example"));
     }
 
     @Test
@@ -110,7 +125,49 @@ public class TestUtils {
         escaped = Utils.escapeDisabled("a:disabled");
         assertEquals("a", escaped);
 
+        escaped = Utils.escapeDisabled("a:selected:disabled");
+        assertEquals("a:selected", escaped);
+
+        escaped = Utils.escapeDisabled("a:disabled:selected");
+        assertEquals("a:selected", escaped);
+
+        escaped = Utils.escapeDisabled("a:disabled example");
+        assertEquals("a:disabled example", escaped);
+
         escaped = Utils.escapeDisabled("a");
+        assertEquals("a", escaped);
+    }
+
+    @Test
+    public void testEscapeSelectedAndDisabled() {
+        String escaped = Utils.escapeSelectedAndDisabled(null);
+        assertEquals("", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("");
+        assertEquals("", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:selected:disabled");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled:selected");
+        assertEquals("a", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:selected example");
+        assertEquals("a:selected example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled example");
+        assertEquals("a:disabled example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:selected:disabled example");
+        assertEquals("a:selected:disabled example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a:disabled:selected example");
+        assertEquals("a:disabled:selected example", escaped);
+
+        escaped = Utils.escapeSelectedAndDisabled("a");
         assertEquals("a", escaped);
     }
 

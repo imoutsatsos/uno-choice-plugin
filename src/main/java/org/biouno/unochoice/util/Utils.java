@@ -96,7 +96,7 @@ public class Utils {
         if (obj == null)
             return false;
         final String text = obj.toString();
-        return StringUtils.isNotBlank(text) && text.endsWith(":selected");
+        return StringUtils.isNotBlank(text) && (text.endsWith(":selected") || text.endsWith(":selected:disabled"));
     }
 
     /**
@@ -112,7 +112,7 @@ public class Utils {
         if (StringUtils.isBlank(text))
             return "";
         if (isSelected(text))
-            return text.substring(0, text.indexOf(":selected"));
+            return text.replaceAll(":selected$", "").replaceAll(":selected:disabled$", ":disabled");
         return text;
     }
 
@@ -127,7 +127,7 @@ public class Utils {
         if (obj == null)
             return false;
         final String text = obj.toString();
-        return StringUtils.isNotBlank(text) && text.endsWith(":disabled");
+        return StringUtils.isNotBlank(text) && (text.endsWith(":disabled") || text.endsWith(":disabled:selected"));
     }
 
     /**
@@ -143,7 +143,24 @@ public class Utils {
         if (StringUtils.isBlank(text))
             return "";
         if (isDisabled(text))
-            return text.substring(0, text.indexOf(":disabled"));
+            return text.replaceAll(":disabled$", "").replaceAll(":disabled:selected$", ":selected");
+        return text;
+    }
+
+    /**
+     * Escapes the parameter value, removing the :selected and :disabled suffixes.
+     *
+     * @param obj parameter value
+     * @return escaped parameter value
+     */
+    public static @Nonnull String escapeSelectedAndDisabled(@Nullable Object obj) {
+        if (obj == null)
+            return "";
+        final String text = obj.toString();
+        if (StringUtils.isBlank(text))
+            return "";
+        if (isSelected(text) || isDisabled(text))
+            return escapeSelected(escapeDisabled(text));
         return text;
     }
 

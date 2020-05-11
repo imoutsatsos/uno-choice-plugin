@@ -161,24 +161,24 @@ var UnoChoice = UnoChoice || (function($) {
             var selectedElements = [];
             var disabledElements = [];
             // filter selected and disabled elements and create a matrix for selection and disabled
-            // some elements may have key or values with the suffixes :selected and :disabled
+            // some elements may have key or values with the suffixes :selected and/or :disabled
             // we want to remove these suffixes
             for (var i = 0; i < newValues.length; i++) {
                 var newValue = String(newValues[i]);
-                if (newValue && newValue.endsWith(':selected')) {
+                if (newValue && (newValue.endsWith(':selected') || newValue.endsWith(':selected:disabled'))) {
                     selectedElements.push(i);
-                    newValues[i] = newValues[i].substring(0, newValue.indexOf(':selected'));
+                    newValues[i] = newValues[i].replace(/:selected$/,'').replace(/:selected:disabled$/, ':disabled');
                 }
-                if (newValue && newValue.endsWith(':disabled')) {
+                if (newValue && (newValue.endsWith(':disabled') || newValue.endsWith(':disabled:selected'))) {
                     disabledElements.push(i);
-                    newValues[i] = newValues[i].substring(0, newValue.indexOf(':disabled'));
+                    newValues[i] = newValues[i].replace(/:disabled$/,'').replace(/:disabled:selected$/, ':selected');
                 }
                 var newKey = String(newKeys[i]);
-                if (newKey && typeof newKey === "string" && newKey.endsWith(':selected')) {
-                    newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':selected'));
+                if (newKey && typeof newKey === "string" && (newKey.endsWith(':selected') || newKey.endsWith(':selected:disabled'))) {
+                    newKeys[i] = newKeys[i].replace(/:selected$/,'').replace(/:selected:disabled$/,':disabled');
                 }
-                if (newKey && typeof newKey == "string" && newKey.endsWith(':disabled')) {
-                    newKeys[i] = newKeys[i].substring(0, newKey.indexOf(':disabled'));
+                if (newKey && typeof newKey === "string" && (newKey.endsWith(':disabled') || newKey.endsWith(':disabled:selected'))) {
+                    newKeys[i] = newKeys[i].replace(/:disabled$/,'').replace(/:disabled:selected$/,':selected');
                 }
             }
             if (_self.getFilterElement()) {

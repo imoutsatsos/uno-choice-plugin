@@ -96,7 +96,7 @@ public class TestDefaultValuesOnParamBuildPage {
     public void testReturnSelectedElement() {
         ChoiceParameter parameter = createChoiceParameter(
                 ChoiceParameter.PARAMETER_TYPE_RADIO,
-                "return ['A', 'B', 'C:selected', 'D']"
+                "return ['A', 'B', 'C:selected', 'D', 'E:disabled']"
         );
 
         ParameterValue parameterValue = parameter.getDefaultParameterValue();
@@ -109,7 +109,7 @@ public class TestDefaultValuesOnParamBuildPage {
     public void testReturnSelectedElements() {
         ChoiceParameter parameter = createChoiceParameter(
                 ChoiceParameter.PARAMETER_TYPE_CHECK_BOX,
-                "return ['A', 'B:selected', 'C', 'D:selected']"
+                "return ['A', 'B:selected', 'C', 'D:selected', 'E:disabled']"
         );
 
         ParameterValue parameterValue = parameter.getDefaultParameterValue();
@@ -122,13 +122,26 @@ public class TestDefaultValuesOnParamBuildPage {
     public void testReturnSelectedEmptyElement() {
         ChoiceParameter parameter = createChoiceParameter(
                 ChoiceParameter.PARAMETER_TYPE_RADIO,
-                "return ['A', 'B', ':selected', 'D']"
+                "return ['A', 'B', ':selected', 'D', 'E:disabled']"
         );
 
         ParameterValue parameterValue = parameter.getDefaultParameterValue();
 
         assertEquals("Invalid parameter name!", PARAMETER_NAME, parameterValue.getName());
         assertEquals("Invalid parameter value!", "", parameterValue.getValue());
+    }
+
+    @Test
+    public void testAllSuffixesAreTrimmed() {
+        ChoiceParameter parameter = createChoiceParameter(
+                ChoiceParameter.PARAMETER_TYPE_CHECK_BOX,
+                "return ['A:selected:disabled', 'B:disabled:selected', 'C', 'D:selected']"
+        );
+
+        ParameterValue parameterValue = parameter.getDefaultParameterValue();
+
+        assertEquals("Invalid parameter name!", PARAMETER_NAME, parameterValue.getName());
+        assertEquals("Invalid parameter value!", "A,B,D", parameterValue.getValue());
     }
 
     private static final ChoiceParameter createChoiceParameter(String type, String script) {
