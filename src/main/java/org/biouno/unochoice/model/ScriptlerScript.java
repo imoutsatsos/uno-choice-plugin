@@ -38,6 +38,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.ManagementLink;
@@ -188,8 +189,9 @@ public class ScriptlerScript extends AbstractScript {
             return script;
         }
 
+        @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
         private ManagementLink getScriptler() {
-            return Jenkins.getInstance().getExtensionList(ScriptlerManagement.class).get(0);
+            return Jenkins.getInstanceOrNull().getExtensionList(ScriptlerManagement.class).get(0);
         }
 
         /**
