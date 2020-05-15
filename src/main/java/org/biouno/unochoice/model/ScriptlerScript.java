@@ -128,6 +128,9 @@ public class ScriptlerScript extends AbstractScript {
      */
     public GroovyScript toGroovyScript() {
         final Script scriptler = ScriptHelper.getScript(getScriptlerScriptId(), true);
+        if (scriptler == null) {
+            throw new RuntimeException("Missing required scriptler!");
+        }
         return new GroovyScript(new SecureGroovyScript(scriptler.script, false, null), null);
     }
 
