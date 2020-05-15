@@ -59,6 +59,18 @@
         </developer>
     </developers>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jenkins.tools.bom</groupId>
+                <artifactId>bom-2.204.x</artifactId>
+                <version>9</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- Scriptler is used to eval Groovy parameters -->
         <dependency>
@@ -83,7 +95,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>script-security</artifactId>
-            <version>1.50</version>
+            <version>1.66</version>
         </dependency>
         <!-- escaping output of dynamic reference parameters -->
         <dependency>
