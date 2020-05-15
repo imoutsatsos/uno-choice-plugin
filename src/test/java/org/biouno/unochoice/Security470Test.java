@@ -54,7 +54,7 @@ public class Security470Test {
                     null);
             DynamicReferenceParameter param = new DynamicReferenceParameter("whatever", "description", "some-random-name",
                     script, CascadeChoiceParameter.ELEMENT_TYPE_FORMATTED_HTML, "", true);
-            Assert.assertEquals("<img src=\"fail\"><b>text</b>", param.getChoicesAsStringForUI());
+            Assert.assertEquals("<img src=\"fail\" /><b>text</b>", param.getChoicesAsStringForUI());
         }
 
         { // test HTML does not get sanitized when run outside the sandbox
