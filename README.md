@@ -614,6 +614,8 @@ via [@tupilabs](https://twitter.com/tupilabs)
 
 1. [JENKINS-61068](https://issues.jenkins-ci.org/browse/JENKINS-61068): Active Choices radio parameter has incorrect default value on parambuild URL. Fixed by Adam Gabryś in [pr/32](https://github.com/jenkinsci/active-choices-plugin/pull/32) (thanks!).
 2. [JENKINS-61751](https://issues.jenkins-ci.org/browse/JENKINS-61751): let :disabled and :deleted at the same (thanks to @ivarmu)
+3. [JENKINS-62317](https://issues.jenkins-ci.org/browse/JENKINS-62317): Upgrade dependencies pre 2.3 release (Jenkins LTS 2.204 now, Java 8, script-security 1.72, antisamy-markup-formatter 2.0, no more powermockito in tests, fixing spot bugs issues)
+4. [JENKINS-39742](https://issues.jenkins-ci.org/browse/JENKINS-39742): Active Choice Plugin should honor ParameterDefinition serializability (was: Active Choice Plugin in Pipelines throw NotSerializableException)
 
 ##### Version 2.2 (2019/09/13)
 

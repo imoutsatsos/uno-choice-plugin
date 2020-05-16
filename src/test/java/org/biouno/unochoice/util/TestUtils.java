@@ -30,43 +30,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import org.jenkinsci.plugins.scriptler.config.Script;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import hudson.slaves.EnvironmentVariablesNodeProperty;
 
 /**
  * Test the {@link Utils} utility class.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Utils.class })
-@PowerMockIgnore({"javax.crypto.*" })
 public class TestUtils {
 
     @Rule
-    JenkinsRule j = new JenkinsRule();
-
-    @Test
-    public void testGetAllScriptlerScripts() {
-        Set<Script> fakeScripts = new HashSet<Script>();
-        fakeScripts.add(new Script("id", "name", "comment", true, "originCatalog", "originScript", "originDate", true,
-                null, true));
-        PowerMockito.mockStatic(Utils.class);
-        PowerMockito.when(Utils.getAllScriptlerScripts()).thenReturn(fakeScripts);
-        Set<Script> scripts = Utils.getAllScriptlerScripts();
-        assertEquals(1, scripts.size());
-    }
+    public JenkinsRule j = new JenkinsRule();
 
     @Test
     public void testIsSelected() {

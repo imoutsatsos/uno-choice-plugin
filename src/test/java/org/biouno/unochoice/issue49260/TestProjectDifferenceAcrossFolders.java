@@ -40,20 +40,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
-
 import org.jvnet.hudson.test.MockFolder;
-import org.powermock.api.mockito.PowerMockito;
+import org.xml.sax.SAXException;
+
 import hudson.model.FreeStyleProject;
 import hudson.model.ParametersDefinitionProperty;
-
-import org.kohsuke.stapler.Ancestor;
-import org.kohsuke.stapler.Stapler;
-import org.kohsuke.stapler.StaplerRequest;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.junit.runner.RunWith;
-import hudson.model.AbstractItem;
 
 /**
  * Tests for different folders having same Project name. See JENKINS-49260.
@@ -61,9 +52,6 @@ import hudson.model.AbstractItem;
  * @since 2.2
  */
 @Issue("JENKINS-49260")
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({StaplerRequest.class, Stapler.class})
-@PowerMockIgnore({"javax.crypto.*" })
 public class TestProjectDifferenceAcrossFolders {
     @Rule
     public JenkinsRule j = new JenkinsRule();
@@ -87,39 +75,22 @@ public class TestProjectDifferenceAcrossFolders {
     }
 
     @Test
-    public void testProjectAreDifferent() throws IOException {
+    public void testProjectsAreDifferent() throws IOException, SAXException {
+        GroovyScript listScript = new GroovyScript(new SecureGroovyScript(SCRIPT_LIST, Boolean.FALSE, null),
+                new SecureGroovyScript(FALLBACK_SCRIPT_LIST, Boolean.FALSE, null));
+
         MockFolder folderA = j.createFolder(FOLDER_NAME_A);
         MockFolder folderB = j.createFolder(FOLDER_NAME_B);
 
         FreeStyleProject projectA = folderA.createProject(FreeStyleProject.class, PROJECT_NAME);
-        FreeStyleProject projectB = folderB.createProject(FreeStyleProject.class, PROJECT_NAME);
-
-        GroovyScript listScript = new GroovyScript(new SecureGroovyScript(SCRIPT_LIST, Boolean.FALSE, null),
-        new SecureGroovyScript(FALLBACK_SCRIPT_LIST, Boolean.FALSE, null));
-        
-        PowerMockito.mockStatic(Stapler.class);
-
-        StaplerRequest requestA = PowerMockito.mock(StaplerRequest.class);
-        Ancestor ancestorA = PowerMockito.mock(Ancestor.class);
-        PowerMockito.when(Stapler.getCurrentRequest()).thenReturn(requestA);
-        PowerMockito.when(requestA.findAncestor(AbstractItem.class)).thenReturn(ancestorA);
-        PowerMockito.when(ancestorA.getObject()).thenReturn(projectA);
         ChoiceParameter listParamA = new ChoiceParameter(PARAMETER_NAME, "description...", "random-name-A", listScript,
-                CascadeChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, false, 1);
+              CascadeChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, false, 1);
+        projectA.addProperty(new ParametersDefinitionProperty(listParamA));
 
-        StaplerRequest requestB = PowerMockito.mock(StaplerRequest.class);
-        Ancestor ancestorB = PowerMockito.mock(Ancestor.class);
-        PowerMockito.when(Stapler.getCurrentRequest()).thenReturn(requestB);
-        PowerMockito.when(requestB.findAncestor(AbstractItem.class)).thenReturn(ancestorB);
-        PowerMockito.when(ancestorB.getObject()).thenReturn(projectB);
+        FreeStyleProject projectB = folderB.createProject(FreeStyleProject.class, PROJECT_NAME);
         ChoiceParameter listParamB = new ChoiceParameter(PARAMETER_NAME, "description...", "random-name-B", listScript,
-                CascadeChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, false, 1);
-        
-        ParametersDefinitionProperty paramsDefA = new ParametersDefinitionProperty(listParamA);
-        ParametersDefinitionProperty paramsDefB = new ParametersDefinitionProperty(listParamB);
-
-        projectA.addProperty(paramsDefA);
-        projectB.addProperty(paramsDefB);
+              CascadeChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, false, 1);
+        projectB.addProperty(new ParametersDefinitionProperty(listParamB));
         
         Map<Object, Object> listSelectionValueA = listParamA.getChoices();
         Map<Object, Object> listSelectionValueB = listParamB.getChoices();

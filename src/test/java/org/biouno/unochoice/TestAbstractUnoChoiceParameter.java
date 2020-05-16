@@ -33,13 +33,9 @@ import org.jenkinsci.plugins.scriptsecurity.scripts.languages.GroovyLanguage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.kohsuke.stapler.StaplerRequest;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mockito;
 
 import hudson.model.ParameterValue;
 import hudson.model.StringParameterValue;
@@ -48,9 +44,6 @@ import net.sf.json.JSONObject;
 /**
  * Test the behavior of the {@link AbstractUnoChoiceParameter}.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({StaplerRequest.class})
-@PowerMockIgnore({"javax.crypto.*" })
 public class TestAbstractUnoChoiceParameter {
 
     private final String SCRIPT = "return ['a', 'b']";
@@ -79,8 +72,8 @@ public class TestAbstractUnoChoiceParameter {
         json.put("name", "name");
         json.put("value", "value");
 
-        StaplerRequest request = PowerMockito.mock(StaplerRequest.class);
-        PowerMockito.when(request.bindJSON(StringParameterValue.class, json)).thenReturn((StringParameterValue) value);
+        StaplerRequest request = Mockito.mock(StaplerRequest.class);
+        Mockito.when(request.bindJSON(StringParameterValue.class, json)).thenReturn((StringParameterValue) value);
 
         value = param.createValue(request, json);
 

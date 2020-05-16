@@ -41,18 +41,8 @@ import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import org.powermock.api.mockito.PowerMockito;
 import hudson.model.FreeStyleProject;
 import hudson.model.ParametersDefinitionProperty;
-
-import org.kohsuke.stapler.Ancestor;
-import org.kohsuke.stapler.Stapler;
-import org.kohsuke.stapler.StaplerRequest;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.junit.runner.RunWith;
-import hudson.model.AbstractItem;
 
 /**
  * Tests for projectName being correct after renaming project. See JENKINS-51296.
@@ -60,9 +50,6 @@ import hudson.model.AbstractItem;
  * @since 2.2
  */
 @Issue("JENKINS-51296")
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({StaplerRequest.class, Stapler.class})
-@PowerMockIgnore({"javax.crypto.*" })
 public class TestProjectNameAfterRenaming {
     @Rule
     public JenkinsRule j = new JenkinsRule();
@@ -92,13 +79,6 @@ public class TestProjectNameAfterRenaming {
         GroovyScript listScript = new GroovyScript(new SecureGroovyScript(SCRIPT_LIST, Boolean.FALSE, null),
                                                     new SecureGroovyScript(FALLBACK_SCRIPT_LIST, Boolean.FALSE, null));
         
-        PowerMockito.mockStatic(Stapler.class);
-
-        StaplerRequest request = PowerMockito.mock(StaplerRequest.class);
-        Ancestor ancestor = PowerMockito.mock(Ancestor.class);
-        PowerMockito.when(Stapler.getCurrentRequest()).thenReturn(request);
-        PowerMockito.when(request.findAncestor(AbstractItem.class)).thenReturn(ancestor);
-        PowerMockito.when(ancestor.getObject()).thenReturn(project);
         ChoiceParameter listParam = new ChoiceParameter(PARAMETER_NAME, "description...", "random-name", listScript,
                 CascadeChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, false, 1);
 

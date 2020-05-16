@@ -32,13 +32,13 @@ import java.util.Map;
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.ScriptlerManagement;
 import org.jenkinsci.plugins.scriptler.config.Script;
-import org.jenkinsci.plugins.scriptler.config.ScriptlerConfiguration;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.ManagementLink;
@@ -128,6 +128,9 @@ public class ScriptlerScript extends AbstractScript {
      */
     public GroovyScript toGroovyScript() {
         final Script scriptler = ScriptHelper.getScript(getScriptlerScriptId(), true);
+        if (scriptler == null) {
+            throw new RuntimeException("Missing required scriptler!");
+        }
         return new GroovyScript(new SecureGroovyScript(scriptler.script, false, null), null);
     }
 
@@ -186,8 +189,9 @@ public class ScriptlerScript extends AbstractScript {
             return script;
         }
 
+        @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
         private ManagementLink getScriptler() {
-            return Jenkins.getInstance().getExtensionList(ScriptlerManagement.class).get(0);
+            return Jenkins.getInstanceOrNull().getExtensionList(ScriptlerManagement.class).get(0);
         }
 
         /**
