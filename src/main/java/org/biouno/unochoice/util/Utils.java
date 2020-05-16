@@ -37,6 +37,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -70,6 +72,8 @@ import org.acegisecurity.Authentication;
  * @since 0.23
  */
 public class Utils {
+
+    protected static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
 
     private Utils() {}
 
@@ -313,10 +317,26 @@ public class Utils {
             try {
                 propertyDescriptors = Introspector.getBeanInfo(buildWrapper.getClass()).getPropertyDescriptors();
             } catch (IntrospectionException e) {
+                if (LOGGER.isLoggable(Level.FINE)) {
+                    LOGGER.log(Level.FINE,
+                            String.format("Introspector.getBeanInfo failed for build wrapper class: [%s]",
+                                    buildWrapper.getClass()
+                                            .getCanonicalName()),
+                            e);
+                }
                 continue;
             }
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-                addParameterDefinitionsTo(value, buildWrapper, propertyDescriptor);
+                try {
+                    addParameterDefinitionsTo(value, buildWrapper, propertyDescriptor);
+                } catch (RuntimeException e) {
+                    if (LOGGER.isLoggable(Level.FINE)) {
+                        LOGGER.log(Level.FINE,
+                                String.format("Failed to add parameter [%s] to the ParameterDefinition list",
+                                        propertyDescriptor.getName()),
+                                e);
+                    }
+                }
             }
             if (!value.isEmpty()) {
                 result.put(buildWrapper, value);
