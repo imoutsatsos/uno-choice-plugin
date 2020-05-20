@@ -201,7 +201,7 @@ You also can **define disabled selections** by adding the suffix;
 In the example below, we will make various elements to be disabled and
 unmutable.
 
-**IMAGE HERE**
+![](./docs/images/making-disabled-selections-pic.png)
 
 As you can see, both **:selected** and **:disabled** can be specified at the same time.
 
