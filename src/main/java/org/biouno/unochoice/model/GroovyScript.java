@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
-import hudson.markup.RawHtmlMarkupFormatter;
+import org.biouno.unochoice.util.SafeHtmlExtendedMarkupFormatter;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.jenkinsci.plugins.scriptsecurity.scripts.ApprovalContext;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -121,7 +121,7 @@ public class GroovyScript extends AbstractScript {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.biouno.unochoice.model.Script#eval()
      */
     @Override
@@ -131,7 +131,7 @@ public class GroovyScript extends AbstractScript {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.biouno.unochoice.model.Script#eval(java.util.Map)
      */
     @Override
@@ -171,7 +171,7 @@ public class GroovyScript extends AbstractScript {
             Object returnValue = secureScript.evaluate(cl, context);
             if (returnValue instanceof CharSequence) {
                 if (secureScript.isSandbox()) {
-                    return new RawHtmlMarkupFormatter(false).translate(returnValue.toString());
+                    return SafeHtmlExtendedMarkupFormatter.INSTANCE.translate(returnValue.toString());
                 }
             }
             return returnValue;
@@ -182,7 +182,7 @@ public class GroovyScript extends AbstractScript {
                     Object returnValue = secureFallbackScript.evaluate(cl, context);
                     if (returnValue instanceof CharSequence) {
                         if (secureFallbackScript.isSandbox()) {
-                            return new RawHtmlMarkupFormatter(false).translate(returnValue.toString());
+                            return SafeHtmlExtendedMarkupFormatter.INSTANCE.translate(returnValue.toString());
                         }
                     }
                     return returnValue;
@@ -199,7 +199,7 @@ public class GroovyScript extends AbstractScript {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -211,7 +211,7 @@ public class GroovyScript extends AbstractScript {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -225,7 +225,7 @@ public class GroovyScript extends AbstractScript {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
