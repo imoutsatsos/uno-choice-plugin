@@ -15,6 +15,10 @@ public class SafeHtmlExtendedMarkupFormatter extends MarkupFormatter {
 
     public static SafeHtmlExtendedMarkupFormatter INSTANCE = new SafeHtmlExtendedMarkupFormatter();
 
+    /**
+     * {@link BasicPolicy#POLICY_DEFINITION} is the policy used by {@link hudson.markup.RawHtmlMarkupFormatter}.
+     * We start from that secure policy and then extend it to include required elements for this plugin.
+     */
     private static final PolicyFactory POLICY = BasicPolicy.POLICY_DEFINITION.and(new HtmlPolicyBuilder()
         .allowElements("input", "textarea")
         .allowAttributes("id", "type", "name", "value", "placeholder", "disabled", "checked", "max", "maxlength", "min", "minlength", "multiple", "pattern", "readonly", "step").onElements("input")
