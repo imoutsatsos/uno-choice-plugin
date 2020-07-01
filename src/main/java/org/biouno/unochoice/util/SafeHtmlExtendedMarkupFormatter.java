@@ -13,7 +13,7 @@ import java.io.Writer;
 
 public class SafeHtmlExtendedMarkupFormatter extends MarkupFormatter {
 
-    public static SafeHtmlExtendedMarkupFormatter INSTANCE = new SafeHtmlExtendedMarkupFormatter();
+    public static final SafeHtmlExtendedMarkupFormatter INSTANCE = new SafeHtmlExtendedMarkupFormatter();
 
     /**
      * {@link BasicPolicy#POLICY_DEFINITION} is the policy used by {@link hudson.markup.RawHtmlMarkupFormatter}.
