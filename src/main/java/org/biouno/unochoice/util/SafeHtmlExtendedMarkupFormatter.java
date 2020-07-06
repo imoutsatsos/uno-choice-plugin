@@ -20,9 +20,11 @@ public class SafeHtmlExtendedMarkupFormatter extends MarkupFormatter {
      * We start from that secure policy and then extend it to include required elements for this plugin.
      */
     private static final PolicyFactory POLICY = BasicPolicy.POLICY_DEFINITION.and(new HtmlPolicyBuilder()
-        .allowElements("input", "textarea")
+        .allowElements("input", "textarea", "select", "option")
         .allowAttributes("id", "type", "name", "value", "placeholder", "disabled", "checked", "max", "maxlength", "min", "minlength", "multiple", "pattern", "readonly", "step").onElements("input")
         .allowAttributes("id", "maxlength", "name", "placeholder", "disabled", "readonly", "wrap", "rows", "cols").onElements("textarea")
+        .allowAttributes("id", "disabled", "multiple", "name", "required", "size").onElements("select")
+        .allowAttributes("id", "disabled", "label", "selected", "value").onElements("option")
         .toFactory());
 
     /**
