@@ -21,10 +21,10 @@ public class SafeHtmlExtendedMarkupFormatter extends MarkupFormatter {
      */
     private static final PolicyFactory POLICY = BasicPolicy.POLICY_DEFINITION.and(new HtmlPolicyBuilder()
         .allowElements("input", "textarea", "select", "option")
-        .allowAttributes("id", "type", "name", "value", "placeholder", "disabled", "checked", "max", "maxlength", "min", "minlength", "multiple", "pattern", "readonly", "step").onElements("input")
-        .allowAttributes("id", "maxlength", "name", "placeholder", "disabled", "readonly", "wrap", "rows", "cols").onElements("textarea")
-        .allowAttributes("id", "disabled", "multiple", "name", "required", "size").onElements("select")
-        .allowAttributes("id", "disabled", "label", "selected", "value").onElements("option")
+        .allowAttributes("id", "class", "style", "type", "name", "value", "placeholder", "disabled", "checked", "max", "maxlength", "min", "minlength", "multiple", "pattern", "readonly", "step").onElements("input")
+        .allowAttributes("id", "class", "style", "maxlength", "name", "placeholder", "disabled", "readonly", "wrap", "rows", "cols").onElements("textarea")
+        .allowAttributes("id", "class", "style", "disabled", "multiple", "name", "required", "size").onElements("select")
+        .allowAttributes("id", "class", "style", "disabled", "label", "selected", "value").onElements("option")
         .toFactory());
 
     /**
