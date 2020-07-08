@@ -37,6 +37,12 @@ import com.google.common.base.Throwables;
 import hudson.markup.BasicPolicy;
 import hudson.markup.MarkupFormatter;
 
+/**
+ * A markup formatter used by the plug-in (only, not available in other parts
+ * of Jenkins) that allows HTML tags such as &lt;input&rt;.
+ *
+ * @since 2.4
+ */
 public class SafeHtmlExtendedMarkupFormatter extends MarkupFormatter {
 
     public static final SafeHtmlExtendedMarkupFormatter INSTANCE = new SafeHtmlExtendedMarkupFormatter();
