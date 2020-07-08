@@ -1,19 +1,23 @@
 ## Overview
 
-The Active Choices plugin is used in parametrized freestyle Jenkins jobs to create **scripted, dynamic and
-interactive job parameters**. Active Choice
-**parameters** can be **dynamically updated** and can be **rendered as
-combo-boxes, check-boxes, radio-buttons or rich HTML UI widgets**.
+The Active Choices plugin is used in parametrized freestyle Jenkins jobs to create
+**scripted, dynamic and interactive job parameters**. Active Choice **parameters**
+can be **dynamically updated** and can be
+**rendered as combo-boxes, check-boxes, radio-buttons or rich HTML UI widgets**.
 
-Active Choice parameters are scripted using Groovy, or (optionally) Scriptler Groovy scripts. These custom scripts
-support the use of the Jenkins Java API, system environment variables, global node properties, and
-potentially external Java and Javascript libraries.
+Active Choice parameters are scripted using Groovy, or (optionally) Scriptler Groovy scripts.
+These custom scripts support the use of the Jenkins Java API, system environment variables,
+global node properties, and potentially external Java and Javascript libraries.
 
 Once the plugin is installed three new parameter types become available:
 
 1.  Active Choices Parameter
 2.  Active Choices Reactive Parameter
 3.  Active Choices Reactive Reference Parameter
+
+> **_NOTE:_**  The Reactive Reference Parameter allows for parameters to be displayed as
+>formatted HTML. When configuring jobs with this feature, keep in mind how the parameter
+will be rendered and whether it could be a security issue.
 
 Active Choices parameters allow users to select value(s) for a job
 parameter. Parameter values can be:
@@ -23,7 +27,7 @@ parameter. Parameter values can be:
     script)
 -   dynamically updated based on other UI parameters
 -   multi-valued (can have more than one value)
--   rendered with a variety of UI controls, including dynamic HTML
+-   rendered with a variety of UI controls, including dynamic HTML (see NOTE above on the security risks)
 
 We will introduce the Active Choices based UI controls by briefly
 describing their behavior and rendering characteristics. We will then
@@ -609,6 +613,13 @@ via [@tupilabs](https://twitter.com/tupilabs)
 | <https://www.cloudbees.com/event/topic/jenkins-ci-open-source-continuous-integration-system-scientific-data-and-image> | In Ioannis Moutsatsos' talk, you can find slides about the Active Choices (née Uno-Choice) plug-in, as well as watch it being used too.                               |
 
 ## Release Notes
+
+##### Version 2.4 (2020/07/09)
+
+1. [JENKINS-62215](https://issues.jenkins-ci.org/browse/JENKINS-62215): antisamy-markup-formatter-plugin v2.0 filters
+input fields from uno-choice plugin. In this version we have added a built-in markup formatter in the plug-in
+(NB: not available in Jenkins as a markup formatter) that allows for input, textarea, select, and option HTML
+tags). The issue was found and fixed by Andrew Potter @apottere (thanks!)
 
 ##### Version 2.3 (2020/05/16)
 
