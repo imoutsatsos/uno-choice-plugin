@@ -23,14 +23,14 @@
  */
 package org.biouno.unochoice.issue62215;
 
+import static org.junit.Assert.assertEquals;
+
 import org.biouno.unochoice.model.GroovyScript;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
-
-import static org.junit.Assert.*;
 
 @Issue("62215")
 public class TestMarkupFormatterAllowsRequiredElementsInScriptOutput {
