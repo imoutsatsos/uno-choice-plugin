@@ -19,6 +19,12 @@ Once the plugin is installed three new parameter types become available:
 >formatted HTML. When configuring jobs with this feature, keep in mind how the parameter
 will be rendered and whether it could be a security issue.
 
+> **_NOTE:_**  The plug-in was developed in a way that it relies heavily on the HTML/DOM
+>of the Jenkins UI. We navigate the DOM using JavaScript to create the relationship and
+>reactivity between parameters. Follow [JENKINS-63284](https://issues.jenkins-ci.org/browse/JENKINS-63284)
+>for updates on a version that does not require the UI. When that issue is closed, the
+>plug-in should work fine with Pipelines, DSL, timers, cron, REST-API-triggered jobs, etc.
+
 Active Choices parameters allow users to select value(s) for a job
 parameter. Parameter values can be:
 
