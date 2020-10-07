@@ -7,7 +7,7 @@
   <j:set var="paramName" value="${it.randomName}" scope="parent" />
   <j:set var="choiceType" value="${it.choiceType}"/>
   <j:set var="escapeEntryTitleAndDescription" value="false"/>
-  <f:entry title="${it.name}" description="${it.description}">
+  <f:entry title="${h.escape(it.name)}" description="${it.formattedDescription}">
     <div name="parameter" description="${it.formattedDescription}" id='${paramName}'>
       <input type="hidden" name="name" value="${h.escape(it.name)}" />
       <j:choose>
