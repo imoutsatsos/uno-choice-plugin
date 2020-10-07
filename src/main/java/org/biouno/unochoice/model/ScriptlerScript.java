@@ -131,7 +131,7 @@ public class ScriptlerScript extends AbstractScript {
         if (scriptler == null) {
             throw new RuntimeException("Missing required scriptler!");
         }
-        return new GroovyScript(new SecureGroovyScript(scriptler.script, false, null), null);
+        return new GroovyScript(new SecureGroovyScript(scriptler.script, true, null), null);
     }
 
     // --- descriptor
