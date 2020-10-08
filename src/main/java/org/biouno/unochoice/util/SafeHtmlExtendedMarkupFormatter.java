@@ -39,7 +39,7 @@ import hudson.markup.MarkupFormatter;
 
 /**
  * A markup formatter used by the plug-in (only, not available in other parts
- * of Jenkins) that allows HTML tags such as &lt;input&rt;.
+ * of Jenkins) that allows HTML tags such as &lt;input&gt;.
  *
  * @since 2.4
  */

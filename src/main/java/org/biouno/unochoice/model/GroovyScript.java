@@ -24,11 +24,15 @@
 
 package org.biouno.unochoice.model;
 
+import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -169,10 +173,9 @@ public class GroovyScript extends AbstractScript {
 
         try {
             Object returnValue = secureScript.evaluate(cl, context);
-            if (returnValue instanceof CharSequence) {
-                if (secureScript.isSandbox()) {
-                    return SafeHtmlExtendedMarkupFormatter.INSTANCE.translate(returnValue.toString());
-                }
+            // sanitize the text if running script in sandbox mode
+            if (secureScript.isSandbox()) {
+                returnValue = resolveTypeAndSanitize(returnValue);
             }
             return returnValue;
         } catch (Exception re) {
@@ -180,10 +183,9 @@ public class GroovyScript extends AbstractScript {
                 try {
                     LOGGER.log(Level.FINEST, "Fallback to default script...", re);
                     Object returnValue = secureFallbackScript.evaluate(cl, context);
-                    if (returnValue instanceof CharSequence) {
-                        if (secureFallbackScript.isSandbox()) {
-                            return SafeHtmlExtendedMarkupFormatter.INSTANCE.translate(returnValue.toString());
-                        }
+                    // sanitize the text if running script in sandbox mode
+                    if (secureFallbackScript.isSandbox()) {
+                        returnValue = resolveTypeAndSanitize(returnValue);
                     }
                     return returnValue;
                 } catch (Exception e2) {
@@ -194,6 +196,60 @@ public class GroovyScript extends AbstractScript {
                 LOGGER.log(Level.WARNING, "No fallback script configured for '%s'");
                 throw new RuntimeException("Failed to evaluate script: " + re.getMessage(), re);
             }
+        }
+    }
+
+    /**
+     * Resolves the type of the return value, and then applies the sanitization to
+     * the value before returning it.
+     *
+     * <p>If the type is text, it will simply pass the value through the markup formatter.</p>
+     *
+     * <p>If the type is a list, then it will replace each value by itself sanitized
+     * (i.e. [sanitizeFn(value) for value in list]).</p>
+     *
+     * <p>Finally, if it is a map, does similar as with the list, and calls replaceAll to
+     * apply the sanitize function to each member of the map.</p>
+     *
+     * @param returnValue a value of type String, List, or Map returned after the Groovy code was evaluated
+     * @return sanitized value
+     * @throws RuntimeException if the type of the given {@code returnValue} is not String, List, or Map
+     */
+    private Object resolveTypeAndSanitize(Object returnValue) {
+        if (returnValue instanceof CharSequence) {
+            return sanitizeString(returnValue);
+        } else if (returnValue instanceof List) {
+            List<?> list = (List<?>) returnValue;
+            return list.stream()
+                    .map(r -> sanitizeString(r))
+                    .collect(Collectors.toList());
+        } else if (returnValue instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<Object, Object> map = (Map<Object, Object>) returnValue;
+            Map<Object, Object> returnMap = new HashMap<>(map.size());
+            map.forEach((key, value) -> {
+                String newKey = sanitizeString(key);
+                String newValue = sanitizeString(value);
+                returnMap.put(newKey, newValue);
+            });
+            return returnMap;
+        }
+        throw new RuntimeException("Return type of Groovy script must be a valid String, List, or Map");
+    }
+
+    /**
+     * Sanitize a string using the plug-in safe HTML markup formatter.
+     * @param input the input object
+     * @return sanitized input, or {@code null} if the input is {@code null}
+     */
+    private String sanitizeString(Object input) {
+        if (input == null) {
+            return null;
+        }
+        try {
+            return SafeHtmlExtendedMarkupFormatter.INSTANCE.translate(input.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Failed to sanitize input due to: %s", e.getMessage()), e);
         }
     }
 
