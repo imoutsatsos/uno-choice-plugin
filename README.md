@@ -539,12 +539,14 @@ parameters.
 
 #### Example
 
-Environments.groovy in Scriptler
+`Environments.groovy` in Scriptler
+
 ``` syntaxhighlighter-pre
 return ["Select:selected", "DEV", "TEST", "STAGE", "PROD"]
 ```
 
-HostsInEnv.groovy in Scriptler
+`HostsInEnv.groovy` in Scriptler
+
 ``` syntaxhighlighter-pre
 // Static content examples. These lists can be generated dynamically as an alternative.
 List devList    = ["Select:selected", "dev1", "dev2"]
@@ -567,7 +569,8 @@ if (Environment.equals('DEV')) {
 }
 ```
 
-Pipeline in Jenkinsfile
+Pipeline in `Jenkinsfile`
+
 ``` syntaxhighlighter-pre
 properties([
     parameters([
