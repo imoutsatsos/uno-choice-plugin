@@ -693,6 +693,14 @@ via [@tupilabs](https://twitter.com/tupilabs)
 
 ## Release Notes
 
+##### Version 2.5 (2020/10/13)
+
+1. [JENKINS-63284](https://issues.jenkins-ci.org/browse/JENKINS-63284): add note to README about pipelines support
+2. [SECURITY-1954 - CVE-2020-2289](https://www.jenkins.io/security/advisory/2020-10-08/): Active Choices Plugin 2.4 and earlier does not escape the name and description of build parameters. This results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers with Job/Configure permission. Active Choices Plugin 2.5 escapes the name of build parameters and applies the configured markup formatter to the description of build parameters.
+3. [SECURITY-2008 - CVE-2020-2290 ](https://www.jenkins.io/security/advisory/2020-10-08/): Active Choices Plugin 2.4 and earlier does not escape List and Map return values of sandboxed scripts for Reactive Reference Parameter. This results in a stored cross-site scripting (XSS) vulnerability exploitable by attackers with Job/Configure permission. This issue is caused by an incomplete fix for SECURITY-470. Active Choices Plugin 2.5 escapes all legal return values of sandboxed scripts.
+4. [pr/38](https://github.com/jenkinsci/active-choices-plugin/pull/38): Provide Scriptler example in README.md (thanks to mettacrawler)
+
+
 ##### Version 2.4 (2020/07/09)
 
 1. [JENKINS-62215](https://issues.jenkins-ci.org/browse/JENKINS-62215): antisamy-markup-formatter-plugin v2.0 filters
