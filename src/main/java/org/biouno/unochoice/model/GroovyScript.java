@@ -26,7 +26,7 @@ package org.biouno.unochoice.model;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -226,7 +226,7 @@ public class GroovyScript extends AbstractScript {
         } else if (returnValue instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<Object, Object> map = (Map<Object, Object>) returnValue;
-            Map<Object, Object> returnMap = new HashMap<>(map.size());
+            Map<Object, Object> returnMap = new LinkedHashMap<>(map.size());
             map.forEach((key, value) -> {
                 String newKey = sanitizeString(key);
                 String newValue = sanitizeString(value);
