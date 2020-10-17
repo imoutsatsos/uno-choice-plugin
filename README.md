@@ -693,6 +693,10 @@ via [@tupilabs](https://twitter.com/tupilabs)
 
 ## Release Notes
 
+##### Version 2.5.1 (2020/10/17)
+
+1. [JENKINS-63963](https://issues.jenkins-ci.org/browse/JENKINS-63963): Groovy-backed cascade selects lose sorting/option order after 2.5 upgrade.
+
 ##### Version 2.5 (2020/10/13)
 
 1. [JENKINS-63284](https://issues.jenkins-ci.org/browse/JENKINS-63284): add note to README about pipelines support
