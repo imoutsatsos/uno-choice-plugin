@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jenkins_cert_2008;
+package org.biouno.unochoice.jenkins_cert_2008;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
