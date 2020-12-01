@@ -1,10 +1,10 @@
 <?jelly escape-by-default='true' ?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
-  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project" xmlns:idwrap="/lib/uno-choice">
   <div id="ecp_${it.randomName}" style="float:left; overflow-y:auto; padding-right:25px">
     <j:set var="index" value="0"/>
-    <table id="tbl_ecp_${it.randomName}">
+    <idwrap:divToTableEcpWrapper>
       <j:forEach var="iter" items="${it.getChoices()}" indexVar="indexVar">
         <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
           <j:arg type="java.lang.Object" value="${iter.value}" />
@@ -59,7 +59,7 @@
         </tr>
         <j:set var="index" value="${index + 1}"/>
       </j:forEach>
-    </table>
+    </idwrap:divToTableEcpWrapper>
   </div>
 <script type="text/javascript">
 <![CDATA[
