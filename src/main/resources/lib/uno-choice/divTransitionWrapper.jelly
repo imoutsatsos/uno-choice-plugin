@@ -1,0 +1,76 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:transitionWrapper="transitionWrapper">
+    <!-- TODO remove and switch to div after baseline is 2.264 or newer -->
+    <d:taglib uri="transitionWrapper">
+        <d:tag name="randomTableIdBlock">
+            <j:choose>
+                <j:when test="${divBasedFormLayout}">
+                    <div id="tbl_ecp_${it.randomName}">
+                        <d:invokeBody/>
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <table id="tbl_ecp_${it.randomName}">
+                        <d:invokeBody/>
+                    </table>
+                </j:otherwise>
+            </j:choose>
+        </d:tag>
+        <d:tag name="tableBlock">
+            <j:choose>
+                <j:when test="${divBasedFormLayout}">
+                    <div>
+                        <d:invokeBody/>
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <table>
+                        <d:invokeBody/>
+                    </table>
+                </j:otherwise>
+            </j:choose>
+        </d:tag>
+        <d:tag name="fullWidthTableBlock">
+            <j:choose>
+                <j:when test="${divBasedFormLayout}">
+                    <div width="100%">
+                        <d:invokeBody/>
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <table width="100%">
+                        <d:invokeBody/>
+                    </table>
+                </j:otherwise>
+            </j:choose>
+        </d:tag>
+        <d:tag name="row">
+            <j:choose>
+                <j:when test="${divBasedFormLayout}">
+                    <div id="ecp_${it.randomName}_${index}" class="tr" style="white-space:nowrap">
+                        <d:invokeBody/>
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <tr id="ecp_${it.randomName}_${index}" style="white-space:nowrap">
+                        <d:invokeBody/>
+                    </tr>
+                </j:otherwise>
+            </j:choose>
+        </d:tag>
+        <d:tag name="td">
+            <j:choose>
+                <j:when test="${divBasedFormLayout}">
+                    <div>
+                        <d:invokeBody/>
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <td>
+                        <d:invokeBody/>
+                    </td>
+                </j:otherwise>
+            </j:choose>
+        </d:tag>
+    </d:taglib>
+</j:jelly>

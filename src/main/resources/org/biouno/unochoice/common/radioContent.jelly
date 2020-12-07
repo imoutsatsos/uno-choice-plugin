@@ -1,10 +1,55 @@
 <?jelly escape-by-default='true' ?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
-  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project" xmlns:idwrap="/lib/uno-choice">
+  xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project" xmlns:transitionWrapper="transitionWrapper">
+
+  <d:taglib uri="transitionWrapper">
+      <d:tag name="randomTableIdBlock">
+          <j:choose>
+              <j:when test="${divBasedFormLayout}">
+                  <div id="tbl_ecp_${it.randomName}">
+                      <d:invokeBody/>
+                  </div>
+              </j:when>
+              <j:otherwise>
+                  <table id="tbl_ecp_${it.randomName}">
+                      <d:invokeBody/>
+                  </table>
+              </j:otherwise>
+          </j:choose>
+      </d:tag>
+      <d:tag name="row">
+          <j:choose>
+              <j:when test="${divBasedFormLayout}">
+                  <div id="tbl_tr_ecp_${it.randomName}" class="tr" style="white-space:nowrap">
+                      <d:invokeBody/>
+                  </div>
+              </j:when>
+              <j:otherwise>
+                  <tr id="tbl_tr_ecp_${it.randomName}" style="white-space:nowrap">
+                      <d:invokeBody/>
+                  </tr>
+              </j:otherwise>
+          </j:choose>
+      </d:tag>
+      <d:tag name="td">
+          <j:choose>
+              <j:when test="${divBasedFormLayout}">
+                  <div>
+                      <d:invokeBody/>
+                  </div>
+              </j:when>
+              <j:otherwise>
+                  <td>
+                      <d:invokeBody/>
+                  </td>
+              </j:otherwise>
+          </j:choose>
+      </d:tag>
+  </d:taglib>
   <div id="ecp_${it.randomName}" style="float:left; overflow-y:auto; padding-right:25px">
     <j:set var="index" value="0"/>
-    <idwrap:divToTableEcpWrapper>
+    <transitionWrapper:randomTableIdBlock>
       <j:forEach var="iter" items="${it.getChoices()}" indexVar="indexVar">
         <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="isSelected" var="selected">
           <j:arg type="java.lang.Object" value="${iter.value}" />
@@ -25,8 +70,8 @@
           <j:arg type="java.lang.Object" value="${iter.key}" />
         </j:invokeStatic>
         <j:set var="id" value="ecp_${it.randomName}_${index}" />
-        <tr id="tbl_tr_ecp_${it.randomName}" style="white-space:nowrap">
-          <td>
+        <transitionWrapper:row>
+          <transitionWrapper:td>
             <j:choose>
               <j:when test="${selected &amp;&amp; disabled}">
                 <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeDisabled" var="escapedAndDisabledValue">
@@ -55,11 +100,11 @@
                 <input json="${escapedKey}" name="" value="${escapedKey}" class="${it.name}" type="hidden" id="${id}" title="${escapedValue}" />
               </j:otherwise>
             </j:choose>
-          </td>
-        </tr>
+          </transitionWrapper:td>
+        </transitionWrapper:row>
         <j:set var="index" value="${index + 1}"/>
       </j:forEach>
-    </idwrap:divToTableEcpWrapper>
+    </transitionWrapper:randomTableIdBlock>
   </div>
 <script type="text/javascript">
 <![CDATA[

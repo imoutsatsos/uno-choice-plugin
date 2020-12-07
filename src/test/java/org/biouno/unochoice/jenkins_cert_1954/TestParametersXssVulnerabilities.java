@@ -23,12 +23,13 @@
  */
 package org.biouno.unochoice.jenkins_cert_1954;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.DomNodeList;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import hudson.model.FreeStyleProject;
+import hudson.model.ParametersDefinitionProperty;
+import hudson.util.VersionNumber;
+import jenkins.model.Jenkins;
 import org.biouno.unochoice.ChoiceParameter;
 import org.biouno.unochoice.model.GroovyScript;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
@@ -38,12 +39,12 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.JenkinsRule.WebClient;
 import org.xml.sax.SAXException;
 
-import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.html.DomNodeList;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.io.IOException;
+import java.util.Objects;
 
-import hudson.model.FreeStyleProject;
-import hudson.model.ParametersDefinitionProperty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests against XSS. See SECURITY-1954, and SECURITY-2008.
@@ -51,6 +52,7 @@ import hudson.model.ParametersDefinitionProperty;
  */
 public class TestParametersXssVulnerabilities {
 
+    private static final VersionNumber TRANSITION_TO_DIV_VERSION = new VersionNumber("2.264");
     @Rule
     public JenkinsRule j = new JenkinsRule();
 
@@ -78,10 +80,13 @@ public class TestParametersXssVulnerabilities {
         project.addProperty(new ParametersDefinitionProperty(parameter));
         project.save();
 
+
         WebClient wc = j.createWebClient();
         wc.setThrowExceptionOnFailingStatusCode(false);
         HtmlPage configPage = wc.goTo("job/" + project.getName() + "/build?delay=0sec");
-        DomNodeList<DomElement> nodes = configPage.getElementsByTagName("td");
+        DomNodeList<DomElement> nodes =
+            Objects.requireNonNull(Jenkins.getStoredVersion()).isNewerThanOrEqualTo(TRANSITION_TO_DIV_VERSION) ?
+                configPage.getElementsByTagName("div") : configPage.getElementsByTagName("td");
         DomElement renderedParameterElement = null;
         for (DomElement elem : nodes) {
             if (elem.getAttribute("class").contains("setting-name")) {
