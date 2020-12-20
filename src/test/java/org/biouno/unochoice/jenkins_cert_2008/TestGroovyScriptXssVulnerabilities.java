@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.io.IOException;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import org.biouno.unochoice.ChoiceParameter;
 import org.biouno.unochoice.DynamicReferenceParameter;
 import org.biouno.unochoice.model.GroovyScript;
@@ -157,7 +158,7 @@ public class TestGroovyScriptXssVulnerabilities {
         WebClient wc = j.createWebClient();
         wc.setThrowExceptionOnFailingStatusCode(false);
         HtmlPage configPage = wc.goTo("job/" + project.getName() + "/build?delay=0sec");
-        List<HtmlTableDataCell> renderedParameterElement = configPage.getByXPath("//*[@class='setting-main']");
+        List<HtmlElement> renderedParameterElement = configPage.getByXPath("//*[@class='setting-main']");
         HtmlImage renderedParameterLabel = (HtmlImage) renderedParameterElement.get(0).getElementsByTagName("img").get(0);
         String renderedText = renderedParameterLabel.asXml();
         assertNotEquals("XSS string was not escaped!", xssString, renderedText);

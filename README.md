@@ -693,6 +693,10 @@ via [@tupilabs](https://twitter.com/tupilabs)
 
 ## Release Notes
 
+##### Version 2.5.2 (202?/??/??)
+
+1. [JENKINS-62806](https://issues.jenkins.io/browse/JENKINS-62806): active-choices plugin may break with tables-to-divs.
+
 ##### Version 2.5.1 (2020/10/17)
 
 1. [JENKINS-63963](https://issues.jenkins-ci.org/browse/JENKINS-63963): Groovy-backed cascade selects lose sorting/option order after 2.5 upgrade.
