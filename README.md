@@ -632,8 +632,8 @@ following warnings before using an older version:
 -   [Stored cross-site scripting
     vulnerability](https://jenkins.io/security/advisory/2017-10-23/)
 
-**Starting with Active Choices v2.0, sandboxed **Groovy scripts
-for **Active Choices Reactive Reference Parameter** will no longer emit
+Starting with Active Choices v2.0, sandboxed Groovy scripts
+for Active Choices Reactive Reference Parameter will no longer emit
 HTML that is considered unsafe, such as `<script>` tags. This may result
 in behavior changes on *Build With Parameters* forms, such as missing
 elements. To resolve this issue, Groovy scripts emitting HTML will need
