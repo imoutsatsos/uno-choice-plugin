@@ -226,7 +226,7 @@ public class Utils {
     @SuppressWarnings("rawtypes")
     public static @CheckForNull Project findProjectByParameterUUID(@Nonnull String parameterUUID) {
         Authentication auth = Jenkins.getAuthentication();
-        for (Project p : Items.allItems(ACL.SYSTEM, Jenkins.getInstance(), Project.class)) {
+        for (Project p : Items.allItems(ACL.SYSTEM, Jenkins.get(), Project.class)) {
             if (isParameterDefinitionOf(parameterUUID, p) && p.getACL().hasPermission(auth, Item.READ)) {
                 return p;
             }
@@ -287,7 +287,7 @@ public class Utils {
      */
     public static @Nonnull Map<String, Object> getGlobalNodeProperties() {
         Map<String, Object> map = new HashMap<String, Object>();
-        Jenkins instance = Jenkins.getInstance();
+        Jenkins instance = Jenkins.get();
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> globalNodeProperties = instance.getGlobalNodeProperties();
         if (globalNodeProperties != null) {
             for (NodeProperty<?> nodeProperty : globalNodeProperties) {

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -101,7 +102,7 @@ public class TestPersistingParameters {
         scriptler = j.getInstance().getExtensionList(ScriptlerManagement.class).get(0);
         ScriptlerHelper scriptlerHelper = new ScriptlerHelper(scriptler);
         scriptFile = File.createTempFile("uno-choice", "dummy.groovy");
-        FileUtils.writeStringToFile(scriptFile, SCRIPT_PARAM001);
+        FileUtils.writeStringToFile(scriptFile, SCRIPT_PARAM001, Charset.defaultCharset(), false);
         FileItem fi = new FileItemImpl(scriptFile);
         scriptlerHelper.saveScript(fi, true, "dummy.groovy");
 
@@ -215,7 +216,7 @@ public class TestPersistingParameters {
                             assertEquals(SCRIPT_PARAM002, scriptText);
                             assertEquals(SCRIPT_FALLBACK_PARAM002, fallbackScriptText);
                         } else {
-                            String scriptText = FileUtils.readFileToString(scriptFile);
+                            String scriptText = FileUtils.readFileToString(scriptFile, Charset.defaultCharset());
                             assertTrue("Found an empty script!", StringUtils.isNotBlank(scriptText));
                             assertEquals(SCRIPT_PARAM001, scriptText);
                             assertEquals("Wrong number of parameters for scriptler parameter!", 1, ((ScriptlerScript) leScript).getParameters().size());

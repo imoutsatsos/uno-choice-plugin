@@ -179,7 +179,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         Project<?, ?> project = null;
         if (StringUtils.isNotBlank(this.projectFullName)) {
             // First try full name if exists
-            project = Jenkins.getInstance().getItemByFullName(this.projectFullName, Project.class);
+            project = Jenkins.get().getItemByFullName(this.projectFullName, Project.class);
         } else if (StringUtils.isNotBlank(this.projectName)) {
             // next we try to get the item given its name, which is more efficient
             project = Utils.getProjectByName(this.projectName);

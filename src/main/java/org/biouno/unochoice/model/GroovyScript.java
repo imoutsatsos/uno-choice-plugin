@@ -143,7 +143,7 @@ public class GroovyScript extends AbstractScript {
         if (secureScript == null) {
             return null;
         }
-        final Jenkins instance = Jenkins.getInstance();
+        final Jenkins instance = Jenkins.getInstanceOrNull();
         ClassLoader cl = null;
         if (instance != null) {
             try {
@@ -172,7 +172,7 @@ public class GroovyScript extends AbstractScript {
         }
 
         try {
-            Object returnValue = secureScript.evaluate(cl, context);
+            Object returnValue = secureScript.evaluate(cl, context, null);
             // sanitize the text if running script in sandbox mode
             if (secureScript.isSandbox()) {
                 returnValue = resolveTypeAndSanitize(returnValue);
@@ -182,7 +182,7 @@ public class GroovyScript extends AbstractScript {
             if (this.secureFallbackScript != null) {
                 try {
                     LOGGER.log(Level.FINEST, "Fallback to default script...", re);
-                    Object returnValue = secureFallbackScript.evaluate(cl, context);
+                    Object returnValue = secureFallbackScript.evaluate(cl, context, null);
                     // sanitize the text if running script in sandbox mode
                     if (secureFallbackScript.isSandbox()) {
                         returnValue = resolveTypeAndSanitize(returnValue);
