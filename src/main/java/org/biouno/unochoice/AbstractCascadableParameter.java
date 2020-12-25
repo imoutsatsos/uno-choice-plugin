@@ -150,7 +150,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
     @JavaScriptMethod
     public List<Object> getChoicesForUI() {
         Map<Object, Object> mapResult = getChoices(getParameters());
-        return Arrays.<Object>asList(mapResult.values(), mapResult.keySet());
+        return Arrays.asList(mapResult.values(), mapResult.keySet());
     }
 
     public String[] getReferencedParametersAsArray() {

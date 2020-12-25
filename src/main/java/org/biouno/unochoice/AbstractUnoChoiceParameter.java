@@ -211,7 +211,7 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
     public static DescriptorExtensionList<ParameterDefinition, ParameterDescriptor> all() {
         return Jenkins
                 .get()
-                .<ParameterDefinition, ParameterDescriptor> getDescriptorList(ParameterDefinition.class);
+                .getDescriptorList(ParameterDefinition.class);
     }
 
 }

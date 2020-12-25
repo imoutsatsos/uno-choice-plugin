@@ -57,7 +57,7 @@ public abstract class AbstractScript implements Script, Describable<AbstractScri
         final Jenkins instance = Jenkins.getInstanceOrNull();
         DescriptorExtensionList<AbstractScript, ScriptDescriptor> all = null;
         if (instance != null) {
-            all = instance.<AbstractScript, ScriptDescriptor> getDescriptorList(AbstractScript.class);
+            all = instance.getDescriptorList(AbstractScript.class);
         }
         return all;
     }

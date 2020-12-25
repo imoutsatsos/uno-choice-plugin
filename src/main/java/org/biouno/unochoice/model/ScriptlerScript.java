@@ -110,7 +110,7 @@ public class ScriptlerScript extends AbstractScript {
             // and now try to expand env vars
             for (String key : this.getParameters().keySet()) {
                 String value = this.getParameters().get(key);
-                value = Util.replaceMacro((String) value, parameters);
+                value = Util.replaceMacro(value, parameters);
                 evaledParameters.put(key, value);
             }
         } else {

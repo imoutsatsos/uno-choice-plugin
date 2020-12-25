@@ -130,7 +130,7 @@ public class GroovyScript extends AbstractScript {
      */
     @Override
     public Object eval() {
-        return eval(Collections.<String, String> emptyMap());
+        return eval(Collections.emptyMap());
     }
 
     /*
@@ -165,7 +165,7 @@ public class GroovyScript extends AbstractScript {
             String value = parameter.getValue();
             if (value != null) {
                 value = Util.replaceMacro(value, envVars);
-                context.setVariable(parameter.getKey().toString(), value);
+                context.setVariable(parameter.getKey(), value);
             }
         }
 

@@ -106,7 +106,7 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
         // normally parameters will be executed on the master, but in the
         // future we may start evaluating on slaves as well, with a custom
         // classpath as in dynamic-parameter-plugin
-        roleChecker.check((RoleSensitive) this, Role.UNKNOWN);
+        roleChecker.check(this, Role.UNKNOWN);
     }
 
 }

@@ -343,7 +343,7 @@ public class Utils {
                 value = new ArrayList<>();
             }
         }
-        return result.isEmpty() ? Collections.<BuildWrapper, List<ParameterDefinition>> emptyMap() : result;
+        return result.isEmpty() ? Collections.emptyMap() : result;
     }
 
     private static void addParameterDefinitionsTo(List<ParameterDefinition> target, Object bean, PropertyDescriptor pd) {
@@ -367,7 +367,7 @@ public class Utils {
             return;
 
         for (Object o : iterable) {
-            if (ParameterDefinition.class.isInstance(o)) {
+            if (o instanceof ParameterDefinition) {
                 target.add((ParameterDefinition) o);
             }
         }

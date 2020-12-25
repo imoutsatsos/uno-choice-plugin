@@ -65,7 +65,7 @@ public class TestParametersOrder {
                 new GroovyScript(new SecureGroovyScript(SCRIPT, Boolean.FALSE, null),
                         new SecureGroovyScript(FALLBACK_SCRIPT, Boolean.FALSE, null)),
                 ChoiceParameter.PARAMETER_TYPE_MULTI_SELECT, true, 0);
-        Map<Object, Object> result = parameter.getChoices(Collections.<Object, Object>emptyMap());
+        Map<Object, Object> result = parameter.getChoices(Collections.emptyMap());
         assertArrayEquals(parameters.keySet().toArray(), result.keySet().toArray());
     }
 

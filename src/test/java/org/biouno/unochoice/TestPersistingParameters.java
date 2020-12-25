@@ -127,7 +127,7 @@ public class TestPersistingParameters {
         CascadeChoiceParameter param002 = new CascadeChoiceParameter("param002", "param002 description", "random-name",
                 scriptParam002, AbstractUnoChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, "param001", true, 1);
         ParametersDefinitionProperty param001Def = new ParametersDefinitionProperty(
-                Arrays.<ParameterDefinition>asList(param001, param002));
+                Arrays.asList(param001, param002));
         project.addProperty(param001Def);
         QueueTaskFuture<FreeStyleBuild> future = project.scheduleBuild2(0);
         FreeStyleBuild build = future.get();
@@ -186,7 +186,7 @@ public class TestPersistingParameters {
         CascadeChoiceParameter param002 = new CascadeChoiceParameter("param002", "param002 description", "random-name",
                 scriptParam002, AbstractUnoChoiceParameter.PARAMETER_TYPE_SINGLE_SELECT, "param001", true, 1);
         ParametersDefinitionProperty param001Def = new ParametersDefinitionProperty(
-                Arrays.<ParameterDefinition>asList(param001, param002));
+                Arrays.asList(param001, param002));
         project.addProperty(param001Def);
         QueueTaskFuture<FreeStyleBuild> future = project.scheduleBuild2(0);
         FreeStyleBuild build = future.get();
