@@ -42,7 +42,7 @@ public interface CascadableParameter<T> extends ScriptableParameter<T> {
      *
      * @return the referencedParameters
      */
-    public String getReferencedParameters();
+    String getReferencedParameters();
 
     /**
      * Evaluates a script and returns its result as a Map. List values are automatically handled and converted to
@@ -50,12 +50,12 @@ public interface CascadableParameter<T> extends ScriptableParameter<T> {
      *
      * @return script result as Map
      */
-    public List<Object> getChoicesForUI();
+    List<Object> getChoicesForUI();
 
     /**
      * Exposed to the UI. Is triggered every time any of the referenced parameters gets updated.
      * @param parameters Comma separated list of parameters
      */
-    public void doUpdate(String parameters);
+    void doUpdate(String parameters);
 
 }
