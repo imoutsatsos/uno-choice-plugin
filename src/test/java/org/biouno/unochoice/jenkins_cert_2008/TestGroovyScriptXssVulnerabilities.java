@@ -61,8 +61,8 @@ public class TestGroovyScriptXssVulnerabilities {
     /**
      * Tests that a {@code ChoiceParameter} using a Groovy script has its output value sanitized against XSS when
      * returning a List.
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException if it fails to load the script
+     * @throws SAXException if the XML is malformed
      */
     @Test
     public void testChoicesParameterXss() throws IOException, SAXException {
@@ -95,8 +95,8 @@ public class TestGroovyScriptXssVulnerabilities {
     /**
      * Tests that a {@code ChoiceParameter} using a Groovy script has its output value sanitized against XSS when
      * returning a Map.
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException if it fails to load the script
+     * @throws SAXException if the XML is malformed
      */
     @Test
     public void testChoicesParameterXssWithMaps() throws IOException, SAXException {
@@ -133,8 +133,8 @@ public class TestGroovyScriptXssVulnerabilities {
     /**
      * Tests that a {@code ChoiceParameter} using a Groovy script has its output value sanitized against XSS when
      * returning a String (rendered as HTML).
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException if it fails to load the script
+     * @throws SAXException if the XML is malformed
      */
     @Test
     public void testReferenceParameterXss() throws IOException, SAXException {

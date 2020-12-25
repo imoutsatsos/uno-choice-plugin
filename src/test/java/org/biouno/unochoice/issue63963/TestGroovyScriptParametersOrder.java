@@ -67,8 +67,8 @@ public class TestGroovyScriptParametersOrder {
      * Using test kindly provided by Jason Antman in JENKINS-63963. See issue in JIRA for more context
      * about the problem, analysis, and solution (mostly done by Jason).
      *
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException if it fails to load the script
+     * @throws SAXException if the XML is malformed
      */
     @Test
     public void testGroovyScriptParametersOrder() throws IOException, SAXException {
