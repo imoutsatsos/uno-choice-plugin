@@ -60,9 +60,6 @@ public class TestScriptCallback {
 
     @Test
     public void testScriptCallback() {
-        List<ScriptlerScriptParameter> params = new ArrayList<>();
-        params.add(new ScriptlerScriptParameter("name1", "value1"));
-        params.add(new ScriptlerScriptParameter("name2", "value2"));
         GroovyScript script = new GroovyScript(new SecureGroovyScript(SCRIPT, Boolean.FALSE, null),
                 new SecureGroovyScript(FALLBACK_SCRIPT, Boolean.FALSE, null));
         Map<String, String> parameters = new HashMap<>();
