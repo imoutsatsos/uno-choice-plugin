@@ -60,14 +60,14 @@ public class TestScriptCallback {
 
     @Test
     public void testScriptCallback() {
-        List<ScriptlerScriptParameter> params = new ArrayList<ScriptlerScriptParameter>();
+        List<ScriptlerScriptParameter> params = new ArrayList<>();
         params.add(new ScriptlerScriptParameter("name1", "value1"));
         params.add(new ScriptlerScriptParameter("name2", "value2"));
         GroovyScript script = new GroovyScript(new SecureGroovyScript(SCRIPT, Boolean.FALSE, null),
                 new SecureGroovyScript(FALLBACK_SCRIPT, Boolean.FALSE, null));
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("flag", "true");
-        ScriptCallback<Exception> sc = new ScriptCallback<Exception>("callback1", script, parameters);
+        ScriptCallback<Exception> sc = new ScriptCallback<>("callback1", script, parameters);
 
         assertEquals("callback1", sc.getName());
         assertEquals(sc.getScript(), script);

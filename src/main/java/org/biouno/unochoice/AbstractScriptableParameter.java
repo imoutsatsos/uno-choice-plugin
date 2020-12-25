@@ -173,7 +173,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
      */
     private Map<Object, Object> getHelperParameters() {
         // map with parameters
-        final Map<Object, Object> helperParameters = new LinkedHashMap<Object, Object>();
+        final Map<Object, Object> helperParameters = new LinkedHashMap<>();
 
         // First, if the project name is set, we then find the project by its name, and inject into the map
         Project<?, ?> project = null;
@@ -227,7 +227,7 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
         }
         if (value instanceof List) {
             // here we take a list and return it as a map
-            final Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+            final Map<Object, Object> map = new LinkedHashMap<>();
             for (Object o : (List<Object>) value) {
                 map.put(o, o);
             }
@@ -286,8 +286,8 @@ public abstract class AbstractScriptableParameter extends AbstractUnoChoiceParam
             return null;
         }
 
-        List<String> defaultValues = new ArrayList<String>();
-        List<Object> values = new ArrayList<Object>(choices.values());
+        List<String> defaultValues = new ArrayList<>();
+        List<Object> values = new ArrayList<>(choices.values());
         for (Object value : values) {
             String valueText = ObjectUtils.toString(value, "");
             if (Utils.isSelected(valueText)) {

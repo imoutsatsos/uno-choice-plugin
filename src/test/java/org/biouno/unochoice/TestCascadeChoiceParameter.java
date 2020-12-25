@@ -86,7 +86,7 @@ public class TestCascadeChoiceParameter {
             // ignore
         }
 
-        Map<String, String> expected = new LinkedHashMap<String, String>();
+        Map<String, String> expected = new LinkedHashMap<>();
         expected.put("param001", "A");
         expected.put("param002", "B");
         expected.put("param003", "");

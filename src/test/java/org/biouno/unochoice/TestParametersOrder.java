@@ -55,7 +55,7 @@ public class TestParametersOrder {
 
     @Test
     public void testParametersOrder() {
-        Map<Object, Object> parameters = new LinkedHashMap<Object, Object>();
+        Map<Object, Object> parameters = new LinkedHashMap<>();
         parameters.put("D", "D");
         parameters.put("C", "C");
         parameters.put("B", "B");

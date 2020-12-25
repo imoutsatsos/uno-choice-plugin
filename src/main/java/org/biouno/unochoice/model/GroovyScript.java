@@ -221,7 +221,7 @@ public class GroovyScript extends AbstractScript {
         } else if (returnValue instanceof List) {
             List<?> list = (List<?>) returnValue;
             return list.stream()
-                    .map(r -> sanitizeString(r))
+                    .map(this::sanitizeString)
                     .collect(Collectors.toList());
         } else if (returnValue instanceof Map) {
             @SuppressWarnings("unchecked")

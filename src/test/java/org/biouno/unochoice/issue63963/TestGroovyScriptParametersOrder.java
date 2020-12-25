@@ -131,7 +131,7 @@ public class TestGroovyScriptParametersOrder {
         List<HtmlOption> htmlOptions = select.getOptions();
         final List<String> options = htmlOptions
                 .stream()
-                .map(option -> option.getText())
+                .map(HtmlOption::getText)
                 .collect(Collectors.toList());
         final List<String> expected = new LinkedList<>();
         {

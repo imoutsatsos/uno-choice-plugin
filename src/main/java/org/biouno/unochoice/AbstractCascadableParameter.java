@@ -51,7 +51,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
      * Map with parameters in the UI.
      */
     // Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
-    protected final Map<Object, Object> parameters = new LinkedHashMap<Object, Object>();
+    protected final Map<Object, Object> parameters = new LinkedHashMap<>();
 
     /**
      * Referenced parameters.
@@ -157,7 +157,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
         String referencedParameters = this.getReferencedParameters();
         if (StringUtils.isNotBlank(referencedParameters)) {
             String[] array = referencedParameters.split(",");
-            List<String> list = new ArrayList<String>();
+            List<String> list = new ArrayList<>();
             for (String value : array) {
                 value = value.trim();
                 if (StringUtils.isNotBlank(value)) {

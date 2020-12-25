@@ -65,7 +65,7 @@ public class TestGlobalNodePropertiesScript {
 
     @Test
     public void testScriptAccessingGlobalProperties() {
-        Map<String, String> testMap = new HashMap<String, String>();
+        Map<String, String> testMap = new HashMap<>();
         testMap.put("time", "20:13:13");
         EnvironmentVariablesNodeProperty.Entry entry = new EnvironmentVariablesNodeProperty.Entry("NODE_TIME",
                 testMap.get("time"));

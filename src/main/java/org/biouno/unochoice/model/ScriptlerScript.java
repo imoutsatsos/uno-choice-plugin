@@ -68,7 +68,7 @@ public class ScriptlerScript extends AbstractScript {
     public ScriptlerScript(String scriptlerScriptId, List<ScriptlerScriptParameter> parameters) {
         super();
         this.scriptlerScriptId = scriptlerScriptId;
-        this.parameters = new LinkedHashMap<String, String>();
+        this.parameters = new LinkedHashMap<>();
         if (parameters != null) {
             for (ScriptlerScriptParameter parameter : parameters) {
                 this.parameters.put(parameter.getName(), parameter.getValue());
@@ -102,7 +102,7 @@ public class ScriptlerScript extends AbstractScript {
     @Override
     public Object eval(Map<String, String> parameters) {
         final Map<String, String> envVars = Utils.getSystemEnv();
-        Map<String, String> evaledParameters = new LinkedHashMap<String, String>(envVars);
+        Map<String, String> evaledParameters = new LinkedHashMap<>(envVars);
         // if we have any parameter that came from UI, let's eval and use them
         if (parameters != null && !parameters.isEmpty()) {
             // fill our map with the given parameters
@@ -157,7 +157,7 @@ public class ScriptlerScript extends AbstractScript {
             ScriptlerScript script = null;
             String scriptScriptId = jsonObject.getString("scriptlerScriptId");
             if (scriptScriptId != null && !scriptScriptId.trim().equals("")) {
-                List<ScriptlerScriptParameter> parameters = new ArrayList<ScriptlerScriptParameter>();
+                List<ScriptlerScriptParameter> parameters = new ArrayList<>();
 
                 final JSONObject defineParams = jsonObject.getJSONObject("defineParams");
                 if (defineParams != null && !defineParams.isNullObject()) {

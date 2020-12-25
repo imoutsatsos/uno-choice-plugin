@@ -244,7 +244,7 @@ public class Utils {
      * @return {@code true} if the project contains this parameter definition.
      */
     private static boolean isParameterDefinitionOf(@Nonnull String parameterUUID, @Nonnull Project<?, ?> project) {
-        List<ParameterDefinition> parameterDefinitions = new ArrayList<ParameterDefinition>(getProjectParameterDefinitions(project));
+        List<ParameterDefinition> parameterDefinitions = new ArrayList<>(getProjectParameterDefinitions(project));
         for (List<ParameterDefinition> params : getBuildWrapperParameterDefinitions(project).values()) {
             parameterDefinitions.addAll(params);
         }
@@ -286,7 +286,7 @@ public class Utils {
      * @return map with global node properties
      */
     public static @Nonnull Map<String, Object> getGlobalNodeProperties() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         Jenkins instance = Jenkins.get();
         DescribableList<NodeProperty<?>, NodePropertyDescriptor> globalNodeProperties = instance.getGlobalNodeProperties();
         if (globalNodeProperties != null) {
@@ -308,9 +308,9 @@ public class Utils {
     public static @Nonnull Map<BuildWrapper, List<ParameterDefinition>> getBuildWrapperParameterDefinitions(@Nonnull Project<?, ?> project) {
         final List<BuildWrapper> buildWrappersList = project.getBuildWrappersList();
 
-        final Map<BuildWrapper, List<ParameterDefinition>> result = new LinkedHashMap<BuildWrapper, List<ParameterDefinition>>();
+        final Map<BuildWrapper, List<ParameterDefinition>> result = new LinkedHashMap<>();
 
-        List<ParameterDefinition> value = new ArrayList<ParameterDefinition>();
+        List<ParameterDefinition> value = new ArrayList<>();
 
         for (BuildWrapper buildWrapper : buildWrappersList) {
             final PropertyDescriptor[] propertyDescriptors;
@@ -340,7 +340,7 @@ public class Utils {
             }
             if (!value.isEmpty()) {
                 result.put(buildWrapper, value);
-                value = new ArrayList<ParameterDefinition>();
+                value = new ArrayList<>();
             }
         }
         return result.isEmpty() ? Collections.<BuildWrapper, List<ParameterDefinition>> emptyMap() : result;

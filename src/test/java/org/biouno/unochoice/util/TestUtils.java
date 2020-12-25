@@ -169,7 +169,7 @@ public class TestUtils {
 
     @Test
     public void testGetGlobalNodeProperties() {
-        Map<String, String> testMap = new HashMap<String, String>();
+        Map<String, String> testMap = new HashMap<>();
         testMap.put("time", "20:13:13");
         EnvironmentVariablesNodeProperty.Entry entry = new EnvironmentVariablesNodeProperty.Entry("time",
                 testMap.get("time"));
