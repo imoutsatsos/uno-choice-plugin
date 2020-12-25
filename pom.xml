@@ -143,6 +143,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <compatibleSinceVersion>2.0</compatibleSinceVersion>
+                    <minimumJavaVersion>8</minimumJavaVersion>
                 </configuration>
             </plugin>
         </plugins>
