@@ -80,7 +80,7 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
 
     public static final int DEFAULT_MAX_VISIBLE_ITEM_COUNT = 10;
 
-    private String randomName;
+    private final String randomName;
 
     /**
      * Inherited constructor.

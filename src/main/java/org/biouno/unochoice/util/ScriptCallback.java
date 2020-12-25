@@ -48,7 +48,7 @@ public class ScriptCallback<T extends Throwable> implements Callable<Object, T> 
     private final String name;
     private final Script script;
     // Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
-    private Map<String, String> parameters;
+    private final Map<String, String> parameters;
 
     /**
      * Create a new ScriptCallback. This can be used to execute code either local or
