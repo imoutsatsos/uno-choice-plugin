@@ -41,9 +41,7 @@ import hudson.model.ParameterDefinition.ParameterDescriptor;
 public class UnoChoiceParameterDescriptor extends ParameterDescriptor {
 
     public List<Descriptor<? extends AbstractScript>> getApplicableResultSeekers() {
-        List<Descriptor<? extends AbstractScript>> list = new LinkedList<>();
-        for (Descriptor<? extends AbstractScript> rs : AbstractScript.all()) list.add(rs);
-        return list;
+        return new LinkedList<>(AbstractScript.all());
     }
 
 }
