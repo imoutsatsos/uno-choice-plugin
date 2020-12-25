@@ -32,13 +32,14 @@
  * Create fixture DIV (hack for running with phantomJS and Maven)
  */
 QUnit.testStart(function() {
-     var fixtures = jQuery('#qunit-tests').find('#qunit-fixture');
+     var $elem = jQuery('#qunit-tests');
+     var fixtures = $elem.find('#qunit-fixture');
      fixtures.each(function() {
          jQuery(this).remove();
      });
      var hiddenDiv = document.createElement("div");
      jQuery(hiddenDiv).attr('id', 'qunit-fixture');
-     jQuery('#qunit-tests').append(hiddenDiv);
+     $elem.append(hiddenDiv);
  });
 
 /**

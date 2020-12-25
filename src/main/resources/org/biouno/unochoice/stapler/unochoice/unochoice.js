@@ -693,7 +693,6 @@ var UnoChoice = UnoChoice || (function($) {
                if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName === 'TABLE') {
                     var table = filteredElement.children[0];
                     var tbody = table.children[0];
-                    var trs = jQuery(tbody).find('tr');
                     jQuery(tbody).empty();
                     if (filteredElement.className === 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
@@ -940,7 +939,7 @@ var UnoChoice = UnoChoice || (function($) {
                         dataType: "json",
                         async: "false", // Here's the juice
                         success: function(data, textStatus, jqXHR) {
-                            if (callback!=null) {
+                            if (callback!==null) {
                                 var t = {};
                                 t.responseObject = function() {
                                     return data;
@@ -956,7 +955,7 @@ var UnoChoice = UnoChoice || (function($) {
                         postBody: stringify(a),
                         asynchronous: false, // and here
                         onSuccess: function(t) {
-                            if (callback!=null) {
+                            if (callback!==null) {
                                 t.responseObject = function() {
                                     return eval('('+this.responseText+')');
                                 };
