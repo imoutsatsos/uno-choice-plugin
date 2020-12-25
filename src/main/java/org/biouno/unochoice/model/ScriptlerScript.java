@@ -191,7 +191,7 @@ public class ScriptlerScript extends AbstractScript {
 
         @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
         private ManagementLink getScriptler() {
-            return Jenkins.getInstanceOrNull().getExtensionList(ScriptlerManagement.class).get(0);
+            return Jenkins.get().getExtensionList(ScriptlerManagement.class).get(0);
         }
 
         /**
