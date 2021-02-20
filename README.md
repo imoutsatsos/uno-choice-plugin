@@ -568,7 +568,7 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 
 ## Release Notes
 
-### Version 2.5.2 (202?/??/??)
+### Version 2.5.2 (2021/02/21)
 
 1. [JENKINS-62806](https://issues.jenkins.io/browse/JENKINS-62806): active-choices plugin may break with tables-to-divs.
 
