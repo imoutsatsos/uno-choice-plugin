@@ -571,6 +571,8 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 ### Version 2.5.2 (2021/02/21)
 
 1. [JENKINS-62806](https://issues.jenkins.io/browse/JENKINS-62806): active-choices plugin may break with tables-to-divs.
+2. [SECURITY-1954 - CVE-2021-????](https://www.jenkins.io/security/advisory/???): Possible XSS in DynamicReference
+parameter due to the referenced parameter name not being escaped.
 
 ### Version 2.5.1 (2020/10/17)
 

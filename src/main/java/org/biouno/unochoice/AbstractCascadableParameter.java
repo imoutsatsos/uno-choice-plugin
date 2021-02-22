@@ -35,6 +35,8 @@ import org.biouno.unochoice.model.Script;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 import org.kohsuke.stapler.json.JsonHttpResponse;
 
+import hudson.Util;
+
 /**
  * Base class for cascadable parameters, providing basic and utility methods.
  *
@@ -161,7 +163,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
             for (String value : array) {
                 value = value.trim();
                 if (StringUtils.isNotBlank(value)) {
-                    list.add(value);
+                    list.add(Util.escape(value));
                 }
             }
             return list.toArray(new String[0]);
