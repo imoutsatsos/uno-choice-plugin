@@ -106,14 +106,12 @@
   (function() {
       var f = function() {
           var height = 0;
-          var maxCount = ${index};
-          if(maxCount > ${it.visibleItemCount}) {
-              maxCount = ${it.visibleItemCount};
-          }
+          var maxCount = ${it.getVisibleItemCount()};
 
-          if(maxCount > 0 && document.getElementById("ecp_${it.randomName}_0").offsetHeight !=0) {
+          var refElement = document.getElementById("ecp_${it.randomName}_0");
+          if(maxCount > 0 && refElement && refElement.offsetHeight !=0) {
               for(var i=0; i< maxCount; i++) {
-                  height += document.getElementById("${id}").offsetHeight + 3;
+                  height += refElement.offsetHeight + 3;
               }
           }
           else {
