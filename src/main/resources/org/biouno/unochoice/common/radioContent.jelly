@@ -111,14 +111,15 @@
   (function() {
       var f = function() {
           var height = 0;
-          var maxCount = ${index};
+          var maxCount = ${it.getVisibleItemCount()};
           if(maxCount > ${it.visibleItemCount}) {
               maxCount = ${it.visibleItemCount};
           }
 
-          if(maxCount > 0 && document.getElementById("${id}").offsetHeight !=0) {
+          var refElement = document.getElementById("${id}");
+          if(maxCount > 0 && refElement && refElement.offsetHeight !=0) {
               for(var i=0; i< maxCount; i++) {
-                  height += document.getElementById("${id}").offsetHeight + 3;
+                  height += refElement.offsetHeight + 3;
               }
           }
           else {
