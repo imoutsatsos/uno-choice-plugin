@@ -576,6 +576,15 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 
 ## Release Notes
 
+### Version 2.5.4 (2021/02/28)
+
+1. [JENKINS-64962](https://issues.jenkins.io/browse/JENKINS-64962): Fix
+radio buttons and check boxes not being displayed. The height in CSS was
+calculated with JS to 0 (zero). That was due to recent workaround for
+table-to-divs (JENKINS-62806). We may have to inspect more of the code
+that was changed, and also confirm the table-to-divs is working as expected.
+This fix was relased quickly to give users a fix ASAP.
+
 ### Version 2.5.3 (2021/02/24)
 
 1. [SECURITY-2192](https://www.jenkins.io/security/advisory/2021-02-24/#SECURITY-2192): Fix XSS vulnerability
