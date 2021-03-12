@@ -222,7 +222,7 @@ var UnoChoice = UnoChoice || (function($) {
                     _self.getFilterElement().setOriginalArray(originalArray);
                 }
             } else if (parameterElement.tagName === 'DIV') {
-                if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'TABLE') {
+                if (parameterElement.children.length > 0 && (parameterElement.children[0].tagName === 'TABLE' || parameterElement.children[0].tagName === 'DIV')) {
                     var table = parameterElement.children[0];
                     var tbody = table.children[0];
                     if (tbody) {
@@ -573,7 +573,7 @@ var UnoChoice = UnoChoice || (function($) {
                 this.originalArray.push(options[i]);
             }
         } else if (paramElement.tagName === 'DIV') { // handle CHECKBOXES
-            if (jQuery(paramElement).children().length > 0 && paramElement.children[0].tagName === 'TABLE') {
+            if (jQuery(paramElement).children().length > 0 && (paramElement.children[0].tagName === 'TABLE' || paramElement.children[0].tagName === 'DIV')) {
                 var table = paramElement.children[0];
                 var tbody = table.children[0];
                 if (paramElement.className === 'dynamic_checkbox') {
@@ -690,7 +690,7 @@ var UnoChoice = UnoChoice || (function($) {
                    jQuery(filteredElement).append(opt);
                }
             } else if (tagName === 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
-               if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName === 'TABLE') {
+               if (jQuery(filteredElement).children().length > 0 && (jQuery(filteredElement).children()[0].tagName === 'TABLE' || jQuery(filteredElement).children()[0].tagName === 'DIV')) {
                     var table = filteredElement.children[0];
                     var tbody = table.children[0];
                     jQuery(tbody).empty();
