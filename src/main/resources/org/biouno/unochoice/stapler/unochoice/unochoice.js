@@ -223,13 +223,21 @@ var UnoChoice = UnoChoice || (function($) {
                 }
             } else if (parameterElement.tagName === 'DIV') {
                 if (parameterElement.children.length > 0 && (parameterElement.children[0].tagName === 'TABLE' || parameterElement.children[0].tagName === 'DIV')) {
-                    var table = parameterElement.children[0];
-                    var tbody = table.children[0];
+                    var divBased = true;
+                    if (parameterElement.children[0].tagName === 'TABLE')
+                        divBased = false;
+                    if (!divBased) {
+                        var table = parameterElement.children[0];
+                        var tbody = table.children[0];
+                    } else
+                        var tbody = parameterElement.children[0];
                     if (tbody) {
                         jQuery(tbody).empty();
                     } else {
-                       tbody = document.createElement('tbody');
-                       table.appendChild(tbody);
+                        if (!divBased) {
+                            tbody = document.createElement('tbody');
+                            table.appendChild(tbody);
+                        }
                     }
                     var originalArray = [];
                     // Check whether it is a radio or checkbox element
@@ -238,13 +246,21 @@ var UnoChoice = UnoChoice || (function($) {
                             var entry = newValues[i];
                             var key = newKeys[i];
                             // <TR>
-                            var tr = document.createElement('tr');
+                            if (!divBased)
+                                var tr = document.createElement('tr');
+                            else
+                                var tr = document.createElement('div');
                             var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
                             idValue = idValue.replace(' ', '_');
                             tr.setAttribute('id', idValue);
                             tr.setAttribute('style', 'white-space:nowrap');
+                            if (divBased)
+                                tr.setAttribute('class', 'tr');
                             // <TD>
-                            var td = document.createElement('td');
+                            if (!divBased)
+                                var td = document.createElement('td');
+                            else
+                                var td = document.createElement('div');
                             // <INPUT>
                             var input = document.createElement('input');
                             // <LABEL>
@@ -292,13 +308,21 @@ var UnoChoice = UnoChoice || (function($) {
                             var entry = newValues[i];
                             var key = newKeys[i];
                             // <TR>
-                            var tr = document.createElement('tr');
+                            if (!divBased)
+                                var tr = document.createElement('tr');
+                            else
+                                var tr = document.createElement('div');
                             var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
                             idValue = idValue.replace(' ', '_');
                             //tr.setAttribute('id', idValue); // will use the ID for the hidden value element
                             tr.setAttribute('style', 'white-space:nowrap');
+                            if (divBased)
+                                tr.setAttribute('class', 'tr');
                             // <TD>
-                            var td = document.createElement('td');
+                            if (!divBased)
+                                var td = document.createElement('td');
+                            else
+                                var td = document.createElement('div');
                             // <INPUT>
                             var input = document.createElement('input');
                             // <LABEL>
@@ -354,7 +378,10 @@ var UnoChoice = UnoChoice || (function($) {
                             td.appendChild(hiddenValue);
                             tr.appendChild(td);
                             tbody.appendChild(tr);
-                            var endTr = document.createElement('tr');
+                            if (!divBased)
+                                var endTr = document.createElement('tr');
+                            else
+                                var endTr = document.createElement('div');
                             endTr.setAttribute('style', 'display: none');
                             endTr.setAttribute('class', 'radio-block-end');
                             tbody.appendChild(endTr);
@@ -574,20 +601,38 @@ var UnoChoice = UnoChoice || (function($) {
             }
         } else if (paramElement.tagName === 'DIV') { // handle CHECKBOXES
             if (jQuery(paramElement).children().length > 0 && (paramElement.children[0].tagName === 'TABLE' || paramElement.children[0].tagName === 'DIV')) {
-                var table = paramElement.children[0];
-                var tbody = table.children[0];
+                var divBased = true;
+                if (parameterElement.children[0].tagName === 'TABLE')
+                    divBased = false;
+                if (!divBased) {
+                    var table = paramElement.children[0];
+                    var tbody = table.children[0];
+                } else
+                    var tbody = paramElement.children[0];
                 if (paramElement.className === 'dynamic_checkbox') {
-                    var trs = jQuery(tbody).find('tr');
+                    if (!divBased)
+                        var trs = jQuery(tbody).find('tr');
+                    else
+                        var trs = jQuery(tbody).find('div');
                     for (var i = 0; i < trs.length ; ++i) {
-                        var tds = jQuery(trs[i]).find('td');
+                        if (!divBased)
+                            var tds = jQuery(trs[i]).find('td');
+                        else
+                            var tds = jQuery(trs[i]).find('div');
                         var inputs = jQuery(tds[0]).find('input');
                         var input = inputs[0];
                         this.originalArray.push(input);
                     }
                 } else {
-                    var trs = jQuery(tbody).find('tr');
+                    if (!divBased)
+                        var trs = jQuery(tbody).find('tr');
+                    else
+                        var trs = jQuery(tbody).find('div');
                     for (var i = 0; i < trs.length ; ++i) {
-                        var tds = jQuery(trs[i]).find('td');
+                        if (!divBased)
+                            var tds = jQuery(trs[i]).find('td');
+                        else
+                            var tds = jQuery(trs[i]).find('div');
                         var inputs = jQuery(tds[0]).find('input');
                         var input = inputs[0];
                         this.originalArray.push(input);
@@ -691,20 +736,34 @@ var UnoChoice = UnoChoice || (function($) {
                }
             } else if (tagName === 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
                if (jQuery(filteredElement).children().length > 0 && (jQuery(filteredElement).children()[0].tagName === 'TABLE' || jQuery(filteredElement).children()[0].tagName === 'DIV')) {
-                    var table = filteredElement.children[0];
-                    var tbody = table.children[0];
+                    var divBased = true;
+                    if (jQuery(filteredElement).children()[0].tagName === 'TABLE')
+                        divBased = false;
+                    if (!divBased) {
+                        var table = filteredElement.children[0];
+                        var tbody = table.children[0];
+                    } else
+                        var tbody = filteredElement.children[0];
                     jQuery(tbody).empty();
                     if (filteredElement.className === 'dynamic_checkbox') {
                         for (var i = 0; i < newOptions.length; i++) {
                             var entry = newOptions[i];
                             // TR
-                            var tr = document.createElement('tr');
+                            if (!divBased)
+                                var tr = document.createElement('tr');
+                            else
+                                var tr = document.createElement('div');
                             var idValue = 'ecp_' + e.target.randomName + '_' + i;
                             idValue = idValue.replace(' ', '_');
                             tr.setAttribute('id', idValue);
                             tr.setAttribute('style', 'white-space:nowrap');
+                            if (divBased)
+                                tr.setAttribute('class', 'tr');
                             // TD
-                            var td = document.createElement('td');
+                            if (!divBased)
+                                var td = document.createElement('td');
+                            else
+                                var td = document.createElement('div');
                             // INPUT
                             var input = document.createElement('input');
                             // LABEL
@@ -741,7 +800,10 @@ var UnoChoice = UnoChoice || (function($) {
                         for (var i = 0; i < newOptions.length; i++) {
                             var entry = newOptions[i];
                             // TR
-                            var tr = document.createElement('tr');
+                            if (!divBased)
+                                var tr = document.createElement('tr');
+                            else
+                                var tr = document.createElement('div');
                             var idValue = '';
                             if (!(entry instanceof String)) {
                                 if (entry.tagName === 'INPUT') {
@@ -753,8 +815,13 @@ var UnoChoice = UnoChoice || (function($) {
                             idValue = idValue.replace(' ', '_');
                             tr.setAttribute('id', idValue);
                             tr.setAttribute('style', 'white-space:nowrap');
+                            if (divBased)
+                                tr.setAttribute('class', 'tr');
                             // TD
-                            var td = document.createElement('td');
+                            if (!divBased)
+                                var td = document.createElement('td');
+                            else
+                                var td = document.createElement('div');
                             // INPUTs
                             var jsonInput = document.createElement('input'); // used to help in the selection
                             var input = document.createElement('input');
