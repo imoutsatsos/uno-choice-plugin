@@ -371,9 +371,7 @@ var UnoChoice = UnoChoice || (function($) {
                 } // if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'TABLE') {
                 if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'DIV') {
                     var tbody = parameterElement.children[0];
-                    if (tbody) {
-                        jQuery(tbody).empty();
-                    }
+                    jQuery(tbody).empty();
                     var originalArray = [];
                     // Check whether it is a radio or checkbox element
                     if (parameterElement.className === 'dynamic_checkbox') {
