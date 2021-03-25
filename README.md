@@ -576,6 +576,11 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 
 ## Release Notes
 
+### Version 2.5.6 (2021/03/25)
+
+1. [JENKINS-65096](https://issues.jenkins.io/browse/JENKINS-65096): Additional fix to support both DIVs and TABLEs (thanks to @szjozsef)
+2. [JENKINS-65173](https://issues.jenkins.io/browse/JENKINS-65173): Hide parameter name when the parameter is hidden (as before 2.277.1)
+
 ### Version 2.5.5 (2021/03/13)
 
 1. [JENKINS-65096](https://issues.jenkins.io/browse/JENKINS-65096): Fix Active Choice Reactive Parameter rendering with Jenkins 2.277.1 (thanks @szjozsef)
