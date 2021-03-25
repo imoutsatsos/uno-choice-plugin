@@ -75,6 +75,11 @@
     // if the parameter class has been set to hidden, then we hide it now
     if (parentDiv.get(0).getAttribute('class') == 'hidden_uno_choice_parameter') {
       var parentTbody = jQuery(parentDiv.get(0)).parents('tbody');
+      // FIXME: temporary fix to support both TABLE and DIV in the Jenkins UI
+      //        remove after most users have migrated to newer versions with DIVs
+      if (!parentTbody || parentTbody.length === 0) {
+        parentTbody = jQuery(parentDiv.get(0)).parents('div > div.tr');
+      }
       if (parentTbody &amp;&amp; parentTbody.length > 0) {
         jQuery(parentTbody.get(0)).attr('style', 'visibility:hidden;position:absolute;');
       }

@@ -222,14 +222,14 @@ var UnoChoice = UnoChoice || (function($) {
                     _self.getFilterElement().setOriginalArray(originalArray);
                 }
             } else if (parameterElement.tagName === 'DIV') {
-                if (parameterElement.children.length > 0 && (parameterElement.children[0].tagName === 'TABLE' || parameterElement.children[0].tagName === 'DIV')) {
+                if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'TABLE') {
                     var table = parameterElement.children[0];
                     var tbody = table.children[0];
                     if (tbody) {
                         jQuery(tbody).empty();
                     } else {
-                       tbody = document.createElement('tbody');
-                       table.appendChild(tbody);
+                        tbody = document.createElement('tbody');
+                        table.appendChild(tbody);
                     }
                     var originalArray = [];
                     // Check whether it is a radio or checkbox element
@@ -255,25 +255,19 @@ var UnoChoice = UnoChoice || (function($) {
                             if (disabledElements.indexOf(i) >= 0) {
                                 input.setAttribute('disabled', 'disabled');
                             }
+                            input.setAttribute('json', key);
+                            input.setAttribute('name', 'value');
+                            input.setAttribute("value", key);
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "checkbox");
+                            label.className = "attach-previous";
                             if (!entry instanceof String) {
-                                input.setAttribute('json', key);
-                                input.setAttribute('name', 'value');
-                                input.setAttribute("value", key);
-                                input.setAttribute("class", " ");
-                                input.setAttribute("type", "checkbox");
                                 input.setAttribute("title", JSON.stringify(entry));
                                 input.setAttribute("alt", JSON.stringify(entry));
-                                label.className = "attach-previous";
                                 label.innerHTML = JSON.stringify(entry);
                             } else {
-                                input.setAttribute('json', key);
-                                input.setAttribute('name', 'value');
-                                input.setAttribute("value", key);
-                                input.setAttribute("class", " ");
-                                input.setAttribute("type", "checkbox");
                                 input.setAttribute("title", entry);
                                 input.setAttribute("alt", entry);
-                                label.className = "attach-previous";
                                 label.innerHTML = entry;
                             }
                             originalArray.push(input);
@@ -314,27 +308,19 @@ var UnoChoice = UnoChoice || (function($) {
                             if (disabledElements.indexOf(i) >= 0) {
                                 input.setAttribute('disabled', 'disabled');
                             }
+                            input.setAttribute('json', key);
+                            input.setAttribute('name', _self.getParameterName());
+                            input.setAttribute("value", key);
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "radio");
+                            input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
+                            input.setAttribute('otherId', idValue);
+                            label.className = "attach-previous";
                             if (!entry instanceof String) {
-                                input.setAttribute('json', key);
-                                input.setAttribute('name', _self.getParameterName());
-                                input.setAttribute("value", key);
-                                input.setAttribute("class", " ");
-                                input.setAttribute("type", "radio");
                                 input.setAttribute('alt', JSON.stringify(entry));
-                                input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
-                                input.setAttribute('otherId', idValue);
-                                label.className = "attach-previous";
                                 label.innerHTML = JSON.stringify(entry);
                             } else {
-                                input.setAttribute('json', key);
-                                input.setAttribute('name', _self.getParameterName());
-                                input.setAttribute("value", key);
-                                input.setAttribute("class", " ");
-                                input.setAttribute("type", "radio");
                                 input.setAttribute('alt', entry);
-                                input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
-                                input.setAttribute('otherId', idValue);
-                                label.className = "attach-previous";
                                 label.innerHTML = entry;
                             }
                             hiddenValue.setAttribute('json', key);
@@ -368,8 +354,137 @@ var UnoChoice = UnoChoice || (function($) {
                      * This height is equivalent to setting the number of rows displayed in a select/multiple
                      */
                     parameterElement.style.height = newValues.length > 10 ? '230px' : 'auto';
-                } // if (oldSel.children.length > 0 && oldSel.children[0].tagName === 'TABLE')
-            } // if (oldSel.tagName === 'SELECT') { // else if (oldSel.tagName === 'DIV') {
+                } // if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'TABLE') {
+                if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'DIV') {
+                    var tbody = parameterElement.children[0];
+                    jQuery(tbody).empty();
+                    var originalArray = [];
+                    // Check whether it is a radio or checkbox element
+                    if (parameterElement.className === 'dynamic_checkbox') {
+                        for (i = 0; i < newValues.length; i++) {
+                            var entry = newValues[i];
+                            var key = newKeys[i];
+                            // <TR>
+                            var tr = document.createElement('div');
+                            var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
+                            idValue = idValue.replace(' ', '_');
+                            tr.setAttribute('id', idValue);
+                            tr.setAttribute('style', 'white-space:nowrap');
+                            tr.setAttribute('class', 'tr');
+                            // <TD>
+                            var td = document.createElement('div');
+                            // <INPUT>
+                            var input = document.createElement('input');
+                            // <LABEL>
+                            var label = document.createElement('label');
+                            if (selectedElements.indexOf(i) >= 0) {
+                                input.setAttribute('checked', 'checked');
+                            }
+                            if (disabledElements.indexOf(i) >= 0) {
+                                input.setAttribute('disabled', 'disabled');
+                            }
+                            input.setAttribute('json', key);
+                            input.setAttribute('name', 'value');
+                            input.setAttribute("value", key);
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "checkbox");
+                            label.className = "attach-previous";
+                            if (!entry instanceof String) {
+                                input.setAttribute("title", JSON.stringify(entry));
+                                input.setAttribute("alt", JSON.stringify(entry));
+                                label.innerHTML = JSON.stringify(entry);
+                            } else {
+                                input.setAttribute("title", entry);
+                                input.setAttribute("alt", entry);
+                                label.innerHTML = entry;
+                            }
+                            originalArray.push(input);
+                            // Put everything together
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
+                        }
+                        // Update the values for the filtering
+                        if (_self.getFilterElement()) {
+                            _self.getFilterElement().setOriginalArray(originalArray);
+                        }
+                    } else { // radio
+                         for (i = 0; i < newValues.length; i++) {
+                            var entry = newValues[i];
+                            var key = newKeys[i];
+                            // <TR>
+                            var tr = document.createElement('div');
+                            var idValue = 'ecp_' + _self.getRandomName() + '_' + i;
+                            idValue = idValue.replace(' ', '_');
+                            //tr.setAttribute('id', idValue); // will use the ID for the hidden value element
+                            tr.setAttribute('style', 'white-space:nowrap');
+                            tr.setAttribute('class', 'tr');
+                            // <TD>
+                            var td = document.createElement('div');
+                            // <INPUT>
+                            var input = document.createElement('input');
+                            // <LABEL>
+                            var label = document.createElement('label');
+                            // <HIDDEN>
+                            var hiddenValue = document.createElement('input');
+                            if (selectedElements.indexOf(i) >= 0) {
+                                input.setAttribute('checked', 'checked');
+                                hiddenValue.setAttribute('name', 'value');
+                            } else {
+                                hiddenValue.setAttribute('name', '');
+                            }
+                            if (disabledElements.indexOf(i) >= 0) {
+                                input.setAttribute('disabled', 'disabled');
+                            }
+                            input.setAttribute('json', key);
+                            input.setAttribute('name', _self.getParameterName());
+                            input.setAttribute("value", key);
+                            input.setAttribute("class", " ");
+                            input.setAttribute("type", "radio");
+                            input.setAttribute('onchange', 'UnoChoice.fakeSelectRadioButton("'+_self.getParameterName()+'", "'+idValue+'")');
+                            input.setAttribute('otherId', idValue);
+                            label.className = "attach-previous";
+                            if (!entry instanceof String) {
+                                input.setAttribute('alt', JSON.stringify(entry));
+                                label.innerHTML = JSON.stringify(entry);
+                            } else {
+                                input.setAttribute('alt', entry);
+                                label.innerHTML = entry;
+                            }
+                            hiddenValue.setAttribute('json', key);
+                            hiddenValue.setAttribute("value", key);
+                            hiddenValue.setAttribute("class", _self.getParameterName());
+                            hiddenValue.setAttribute("type", "hidden");
+                            if (!entry instanceof String) {
+                                hiddenValue.setAttribute('title', JSON.stringify(entry));
+                            } else {
+                                hiddenValue.setAttribute('title', entry);
+                            }
+                            hiddenValue.setAttribute('id', idValue);
+                            originalArray.push(input);
+                            // Put everything together
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            td.appendChild(hiddenValue);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
+                            var endTr = document.createElement('div');
+                            endTr.setAttribute('style', 'display: none');
+                            endTr.setAttribute('class', 'radio-block-end');
+                            tbody.appendChild(endTr);
+                        }
+                        // Update the values for the filtering
+                        if (_self.getFilterElement()) {
+                            _self.getFilterElement().setOriginalArray(originalArray);
+                        }
+                    } // if (oldSel.className === 'dynamic_checkbox')
+                    /*
+                     * This height is equivalent to setting the number of rows displayed in a select/multiple
+                     */
+                    parameterElement.style.height = newValues.length > 10 ? '230px' : 'auto';
+                } // if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'DIV') {
+            } // if (parameterElement.tagName === 'SELECT') { // } else if (parameterElement.tagName === 'DIV') {
         });
         // propagate change
         // console.log('Propagating change event from ' + this.getParameterName());
@@ -573,7 +688,7 @@ var UnoChoice = UnoChoice || (function($) {
                 this.originalArray.push(options[i]);
             }
         } else if (paramElement.tagName === 'DIV') { // handle CHECKBOXES
-            if (jQuery(paramElement).children().length > 0 && (paramElement.children[0].tagName === 'TABLE' || paramElement.children[0].tagName === 'DIV')) {
+            if (jQuery(paramElement).children().length > 0 && paramElement.children[0].tagName === 'TABLE') {
                 var table = paramElement.children[0];
                 var tbody = table.children[0];
                 if (paramElement.className === 'dynamic_checkbox') {
@@ -593,7 +708,27 @@ var UnoChoice = UnoChoice || (function($) {
                         this.originalArray.push(input);
                     }
                 }
-            }
+            } // if (jQuery(paramElement).children().length > 0 && paramElement.children[0].tagName === 'TABLE') {
+            if (jQuery(paramElement).children().length > 0 && paramElement.children[0].tagName === 'DIV') {
+                var tbody = paramElement.children[0];
+                if (paramElement.className === 'dynamic_checkbox') {
+                    var trs = jQuery(tbody).find('div');
+                    for (var i = 0; i < trs.length ; ++i) {
+                        var tds = jQuery(trs[i]).find('div');
+                        var inputs = jQuery(tds[0]).find('input');
+                        var input = inputs[0];
+                        this.originalArray.push(input);
+                    }
+                } else {
+                    var trs = jQuery(tbody).find('div');
+                    for (var i = 0; i < trs.length ; ++i) {
+                        var tds = jQuery(trs[i]).find('div');
+                        var inputs = jQuery(tds[0]).find('input');
+                        var input = inputs[0];
+                        this.originalArray.push(input);
+                    }
+                }
+            } // if (jQuery(paramElement).children().length > 0 && paramElement.children[0].tagName === 'DIV') {
         }
         this.initEventHandler();
     }
@@ -690,7 +825,7 @@ var UnoChoice = UnoChoice || (function($) {
                    jQuery(filteredElement).append(opt);
                }
             } else if (tagName === 'DIV') { // handle CHECKBOXES, RADIOBOXES and other elements (Jenkins renders them as tables)
-               if (jQuery(filteredElement).children().length > 0 && (jQuery(filteredElement).children()[0].tagName === 'TABLE' || jQuery(filteredElement).children()[0].tagName === 'DIV')) {
+                if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName === 'TABLE') {
                     var table = filteredElement.children[0];
                     var tbody = table.children[0];
                     jQuery(tbody).empty();
@@ -779,8 +914,99 @@ var UnoChoice = UnoChoice || (function($) {
                             tbody.appendChild(tr);
                         }
                     }
-                }
-            }
+                } // if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName === 'TABLE') {
+                if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName === 'DIV') {
+                    var tbody = filteredElement.children[0];
+                    jQuery(tbody).empty();
+                    if (filteredElement.className === 'dynamic_checkbox') {
+                        for (var i = 0; i < newOptions.length; i++) {
+                            var entry = newOptions[i];
+                            // TR
+                            var tr = document.createElement('div');
+                            var idValue = 'ecp_' + e.target.randomName + '_' + i;
+                            idValue = idValue.replace(' ', '_');
+                            tr.setAttribute('id', idValue);
+                            tr.setAttribute('style', 'white-space:nowrap');
+                            tr.setAttribute('class', 'tr');
+                            // TD
+                            var td = document.createElement('div');
+                            // INPUT
+                            var input = document.createElement('input');
+                            // LABEL
+                            var label = document.createElement('label');
+                            if (!(entry instanceof String)) {
+                                label.className = "attach-previous";
+                                if (entry.tagName === 'INPUT') {
+                                    input = entry;
+                                    label.innerHTML = input.getAttribute('title');
+                                    label.title = input.getAttribute('title');
+                                } else {
+                                    input.setAttribute('json', JSON.stringify(entry.value));
+                                    input.setAttribute('name', 'value');
+                                    input.setAttribute("value", JSON.stringify(entry.value));
+                                    input.setAttribute("type", "radio");
+                                    label.innerHTML = input;
+                                }
+                            } else {
+                                input.setAttribute('json', entry);
+                                input.setAttribute('name', 'value');
+                                input.setAttribute("value", entry);
+                                input.setAttribute("type", "checkbox");
+                                label.className = "attach-previous";
+                                label.title = entry.getAttribute('title');
+                                label.innerHTML = entry.getAttribute('title');
+                            }
+                            // Put everything together
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
+                        }
+                    } else {
+                        for (var i = 0; i < newOptions.length; i++) {
+                            var entry = newOptions[i];
+                            // TR
+                            var tr = document.createElement('div');
+                            var idValue = '';
+                            if (!(entry instanceof String)) {
+                                if (entry.tagName === 'INPUT') {
+                                    idValue = 'ecp_' + entry.getAttribute('name') + '_' + i;
+                                }
+                            } else {
+                                idValue = 'ecp_' + entry + '_' + i;
+                            }
+                            idValue = idValue.replace(' ', '_');
+                            tr.setAttribute('id', idValue);
+                            tr.setAttribute('style', 'white-space:nowrap');
+                            tr.setAttribute('class', 'tr');
+                            // TD
+                            var td = document.createElement('div');
+                            // INPUTs
+                            var jsonInput = document.createElement('input'); // used to help in the selection
+                            var input = document.createElement('input');
+                            // LABEL
+                            var label = document.createElement('label');
+                            label.className = "attach-previous";
+                            input = entry;
+                            input.checked = false;
+                            jsonInput.setAttribute('id', input.getAttribute('otherid'));
+                            jsonInput.setAttribute('json', input.getAttribute('json'));
+                            jsonInput.setAttribute('name', '');
+                            jsonInput.setAttribute("value", input.getAttribute('value'));
+                            jsonInput.setAttribute("class", input.getAttribute('name'));
+                            jsonInput.setAttribute("type", "hidden");
+                            jsonInput.setAttribute('title', input.getAttribute('alt'));
+                            label.innerHTML = input.getAttribute('alt');
+                            // Put everything together
+                            td.appendChild(input);
+                            td.appendChild(label);
+                            td.appendChild(jsonInput);
+                            tr.appendChild(td);
+                            tbody.appendChild(tr);
+                        }
+                    }
+                } // if (jQuery(filteredElement).children().length > 0 && jQuery(filteredElement).children()[0].tagName === 'DIV') {
+            } // if (tagName === 'SELECT') { // } else if (tagName === 'DIV') {
             // Propagate the changes made by the filter
             console.log('Propagating change event after filtering');
             var e = jQuery.Event('change', {parameterName: 'Filter Element Event'});
