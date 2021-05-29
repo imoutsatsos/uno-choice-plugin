@@ -799,7 +799,4 @@ Get in touch if you would like to sponsor the development of the plug-in, or an 
 
 ## Other Resources
 
-| URL                                                          | Description                                                                              |
-|------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <http://biouno.org/publications.html>                                         | Contains a list of resources for several plug-ins created in the[BioUno](http://biouno.org)project, including Active Choices, R, and Image Gallery. |
-| <https://www.cloudbees.com/event/topic/jenkins-ci-open-source-continuous-integration-system-scientific-data-and-image> | In Ioannis Moutsatsos' talk, you can find slides about the Active Choices (née Uno-Choice) plug-in, as well as watch it being used too.                |
+Check out a list of articles, tutorials, and publications at the [BioUno website](http://biouno.org/publications.html)
