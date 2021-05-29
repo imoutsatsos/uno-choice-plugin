@@ -799,4 +799,7 @@ Get in touch if you would like to sponsor the development of the plug-in, or an 
 
 ## Other Resources
 
+- “Dynamic and reactive parameterization in Jenkins pipelines using HTML, Groovy, and Bash” by _Esteban Echavarria Collazos_ - [link](https://medium.com/globant/dynamic-and-reactive-parameterization-in-jenkins-pipelines-using-html-groovy-and-bash-27b031fcd69b)
+
 Check out a list of articles, tutorials, and publications at the [BioUno website](http://biouno.org/publications.html)
+
