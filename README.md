@@ -64,12 +64,12 @@ Both of these parameters have additional useful behaviors and Reactive Reference
 
 ### Behavior
 
-Similarly to Active Choices Parameter above:
+Similar to Active Choices Parameter above:
 
 - Active Choices Reactive and Reactive Reference parameters dynamically generate value options for a build parameter
 using a Groovy script or a Scriptler script
 
-In addition:
+Furthermore:
 
 - Active Choices Reactive and Reactive Reference parameters can be **dynamically updated**(cascade update) when the
 value of other job UI control(s) change(s)
@@ -233,7 +233,7 @@ The form:
 
 ![](./docs/images/009.gif)
 
-The job UI is composed of two parameters:
+The job UI has two parameters:
 
 #### 1) States: An Active Choices Parameter
 
@@ -421,7 +421,7 @@ should not be modified by the user(e.g. to compute the deploy URL).
 In both scenarios the groovy script must return an HTML element formatted as follows:
 
 ```groovy
-return "<input name=\"value\" value=\"${ReactiveRefParam}\" class=\"setting-input\" type=\"text\">"
+return "<input name='value' value='${ReactiveRefParam}' class='setting-input' type='text'>"
 ```
 
 **ReactiveRefParam** is the Reactive Reference value that will be passed to the build
@@ -434,7 +434,7 @@ controls with improved interactivity. See
 
 ### Advanced Option: Omit Value Field
 
-By default 'Reactive References' pass to the build a hidden `<input name="value" value="">`. It means that your 'Reactive
+By default, 'Reactive References' pass to the build a hidden `<input name="value" value="">`. It means that your 'Reactive
 Reference' parameter will always be empty, but you can use a 'Formatted HTML' parameter and instruct the plug-in to not
 include this hidden value parameter.
 
@@ -449,8 +449,8 @@ We assume users that need to use Scriptler generated parameters are already fami
 you need further information on how to use the Scriptler Plug-in, please refer to
 [its Wiki page](https://wiki.jenkins-ci.org/display/JENKINS/Scriptler+Plugin) first.
 
-Similarly to a Groovy script, a Scriptler script is also written in Groovy and used to render the parameter. Your
-Scriptler script is also expected to return a `java.util.List`, `Array`, or `java.util.Map` for Active Choices and Reactive
+Similar to a Groovy script, a Scriptler script is also written in Groovy and used to render the parameter. Your
+Scriptler script must return a `java.util.List`, `Array`, or `java.util.Map` for Active Choices and Reactive
 parameters, or custom HTML elements for the Reactive Reference parameter. Note that the value of other build parameters
 (when using Scriptler in combination with Active Choices) will be available in the Scriptler script context. You do not
 need to define such parameters in the Scriptler interface, or during the job definition.
@@ -597,8 +597,8 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 radio buttons and check boxes not being displayed. The height in CSS was
 calculated with JS to 0 (zero). That was due to recent workaround for
 table-to-divs (JENKINS-62806). We may have to inspect more of the code
-that was changed, and also confirm the table-to-divs is working as expected.
-This fix was relased quickly to give users a fix ASAP.
+that was changed, and confirm the table-to-divs is working as expected.
+This fix was released quickly to give users a fix ASAP.
 
 ### Version 2.5.3 (2021/02/24)
 
@@ -628,7 +628,6 @@ of sandboxed scripts.
 4. [pr/38](https://github.com/jenkinsci/active-choices-plugin/pull/38): Provide Scriptler example in README.md
 (thanks to mettacrawler)
 
-
 ### Version 2.4 (2020/07/09)
 
 1. [JENKINS-62215](https://issues.jenkins-ci.org/browse/JENKINS-62215): antisamy-markup-formatter-plugin v2.0 filters
@@ -652,7 +651,7 @@ ParameterDefinition serializability (was: Active Choices Plugin in Pipelines thr
 
 ### Version 2.2 (2019/09/13)
 
-1. Updated minimum version of Jenkins to 2.60.3
+1. Updated the minimum version of Jenkins to 2.60.3
 2. Updated dependency ssh-cli-auth to 1.4,
 3. Updated dependency script-security to 1.39
 4. Updated stapler-adjunct-jquery to 1.12.4-0
