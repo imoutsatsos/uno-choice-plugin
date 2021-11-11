@@ -21,14 +21,14 @@
         window.makeStaplerProxy = window.__old__makeStaplerProxy;
     }
     // find the cascade parameter element
-    var parentDiv = jQuery('#${paramName}');
+    var parentDiv = jQuery('#${h.escape(paramName)}');
     var parameterHtmlElement = parentDiv.find('DIV');
     if (!parameterHtmlElement || parameterHtmlElement.length == 0) {
         console.log('Could not find element by name, perhaps it is a DIV?');
         parameterHtmlElement = parentDiv.find('*[name="value"]');
     }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
-        var cascadeParameter = new UnoChoice.CascadeParameter('${it.getName()}', parameterHtmlElement.get(0), '${it.getRandomName()}', cascadeChoiceParameter);
+        var cascadeParameter = new UnoChoice.CascadeParameter('${h.escape(it.getName())}', parameterHtmlElement.get(0), '${h.escape(it.getRandomName())}', cascadeChoiceParameter);
         UnoChoice.cascadeParameters.push(cascadeParameter);
         // filter
         <j:if test="${it.filterable}">
@@ -76,10 +76,10 @@
         }
 
         // call update methods in Java passing the HTML values
-        console.log('Updating cascade of parameter [${it.getName()}] ...');
+        console.log('Updating cascade of parameter [${h.escape(it.getName())}] ...');
         cascadeParameter.update();
     } else {
-        console.log('Parameter error: Missing parameter [${paramName}] HTML element!');
+        console.log('Parameter error: Missing parameter [${h.escape(paramName)}] HTML element!');
     }
 
   </script>

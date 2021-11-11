@@ -6,12 +6,12 @@
       <d:tag name="randomTableIdBlock">
           <j:choose>
               <j:when test="${divBasedFormLayout}">
-                  <div id="tbl_ecp_${it.randomName}">
+                  <div id="tbl_ecp_${h.escape(it.randomName)}">
                       <d:invokeBody/>
                   </div>
               </j:when>
               <j:otherwise>
-                  <table id="tbl_ecp_${it.randomName}">
+                  <table id="tbl_ecp_${h.escape(it.randomName)}">
                       <d:invokeBody/>
                   </table>
               </j:otherwise>
@@ -20,12 +20,12 @@
       <d:tag name="row">
           <j:choose>
               <j:when test="${divBasedFormLayout}">
-                  <div id="ecp_${it.randomName}_${index}" class="tr" style="white-space:nowrap">
+                  <div id="ecp_${h.escape(it.randomName)}_${index}" class="tr" style="white-space:nowrap">
                       <d:invokeBody/>
                   </div>
               </j:when>
               <j:otherwise>
-                  <tr id="ecp_${it.randomName}_${index}" style="white-space:nowrap">
+                  <tr id="ecp_${h.escape(it.randomName)}_${index}" style="white-space:nowrap">
                       <d:invokeBody/>
                   </tr>
               </j:otherwise>
@@ -46,7 +46,7 @@
           </j:choose>
       </d:tag>
   </d:taglib>
-  <div id="ecp_${it.randomName}" style="float:left; overflow-y:auto; padding-right:25px" class="dynamic_checkbox">
+  <div id="ecp_${h.escape(it.randomName)}" style="float:left; overflow-y:auto; padding-right:25px" class="dynamic_checkbox">
     <j:set var="index" value="0"/>
     <transitionWrapper:randomTableIdBlock>
       <j:forEach var="iter" items="${it.getChoices()}" indexVar="indexVar">
@@ -68,7 +68,7 @@
         <j:invokeStatic className="org.biouno.unochoice.util.Utils" method="escapeDisabled" var="escapedDisabledKey">
           <j:arg type="java.lang.Object" value="${iter.key}" />
         </j:invokeStatic>
-        <j:set var="id" value="ecp_${it.randomName}_${index}" />
+        <j:set var="id" value="ecp_${h.escape(it.randomName)}_${index}" />
         <transitionWrapper:row>
           <transitionWrapper:td>
             <j:choose>
@@ -108,7 +108,7 @@
           var height = 0;
           var maxCount = ${it.getVisibleItemCount()};
 
-          var refElement = document.getElementById("ecp_${it.randomName}_0");
+          var refElement = document.getElementById("ecp_${h.escape(it.randomName)}_0");
           if(maxCount > 0 && refElement && refElement.offsetHeight !=0) {
               for(var i=0; i< maxCount; i++) {
                   height += refElement.offsetHeight + 3;
@@ -119,7 +119,7 @@
           }
 
           height = Math.floor(height);
-          document.getElementById("ecp_${it.randomName}").style.height = height + "px";
+          document.getElementById("ecp_${h.escape(it.randomName)}").style.height = height + "px";
       };
 
       f();

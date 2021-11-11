@@ -4,7 +4,7 @@
   xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
   <st:adjunct includes="org.kohsuke.stapler.jquery"/>
   <st:adjunct includes="org.biouno.unochoice.stapler.unochoice"/>
-  <j:set var="paramName" value="${it.randomName}" scope="parent" />
+  <j:set var="paramName" value="${h.escape(it.randomName)}" scope="parent" />
   <j:set var="choiceType" value="${it.choiceType}"/>
   <j:set var="escapeEntryTitleAndDescription" value="false"/>
   <f:entry title="${h.escape(it.name)}" description="${it.formattedDescription}">
@@ -17,7 +17,7 @@
           </select>
         </j:when>
         <j:when test="${choiceType eq 'PT_MULTI_SELECT'}">
-          <j:set var="multiple_select_id" value="multiple_select_${it.randomName}_${index}" />
+          <j:set var="multiple_select_id" value="multiple_select_${h.escape(it.randomName)}_${index}" />
           <select name="value" multiple="multiple" size="1" id="${multiple_select_id}">
             <st:include page="/org/biouno/unochoice/common/selectContent.jelly"/>
           </select>
