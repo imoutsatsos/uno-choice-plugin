@@ -24,18 +24,20 @@
 
 package org.biouno.unochoice.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.biouno.unochoice.util.Utils;
 import org.jenkinsci.plugins.scriptler.ScriptlerManagement;
+import org.jenkinsci.plugins.scriptler.builder.ScriptlerBuilder;
+import org.jenkinsci.plugins.scriptler.config.Parameter;
 import org.jenkinsci.plugins.scriptler.config.Script;
 import org.jenkinsci.plugins.scriptler.util.ScriptHelper;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -44,7 +46,6 @@ import hudson.Util;
 import hudson.model.ManagementLink;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * A scriptler script.
@@ -57,37 +58,87 @@ public class ScriptlerScript extends AbstractScript {
     /*
      * Serial UID.
      */
-    private static final long serialVersionUID = -6600327523009436354L;
+    private static final long serialVersionUID = 6600927513119226354L;
 
-    private final String scriptlerScriptId;
+    /**
+     * The ID of the Scriptler script.
+     * @deprecated Not used now that we use the {@code ScriptlerBuilder}.
+     */
+    @Deprecated
+    private String scriptlerScriptId;
+    /**
+     * Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
+     * @deprecated Not used now that we use the {@code ScriptlerBuilder}.
+     */
+    @Deprecated
+    private Map<String, String> parameters;
 
-    // Map is not serializable, but LinkedHashMap is. Ignore static analysis errors
-    private final Map<String, String> parameters;
+    private ScriptlerBuilder scriptlerBuilder;
 
+    /**
+     * Whether this scriptler script will run in the Groovy sandbox or not.
+     */
+    private final Boolean isSandboxed;
+
+    /**
+     * @param scriptlerBuilder Scriptler builder
+     * @param isSandboxed whether this script must be sandboxed or not
+     */
     @DataBoundConstructor
-    public ScriptlerScript(String scriptlerScriptId, List<ScriptlerScriptParameter> parameters) {
+    public ScriptlerScript(
+            ScriptlerBuilder scriptlerBuilder,
+            Boolean isSandboxed) {
         super();
-        this.scriptlerScriptId = scriptlerScriptId;
-        this.parameters = new LinkedHashMap<>();
-        if (parameters != null) {
-            for (ScriptlerScriptParameter parameter : parameters) {
-                this.parameters.put(parameter.getName(), parameter.getValue());
-            }
+        this.scriptlerBuilder = scriptlerBuilder;
+        this.isSandboxed = isSandboxed != null ? isSandboxed : Boolean.TRUE;
+    }
+
+    public Object readResolve() {
+        if (scriptlerBuilder == null) {
+            final Parameter[] parameters = this.parameters != null
+                    ? this.parameters
+                        .entrySet()
+                        .stream()
+                        .map(entry -> new Parameter(entry.getKey(), entry.getValue()))
+                        .toArray(Parameter[]::new)
+                    : new Parameter[0];
+            scriptlerBuilder = new ScriptlerBuilder(
+                    "active-choices",
+                    this.scriptlerScriptId,
+                    false,
+                    parameters
+                    );
         }
+        return this;
     }
 
     /**
-     * @return the scriptlerScriptId
+     * @return the Scriptler builder
+     */
+    public ScriptlerBuilder getScriptlerBuilder() {
+        return this.scriptlerBuilder;
+    }
+
+    /**
+     * @return the scriptler script ID
      */
     public String getScriptlerScriptId() {
-        return scriptlerScriptId;
+        return this.scriptlerBuilder.getScriptId();
     }
 
     /**
      * @return the parameters
      */
     public Map<String, String> getParameters() {
-        return parameters;
+        return Arrays.stream(this.scriptlerBuilder.getParameters())
+                .collect(Collectors.toMap(Parameter::getName, Parameter::getValue));
+    }
+
+    /**
+     * @return the sandbox flag
+     */
+    public Boolean getIsSandboxed() {
+        return isSandboxed;
     }
 
     @Override
@@ -124,6 +175,10 @@ public class ScriptlerScript extends AbstractScript {
     /**
      * Converts this scriptler script to a GroovyScript.
      *
+     * The script will run in the Groovy Sandbox environment by default, unless approved by a
+     * Jenkins administrator. In this case it won't use the Groovy Sandbox. This is useful if
+     * the Groovy script needs access to API not available in the Sandbox (e.g. Grapes).
+     *
      * @return a GroovyScript
      */
     public GroovyScript toGroovyScript() {
@@ -131,7 +186,7 @@ public class ScriptlerScript extends AbstractScript {
         if (scriptler == null) {
             throw new RuntimeException("Missing required scriptler!");
         }
-        return new GroovyScript(new SecureGroovyScript(scriptler.script, true, null), null);
+        return new GroovyScript(new SecureGroovyScript(scriptler.script, this.isSandboxed, null), null);
     }
 
     // --- descriptor
@@ -148,45 +203,9 @@ public class ScriptlerScript extends AbstractScript {
          * @see hudson.model.Descriptor#getDisplayName()
          */
         @Override
+        @NonNull
         public String getDisplayName() {
-            return "Scriptler Script"; 
-        }
-
-        @Override
-        public AbstractScript newInstance(StaplerRequest req, JSONObject jsonObject) throws FormException {
-            ScriptlerScript script = null;
-            String scriptScriptId = jsonObject.getString("scriptlerScriptId");
-            if (scriptScriptId != null && !scriptScriptId.trim().equals("")) {
-                List<ScriptlerScriptParameter> parameters = new ArrayList<>();
-
-                final JSONObject defineParams = jsonObject.getJSONObject("defineParams");
-                if (defineParams != null && !defineParams.isNullObject()) {
-                    JSONObject argsObj = defineParams.optJSONObject("parameters");
-                    if (argsObj == null) {
-                        JSONArray argsArrayObj = defineParams.optJSONArray("parameters");
-                        if (argsArrayObj != null) {
-                            for (int i = 0; i < argsArrayObj.size(); i++) {
-                                JSONObject obj = argsArrayObj.getJSONObject(i);
-                                String name = obj.getString("name");
-                                String value = obj.getString("value");
-                                if (name != null && !name.trim().equals("") && value != null) {
-                                    ScriptlerScriptParameter param = new ScriptlerScriptParameter(name, value);
-                                    parameters.add(param);
-                                }
-                            }
-                        }
-                    } else {
-                        String name = argsObj.getString("name");
-                        String value = argsObj.getString("value");
-                        if (name != null && !name.trim().equals("") && value != null) {
-                            ScriptlerScriptParameter param = new ScriptlerScriptParameter(name, value);
-                            parameters.add(param);
-                        }
-                    }
-                }
-                script = new ScriptlerScript(scriptScriptId, parameters);
-            }
-            return script;
+            return "Scriptler Script";
         }
 
         @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Ioannis Moutsatsos, Bruno P. Kinoshita
+ * Copyright (c) 2014-2021 Ioannis Moutsatsos, Bruno P. Kinoshita
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,17 @@
  * THE SOFTWARE.
  */
 
-package org.biouno.unochoice.model;
-
-import org.jenkinsci.plugins.scriptler.config.Parameter;
-import org.kohsuke.stapler.DataBoundConstructor;
-
 /**
- * Script parameter which has a data bound constructor.
+ * <p>Tests for parameters from the NodeLabel plug-in. The parameters created
+ * by this plug-in have the form of &lt;input name="$NAME"/&gt;. However,
+ * the {@code $NAME} value is not {@code "name"} as with other parameters.</p>
  *
- * @author dynamic-parameter-plugin
- * @since 0.20
+ * <p>The change in this issue was to add a final {@code else} statement that
+ * handles that case. This will capture any parameter that contains an
+ * INPUT HTML element, that the name is not equal to @{code "name"}.</p>
+ *
+ * <p>See JENKINS-62835 for more.</p>
+ *
+ * @since 2.5.2
  */
-public class ScriptlerScriptParameter extends Parameter {
-
-    /*
-     * Serial UID.
-     */
-    private static final long serialVersionUID = 39604092433909771L;
-
-    @DataBoundConstructor
-    public ScriptlerScriptParameter(String name, String value) {
-        super(name, value);
-    }
-}
+package org.biouno.unochoice.issue62835;
