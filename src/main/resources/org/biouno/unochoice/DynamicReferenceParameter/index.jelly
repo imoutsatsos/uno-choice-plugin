@@ -103,7 +103,7 @@
         }
     }
     if (parameterHtmlElement &amp;&amp; parameterHtmlElement.get(0)) {
-        var dynamicParameter = new UnoChoice.DynamicReferenceParameter('${it.getName()}', parameterHtmlElement.get(0), dynamicReferenceParameter);
+        var dynamicParameter = new UnoChoice.DynamicReferenceParameter('${h.escape(it.getName())}', parameterHtmlElement.get(0), dynamicReferenceParameter);
         UnoChoice.cascadeParameters.push(dynamicParameter); // TODO review whether it is right or not to add a dynamic parameter here
         for (var i  = 0; i &lt; referencedParameters.length ; ++i) {
             var parameterElement = null;
@@ -143,10 +143,10 @@
         }
 
         // call update methods in Java passing the HTML values
-        console.log('Updating cascade of parameter [${it.getName()}] ...');
+        console.log('Updating cascade of parameter [${h.escape(it.getName())}] ...');
         dynamicParameter.update();
     } else {
-        console.log('Parameter error: Missing parameter [${paramName}] HTML element!');
+        console.log('Parameter error: Missing parameter [${h.escape(paramName)}] HTML element!');
     }
   </script>
 </j:jelly>

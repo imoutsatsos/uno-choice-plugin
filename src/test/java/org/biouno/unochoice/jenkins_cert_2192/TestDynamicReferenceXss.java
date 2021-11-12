@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Ioannis Moutsatsos, Bruno P. Kinoshita
+ * Copyright (c) 2014-2021 Ioannis Moutsatsos, Bruno P. Kinoshita
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ import hudson.model.ParametersDefinitionProperty;
  * XSS case.
  *
  * @since 2.5.2
- * @see {@link hudson.Util#escape}
+ * @see hudson.Util#escape(String)
  */
 @Issue("2192")
 public class TestDynamicReferenceXss {
@@ -68,7 +68,7 @@ public class TestDynamicReferenceXss {
     @Test
     public void testChoicesParameterXss() throws IOException, SAXException {
         FreeStyleProject project = j.createFreeStyleProject();
-        String scriptText = String.format("return ['OK']");
+        String scriptText = "return ['OK']";
         SecureGroovyScript secureScript = new SecureGroovyScript(scriptText, true, null);
         GroovyScript script = new GroovyScript(secureScript, secureScript);
 
@@ -91,9 +91,9 @@ public class TestDynamicReferenceXss {
         wc.setAlertHandler(alertHandler);
 
         wc.goTo("job/" + project.getName() + "/build?delay=0sec");
-        final List<String> alertmsgs = alertHandler.getCollectedAlerts();
+        final List<String> alerts = alertHandler.getCollectedAlerts();
 
-        assertEquals("You got a JS alert, look out for XSS!", 0, alertmsgs.size());
+        assertEquals("You got a JS alert, look out for XSS!", 0, alerts.size());
     }
 
     /**
@@ -101,7 +101,7 @@ public class TestDynamicReferenceXss {
      */
     @Test
     public void testGetReferencedParametersAsArray() {
-        String scriptText = String.format("return ['OK']");
+        String scriptText = "return ['OK']";
         SecureGroovyScript secureScript = new SecureGroovyScript(scriptText, true, null);
         GroovyScript script = new GroovyScript(secureScript, secureScript);
         final String xssString = "\"+alert(123)+\"";
