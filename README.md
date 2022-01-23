@@ -581,6 +581,7 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 1. [JENKINS-63983](https://issues.jenkins.io/browse/JENKINS-63983): Active Choice Plugin - Annotation Grapes cannot be used in the sandbox (thanks to @rafeeqpv)
 2. [JENKINS-66411](https://issues.jenkins.io/browse/JENKINS-66411): Add checkbox to enable/disable Scriptler scripts, and remove duplicated Scriptler code (use a property in Jelly).
 3. [JENKINS-62835](https://issues.jenkins.io/browse/JENKINS-62835): Node and Label Parameter not Compatible with Active Choices
+4. Bump scriptler from 3.1 to 3.3, and antisamy-markup-formatter from 2.0 to 2.1 (maven enforcer issue) [#58](https://github.com/jenkinsci/active-choices-plugin/pull/58)
 
 ### Version 2.5.6 (2021/03/25)
 
