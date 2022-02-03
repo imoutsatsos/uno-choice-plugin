@@ -583,6 +583,17 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 3. [JENKINS-62835](https://issues.jenkins.io/browse/JENKINS-62835): Node and Label Parameter not Compatible with Active Choices
 4. Bump scriptler from 3.1 to 3.3, and antisamy-markup-formatter from 2.0 to 2.1 (maven enforcer issue) [#58](https://github.com/jenkinsci/active-choices-plugin/pull/58)
 
+### Version 2.5.7 (2021-11-21)
+
+1. [JENKINS-63983](https://issues.jenkins.io/browse/JENKINS-63983) Use sandbox mode only when Script has not been approved.
+2. [190e0a101d66d030d29da860dc8cde5253ca1a12](https://github.com/jenkinsci/active-choices-plugin/commit/190e0a101d66d030d29da860dc8cde5253ca1a12) Use plugin 4.18. Use Jenkins version 2.222.4
+3. [761a378e000ef616105bf1d400d2b104df4e7f12](https://github.com/jenkinsci/active-choices-plugin/commit/761a378e000ef616105bf1d400d2b104df4e7f12) Use same versions as git-plugin
+4. [SECURITY-2219](https://www.jenkins.io/security/advisory/2021-11-12/#descriptions): Active Choices Plugin 2.5.6 and earlier does not escape the parameter name of reactive parameters and dynamic reference parameters.
+5. [JENKINS-66806](https://issues.jenkins.io/browse/JENKINS-63983) Add back images using the WayBack machine images to the README.md/plug-in site
+6. [d59a284e653d60b5b5eadab4e015f04ab1fb0606](https://github.com/jenkinsci/active-choices-plugin/commit/d59a284e653d60b5b5eadab4e015f04ab1fb0606) Add a `mvn` default goal
+7. [JENKINS-62835](https://issues.jenkins.io/browse/JENKINS-62835) Node and Label Parameter not Compatible with Active Choices
+8. [JENKINS-66411](https://issues.jenkins.io/browse/JENKINS-66411) Add a checkbox to configure whether a script is sandboxed or not
+
 ### Version 2.5.6 (2021/03/25)
 
 1. [JENKINS-65096](https://issues.jenkins.io/browse/JENKINS-65096): Additional fix to support both DIVs and TABLEs (thanks to @szjozsef)
