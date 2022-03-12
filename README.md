@@ -576,6 +576,10 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 
 ## Release Notes
 
+### Version 2.6.1 (2022/??/??)
+
+1. [JENKINS-66411](https://issues.jenkins.io/browse/JENKINS-66411): Regression with pipelines, identified by @mtughan (thanks!). See the [pull request with the fix](https://github.com/jenkinsci/active-choices-plugin/pull/59) for more.
+
 ### Version 2.6.0 (2022/02/27)
 
 1. [JENKINS-63983](https://issues.jenkins.io/browse/JENKINS-63983): Active Choice Plugin - Annotation Grapes cannot be used in the sandbox (thanks to @rafeeqpv)
