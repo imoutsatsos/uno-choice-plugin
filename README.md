@@ -576,7 +576,7 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 
 ## Release Notes
 
-### Version 2.6.1 (2022/??/??)
+### Version 2.6.1 (2022/03/18)
 
 1. [JENKINS-67934](https://issues.jenkins.io/browse/JENKINS-67934): Regression with pipelines, identified by @mtughan (thanks!). See the [pull request with the fix](https://github.com/jenkinsci/active-choices-plugin/pull/59) for more.
 
