@@ -1,4 +1,4 @@
-# Jenkins Active Choices plug-in changelog
+# Active Choices plug-in changelog
 
 ## Version 2.6.2 (2022/06/04)
 
