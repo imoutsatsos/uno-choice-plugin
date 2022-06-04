@@ -576,7 +576,7 @@ by plug-ins, API or scripts. Please see [this issue](https://issues.jenkins-ci.o
 
 ## Release Notes
 
-See the [CHANGES.md](./CHANGES.md) file.
+See the [CHANGES.md](https://github.com/jenkinsci/active-choices-plugin/blob/master/CHANGES.md) file.
 
 ## Sponsors
 
