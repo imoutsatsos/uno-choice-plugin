@@ -1,5 +1,9 @@
 # Active Choices plug-in changelog
 
+## Version 2.6.3 (2022/07/13)
+
+1. [JENKINS-68013](https://issues.jenkins.io/browse/JENKINS-68013): Active Choices Reactive Reference Parameter is not referring Boolean parameter in Jenkins. The fix released in the previous release did not work for all the users of the plug-in with boolean parameters. Thanks to @piecko and Jeremy Cooper for the fix.
+
 ## Version 2.6.2 (2022/06/04)
 
 The `pom.xml` had dependencies updated (such as Scriptler, Node Labels Plug-in, Jenkins parent, etc. Newer versions of Jenkins have changes in the UI, including DOM hierarchy changes, that cause the plug-in to fail to locate certain parameter types. We fixed one parameter type (Boolean) in this release, but others may still suffer from the same problem. If you find an issue similar to JENKINS-68013, please consider using it as reference to create a new pull request.
