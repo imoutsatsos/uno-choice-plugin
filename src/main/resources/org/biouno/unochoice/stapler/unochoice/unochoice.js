@@ -799,7 +799,7 @@ var UnoChoice = UnoChoice || (function($) {
             var options = _self.originalArray;
             var newOptions = Array();
             for (var i = 0; i < options.length; i++) {
-                if (options[i].tagName === 'INPUT') {
+                if (typeof options[i] !== 'undefined' && options[i].tagName === 'INPUT' ) {
                     if (options[i].getAttribute('alt') && options[i].getAttribute('alt') !== options[i].value) {
                         if (options[i].getAttribute('alt').toLowerCase().match(text)) {
                             newOptions.push(options[i]);
@@ -810,7 +810,7 @@ var UnoChoice = UnoChoice || (function($) {
                         }
                     }
                 } else {
-                    if (options[i].innerHTML.toLowerCase().match(text)) {
+                    if (typeof options[i] !== 'undefined' && options[i].innerHTML.toLowerCase().match(text)) {
                         newOptions.push(options[i]);
                     }
                 }
