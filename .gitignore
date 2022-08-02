@@ -1,4 +1,5 @@
 work/
+.idea/
 target/
 test-output/
 .idea/
