@@ -1,5 +1,9 @@
 # Active Choices plug-in changelog
 
+## Version 2.6.4 (2022/??/??)
+
+1 [JENKINS-69448](https://issues.jenkins.io/browse/JENKINS-69448): Groovy script returning a Map is not handled properly with timer, thanks to @ericcitaire
+
 ## Version 2.6.3 (2022/07/13)
 
 1. [JENKINS-68013](https://issues.jenkins.io/browse/JENKINS-68013): Active Choices Reactive Reference Parameter is not referring Boolean parameter in Jenkins. The fix released in the previous release did not work for all the users of the plug-in with boolean parameters. Thanks to @piecko and Jeremy Cooper for the fix.
