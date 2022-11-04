@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.40</version>
+        <version>4.49</version>
         <relativePath />
     </parent>
 
     <groupId>org.biouno</groupId>
     <artifactId>uno-choice</artifactId>
-    <version>2.6.5-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
 
     <name>Active Choices Plug-in</name>
@@ -34,18 +34,17 @@
     </issueManagement>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>2.6.5</revision>
+        <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.332.3</jenkins.version>
-        <spotbugs.effort>Default</spotbugs.effort>
-        <spotbugs.failOnError>true</spotbugs.failOnError>
-        <spotbugs.threshold>Medium</spotbugs.threshold>
+        <gitHubRepo>jenkinsci/active-choices-plugin</gitHubRepo>
     </properties>
 
     <scm>
-        <connection>scm:git:git://github.com/jenkinsci/active-choices-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jenkinsci/active-choices-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/active-choices-plugin</url>
-        <tag>HEAD</tag>
+        <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
+        <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+        <url>https://github.com/${gitHubRepo}</url>
+        <tag>${scmTag}</tag>
     </scm>
 
     <developers>
@@ -160,7 +159,6 @@
                 <extensions>true</extensions>
                 <configuration>
                     <compatibleSinceVersion>2.0</compatibleSinceVersion>
-                    <minimumJavaVersion>8</minimumJavaVersion>
                 </configuration>
             </plugin>
         </plugins>
