@@ -2,6 +2,8 @@
 
 ## Version 2.6.5 (20??/??/??)
 
+1. [#65](https://github.com/jenkinsci/active-choices-plugin/pull/65): Refresh plugin (incremental builds, remove unused spotbugs exclusion file), thanks @basil
+
 ## Version 2.6.4 (2022/08/30)
 
 1. [JENKINS-69448](https://issues.jenkins.io/browse/JENKINS-69448): Groovy script returning a Map is not handled properly with timer, thanks to @ericcitaire
