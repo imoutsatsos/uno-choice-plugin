@@ -1,5 +1,9 @@
 # Active Choices plug-in changelog
 
+## Version 2.6.6 (20??/??/??)
+
+1. 
+
 ## Version 2.6.5 (2023/04/18)
 
 1. [#65](https://github.com/jenkinsci/active-choices-plugin/pull/65): Refresh plugin (incremental builds, remove unused spotbugs exclusion file), thanks @basil
