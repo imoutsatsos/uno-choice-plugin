@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.6.5 (20??/??/??)
+## Version 2.6.5 (2023/04/18)
 
 1. [#65](https://github.com/jenkinsci/active-choices-plugin/pull/65): Refresh plugin (incremental builds, remove unused spotbugs exclusion file), thanks @basil
 2. [JENKINS-65235](https://issues.jenkins.io/browse/JENKINS-65235): groovy.lang.MissingPropertyException: No such property: jenkinsProject for class: groovy.lang.Binding (thanks @davidecavestro)
