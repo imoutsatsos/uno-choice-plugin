@@ -2,7 +2,7 @@
 
 ## Version 2.6.6 (20??/??/??)
 
-1. 
+1. [#69](https://github.com/jenkinsci/active-choices-plugin/pull/69):  Upgrade jQuery from 1.x to 3.x #69, thanks @basil
 
 ## Version 2.6.5 (2023/04/18)
 
