@@ -4,7 +4,7 @@
 
 1. [#69](https://github.com/jenkinsci/active-choices-plugin/pull/69): Upgrade jQuery from 1.x to 3.x #69, thanks @basil
 2. [#72](https://github.com/jenkinsci/active-choices-plugin/pull/72): Modernize JS - use $ instead of jQuery, template strings, let instead of var, and arrow functions, thanks @rahulsom
-3. [2408b9670dafa571c838ef1a6a054b811631d62a](https://github.com/jenkinsci/active-choices-plugin/commit/2408b9670dafa571c838ef1a6a054b811631d62a): Build container agents, thanks to @NotMyFault
+3. [#73](https://github.com/jenkinsci/active-choices-plugin/pull/73): Build container agents, thanks to @NotMyFault
 
 ## Version 2.6.5 (2023/04/18)
 
