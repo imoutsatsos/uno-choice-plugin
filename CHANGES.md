@@ -7,6 +7,7 @@
 3. [#73](https://github.com/jenkinsci/active-choices-plugin/pull/73): Build container agents, thanks to @NotMyFault
 4. [#71](https://github.com/jenkinsci/active-choices-plugin/pull/71): test: Add end-to-end tests for UI behavior, thanks to @rahulsom
 5. [#74](https://github.com/jenkinsci/active-choices-plugin/pull/74): refactor: Extract helper functions and drop table-layout support, thanks @rahulsom
+6. [#78](https://github.com/jenkinsci/active-choices-plugin/pull/78): Refresh plugin for June 2023, thanks @basil
 
 ## Version 2.6.5 (2023/04/18)
 
