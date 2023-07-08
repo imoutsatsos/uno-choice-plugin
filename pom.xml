@@ -40,6 +40,7 @@
         <gitHubRepo>jenkinsci/active-choices-plugin</gitHubRepo>
         <node.version>18.16.0</node.version>
         <yarn.version>1.22.19</yarn.version>
+        <ui.loading.timeout>PT60S</ui.loading.timeout>
     </properties>
 
     <scm>
@@ -171,6 +172,9 @@
                     <parallel>all</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <forkCount>1C</forkCount>
+                    <systemPropertyVariables>
+                        <ui.loading.timeout>${ui.loading.timeout}</ui.loading.timeout>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <!-- TODO: re-enable, probably with google-chrome headless or qunit/npm instead

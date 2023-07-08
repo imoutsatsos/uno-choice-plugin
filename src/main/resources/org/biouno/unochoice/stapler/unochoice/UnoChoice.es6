@@ -144,19 +144,18 @@ var UnoChoice = UnoChoice || ($ => {
      *
      * @param avoidRecursion {boolean} flag to decide whether we want to permit self-reference parameters or not
      */
-    CascadeParameter.prototype.update = function(avoidRecursion) {
+    CascadeParameter.prototype.update = async function(avoidRecursion) {
         let parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
         console.log(`Values retrieved from Referenced Parameters: ${parametersString}`);
         // Update the CascadeChoiceParameter Map of parameters
-        this.proxy.doUpdate(parametersString);
+        await new Promise((resolve) => this.proxy.doUpdate(parametersString, t => resolve(t)));
         // Now we get the updated choices, after the Groovy script is eval'd using the updated Map of parameters
         // The inner function is called with the response provided by Stapler. Then we update the HTML elements.
         let _self = this; // re-reference this to use within the inner function
         console.log('Calling Java server code to update HTML elements...');
-        this.proxy.getChoicesForUI(t => {
-            let choices = t.responseText;
-            console.log(`Values returned from server: ${choices}`);
-            let data = JSON.parse(choices);
+        await new Promise((resolve) => this.proxy.getChoicesForUI(t => {
+            let data = t.responseObject();
+            console.log(`Values returned from server: ${data}`);
             let newValues = data[0];
             let newKeys = data[1];
             let selectedElements = [];
@@ -257,7 +256,7 @@ var UnoChoice = UnoChoice || ($ => {
                             _self.getFilterElement().setOriginalArray(originalArray);
                         }
                     } else { // radio
-                         for (let i = 0; i < newValues.length; i++) {
+                        for (let i = 0; i < newValues.length; i++) {
                             let entry = newValues[i];
                             let key = newKeys[i];
                             let idValue = `ecp_${_self.getRandomName()}_${i}`;
@@ -273,12 +272,12 @@ var UnoChoice = UnoChoice || ($ => {
                             }
                             // <LABEL>
                             let label = util.makeLabel(!entry instanceof String ? JSON.stringify(entry) : entry, undefined);
-                             // <HIDDEN>
+                            // <HIDDEN>
                             let hiddenValue = util.makeHidden(idValue, key, selectedElements.indexOf(i) >= 0 ? 'value' : '', key, _self.getParameterName(), entry instanceof String ? entry : JSON.stringify(entry));
                             originalArray.push(input);
                             let td = util.makeTd([input, label, hiddenValue]);
                             let tr = util.makeTr(undefined)
-                             tr.appendChild(td);
+                            tr.appendChild(td);
                             tbody.appendChild(tr);
                             let endTr = document.createElement('div');
                             endTr.setAttribute('style', 'display: none');
@@ -296,7 +295,8 @@ var UnoChoice = UnoChoice || ($ => {
                     parameterElement.style.height = newValues.length > 10 ? '230px' : 'auto';
                 } // if (parameterElement.children.length > 0 && parameterElement.children[0].tagName === 'DIV') {
             } // if (parameterElement.tagName === 'SELECT') { // } else if (parameterElement.tagName === 'DIV') {
-        });
+            resolve(t)
+        }));
         // propagate change
         // console.log('Propagating change event from ' + this.getParameterName());
         // let e1 = $.Event('change', {parameterName: this.getParameterName()});
@@ -307,7 +307,7 @@ var UnoChoice = UnoChoice || ($ => {
                     let other = cascadeParameters[i];
                     if (this.referencesMe(other)) {
                         console.log(`Updating ${other.getParameterName()} from ${this.getParameterName()}`);
-                        other.update(true);
+                        await other.update(true);
                     }
                 }
             }
@@ -362,9 +362,9 @@ var UnoChoice = UnoChoice || ($ => {
                 //_self.cascadeParameter.loading(true);
                 $(".behavior-loading").show();
                 // start updating in separate async function so browser will be able to repaint and show 'loading' animation , see JENKINS-34487
-                setTimeout(() => {
-                   _self.cascadeParameter.update(false);
-                   $(".behavior-loading").hide();
+                setTimeout(async () => {
+                    await _self.cascadeParameter.update(false);
+                    $(".behavior-loading").hide();
                 }, 0);
             }
         });
@@ -413,21 +413,20 @@ var UnoChoice = UnoChoice || ($ => {
      *
      * @param avoidRecursion {boolean} flag to decide whether we want to permit self-reference parameters or not
      */
-    DynamicReferenceParameter.prototype.update = function(avoidRecursion) {
+    DynamicReferenceParameter.prototype.update = async function(avoidRecursion) {
         let parametersString = this.getReferencedParametersAsText(); // gets the array parameters, joined by , (e.g. a,b,c,d)
         console.log(`Values retrieved from Referenced Parameters: ${parametersString}`);
         // Update the Map of parameters
-        this.proxy.doUpdate(parametersString);
+        await new Promise((resolve) => this.proxy.doUpdate(parametersString, t => resolve(t)));
         let parameterElement = this.getParameterElement();
         // Here depending on the HTML element we might need to call a method to return a Map of elements,
         // or maybe call a string to put as value in a INPUT.
         if (parameterElement.tagName === 'OL') { // handle OL's
             console.log('Calling Java server code to update HTML elements...');
-            this.proxy.getChoicesForUI(t => {
+            await new Promise((resolve) => this.proxy.getChoicesForUI(t => {
                 $(parameterElement).empty(); // remove all children elements
-                let choices = t.responseText;
-                console.log(`Values returned from server: ${choices}`);
-                let data = JSON.parse(choices);
+                let data = t.responseObject();
+                console.log(`Values returned from server: ${data}`);
                 let newValues = data[0];
                 // let newKeys = data[1];
                 for (let i = 0; i < newValues.length; ++i) {
@@ -435,14 +434,14 @@ var UnoChoice = UnoChoice || ($ => {
                     li.innerHTML = newValues[i];
                     parameterElement.appendChild(li); // append new elements
                 }
-            });
+                resolve(t)
+            }));
         } else if (parameterElement.tagName === 'UL') { // handle OL's
             $(parameterElement).empty(); // remove all children elements
             console.log('Calling Java server code to update HTML elements...');
-            this.proxy.getChoicesForUI(t => {
-                let choices = t.responseText;
-                console.log(`Values returned from server: ${choices}`);
-                let data = JSON.parse(choices);
+            await new Promise(resolve => this.proxy.getChoicesForUI(t => {
+                let data = t.responseObject();
+                console.log(`Values returned from server: ${data}`);
                 let newValues = data[0];
                 // let newKeys = data[1];
                 for (let i = 0; i < newValues.length; ++i) {
@@ -450,16 +449,18 @@ var UnoChoice = UnoChoice || ($ => {
                     li.innerHTML = newValues[i];
                     parameterElement.appendChild(li); // append new elements
                 }
-            });
+                resolve(t)
+            }));
         } else if (parameterElement.id.indexOf('inputElement_') > -1) { // handle input text boxes
-            this.proxy.getChoicesAsStringForUI(t => {
-                parameterElement.value = t.responseText;
-            });
+            await new Promise(resolve => this.proxy.getChoicesAsStringForUI(t => {
+                parameterElement.value = t.responseObject();
+                resolve(t)
+            }));
         } else if (parameterElement.id.indexOf('formattedHtml_') > -1) { // handle formatted HTML
-            this.proxy.getChoicesAsStringForUI(t => {
-                let options = t.responseText;
-                parameterElement.innerHTML = JSON.parse(options);
-            });
+            await new Promise(resolve => this.proxy.getChoicesAsStringForUI(t => {
+                parameterElement.innerHTML = t.responseObject();
+                resolve(t)
+            }));
         }
         // propagate change
         // console.log('Propagating change event from ' + this.getParameterName());
@@ -471,7 +472,7 @@ var UnoChoice = UnoChoice || ($ => {
                     let other = cascadeParameters[i];
                     if (this.referencesMe(other)) {
                         console.log(`Updating ${other.getParameterName()} from ${this.getParameterName()}`);
-                        other.update(true);
+                        await other.update(true);
                     }
                 }
             }
@@ -687,7 +688,7 @@ var UnoChoice = UnoChoice || ($ => {
      *
      * @see issue #21 in GitHub - github.com/biouno/uno-choice-plugin/issues
      */
-     function fakeSelectRadioButton(clazzName, id) {
+    function fakeSelectRadioButton(clazzName, id) {
         let element = $(`#${id}`).get(0);
         // deselect all radios with the class=clazzName
         let radios = $(`input[class="${clazzName}"]`);
@@ -719,7 +720,7 @@ var UnoChoice = UnoChoice || ($ => {
      * @param htmlParameter {HTMLElement} HTML element
      * @return {string} the value of the HTML element used as parameter value in Jenkins, as a string
      */
-     function getParameterValue(htmlParameter) {
+    function getParameterValue(htmlParameter) {
         let e = $(htmlParameter);
         let value = '';
         if (e.attr('name') === 'value') {
@@ -746,77 +747,6 @@ var UnoChoice = UnoChoice || ($ => {
         }
         return value;
     }
-    // Hacks in Jenkins core
-    /**
-     * <p>This function is the same as makeStaplerProxy available in Jenkins core, but executes calls
-     * <strong>synchronously</strong>. Since many parameters must be filled only after other parameters have been
-     * updated, calling Jenkins methods asynchronously causes several unpredictable errors.</p>
-     *
-     * @param url {string} The URL
-     * @param crumb {string} The crumb
-     * @param methods {Array<string>} The methods
-     */
-    function makeStaplerProxy2(url, crumb, methods) {
-        if (url.substring(url.length - 1) !== '/') url+='/';
-        let proxy = {};
-        var stringify;
-        if (Object.toJSON) // needs to use Prototype.js if it's present. See commit comment for discussion
-            stringify = Object.toJSON;  // from prototype
-        else if (typeof(JSON)=="object" && JSON.stringify)
-            stringify = JSON.stringify; // standard
-        let genMethod = methodName => {
-            proxy[methodName] = function() {
-                let args = arguments;
-                // the final argument can be a callback that receives the return value
-                let callback = (() => {
-                    if (args.length === 0) return null;
-                    let tail = args[args.length-1];
-                    return (typeof(tail)=='function') ? tail : null;
-                })();
-                // 'arguments' is not an array so we convert it into an array
-                let a = [];
-                for (let i=0; i<args.length-(callback!=null?1:0); i++)
-                    a.push(args[i]);
-                if(window.jQuery3 === window.$) { //Is jQuery the active framework?
-                    $.ajax({
-                        type: "POST",
-                        url: url+methodName,
-                        data: stringify(a),
-                        contentType: 'application/x-stapler-method-invocation;charset=UTF-8',
-                        headers: {'Crumb':crumb},
-                        dataType: "json",
-                        async: "false", // Here's the juice
-                        success: function(data, textStatus, jqXHR) {
-                            if (callback!==null) {
-                                let t = {};
-                                t.responseObject = () => data;
-                                callback(t);
-                            }
-                        }
-                    });
-                } else { //Assume prototype should work
-                    new Ajax.Request(url+methodName, {
-                        method: 'post',
-                        requestHeaders: {'Content-type':'application/x-stapler-method-invocation;charset=UTF-8','Crumb':crumb},
-                        postBody: stringify(a),
-                        asynchronous: false, // and here
-                        onSuccess: function(t) {
-                            if (callback!==null) {
-                                t.responseObject = function() {
-                                    return eval(`(${this.responseText})`);
-                                };
-                                callback(t);
-                            }
-                        }
-                    });
-                }
-            }
-        };
-        for(let mi = 0; mi < methods.length; mi++) {
-            genMethod(methods[mi]);
-        }
-        return proxy;
-    }
 
     function renderChoiceParameter(paramName, filterLength) {
         let parentDiv = $(`#${paramName}`);
@@ -837,7 +767,7 @@ var UnoChoice = UnoChoice || ($ => {
         }
     }
 
-    function renderCascadeChoiceParameter(parentDivRef, filterable, name, randomName, filterLength, paramName, referencedParameters, cascadeChoiceParameter) {
+    async function renderCascadeChoiceParameter(parentDivRef, filterable, name, randomName, filterLength, paramName, referencedParameters, cascadeChoiceParameter) {
         // find the cascade parameter element
         let parentDiv = jQuery(parentDivRef);
         let parameterHtmlElement = parentDiv.find('DIV');
@@ -898,13 +828,13 @@ var UnoChoice = UnoChoice || ($ => {
 
             // call update methods in Java passing the HTML values
             console.log('Updating cascade of parameter [', name, '] ...');
-            cascadeParameter.update(false);
+            await cascadeParameter.update(false);
         } else {
             console.log('Parameter error: Missing parameter [', paramName, '] HTML element!');
         }
     }
-    
-    function renderDynamicRenderParameter(parentDivRef, name, paramName, referencedParameters, dynamicReferenceParameter) {
+
+    async function renderDynamicRenderParameter(parentDivRef, name, paramName, referencedParameters, dynamicReferenceParameter) {
         // find the cascade parameter element
         let parentDiv = jQuery(parentDivRef);
         // if the parameter class has been set to hidden, then we hide it now
@@ -981,7 +911,7 @@ var UnoChoice = UnoChoice || ($ => {
 
             // call update methods in Java passing the HTML values
             console.log('Updating cascade of parameter [', name, '] ...');
-            dynamicParameter.update(false);
+            await dynamicParameter.update(false);
         } else {
             console.log('Parameter error: Missing parameter [', paramName,'] HTML element!');
         }
@@ -994,7 +924,6 @@ var UnoChoice = UnoChoice || ($ => {
     instance.DynamicReferenceParameter = DynamicReferenceParameter;
     instance.ReferencedParameter = ReferencedParameter;
     instance.FilterElement = FilterElement;
-    instance.makeStaplerProxy2 = makeStaplerProxy2;
     instance.cascadeParameters = cascadeParameters;
     instance.renderChoiceParameter = renderChoiceParameter;
     instance.renderCascadeChoiceParameter = renderCascadeChoiceParameter;
