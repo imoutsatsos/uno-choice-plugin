@@ -11,6 +11,7 @@
 7. [#75](https://github.com/jenkinsci/active-choices-plugin/pull/75): Add test for pure javascript code, thanks @rahulsom
 8. [#76](https://github.com/jenkinsci/active-choices-plugin/pull/76): Move (most) javascript out of jelly files, thanks @rahulsom
 9. [#81](https://github.com/jenkinsci/active-choices-plugin/pull/81): Use @LocalData to set up test job, thanks @basil
+10. [#82](https://github.com/jenkinsci/active-choices-plugin/pull/82): Bump semver from 5.7.1 to 5.7.2, thanks @dependabot
 
 ## Version 2.6.5 (2023/04/18)
 
