@@ -12,6 +12,7 @@
 8. [#76](https://github.com/jenkinsci/active-choices-plugin/pull/76): Move (most) javascript out of jelly files, thanks @rahulsom
 9. [#81](https://github.com/jenkinsci/active-choices-plugin/pull/81): Use @LocalData to set up test job, thanks @basil
 10. [#82](https://github.com/jenkinsci/active-choices-plugin/pull/82): Bump semver from 5.7.1 to 5.7.2, thanks @dependabot
+11. [#83](https://github.com/jenkinsci/active-choices-plugin/pull/83): Bump word-wrap from 1.2.3 to 1.2.4 #83, thanks @dependabot
 
 ## Version 2.6.5 (2023/04/18)
 
