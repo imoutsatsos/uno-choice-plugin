@@ -1,6 +1,10 @@
 # Active Choices plug-in changelog
 
-## Version 2.6.6 (2023/07/23)
+## Version 2.7.1 (2023/08/03)
+
+1. [#85](https://github.com/jenkinsci/active-choices-plugin/pull/85): fix: When configured using a pipeline, handle null filterable #85, thanks @rahulsom
+
+## Version 2.7.0 (2023/07/23)
 
 1. [#69](https://github.com/jenkinsci/active-choices-plugin/pull/69): Upgrade jQuery from 1.x to 3.x #69, thanks @basil
 2. [#72](https://github.com/jenkinsci/active-choices-plugin/pull/72): Modernize JS - use $ instead of jQuery, template strings, let instead of var, and arrow functions, thanks @rahulsom
