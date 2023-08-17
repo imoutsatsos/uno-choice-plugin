@@ -40,7 +40,7 @@
         "defaults",
         "not IE 11"
     ],
-    "packageManager": "yarn@3.6.0",
+    "packageManager": "yarn@1.22.19",
     "jest-junit": {
         "outputDirectory": "target/surefire-reports",
         "outputName": "TEST-Jest.xml",
