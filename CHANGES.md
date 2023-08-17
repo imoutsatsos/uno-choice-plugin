@@ -1,8 +1,12 @@
 # Active Choices plug-in changelog
 
-## Version 2.7.1 (2023/08/03)
+## Version 2.7.2 (2023/08/17)
 
 1. [#85](https://github.com/jenkinsci/active-choices-plugin/pull/85): fix: When configured using a pipeline, handle null filterable #85, thanks @rahulsom
+
+## Version 2.7.1 (2023/08/03)
+
+1. Release failed.
 
 ## Version 2.7.0 (2023/07/23)
 
