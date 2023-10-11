@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.0 (2023/10/??)
+## Version 2.8.0 (2023/10/11)
 
 1. [#80](https://github.com/jenkinsci/active-choices-plugin/pull/80): Add `@Symbol` to support declarative pipelines (thanks to @mamh2021, original submitted in #43)
 2. [#124](https://github.com/jenkinsci/active-choices-plugin/pull/124): Allow developer control of parallel testing (thanks to @MarkEWaite)
