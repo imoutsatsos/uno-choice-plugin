@@ -4,6 +4,7 @@
 
 1. [#80](https://github.com/jenkinsci/active-choices-plugin/pull/80): Add `@Symbol` to support declarative pipelines (thanks to @mamh2021, original submitted in #43)
 2. [#124](https://github.com/jenkinsci/active-choices-plugin/pull/124): Allow developer control of parallel testing (thanks to @MarkEWaite)
+3. Bumped Jenkins version from 2.375.3 to 2.387.3 so we can upgrade Scriptler too
 
 ## Version 2.7.2 (2023/08/17)
 
