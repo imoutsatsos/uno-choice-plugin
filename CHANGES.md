@@ -5,6 +5,43 @@
 1. [#80](https://github.com/jenkinsci/active-choices-plugin/pull/80): Add `@Symbol` to support declarative pipelines (thanks to @mamh2021, original submitted in #43)
 2. [#124](https://github.com/jenkinsci/active-choices-plugin/pull/124): Allow developer control of parallel testing (thanks to @MarkEWaite)
 3. Bumped Jenkins version from 2.375.3 to 2.387.3 so we can upgrade Scriptler too
+4. Bump jest-environment-jsdom from 29.6.2 to 29.6.3
+5. Bump jest from 29.6.2 to 29.6.3 
+6. Bump eslint from 8.47.0 to 8.48.0
+7. Bump jquery and @types/jquery
+8. Bump jest-environment-jsdom from 29.6.3 to 29.6.4
+9. Bump io.github.bonigarcia:webdrivermanager from 5.4.1 to 5.5.2
+10. Bump @babel/preset-typescript from 7.22.5 to 7.22.11
+11. Bump typescript from 5.1.6 to 5.2.2
+12. Bump org.seleniumhq.selenium:selenium-java from 4.11.0 to 4.12.0
+13. Bump jest from 29.6.3 to 29.6.4
+14. Bump @babel/cli from 7.22.10 to 7.22.15
+15. Bump io.github.bonigarcia:webdrivermanager from 5.5.2 to 5.5.3
+16. Bump @babel/preset-flow from 7.22.5 to 7.22.15
+17. Bump org.jenkins-ci.plugins:plugin from 4.72 to 4.73
+18. Bump @types/jquery from 3.5.17 to 3.5.18
+19. Bump @babel/preset-typescript from 7.22.11 to 7.22.15
+20. Bump eslint from 8.48.0 to 8.49.0
+21. Bump prettier from 3.0.2 to 3.0.3
+22. Bump @babel/preset-env from 7.22.10 to 7.22.15
+23. Bump org.seleniumhq.selenium:selenium-java from 4.12.0 to 4.12.1
+24. Bump @types/jquery from 3.5.18 to 3.5.19
+25. Bump jest from 29.6.4 to 29.7.0
+26. Bump jest-environment-jsdom from 29.6.4 to 29.7.0
+27. Bump @babel/core from 7.22.10 to 7.22.20
+28. Bump @babel/preset-env from 7.22.15 to 7.22.20
+29. Bump @babel/cli from 7.22.15 to 7.23.0
+30. Bump @babel/core from 7.22.20 to 7.23.0
+31. Bump @babel/preset-typescript from 7.22.15 to 7.23.0
+32. Bump eslint from 8.49.0 to 8.50.0
+33. Bump org.jenkins-ci.plugins:plugin from 4.73 to 4.74
+34. Bump org.seleniumhq.selenium:selenium-java from 4.12.1 to 4.13.0
+35. Bump @types/jquery from 3.5.19 to 3.5.20
+36. Bump ts-loader from 9.4.4 to 9.5.0
+37. Bump @types/jquery from 3.5.20 to 3.5.22
+38. Bump eslint from 8.50.0 to 8.51.0
+39. Bump org.jenkins-ci.plugins:scriptler from 3.5 to 321.v74a_851a_e7ed6
+40. Bump org.jenkins-ci.plugins:nodelabelparameter from 1.10.3.1 to 1.12.0
 
 ## Version 2.7.2 (2023/08/17)
 
