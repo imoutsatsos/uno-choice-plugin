@@ -4,7 +4,9 @@
 
 1. [#147](https://github.com/jenkinsci/active-choices-plugin/pull/147): Use `Files.createTempDir` to make sure files are created with permissions that are not too permissive (in tests) (thanks to @caytec)
 2. Bump @babel/preset-env from 7.22.20 to 7.23.2
-3. Bump @babel/preset-typescript from 7.23.0 to 7.23.2 
+3. Bump @babel/preset-typescript from 7.23.0 to 7.23.2
+4. Fix badges on README.md, and update BOM
+5. Bump @babel/core from 7.23.0 to 7.23.2
 
 ## Version 2.8.0 (2023/10/11)
 
