@@ -1,5 +1,11 @@
 # Active Choices plug-in changelog
 
+## Version 2.8.1 (20??/??/??)
+
+1. [#147](https://github.com/jenkinsci/active-choices-plugin/pull/147): Use `Files.createTempDir` to make sure files are created with permissions that are not too permissive (in tests) (thanks to @caytec)
+2. Bump @babel/preset-env from 7.22.20 to 7.23.2
+3. Bump @babel/preset-typescript from 7.23.0 to 7.23.2 
+
 ## Version 2.8.0 (2023/10/11)
 
 1. [#80](https://github.com/jenkinsci/active-choices-plugin/pull/80): Add `@Symbol` to support declarative pipelines (thanks to @mamh2021, original submitted in #43)
