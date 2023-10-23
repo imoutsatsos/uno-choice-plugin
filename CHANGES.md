@@ -9,6 +9,7 @@
 5. Bump @babel/core from 7.23.0 to 7.23.2
 6. Bump webpack from 5.88.2 to 5.89.0
 7. Bump org.seleniumhq.selenium:selenium-java from 4.13.0 to 4.14.1
+8. Bump eslint from 8.51.0 to 8.52.0
 
 ## Version 2.8.0 (2023/10/11)
 
