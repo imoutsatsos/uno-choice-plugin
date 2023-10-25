@@ -11,6 +11,7 @@
 7. Bump org.seleniumhq.selenium:selenium-java from 4.13.0 to 4.14.1
 8. Bump eslint from 8.51.0 to 8.52.0
 9. Bump @types/jquery from 3.5.22 to 3.5.25
+10. Bump org.jenkins-ci.plugins:scriptler from 321.v74a_851a_e7ed6 to 334.v29792d5a_c058
 
 ## Version 2.8.0 (2023/10/11)
 
