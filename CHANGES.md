@@ -10,6 +10,7 @@
 6. Bump webpack from 5.88.2 to 5.89.0
 7. Bump org.seleniumhq.selenium:selenium-java from 4.13.0 to 4.14.1
 8. Bump eslint from 8.51.0 to 8.52.0
+9. Bump @types/jquery from 3.5.22 to 3.5.25
 
 ## Version 2.8.0 (2023/10/11)
 
