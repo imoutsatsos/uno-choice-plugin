@@ -66,8 +66,8 @@
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.375.x</artifactId>
-                <version>2198.v39c76fc308ca</version>
+                <artifactId>bom-2.387.x</artifactId>
+                <version>2516.v113cb_3d00317</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -79,6 +79,15 @@
         <dependency>
             <groupId>io.jenkins.plugins</groupId>
             <artifactId>jquery3-api</artifactId>
+        </dependency>
+        <!-- TODO: This had to be added to fix the build - https://github.com/jenkinsci/active-choices-plugin/pull/134#issuecomment-1789790799 -->
+        <dependency>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>commons-text-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>commons-lang3-api</artifactId>
         </dependency>
         <!-- escaping output of dynamic reference parameters -->
         <dependency>
@@ -94,7 +103,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>scriptler</artifactId>
-            <version>334.v29792d5a_c058</version>
+            <version>335.v337d45c373a_2</version>
             <optional>true</optional>
         </dependency>
         <!-- testing -->

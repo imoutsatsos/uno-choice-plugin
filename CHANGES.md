@@ -12,6 +12,8 @@
 8. Bump eslint from 8.51.0 to 8.52.0
 9. Bump @types/jquery from 3.5.22 to 3.5.25
 10. Bump org.jenkins-ci.plugins:scriptler from 321.v74a_851a_e7ed6 to 334.v29792d5a_c058
+11. Add `@Deprecated` to methods deprecated (via Javadocs)
+12. Add `commons-text-api` and `commons-lang3-api`, which are transitive dependencies of `jquery3-api`, but that without these in our `pom.xml` the build fails on `master` and pull requests.
 
 ## Version 2.8.0 (2023/10/11)
 

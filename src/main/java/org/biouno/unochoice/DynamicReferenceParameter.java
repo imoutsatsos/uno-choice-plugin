@@ -84,6 +84,7 @@ public class DynamicReferenceParameter extends AbstractCascadableParameter {
      * <code>false</code> by default.
      * @deprecated see JENKINS-32149
      */
+    @Deprecated
     public DynamicReferenceParameter(String name, String description, Script script, 
             String choiceType, String referencedParameters, Boolean omitValueField) {
         super(name, description, script, referencedParameters);

@@ -80,6 +80,7 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
      * @param filterable filter flag
      * @deprecated see JENKINS-32149
      */
+    @Deprecated
     public CascadeChoiceParameter(String name, String description, Script script,
             String choiceType, String referencedParameters, Boolean filterable) {
         super(name, description, script, referencedParameters);
@@ -100,6 +101,7 @@ public class CascadeChoiceParameter extends AbstractCascadableParameter {
      * @param filterable filter flag
      * @deprecated see JENKINS-31625
      */
+    @Deprecated
     public CascadeChoiceParameter(String name, String description, String randomName, Script script,
             String choiceType, String referencedParameters, Boolean filterable) {
         super(name, description, randomName, script, referencedParameters);

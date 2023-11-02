@@ -92,6 +92,7 @@ public abstract class AbstractUnoChoiceParameter extends SimpleParameterDefiniti
      * FIXME: remove in new major release
      * @deprecated to fix JENKINS-32149 (create random name only once - this is the parameter ID)
      */
+    @Deprecated
     protected AbstractUnoChoiceParameter(String name, String description) {
         super(name, description);
         randomName = Utils.createRandomParameterName("choice-parameter", "");

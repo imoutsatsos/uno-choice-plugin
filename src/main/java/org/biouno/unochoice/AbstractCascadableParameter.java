@@ -68,6 +68,7 @@ public abstract class AbstractCascadableParameter extends AbstractScriptablePara
      * @param referencedParameters comma separated list of referenced parameters
      * @deprecated see JENKINS-32149
      */
+    @Deprecated
     protected AbstractCascadableParameter(String name, String description, Script script, String referencedParameters) {
         super(name, description, script);
         this.referencedParameters = referencedParameters;

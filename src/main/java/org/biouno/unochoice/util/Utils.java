@@ -191,6 +191,7 @@ public class Utils {
      * @return Project or {@code null} if none with this name
      * @deprecated The choice is arbitrary if there are multiple matches; use {@link Item#getFullName} and {@link Jenkins#getItemByFullName(String, Class)} instead.
      */
+    @Deprecated
     @SuppressWarnings("rawtypes")
     public static @CheckForNull Project<?, ?> getProjectByName(@Nonnull String projectName) {
         Authentication auth = Jenkins.getAuthentication();

@@ -72,6 +72,7 @@ public class ChoiceParameter extends AbstractScriptableParameter {
      * @param filterable filter flag
      * @deprecated see JENKINS-32149
      */
+    @Deprecated
     public ChoiceParameter(String name, String description, Script script, String choiceType, Boolean filterable) {
         super(name, description, script);
         this.choiceType = StringUtils.defaultIfBlank(choiceType, PARAMETER_TYPE_SINGLE_SELECT);
@@ -89,6 +90,7 @@ public class ChoiceParameter extends AbstractScriptableParameter {
      * @param filterable filter flag
      * @deprecated see JENKINS-31625
      */
+    @Deprecated
     public ChoiceParameter(String name, String description, String randomName, Script script, String choiceType,
                            Boolean filterable) {
         super(name, description, randomName, script);
