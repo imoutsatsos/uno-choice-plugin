@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.1 (20??/??/??)
+## Version 2.8.1 (2023/11/02)
 
 1. [#147](https://github.com/jenkinsci/active-choices-plugin/pull/147): Use `Files.createTempDir` to make sure files are created with permissions that are not too permissive (in tests) (thanks to @caytec)
 2. Bump @babel/preset-env from 7.22.20 to 7.23.2
@@ -14,6 +14,9 @@
 10. Bump org.jenkins-ci.plugins:scriptler from 321.v74a_851a_e7ed6 to 334.v29792d5a_c058
 11. Add `@Deprecated` to methods deprecated (via Javadocs)
 12. Add `commons-text-api` and `commons-lang3-api`, which are transitive dependencies of `jquery3-api`, but that without these in our `pom.xml` the build fails on `master` and pull requests.
+13. Bump org.jenkins-ci.plugins:plugin from 4.74 to 4.75
+14. Bump io.github.bonigarcia:webdrivermanager from 5.5.3 to 5.6.0
+15. [JENKINS-72105] Fix scriptler script's parameter not persisted with JobDSL (thanks @limejuny !)
 
 ## Version 2.8.0 (2023/10/11)
 
