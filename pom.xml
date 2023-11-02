@@ -34,7 +34,7 @@
     </issueManagement>
 
     <properties>
-        <revision>2.8.2</revision>
+        <revision>2.8.1</revision>
         <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.387.3</jenkins.version>
         <gitHubRepo>jenkinsci/active-choices-plugin</gitHubRepo>
