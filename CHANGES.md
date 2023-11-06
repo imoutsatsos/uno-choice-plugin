@@ -1,5 +1,9 @@
 # Active Choices plug-in changelog
 
+## Version 2.8.2 (20??/??/??)
+
+1. Bump eslint from 8.52.0 to 8.53.0
+
 ## Version 2.8.1 (2023/11/02)
 
 1. [#147](https://github.com/jenkinsci/active-choices-plugin/pull/147): Use `Files.createTempDir` to make sure files are created with permissions that are not too permissive (in tests) (thanks to @caytec)
