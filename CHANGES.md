@@ -3,6 +3,7 @@
 ## Version 2.8.2 (20??/??/??)
 
 1. Bump eslint from 8.52.0 to 8.53.0
+2. Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2543.vfb_1a_5fb_9496d
 
 ## Version 2.8.1 (2023/11/02)
 
