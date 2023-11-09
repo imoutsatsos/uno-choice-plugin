@@ -4,6 +4,8 @@
 
 1. Bump eslint from 8.52.0 to 8.53.0
 2. Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2543.vfb_1a_5fb_9496d
+3. Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.1
+4. Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
 
 ## Version 2.8.1 (2023/11/02)
 
