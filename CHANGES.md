@@ -8,6 +8,7 @@
 4. Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
 5. Bump io.github.bonigarcia:webdrivermanager from 5.6.1 to 5.6.2
 6. Bump @types/jquery from 3.5.25 to 3.5.27
+7. Bump @babel/core from 7.23.2 to 7.23.3
 
 ## Version 2.8.1 (2023/11/02)
 
