@@ -9,6 +9,9 @@
 5. Bump io.github.bonigarcia:webdrivermanager from 5.6.1 to 5.6.2
 6. Bump @types/jquery from 3.5.25 to 3.5.27
 7. Bump @babel/core from 7.23.2 to 7.23.3
+8. Bump @babel/preset-flow from 7.22.15 to 7.23.3
+9. Bump @babel/preset-typescript from 7.23.2 to 7.23.3
+10. Bump @babel/preset-env from 7.23.2 to 7.23.3
 
 ## Version 2.8.1 (2023/11/02)
 
