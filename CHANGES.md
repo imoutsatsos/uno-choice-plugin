@@ -12,6 +12,8 @@
 8. Bump @babel/preset-flow from 7.22.15 to 7.23.3
 9. Bump @babel/preset-typescript from 7.23.2 to 7.23.3
 10. Bump @babel/preset-env from 7.23.2 to 7.23.3
+11. Bump prettier from 3.0.3 to 3.1.0
+12. Bump typescript from 5.2.2 to 5.3.2
 
 ## Version 2.8.1 (2023/11/02)
 
