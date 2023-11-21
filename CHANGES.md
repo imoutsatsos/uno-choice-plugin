@@ -2,7 +2,7 @@
 
 ## Version 2.8.2 (20??/??/??)
 
-1. Bump eslint from 8.52.0 to 8.53.0
+1. Bump eslint from 8.52.0 to 8.54.0
 2. Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2543.vfb_1a_5fb_9496d
 3. Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.1
 4. Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
@@ -14,6 +14,8 @@
 10. Bump @babel/preset-env from 7.23.2 to 7.23.3
 11. Bump prettier from 3.0.3 to 3.1.0
 12. Bump typescript from 5.2.2 to 5.3.2
+13. Bump ts-loader from 9.5.0 to 9.5.1
+14. Bump @babel/cli from 7.23.0 to 7.23.4
 
 ## Version 2.8.1 (2023/11/02)
 
