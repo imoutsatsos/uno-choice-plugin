@@ -16,6 +16,8 @@
 12. Bump typescript from 5.2.2 to 5.3.2
 13. Bump ts-loader from 9.5.0 to 9.5.1
 14. Bump @babel/cli from 7.23.0 to 7.23.4
+15. Bump @types/jquery from 3.5.27 to 3.5.29
+16. Bump jsdom from 22.1.0 to 23.0.0
 
 ## Version 2.8.1 (2023/11/02)
 
