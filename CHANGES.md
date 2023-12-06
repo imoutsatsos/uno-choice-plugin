@@ -18,6 +18,11 @@
 14. Bump @babel/cli from 7.23.0 to 7.23.4
 15. Bump @types/jquery from 3.5.27 to 3.5.29
 16. Bump jsdom from 22.1.0 to 23.0.0
+17. Bump eslint from 8.54.0 to 8.55.0
+18. Bump @babel/preset-env from 7.23.3 to 7.23.5
+19. Bump eslint-config-prettier from 9.0.0 to 9.1.0
+20. Bump jsdom from 23.0.0 to 23.0.1
+21. Bump @babel/core from 7.23.3 to 7.23.5
 
 ## Version 2.8.1 (2023/11/02)
 
