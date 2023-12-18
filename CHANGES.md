@@ -8,7 +8,7 @@
 - Bump @babel/preset-flow from 7.22.15 to 7.23.3
 - Bump @babel/preset-typescript from 7.23.2 to 7.23.3
 - Bump @types/jquery from 3.5.25 to 3.5.29
-- Bump eslint from 8.52.0 to 8.55.0
+- Bump eslint from 8.52.0 to 8.56.0
 - Bump eslint-config-prettier from 9.0.0 to 9.1.0
 - Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2543.vfb_1a_5fb_9496d
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.1
