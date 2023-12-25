@@ -10,7 +10,7 @@
 - Bump @types/jquery from 3.5.25 to 3.5.29
 - Bump eslint from 8.52.0 to 8.56.0
 - Bump eslint-config-prettier from 9.0.0 to 9.1.0
-- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2598.v49e2b_e68d413
+- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2675.v1515e14da_7a_6
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.1
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.1 to 5.6.2
 - Bump jsdom from 22.1.0 to 23.0.1
