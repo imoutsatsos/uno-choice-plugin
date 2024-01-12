@@ -4,15 +4,15 @@
 
 - Bump @babel/core from 7.23.2 to 7.23.7
 - Bump @babel/cli from 7.23.0 to 7.23.4
-- Bump @babel/preset-env from 7.23.2 to 7.23.7
+- Bump @babel/preset-env from 7.23.2 to 7.23.8
 - Bump @babel/preset-flow from 7.22.15 to 7.23.3
 - Bump @babel/preset-typescript from 7.23.2 to 7.23.3
 - Bump @types/jquery from 3.5.25 to 3.5.29
 - Bump eslint from 8.52.0 to 8.56.0
 - Bump eslint-config-prettier from 9.0.0 to 9.1.0
-- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2675.v1515e14da_7a_6
+- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2705.vf5c48c31285b_
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.3
-- Bump jsdom from 22.1.0 to 23.0.1
+- Bump jsdom from 22.1.0 to 23.2.0
 - Bump org.jenkins-ci.plugins:plugin from 4.75 to 4.76
 - Bump org.jenkins-ci.plugins:scriptler from 334.v29792d5a_c058 to 344.v5a_ddb_5f9e685
 - Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
