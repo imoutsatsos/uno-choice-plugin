@@ -2,9 +2,9 @@
 
 ## Version 2.8.2 (2023/12/??)
 
-- Bump @babel/core from 7.23.2 to 7.23.7
-- Bump @babel/cli from 7.23.0 to 7.23.4
-- Bump @babel/preset-env from 7.23.2 to 7.23.8
+- Bump @babel/core from 7.23.2 to 7.23.9
+- Bump @babel/cli from 7.23.0 to 7.23.9
+- Bump @babel/preset-env from 7.23.2 to 7.23.9
 - Bump @babel/preset-flow from 7.22.15 to 7.23.3
 - Bump @babel/preset-typescript from 7.23.2 to 7.23.3
 - Bump @types/jquery from 3.5.25 to 3.5.29
@@ -17,9 +17,10 @@
 - Bump org.jenkins-ci.plugins:scriptler from 334.v29792d5a_c058 to 348.v5d461e205da_a_
 - Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
 - Bump prettier from 3.0.3 to 3.2.4
-- Bump org.seleniumhq.selenium:selenium-java from 4.15.0 to 4.16.1
+- Bump org.seleniumhq.selenium:selenium-java from 4.15.0 to 4.17.0
 - Bump ts-loader from 9.5.0 to 9.5.1
 - Bump typescript from 5.2.2 to 5.3.3
+- Bump webpack from 5.89.0 to 5.90.0
 
 ## Version 2.8.1 (2023/11/02)
 
