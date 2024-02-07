@@ -10,17 +10,18 @@
 - Bump @types/jquery from 3.5.25 to 3.5.29
 - Bump eslint from 8.52.0 to 8.56.0
 - Bump eslint-config-prettier from 9.0.0 to 9.1.0
-- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2746.vb_79a_1d3e7b_c8
+- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2791.v707dc5a_1626d
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.3
 - Bump jsdom from 22.1.0 to 24.0.0
 - Bump org.jenkins-ci.plugins:plugin from 4.75 to 4.77
 - Bump org.jenkins-ci.plugins:scriptler from 334.v29792d5a_c058 to 348.v5d461e205da_a_
 - Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
-- Bump prettier from 3.0.3 to 3.2.4
+- Bump prettier from 3.0.3 to 3.2.5
 - Bump org.seleniumhq.selenium:selenium-java from 4.15.0 to 4.17.0
+- Bump release-drafter/release-drafter from 5 to 6
 - Bump ts-loader from 9.5.0 to 9.5.1
 - Bump typescript from 5.2.2 to 5.3.3
-- Bump webpack from 5.89.0 to 5.90.0
+- Bump webpack from 5.89.0 to 5.90.1
 
 ## Version 2.8.1 (2023/11/02)
 
