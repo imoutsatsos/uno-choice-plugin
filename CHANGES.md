@@ -10,10 +10,10 @@
 - Bump @types/jquery from 3.5.25 to 3.5.29
 - Bump eslint from 8.52.0 to 8.56.0
 - Bump eslint-config-prettier from 9.0.0 to 9.1.0
-- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2791.v707dc5a_1626d
+- Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2805.v4398b_43dfc18
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.6.3
 - Bump jsdom from 22.1.0 to 24.0.0
-- Bump org.jenkins-ci.plugins:plugin from 4.75 to 4.77
+- Bump org.jenkins-ci.plugins:plugin from 4.75 to 4.78
 - Bump org.jenkins-ci.plugins:scriptler from 334.v29792d5a_c058 to 348.v5d461e205da_a_
 - Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
 - Bump prettier from 3.0.3 to 3.2.5
