@@ -22,6 +22,7 @@
 - Bump ts-loader from 9.5.0 to 9.5.1
 - Bump typescript from 5.2.2 to 5.3.3
 - Bump webpack from 5.89.0 to 5.90.3
+- Test with jdk-17 on windows and jdk-21 on linux (thanks @debayangg)
 
 ## Version 2.8.1 (2023/11/02)
 
