@@ -2,10 +2,10 @@
 
 ## Version 2.8.2 (2023/12/??)
 
-- Bump @babel/core from 7.23.2 to 7.23.9
+- Bump @babel/core from 7.23.2 to 7.24.0
 - Bump @babel/cli from 7.23.0 to 7.23.9
-- Bump @babel/preset-env from 7.23.2 to 7.23.9
-- Bump @babel/preset-flow from 7.22.15 to 7.23.3
+- Bump @babel/preset-env from 7.23.2 to 7.24.0
+- Bump @babel/preset-flow from 7.22.15 to 7.24.0
 - Bump @babel/preset-typescript from 7.23.2 to 7.23.3
 - Bump @types/jquery from 3.5.25 to 3.5.29
 - Bump eslint from 8.52.0 to 8.57.0
