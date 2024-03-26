@@ -3,9 +3,9 @@
 ## Version 2.8.2 (2023/12/??)
 
 - Bump @babel/core from 7.23.2 to 7.24.0
-- Bump @babel/cli from 7.23.0 to 7.23.9
-- Bump @babel/preset-env from 7.23.2 to 7.24.0
-- Bump @babel/preset-flow from 7.22.15 to 7.24.0
+- Bump @babel/cli from 7.23.0 to 7.24.1
+- Bump @babel/preset-env from 7.23.2 to 7.24.3
+- Bump @babel/preset-flow from 7.22.15 to 7.24.1
 - Bump @babel/preset-typescript from 7.23.2 to 7.23.3
 - Bump @types/jquery from 3.5.25 to 3.5.29
 - Bump eslint from 8.52.0 to 8.57.0
@@ -13,15 +13,15 @@
 - Bump io.jenkins.tools.bom:bom-2.387.x from 2516.v113cb_3d00317 to 2.426.x 2815.vf5d6f093b_23e
 - Bump io.github.bonigarcia:webdrivermanager from 5.6.0 to 5.7.0
 - Bump jsdom from 22.1.0 to 24.0.0
-- Bump org.jenkins-ci.plugins:plugin from 4.75 to 4.79
+- Bump org.jenkins-ci.plugins:plugin from 4.75 to 4.80
 - Bump org.jenkins-ci.plugins:scriptler from 334.v29792d5a_c058 to 348.v5d461e205da_a_
 - Bump org.seleniumhq.selenium:selenium-java from 4.14.1 to 4.15.0
 - Bump prettier from 3.0.3 to 3.2.5
 - Bump org.seleniumhq.selenium:selenium-java from 4.15.0 to 4.18.1
 - Bump release-drafter/release-drafter from 5 to 6
 - Bump ts-loader from 9.5.0 to 9.5.1
-- Bump typescript from 5.2.2 to 5.4.2
-- Bump webpack from 5.89.0 to 5.90.3
+- Bump typescript from 5.2.2 to 5.4.3
+- Bump webpack from 5.89.0 to 5.91.0
 - Test with jdk-17 on windows and jdk-21 on linux (thanks @debayangg)
 
 ## Version 2.8.1 (2023/11/02)
