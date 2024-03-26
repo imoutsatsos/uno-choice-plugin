@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.2 (2023/12/??)
+## Version 2.8.2 (2024/03/26)
 
 - Bump @babel/core from 7.23.2 to 7.24.0
 - Bump @babel/cli from 7.23.0 to 7.24.1
@@ -23,6 +23,7 @@
 - Bump typescript from 5.2.2 to 5.4.3
 - Bump webpack from 5.89.0 to 5.91.0
 - Test with jdk-17 on windows and jdk-21 on linux (thanks @debayangg)
+- [JENKINS-72213] Add a waiting spinner during parameter building (thanks @c3p0-maif)
 
 ## Version 2.8.1 (2023/11/02)
 
