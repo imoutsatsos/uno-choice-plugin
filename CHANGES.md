@@ -1,5 +1,9 @@
 # Active Choices plug-in changelog
 
+## Version 2.8.3 (2024/03/??)
+
+- Replace EOL JSR 305 annotations with SpotBugs annotations, thanks @basil
+
 ## Version 2.8.2 (2024/03/26)
 
 - Bump @babel/core from 7.23.2 to 7.24.0
