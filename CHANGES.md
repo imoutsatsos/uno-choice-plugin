@@ -1,5 +1,11 @@
 # Active Choices plug-in changelog
 
+## Version 2.8.4 (202?/??/??)
+
+- Bump org.seleniumhq.selenium:selenium-java from 4.18.1 to 4.19.1
+- Bump @babel/preset-typescript from 7.23.3 to 7.24.1
+- Bump @babel/core from 7.24.0 to 7.24.3
+
 ## Version 2.8.3 (2024/03/29)
 
 - Replace EOL JSR 305 annotations with SpotBugs annotations, thanks @basil
