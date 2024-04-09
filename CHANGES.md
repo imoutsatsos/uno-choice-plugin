@@ -3,10 +3,12 @@
 ## Version 2.8.4 (202?/??/??)
 
 - Bump org.seleniumhq.selenium:selenium-java from 4.18.1 to 4.19.1
-- Bump @babel/preset-typescript from 7.23.3 to 7.24.1
-- Bump @babel/core from 7.24.0 to 7.24.3
+- Bump @babel/preset-typescript from 7.23.3 to 7.24.4
+- Bump @babel/core from 7.24.0 to 7.24.4
+- Bump io.github.bonigarcia:webdrivermanager from 5.7.0 to 5.8.0
 - Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 2950.va_633b_f42f759
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
+- Bump typescript from 5.4.3 to 5.4.4
 
 ## Version 2.8.3 (2024/03/29)
 
