@@ -3,6 +3,9 @@
 ## Version 2.8.4 (202?/??/??)
 
 - Bump org.seleniumhq.selenium:selenium-java from 4.18.1 to 4.19.1
+- Bump @babel/cli from 7.24.1 to 7.24.5
+- Bump @babel/core from 7.24.4 to 7.24.5
+- Bump @babel/preset-env from 7.24.4 to 7.24.5
 - Bump @babel/preset-typescript from 7.23.3 to 7.24.4
 - Bump @babel/core from 7.24.0 to 7.24.4
 - Bump eslint from 8.57.0 to 9.1.1
