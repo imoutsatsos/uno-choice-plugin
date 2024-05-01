@@ -14,6 +14,7 @@
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.7 to 1.8
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
 - Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.81
+- Bump org.seleniumhq.selenium:selenium-java from 4.19.1 to 4.20.0
 - Bump typescript from 5.4.3 to 5.4.5
 - Update pom.xml to switch from node 18.16 to 18.18 (for eslint 9)
 
