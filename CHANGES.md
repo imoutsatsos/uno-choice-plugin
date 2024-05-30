@@ -14,6 +14,7 @@
 - Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 3080.vfa_b_e4a_a_39b_44
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.7 to 1.8
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
+- Bump jsdom from 24.0.0 to 24.1.0
 - Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.82
 - Bump org.seleniumhq.selenium:selenium-java from 4.19.1 to 4.21.0
 - Bump typescript from 5.4.3 to 5.4.5
