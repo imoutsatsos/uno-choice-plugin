@@ -3,15 +3,15 @@
 ## Version 2.8.4 (202?/??/??)
 
 - Bump org.seleniumhq.selenium:selenium-java from 4.18.1 to 4.19.1
-- Bump @babel/cli from 7.24.1 to 7.24.5
-- Bump @babel/core from 7.24.4 to 7.24.5
-- Bump @babel/preset-env from 7.24.4 to 7.24.5
-- Bump @babel/preset-typescript from 7.23.3 to 7.24.4
+- Bump @babel/cli from 7.24.1 to 7.24.6
+- Bump @babel/core from 7.24.4 to 7.24.6
+- Bump @babel/preset-env from 7.24.4 to 7.24.6
+- Bump @babel/preset-typescript from 7.23.3 to 7.24.6
 - Bump @babel/core from 7.24.0 to 7.24.4
 - Bump @types/jquery from 3.5.29 to 3.5.30
 - Bump eslint from 8.57.0 to 9.3.0
 - Bump io.github.bonigarcia:webdrivermanager from 5.7.0 to 5.8.0
-- Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 3056.v53343b_a_b_a_850
+- Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 3080.vfa_b_e4a_a_39b_44
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.7 to 1.8
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
 - Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.82
