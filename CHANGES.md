@@ -12,16 +12,17 @@
 - Bump @types/jquery from 3.5.29 to 3.5.30
 - Bump braces from 3.0.2 to 3.0.3
 - Bump eslint from 8.57.0 to 9.5.0
-- Bump io.github.bonigarcia:webdrivermanager from 5.7.0 to 5.8.0
-- Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 3135.v6d6c1f6b_3572 
+- Bump io.github.bonigarcia:webdrivermanager from 5.7.0 to 5.9.1
+- Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 3143.v347db_7c6db_6e
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.7 to 1.8
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
 - Bump jsdom from 24.0.0 to 24.1.0
 - Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.83
-- Bump org.seleniumhq.selenium:selenium-java from 4.19.1 to 4.21.0
+- Bump org.jenkins-ci.plugins:scriptler from 348.v5d461e205da_a_ to 363.vd97ef616cb_f9
+- Bump org.seleniumhq.selenium:selenium-java from 4.19.1 to 4.22.0
 - Bump prettier from 3.2.5 to 3.3.2
-- Bump typescript from 5.4.3 to 5.4.5
-- Bump webpack from 5.91.0 to 5.92.0
+- Bump typescript from 5.4.3 to 5.5.2
+- Bump webpack from 5.91.0 to 5.92.1
 - Bump ws from 8.17.0 to 8.17.1
 - Update pom.xml to switch from node 18.16 to 18.18 (for eslint 9)
 
