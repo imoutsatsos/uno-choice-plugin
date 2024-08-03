@@ -5,24 +5,24 @@
 - Bump org.seleniumhq.selenium:selenium-java from 4.18.1 to 4.19.1
 - Bump @babel/cli from 7.24.1 to 7.24.8
 - Bump @babel/core from 7.24.4 to 7.24.9
-- Bump @babel/preset-env from 7.24.4 to 7.24.8
+- Bump @babel/preset-env from 7.24.4 to 7.25.0
 - Bump @babel/preset-flow from 7.24.1 to 7.24.7
 - Bump @babel/preset-typescript from 7.23.3 to 7.24.7
 - Bump @babel/core from 7.24.0 to 7.24.4
 - Bump @types/jquery from 3.5.29 to 3.5.30
 - Bump braces from 3.0.2 to 3.0.3
-- Bump eslint from 8.57.0 to 9.7.0
-- Bump io.github.bonigarcia:webdrivermanager from 5.7.0 to 5.9.1
+- Bump eslint from 8.57.0 to 9.8.0
+- Bump io.github.bonigarcia:webdrivermanager from 5.7.0 to 5.9.2
 - Bump io.jenkins.tools.bom:bom-2.426.x from 2815.vf5d6f093b_23e to 3208.vb_21177d4b_cd9
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.7 to 1.8
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
 - Bump jsdom from 24.0.0 to 24.1.1
-- Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.85
+- Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.86
 - Bump org.jenkins-ci.plugins:scriptler from 348.v5d461e205da_a_ to 363.vd97ef616cb_f9
 - Bump org.jenkins-ci.plugins.workflow:workflow-aggregator from 596.v8c21c963d92d to 600.vb_57cdd26fdd7
 - Bump org.seleniumhq.selenium:selenium-java from 4.19.1 to 4.23.0
 - Bump prettier from 3.2.5 to 3.3.3
-- Bump typescript from 5.4.3 to 5.5.3
+- Bump typescript from 5.4.3 to 5.5.4
 - Bump webpack from 5.91.0 to 5.93.0
 - Bump ws from 8.17.0 to 8.17.1
 - Update pom.xml to switch from node 18.16 to 18.18 (for eslint 9)
