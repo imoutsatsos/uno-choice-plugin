@@ -4,8 +4,8 @@
 
 - Bump org.seleniumhq.selenium:selenium-java from 4.18.1 to 4.19.1
 - Bump @babel/cli from 7.24.1 to 7.24.8
-- Bump @babel/core from 7.24.4 to 7.24.9
-- Bump @babel/preset-env from 7.24.4 to 7.25.0
+- Bump @babel/core from 7.24.4 to 7.25.2
+- Bump @babel/preset-env from 7.24.4 to 7.25.3
 - Bump @babel/preset-flow from 7.24.1 to 7.24.7
 - Bump @babel/preset-typescript from 7.23.3 to 7.24.7
 - Bump @babel/core from 7.24.0 to 7.24.4
