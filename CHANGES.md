@@ -18,6 +18,7 @@
 - Bump Jenkins version to 2.426.3 (required by json.tools.bom change above)
 - Bump jsdom from 24.0.0 to 25.0.0
 - Bump micromatch from 4.0.5 to 4.0.8
+- Bump org.jenkins-ci.plugins:job-dsl from 1.87 to 1.88
 - Bump org.jenkins-ci.plugins:plugin from 4.80 to 4.87
 - Bump org.jenkins-ci.plugins:scriptler from 348.v5d461e205da_a_ to 363.vd97ef616cb_f9
 - Bump org.jenkins-ci.plugins.workflow:workflow-aggregator from 596.v8c21c963d92d to 600.vb_57cdd26fdd7
@@ -27,6 +28,7 @@
 - Bump webpack from 5.91.0 to 5.94.0
 - Bump ws from 8.17.0 to 8.17.1
 - Update pom.xml to switch from node 18.16 to 18.18 (for eslint 9)
+- Update pom.xml to bump Jenkins version to Jenkins 2.462.2 (job-dsl requirement)
 
 ## Version 2.8.3 (2024/03/29)
 
