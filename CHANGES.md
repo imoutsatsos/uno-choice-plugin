@@ -1,6 +1,8 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.4 (202?/??/??)
+## Version 2.8.5. (202?/??/??)
+
+## Version 2.8.4 (2024/10/06)
 
 - Bump @babel/cli from 7.24.1 to 7.25.6
 - Bump @babel/core from 7.24.4 to 7.25.2
