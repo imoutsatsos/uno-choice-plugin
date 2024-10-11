@@ -2,6 +2,14 @@
 
 ## Version 2.8.5. (202?/??/??)
 
+- Bump @babel/cli from 7.25.6 to 7.25.7
+- Bump @babel/core from 7.25.2 to 7.25.8
+- Bump @babel/preset-env from 7.25.4 to 7.25.8
+- Bump @babel/preset-flow from 7.24.7 to 7.25.7
+- Bump eslint from 9.11.1 to 9.12.0
+- Bump io.jenkins.tools.bom:bom-2.462.x from 3413.v0d896b_76a_30d to 3435.v238d66a_043fb_ (set jenkins version to 2.462.3+)
+- Fix IDE warnings and disable pipeline for Windows (broken selenium WebDriver?) PR #350
+
 ## Version 2.8.4 (2024/10/06)
 
 - Bump @babel/cli from 7.24.1 to 7.25.6
