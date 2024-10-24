@@ -10,6 +10,7 @@
 - Bump eslint from 9.11.1 to 9.13.0
 - Bump io.jenkins.tools.bom:bom-2.462.x from 3413.v0d896b_76a_30d to 3532.v8059503f6b_23 (set jenkins version to 2.462.3+)
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.12.0 to 1.13.0
+- Bump org.jenkins-ci.plugins:plugin from 4.88 to 5.2
 - Bump org.jenkins-ci.plugins:scriptler from 363.vd97ef616cb_f9 to 376.v152edd95b_ca_f
 - Bump typescript from 5.6.2 to 5.6.3
 - Fix IDE warnings and disable pipeline for Windows (broken selenium WebDriver?) PR #350
