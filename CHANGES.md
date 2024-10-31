@@ -3,12 +3,12 @@
 ## Version 2.8.5. (202?/??/??)
 
 - Bump @babel/cli from 7.25.6 to 7.25.7
-- Bump @babel/core from 7.25.2 to 7.25.8
-- Bump @babel/preset-env from 7.25.4 to 7.25.8
+- Bump @babel/core from 7.25.2 to 7.26.0
+- Bump @babel/preset-env from 7.25.4 to 7.26.0
 - Bump @babel/preset-flow from 7.24.7 to 7.25.7
 - Bump @babel/preset-typescript from 7.24.7 to 7.25.7
 - Bump eslint from 9.11.1 to 9.13.0
-- Bump io.jenkins.tools.bom:bom-2.462.x from 3413.v0d896b_76a_30d to 3532.v8059503f6b_23 (set jenkins version to 2.462.3+)
+- Bump io.jenkins.tools.bom:bom-2.462.x from 3559.vb_5b_81183b_d23 (set jenkins version to 2.462.3+)
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.12.0 to 1.13.0
 - Bump org.jenkins-ci.plugins:plugin from 4.88 to 5.2
 - Bump org.jenkins-ci.plugins:scriptler from 363.vd97ef616cb_f9 to 376.v152edd95b_ca_f
