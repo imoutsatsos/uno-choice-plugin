@@ -1,19 +1,23 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.5. (202?/??/??)
+## Version 2.8.5. (2024/11/02)
 
-- Bump @babel/cli from 7.25.6 to 7.25.7
+- Bump @babel/cli from 7.25.6 to 7.25.9
 - Bump @babel/core from 7.25.2 to 7.26.0
 - Bump @babel/preset-env from 7.25.4 to 7.26.0
-- Bump @babel/preset-flow from 7.24.7 to 7.25.7
-- Bump @babel/preset-typescript from 7.24.7 to 7.25.7
+- Bump @babel/preset-flow from 7.24.7 to 7.25.9
+- Bump @babel/preset-typescript from 7.24.7 to 7.26.0
 - Bump eslint from 9.11.1 to 9.13.0
 - Bump io.jenkins.tools.bom:bom-2.462.x from 3559.vb_5b_81183b_d23 (set jenkins version to 2.462.3+)
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.12.0 to 1.13.0
 - Bump org.jenkins-ci.plugins:plugin from 4.88 to 5.2
 - Bump org.jenkins-ci.plugins:scriptler from 363.vd97ef616cb_f9 to 376.v152edd95b_ca_f
+- Bump org.seleniumhq.selenium:selenium-java from 4.25.0 to 4.26.0
 - Bump typescript from 5.6.2 to 5.6.3
 - Fix IDE warnings and disable pipeline for Windows (broken selenium WebDriver?) PR #350
+- JENKINS-74028: Extract inline script from choiceParameterCommon.jelly (thanks @yaroslavafenkin)
+- JENKINS-74030: Extract inline script from ChoiceParameter/index.jelly (thanks @yaroslavafenkin)
+- Require 2.479.1 LTS or newer #369 (thanks @basil)
 
 ## Version 2.8.4 (2024/10/06)
 
