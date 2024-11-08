@@ -2,6 +2,11 @@
 
 ## Version 2.8.6 (202?/??/??)
 
+- Bump @types/jquery from 3.5.31 to 3.5.32
+- Bump eslint from 9.13.0 to 9.14.0
+- Bump org.jenkins-ci.plugins:job-dsl from 1.89 to 1.90
+- Bump webpack from 5.95.0 to 5.96.1
+
 ## Version 2.8.5 (2024/11/02)
 
 - Bump @babel/cli from 7.25.6 to 7.25.9
