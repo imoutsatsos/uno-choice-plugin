@@ -2,7 +2,9 @@
 
 ## Version 2.8.6 (202?/??/??)
 
+- Bump @eslint/plugin-kit from 0.2.0 to 0.2.3
 - Bump @types/jquery from 3.5.31 to 3.5.32
+- Bump cross-spawn from 7.0.3 to 7.0.5
 - Bump eslint from 9.13.0 to 9.14.0
 - Bump org.jenkins-ci.plugins:job-dsl from 1.89 to 1.90
 - Bump webpack from 5.95.0 to 5.96.1
