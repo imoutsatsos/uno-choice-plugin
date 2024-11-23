@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.6 (202?/??/??)
+## Version 2.8.6 (2024/11/23)
 
 - Bump @eslint/plugin-kit from 0.2.0 to 0.2.3
 - Bump @types/jquery from 3.5.31 to 3.5.32
@@ -8,6 +8,10 @@
 - Bump eslint from 9.13.0 to 9.14.0
 - Bump org.jenkins-ci.plugins:job-dsl from 1.89 to 1.90
 - Bump webpack from 5.95.0 to 5.96.1
+- JENKINS-74029: Extract inline JavaScript from radioContent.jelly (thanks @yaroslavafenkin)
+- JENKINS-74026: Improve CSP compatibility (thanks @yaroslavafenkin)
+- JENKINS-74027: Improve CSP compatibility (thanks @yaroslavafenkin)
+- JENKINS-74025: Extract inline JavaScript from checkboxContent.jelly (thanks @yaroslavafenkin)
 
 ## Version 2.8.5 (2024/11/02)
 
