@@ -2,6 +2,8 @@
 
 ## Version 2.8.7 (202?/??/??)
 
+- Bump typescript from 5.6.3 to 5.7.2
+
 ## Version 2.8.6 (2024/11/23)
 
 - Bump @eslint/plugin-kit from 0.2.0 to 0.2.3
