@@ -2,10 +2,12 @@
 
 ## Version 2.8.7 (202?/??/??)
 
+- Bump @babel/cli from 7.25.9 to 7.26.4
 - Bump eslint from 9.15.0 to 9.16.0
 - Bump org.seleniumhq.selenium:selenium-java from 4.26.0 to 4.27.0
-- Bump prettier from 3.3.3 to 3.4.1
+- Bump prettier from 3.3.3 to 3.4.2
 - Bump typescript from 5.6.3 to 5.7.2
+- Bump webpack from 5.96.1 to 5.97.1
 
 ## Version 2.8.6 (2024/11/23)
 
