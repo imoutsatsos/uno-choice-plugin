@@ -3,13 +3,14 @@
 ## Version 2.8.7 (202?/??/??)
 
 - Bump @babel/cli from 7.25.9 to 7.26.4
-- Bump eslint from 9.15.0 to 9.17.0
+- Bump eslint from 9.15.0 to 9.18.0
 - Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 3875.v1df09947cde6
 - Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.4
 - Bump org.jenkins-ci.plugins:scriptler from 376.v152edd95b_ca_f to 393.vc44e60d60fa_1
 - Bump org.seleniumhq.selenium:selenium-java from 4.26.0 to 4.27.0
 - Bump prettier from 3.3.3 to 3.4.2
-- Bump typescript from 5.6.3 to 5.7.2
+- Bump ts-loader from 9.5.1 to 9.5.2
+- Bump typescript from 5.6.3 to 5.7.3
 - Bump webpack from 5.96.1 to 5.97.1
 - Bump webpack-cli from 5.1.4 to 6.0.1
 
