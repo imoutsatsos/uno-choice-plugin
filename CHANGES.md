@@ -7,10 +7,10 @@
 - Bump @babel/preset-env from 7.26.0 to 7.26.7
 - Bump eslint from 9.15.0 to 9.19.0
 - Bump eslint-config-prettier from 9.1.0 to 10.0.1
-- Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4023.va_eeb_b_4e45f07
+- Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4051.v78dce3ce8b_d6
 - Bump jsdom from 25.0.1 to 26.0.0
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.13.0 to 1.14.0
-- Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.6
+- Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.7
 - Bump org.jenkins-ci.plugins:scriptler from 376.v152edd95b_ca_f to 397.vc46f19cb_3c18
 - Bump org.seleniumhq.selenium:selenium-java from 4.26.0 to 4.28.1
 - Bump prettier from 3.3.3 to 3.4.2
