@@ -19,6 +19,7 @@
 - Bump webpack from 5.96.1 to 5.97.1
 - Bump webpack-cli from 5.1.4 to 6.0.1
 - Migrate from EE 8 to EE 9 (thanks @basil)
+- Migrate from Acegi to Spring Security (thanks, again, @basil)
 
 ## Version 2.8.6 (2024/11/23)
 
