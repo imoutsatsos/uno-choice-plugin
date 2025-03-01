@@ -13,7 +13,7 @@
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.13.0 to 1.14.0
 - Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.7
 - Bump org.jenkins-ci.plugins:scriptler from 376.v152edd95b_ca_f to 397.vc46f19cb_3c18
-- Bump org.seleniumhq.selenium:selenium-java from 4.26.0 to 4.28.1
+- Bump org.seleniumhq.selenium:selenium-java from 4.26.0 to 4.29.0
 - Bump prettier from 3.3.3 to 3.5.2
 - Bump serialize-javascript from 6.0.1 to 6.0.2
 - Bump ts-loader from 9.5.1 to 9.5.2
