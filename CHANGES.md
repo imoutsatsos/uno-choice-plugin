@@ -5,6 +5,7 @@
 - Bump @babel/cli from 7.25.9 to 7.26.4
 - Bump @babel/core from 7.26.0 to 7.26.9
 - Bump @babel/preset-env from 7.26.0 to 7.26.9
+- Bump babel-loader from 9.2.1 to 10.0.0
 - Bump eslint from 9.15.0 to 9.22.0
 - Bump eslint-config-prettier from 9.1.0 to 10.1.1
 - Bump io.github.bonigarcia:webdrivermanager from 5.9.2 to 5.9.3
@@ -25,6 +26,7 @@
 - Migrate from Acegi to Spring Security (thanks, again, @basil)
 - Migrate tests to JUnit5 (thanks to @strangelookingnerd)
 - Move js script to webapp folder to allow loading map files by the browser (thanks to @mawinter69)
+- Upgrade node requirement from 18.18.0 to 22.14.0
 
 ## Version 2.8.6 (2024/11/23)
 
