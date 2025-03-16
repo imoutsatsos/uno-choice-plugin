@@ -70,12 +70,9 @@ class TestSelectWithSpinningWheelMayBeNull extends BaseUiTest {
             // Simplified: Return a static list of image tags
             return ["v1.0.0", "v1.1.0", "v2.0.0"]\s
             """;
-    private static final String PARAMETER_WITH_SCRIPTLER_AND_PARAMETERS = "P3";
 
     /**
      * Create the script in Scriptler.
-     *
-     * @throws Exception I/O?
      */
     @BeforeEach
     public void setUp(JenkinsRule j) {
