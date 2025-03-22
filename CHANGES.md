@@ -30,6 +30,7 @@
 - JENKINS-74963: Spinning animation is not removed due to exception, select element is not found by plug-in
   (duplicated issues: JENKINS-73919)
 - JENKINS-74967: Active choice parameter filter throws JavaScript error for parameter change event in browser console
+- JENKINS-75194: Use window.requestIdleCallback instead of setTimeout to force the browser to update parameters in order, waiting for DOM to be updated (partially addresses JENKINS-75194)
 
 ## Version 2.8.6 (2024/11/23)
 
