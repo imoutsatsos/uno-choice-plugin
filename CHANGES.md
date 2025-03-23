@@ -28,7 +28,7 @@
 - Move js script to webapp folder to allow loading map files by the browser (thanks to @mawinter69)
 - Upgrade node requirement from 18.18.0 to 22.14.0
 - JENKINS-74963: Spinning animation is not removed due to exception, select element is not found by plug-in
-  (duplicated issues: JENKINS-73919)
+  (duplicated issues: JENKINS-73919, JENKINS-73928)
 - JENKINS-74967: Active choice parameter filter throws JavaScript error for parameter change event in browser console
 - JENKINS-75194: Use window.requestIdleCallback instead of setTimeout to force the browser to update parameters in order, waiting for DOM to be updated (partially addresses JENKINS-75194)
 
