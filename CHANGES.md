@@ -6,7 +6,7 @@
 - Bump @babel/core from 7.26.0 to 7.26.10
 - Bump @babel/preset-env from 7.26.0 to 7.26.9
 - Bump babel-loader from 9.2.1 to 10.0.0
-- Bump eslint from 9.15.0 to 9.22.0
+- Bump eslint from 9.15.0 to 9.23.0
 - Bump eslint-config-prettier from 9.1.0 to 10.1.1
 - Bump io.github.bonigarcia:webdrivermanager from 5.9.2 to 5.9.3
 - Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4440.v39a_9eb_b_c6b_4d
