@@ -2,19 +2,21 @@
 
 ## Version 2.8.7 (202?/??/??)
 
-- Bump @babel/cli from 7.25.9 to 7.26.4
+- Bump @babel/cli from 7.25.9 to 7.27.0
 - Bump @babel/core from 7.26.0 to 7.26.10
 - Bump @babel/preset-env from 7.26.0 to 7.26.9
+- Bump @babel/preset-typescript from 7.26.0 to 7.27.0
 - Bump babel-loader from 9.2.1 to 10.0.0
 - Bump eslint from 9.15.0 to 9.23.0
 - Bump eslint-config-prettier from 9.1.0 to 10.1.1
-- Bump io.github.bonigarcia:webdrivermanager from 5.9.2 to 5.9.3
-- Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4440.v39a_9eb_b_c6b_4d
+- Bump io.github.bonigarcia:webdrivermanager from 5.9.2 to 6.0.0
+- Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4488.v7fe26526366e
 - Bump jsdom from 25.0.1 to 26.0.0
 - Bump org.jenkins-ci.plugins:job-dsl from 1.90 to 1.91
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.13.0 to 759.vb_b_e95db_f3251
 - Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.8
 - Bump org.jenkins-ci.plugins:scriptler from 376.v152edd95b_ca_f to 397.vc46f19cb_3c18
+- Bump org.jenkins-ci.plugins.workflow:workflow-aggregator from 600.vb_57cdd26fdd7 to 608.v67378e9d3db_1
 - Bump org.seleniumhq.selenium:selenium-java from 4.26.0 to 4.30.0
 - Bump prettier from 3.3.3 to 3.5.3
 - Bump serialize-javascript from 6.0.1 to 6.0.2
