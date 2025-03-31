@@ -211,7 +211,7 @@
 10. [#82](https://github.com/jenkinsci/active-choices-plugin/pull/82): Bump semver from 5.7.1 to 5.7.2, thanks @dependabot
 11. [#83](https://github.com/jenkinsci/active-choices-plugin/pull/83): Bump word-wrap from 1.2.3 to 1.2.4, thanks @dependabot
 12. [#84](https://github.com/jenkinsci/active-choices-plugin/pull/84): Remove outdated Jenkins version test conditional, thanks @MarkEWaite
-12. [#79](https://github.com/jenkinsci/active-choices-plugin/pull/79): refactor: Replace synchronous proxy with standard proxy @rahulsom
+13. [#79](https://github.com/jenkinsci/active-choices-plugin/pull/79): refactor: Replace synchronous proxy with standard proxy @rahulsom
 
 ## Version 2.6.5 (2023/04/18)
 
@@ -330,7 +330,7 @@ The `pom.xml` had dependencies updated (such as Scriptler, Node Labels Plug-in, 
 ## Version 2.0 (2017/10/23)
 
 1. [Fix security vulnerability](https://jenkins.io/security/advisory/2017-10-23/)
-  1. **Important:** **Sandboxed** Groovy scripts for **Active Choices
+  1.1. **Important:** **Sandboxed** Groovy scripts for **Active Choices
     Reactive Reference Parameter** will no longer emit HTML that is
     considered unsafe, such as <script> tags. This may result in
     behavior changes on *Build With Parameters* forms, such as
