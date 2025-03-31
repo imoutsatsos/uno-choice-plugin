@@ -24,6 +24,7 @@
 - Bump typescript from 5.6.3 to 5.8.2
 - Bump webpack from 5.96.1 to 5.98.0
 - Bump webpack-cli from 5.1.4 to 6.0.1
+- Implement Describable from Script, not AbstractScript (thanks @jglick)
 - Migrate from EE 8 to EE 9 (thanks @basil)
 - Migrate from Acegi to Spring Security (thanks, again, @basil)
 - Migrate tests to JUnit5 (thanks to @strangelookingnerd)
