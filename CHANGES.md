@@ -35,7 +35,7 @@
 - JENKINS-73239: Added test to prevent JS errors when a cascade parameter does not reference other parameters
   (the issue itself was closed as will not implement, due to Jenkins security that prevents loading external JS files)
 - JENKINS-74963: Spinning animation is not removed due to exception, select element is not found by plug-in
-  (duplicated issues: JENKINS-73919, JENKINS-73928, JENKINS-72949, JENKINS-73022)
+  (duplicated issues: JENKINS-73919, JENKINS-73928, JENKINS-72949, JENKINS-73022, JENKINS-73118, JENKINS-73215)
 - JENKINS-74967: Active choice parameter filter throws JavaScript error for parameter change event in browser console
 - JENKINS-75194, JENKINS-72826: Use window.requestIdleCallback instead of setTimeout to force the browser to update parameters 
   in order, waiting for DOM to be updated (partially addresses JENKINS-75194)
