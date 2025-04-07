@@ -32,18 +32,21 @@
 - Upgrade node requirement from 18.18.0 to 22.14.0
 - JENKINS-69016: This issue could not be reproduced in this version, possibly fixed by JENKINS-73239, JENKINS-75194, JENKINS-72826
 - JENKINS-70380: This issue could not be reproduced in this version, possibly fixed by JENKINS-73239, JENKINS-75194, JENKINS-72826
+- JENKINS-73210: Parameter values not displayed when references are null; note: there is no pull request linked
+  to the JIRA issue, as it was likely fixed by another change in JS or Java code associated to another JIRA issue.
 - JENKINS-73239: Added test to prevent JS errors when a cascade parameter does not reference other parameters
   (the issue itself was closed as will not implement, due to Jenkins security that prevents loading external JS files)
 - JENKINS-74963: Spinning animation is not removed due to exception, select element is not found by plug-in
   (duplicated issues: JENKINS-73919, JENKINS-73928, JENKINS-72949, JENKINS-73022, JENKINS-73118, JENKINS-73215)
 - JENKINS-74967: Active choice parameter filter throws JavaScript error for parameter change event in browser console
-- JENKINS-75194, JENKINS-72826: Use window.requestIdleCallback instead of setTimeout to force the browser to update parameters 
-  in order, waiting for DOM to be updated (partially addresses JENKINS-75194, duplicated issues: JENKINS-75194)
-- JENKINS-73210: Parameter values not displayed when references are null; note: there is no pull request linked
-  to the JIRA issue, as it was likely fixed by another change in JS or Java code associated to another JIRA issue.
 - JENKINS-75017: Dropdowns not working with keyboard inputs in Firefox on Windows - Jenkins version 2.479.2;
   note: there is no pull request linked to the JIRA issue, as it was likely fixed by another change in JS or
   Java code associated to another JIRA issue.
+- JENKINS-75194, JENKINS-72826: Use window.requestIdleCallback instead of setTimeout to force the browser to update parameters 
+  in order, waiting for DOM to be updated (partially addresses JENKINS-75194, duplicated issues: JENKINS-75194)
+- JENKINS-75434: DynamicReferenceParameters do not work properly after 'Active Choices Plug-in' update at Jenkins Pipeline Jobs;
+  note: there is no pull request linked to the JIRA issue, as it was likely fixed by another change in JS or
+  Java code associated to another JIRA issue (possibly fixed by JENKINS-75194/JENKINS-72826)
 
 ## Version 2.8.6 (2024/11/23)
 
