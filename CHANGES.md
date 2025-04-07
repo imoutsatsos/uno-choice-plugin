@@ -39,6 +39,8 @@
 - JENKINS-74967: Active choice parameter filter throws JavaScript error for parameter change event in browser console
 - JENKINS-75194, JENKINS-72826: Use window.requestIdleCallback instead of setTimeout to force the browser to update parameters 
   in order, waiting for DOM to be updated (partially addresses JENKINS-75194)
+- JENKINS-73210: Parameter values not displayed when references are null; note: there is no pull request linked
+  to the JIRA issue, as it was likely fixed by another change in JS or Java code associated to another JIRA issue. 
 
 ## Version 2.8.6 (2024/11/23)
 
