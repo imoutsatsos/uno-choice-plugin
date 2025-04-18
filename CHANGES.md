@@ -8,10 +8,10 @@
 - Bump @babel/preset-typescript from 7.26.0 to 7.27.0
 - Bump babel-loader from 9.2.1 to 10.0.0
 - Bump eslint from 9.15.0 to 9.24.0
-- Bump eslint-config-prettier from 9.1.0 to 10.1.1
+- Bump eslint-config-prettier from 9.1.0 to 10.1.2
 - Bump io.github.bonigarcia:webdrivermanager from 5.9.2 to 6.0.1
-- Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4570.v1b_c718dd3b_1e
-- Bump jsdom from 25.0.1 to 26.0.0
+- Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4607.v67a_4791074d7
+- Bump jsdom from 25.0.1 to 26.1.0
 - Bump org.jenkins-ci.plugins:job-dsl from 1.90 to 1.91
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.13.0 to 759.vb_b_e95db_f3251
 - Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.10
@@ -22,7 +22,7 @@
 - Bump serialize-javascript from 6.0.1 to 6.0.2
 - Bump ts-loader from 9.5.1 to 9.5.2
 - Bump typescript from 5.6.3 to 5.8.3
-- Bump webpack from 5.96.1 to 5.99.0
+- Bump webpack from 5.96.1 to 5.99.5
 - Bump webpack-cli from 5.1.4 to 6.0.1
 - Implement Describable from Script, not AbstractScript (thanks @jglick)
 - Migrate from EE 8 to EE 9 (thanks @basil)
