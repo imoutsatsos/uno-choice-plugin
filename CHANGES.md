@@ -12,7 +12,7 @@
 - Bump io.github.bonigarcia:webdrivermanager from 5.9.2 to 6.0.1
 - Bump io.jenkins.tools.bom:bom-2.479.x from 3559.vb_5b_81183b_d23 to 4607.v67a_4791074d7
 - Bump jsdom from 25.0.1 to 26.1.0
-- Bump org.jenkins-ci.plugins:job-dsl from 1.90 to 1.91
+- Bump org.jenkins-ci.plugins:job-dsl from 1.90 to 1.92
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 1.13.0 to 759.vb_b_e95db_f3251
 - Bump org.jenkins-ci.plugins:plugin from 5.3 to 5.10
 - Bump org.jenkins-ci.plugins:scriptler from 376.v152edd95b_ca_f to 397.vc46f19cb_3c18
