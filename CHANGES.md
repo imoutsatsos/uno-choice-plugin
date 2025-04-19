@@ -34,6 +34,10 @@
 - JENKINS-70380: This issue could not be reproduced in this version, possibly fixed by JENKINS-73239, JENKINS-75194, JENKINS-72826
 - JENKINS-72129: Filtering parameter by a value that matches exactly one entry, results in incorrect result. This issue could not be
   reproduced in this version, possibly fixed by JENKINS-74967, JENKINS-74967, or JENKINS-75194/JENKINS-72826.
+- JENKINS-72549: The [CloudBees tutorial](https://docs.cloudbees.com/docs/cloudbees-ci-kb/latest/client-and-managed-controllers/how-to-create-a-custom-ui-component-for-the-active-choices-plugin)
+  for creating UI components with Active Choices is failing. Note: there is no pull request as this issue could not
+  be reproduced with the latest code for 2.8.7. This issue has been marked as fixed but unreleased, but can be re-opened
+  if users verify 2.8.7 is causing a similar issue in their environments.
 - JENKINS-73210: Parameter values not displayed when references are null; note: there is no pull request linked
   to the JIRA issue, as it was likely fixed by another change in JS or Java code associated to another JIRA issue.
 - JENKINS-73239: Added test to prevent JS errors when a cascade parameter does not reference other parameters
