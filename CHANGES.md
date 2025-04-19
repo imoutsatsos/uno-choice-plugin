@@ -32,6 +32,8 @@
 - Upgrade node requirement from 18.18.0 to 22.14.0
 - JENKINS-69016: This issue could not be reproduced in this version, possibly fixed by JENKINS-73239, JENKINS-75194, JENKINS-72826
 - JENKINS-70380: This issue could not be reproduced in this version, possibly fixed by JENKINS-73239, JENKINS-75194, JENKINS-72826
+- JENKINS-72129: Filtering parameter by a value that matches exactly one entry, results in incorrect result. This issue could not be
+  reproduced in this version, possibly fixed by JENKINS-74967, JENKINS-74967, or JENKINS-75194/JENKINS-72826.
 - JENKINS-73210: Parameter values not displayed when references are null; note: there is no pull request linked
   to the JIRA issue, as it was likely fixed by another change in JS or Java code associated to another JIRA issue.
 - JENKINS-73239: Added test to prevent JS errors when a cascade parameter does not reference other parameters
