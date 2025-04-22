@@ -2,6 +2,11 @@
 
 ## Version 2.8.9 (????/??/??)
 
+- Bump eslint from 9.24.0 to 9.25.1
+- Bump io.jenkins.tools.bom:bom-2.479.x from 4607.v67a_4791074d7 to 4628.v2b_234a_1a_20d0
+- Bump org.jenkins-ci.plugins:plugin from 5.10 to 5.11
+- Bump webpack from 5.99.5 to 5.99.6
+
 ## Version 2.8.7 (2025/04/19)
 
 - Bump @babel/cli from 7.25.9 to 7.27.0
