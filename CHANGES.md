@@ -50,6 +50,9 @@
   e.g. JENKINS-75194/JENKINS-72826, or JENKINS-72129.
 - JENKINS-73239: Added test to prevent JS errors when a cascade parameter does not reference other parameters
   (the issue itself was closed as will not implement, due to Jenkins security that prevents loading external JS files)
+- JENKINS-73899: This issue could not be reproduced during the 2.8.7 milestone development, but
+  a user with a similar issue/error reported that upgrading to 2.8.7 fixed their issue, so this was
+  added to the changelog after the release, for completeness.
 - JENKINS-73922: Starting from 2.8.4 I get "Cannot read properties of null (reading 'toString')". Note that there is
   no pull request associated with this issue, as it could not be reproduced with the latest code. It has probably been
   fixed in JENKINS-75194/JENKINS-72826, or JENKINS-72129.
