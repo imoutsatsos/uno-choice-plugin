@@ -1,5 +1,7 @@
 # Active Choices plug-in changelog
 
+## Version 2.8.9 (????/??/??)
+
 ## Version 2.8.8 (2025/05/04)
 
 - Bump eslint from 9.24.0 to 9.25.1
