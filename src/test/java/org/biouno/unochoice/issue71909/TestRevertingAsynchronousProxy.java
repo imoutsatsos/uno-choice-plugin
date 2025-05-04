@@ -99,8 +99,11 @@ class TestRevertingAsynchronousProxy extends BaseUiTest {
 
         checkRadios(radios("DOCKER_BASE_IMAGE"), "buster", "bullseye");
 
-        assertEquals("buster", findRadios("DOCKER_BASE_IMAGE").get(0).getDomAttribute("value"));
-        assertEquals("true", findRadios("DOCKER_BASE_IMAGE").get(0).getDomAttribute("checked"));
+        // NOTE: interestingly, having two calls to findRadios (same param) one after the other resulted
+        //       in stale element exceptions, even after trying to wait for visibility/JS load/DOM elements rendered/etc.
+        final WebElement radio = findRadios("DOCKER_BASE_IMAGE").get(0);
+        assertEquals("buster", radio.getDomAttribute("value"));
+        assertEquals("true", radio.getDomAttribute("checked"));
 
         wait.until(ExpectedConditions.elementToBeClickable(findCheckboxes("MACHINES").get(0)));
 
