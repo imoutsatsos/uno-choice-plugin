@@ -2,6 +2,15 @@
 
 ## Version 2.8.9 (????/??/??)
 
+- Bump @babel/core from 7.26.10 to 7.27.1
+- Bump @babel/preset-env from 7.26.9 to 7.27.1
+- Bump @babel/preset-flow from 7.25.9 to 7.27.1
+- Bump @babel/preset-typescript from 7.27.0 to 7.27.1
+- Bump eslint from 9.25.1 to 9.26.0
+- Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 4710.v016f0a_07e34d
+- Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.15
+- Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.32.0
+
 ## Version 2.8.8 (2025/05/04)
 
 - Bump eslint from 9.24.0 to 9.25.1
