@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.9 (????/??/??)
+## Version 2.8.9 (20??/??/??)
 
 - Bump @babel/cli from 7.27.0 to 7.27.2
 - Bump @babel/core from 7.26.10 to 7.27.4
@@ -11,7 +11,7 @@
 - Bump eslint-config-prettier from 10.1.2 to 10.1.5
 - Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 4862.vc32a_71c3e731
 - Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.17
-- Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.32.0
+- Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.33.0
 - Bump webpack from 5.99.7 to 5.99.9
 
 ## Version 2.8.8 (2025/05/04)
