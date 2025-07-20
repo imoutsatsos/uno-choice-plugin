@@ -13,7 +13,7 @@
 - Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 4969.v6ffa_18d90c9f
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.8 to 1.10
 - Bump jest from 29.7.0 to 30.0.4
-- Bump jest-environment-jsdom from 29.7.0 to 30.0.0
+- Bump jest-environment-jsdom from 29.7.0 to 30.0.4
 - Bump org.jenkins-ci.plugins:job-dsl from 1.92 to 1.93
 - Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.18
 - Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.34.0
