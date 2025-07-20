@@ -18,7 +18,7 @@
 - Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.18
 - Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.34.0
 - Bump prettier from 3.5.3 to 3.6.2
-- Bump webpack from 5.99.7 to 5.99.9
+- Bump webpack from 5.99.7 to 5.100.1
 
 ## Version 2.8.8 (2025/05/04)
 
