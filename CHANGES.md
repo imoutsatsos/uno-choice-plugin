@@ -15,10 +15,11 @@
 - Bump jest from 29.7.0 to 30.0.5
 - Bump jest-environment-jsdom from 29.7.0 to 30.0.5
 - Bump org.jenkins-ci.plugins:job-dsl from 1.92 to 1.93
-- Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.18
+- Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.19
 - Bump org.jenkins-ci.plugins:scriptler from 397.vc46f19cb_3c18 to 425.v09a_dc03401b_0
 - Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.34.0
 - Bump prettier from 3.5.3 to 3.6.2
+- Bump typescript from 5.8.3 to 5.9.2
 - Bump webpack from 5.99.7 to 5.101.0
 - Bumped Jenkins version to 2.504.1
 - JENKINS-72282: Apply Jenkins styling to selects, radios and checkboxes (thanks @mawinter69) #429 (duplicated: JENKINS-75869)
