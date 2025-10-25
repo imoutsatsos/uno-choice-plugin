@@ -8,7 +8,7 @@
 - Bump @babel/preset-flow from 7.25.9 to 7.27.1
 - Bump @babel/preset-typescript from 7.27.0 to 7.27.1
 - Bump @types/jquery from 3.5.32 to 3.5.33
-- Bump eslint from 9.25.1 to 9.37.0
+- Bump eslint from 9.25.1 to 9.38.0
 - Bump eslint-config-prettier from 10.1.2 to 10.1.8
 - Bump io.github.bonigarcia:webdrivermanager from 6.1.0 to 6.3.2
 - Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 5054.v620b_5d2b_d5e6
@@ -19,10 +19,10 @@
 - Bump org.jenkins-ci.plugins:job-dsl from 1.92 to 1.93
 - Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.27
 - Bump org.jenkins-ci.plugins:scriptler from 397.vc46f19cb_3c18 to 432.v872ed6cd6d5b_
-- Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.36.0
+- Bump org.seleniumhq.selenium:selenium-java from 4.31.0 to 4.37.0
 - Bump prettier from 3.5.3 to 3.6.2
 - Bump ts-loader from 9.5.2 to 9.5.4
-- Bump typescript from 5.8.3 to 5.9.2
+- Bump typescript from 5.8.3 to 5.9.3
 - Bump webpack from 5.99.7 to 5.102.1
 - Bumped Jenkins version to 2.504.1
 - JENKINS-72282: Apply Jenkins styling to selects, radios and checkboxes (thanks @mawinter69) #429 (duplicated: JENKINS-75869)
