@@ -9,9 +9,9 @@
 - Bump @babel/preset-flow from 7.25.9 to 7.27.1
 - Bump @babel/preset-typescript from 7.27.0 to 7.28.5
 - Bump @types/jquery from 3.5.32 to 3.5.33
-- Bump eslint from 9.25.1 to 9.39.0
+- Bump eslint from 9.25.1 to 9.39.1
 - Bump eslint-config-prettier from 10.1.2 to 10.1.8
-- Bump io.github.bonigarcia:webdrivermanager from 6.1.0 to 6.3.2
+- Bump io.github.bonigarcia:webdrivermanager from 6.1.0 to 6.3.3
 - Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 5054.v620b_5d2b_d5e6
 - Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.8 to 1.13
 - Bump jest from 29.7.0 to 30.2.0
