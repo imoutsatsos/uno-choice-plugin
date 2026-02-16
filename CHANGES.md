@@ -1,5 +1,7 @@
 # Active Choices plug-in changelog
 
+## Version 2.8.10 (????/??/??)
+
 ## Version 2.8.9 (2026/02/16)
 
 - Ban JUnit 4 imports (thanks @ strangelookingnerd)
