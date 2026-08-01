@@ -7,10 +7,11 @@
 - Bump @babel/core from 7.29.0 to 7.29.7
 - Bump @babel/plugin-transform-modules-systemjs from 7.29.0 to 7.29.4
 - Bump @babel/preset-env from 7.29.0 to 7.29.7
+- Bump @babel/preset-typescript from 7.28.5 to 7.29.7 - #998
 - Bump @types/jquery from 4.0.0 to 4.0.1
-- Bump eslint from 10.0.3 to 10.3.0
+- Bump eslint from 10.0.3 to 10.8.0
 - Bump io.github.bonigarcia:webdrivermanager from 6.3.3 to 6.3.4
-- Bump jest from 30.2.0 to 30.3.0
+- Bump jest from 30.2.0 to 30.4.2
 - Bump jest-environment-jsdom from 30.2.0 to 30.4.1
 - Bump jest-junit from 16.0.0 to 17.0.0
 - Bump jsdom from 28.1.0 to 29.1.1
@@ -20,7 +21,7 @@
 - Bump org.jenkins-ci.plugins:scriptler from 444.v7fd079eb_3b_86 to 463.v0a_1f378da_06f
 - Bump org.seleniumhq.selenium:selenium-java from 4.39.0 to 4.46.0
 - Bump prettier from 3.8.3 to 3.9.6
-- Bump ts-loader from 9.5.4 to 9.5.7
+- Bump ts-loader from 9.5.4 to 9.6.2
 - Bump typescript from 5.9.3 to 6.0.3
 - Bump undici from 7.25.0 to 7.28.0
 - Bump webpack from 5.105.4 to 5.106.2
