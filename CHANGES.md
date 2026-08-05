@@ -4,10 +4,12 @@
 
 - Adapt the build status icon for ci.jenkins.io permissions change (thanks @MarkEWaite)
 - Adapt to release drafter v7 configuration change (thanks @MarkEWaite)
+- Bump @babel/cli from 7.28.6 to 7.29.7
 - Bump @babel/core from 7.29.0 to 7.29.7
 - Bump @babel/plugin-transform-modules-systemjs from 7.29.0 to 7.29.4
 - Bump @babel/preset-env from 7.29.0 to 7.29.7
-- Bump @babel/preset-typescript from 7.28.5 to 7.29.7 - #998
+- Bump @babel/preset-flow from 7.27.1 to 7.29.7
+- Bump @babel/preset-typescript from 7.28.5 to 7.29.7
 - Bump @types/jquery from 4.0.0 to 4.0.1
 - Bump eslint from 10.0.3 to 10.8.0
 - Bump io.github.bonigarcia:webdrivermanager from 6.3.3 to 6.3.4
@@ -23,9 +25,9 @@
 - Bump prettier from 3.8.3 to 3.9.6
 - Bump ts-loader from 9.5.4 to 9.6.2
 - Bump typescript from 5.9.3 to 6.0.3
-- Bump undici from 7.25.0 to 7.28.0
-- Bump webpack from 5.105.4 to 5.106.2
-- Bump webpack-cli from 7.0.1 to 7.0.2
+- Bump undici from 7.25.0 to 7.29.0
+- Bump webpack from 5.105.4 to 5.109.2
+- Bump webpack-cli from 7.0.1 to 7.2.2
 - Bump ws from 8.18.3 to 8.21.1
 - Fixed brittle Selenium test TestRevertingAsynchronousProxy #992
 - #897 JENKINS-75644 Cache project resolution after UUID fallback (thanks @tzachs)
