@@ -30,13 +30,14 @@
 - Bump webpack-cli from 7.0.1 to 7.2.2
 - Bump ws from 8.18.3 to 8.21.1
 - Fixed brittle Selenium test TestRevertingAsynchronousProxy #992
-- #897 JENKINS-75644 Cache project resolution after UUID fallback (thanks @tzachs)
-- #947 JENKINS-75760 Override getDefaultParameterValue for the checkbox list (thanks @c3p0-maif)
+- JENKINS-75644 Cache project resolution after UUID fallback #897 (thanks @tzachs)
+- JENKINS-75760 Override getDefaultParameterValue for the checkbox list #947 (thanks @c3p0-maif)
 - Upgrade TS code from 5.* to 6.*
-- #990 JENKINS-76298 follow-up: Add `cacheDefaultValue` option to control the default value cache
+- JENKINS-76298 follow-up: Add `cacheDefaultValue` option to control the default value cache
   introduced in 2.8.9. It is now disabled by default, so parameters whose choices are
   generated dynamically by a script no longer reuse a previously cached (and persisted)
-  value (thanks @ krrrr38)
+  value #990 (thanks @ krrrr38)
+- Migrate from Commons Lang 2 to Commons Lang 3 #1008 (thanks @timja)
 ## Version 2.8.9 (2026/02/16)
 
 - Ban JUnit 4 imports (thanks @ strangelookingnerd)
