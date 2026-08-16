@@ -20,7 +20,7 @@
 - Bump js-yaml from 3.14.2 to 3.15.1
 - Bump NodeJS used to build from 22.14.0 to 22.22.2
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 759.vb_b_e95db_f3251 to 851.vd94e5048d321
-- Bump org.jenkins-ci.plugins:plugin from 6.2152.ve00a_731c3ce9 to 6.2211.v27f680c93c53
+- Bump org.jenkins-ci.plugins:plugin from 6.2152.ve00a_731c3ce9 to 6.2221.va_045130417c9
 - Bump org.jenkins-ci.plugins:scriptler from 444.v7fd079eb_3b_86 to 463.v0a_1f378da_06f
 - Bump org.seleniumhq.selenium:selenium-java from 4.39.0 to 4.47.0
 - Bump prettier from 3.8.3 to 3.9.6
