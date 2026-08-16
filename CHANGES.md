@@ -16,8 +16,9 @@
 - Bump jest from 30.2.0 to 30.4.2
 - Bump jest-environment-jsdom from 30.2.0 to 30.4.1
 - Bump jest-junit from 16.0.0 to 17.0.0
-- Bump jsdom from 28.1.0 to 29.1.1
+- Bump jsdom from 28.1.0 to 30.0.1
 - Bump js-yaml from 3.14.2 to 3.15.1
+- Bump NodeJS used to build from 22.14.0 to 22.22.2
 - Bump org.jenkins-ci.plugins:nodelabelparameter from 759.vb_b_e95db_f3251 to 851.vd94e5048d321
 - Bump org.jenkins-ci.plugins:plugin from 6.2152.ve00a_731c3ce9 to 6.2211.v27f680c93c53
 - Bump org.jenkins-ci.plugins:scriptler from 444.v7fd079eb_3b_86 to 463.v0a_1f378da_06f
