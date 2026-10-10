@@ -3,16 +3,17 @@
 ## Version 2.8.11 (????/??/??)
 
 - Bump @humanfs/node from 0.16.6 to 0.16.8
-- Bump eslint from 10.9.1 to 10.10.0
+- Bump eslint from 10.9.1 to 10.11.0
 - Bump io.github.bonigarcia:webdrivermanager from 6.3.4 to 6.4.0
 - Bump jest from 30.4.2 to 30.5.2
 - Bump jest-environment-jsdom from 30.5.0 to 30.5.2
-- Bump jsdom from 30.0.1 to 30.1.0
+- Bump jsdom from 30.0.1 to 30.1.1
 - Bump js-yaml from 3.15.1 to 3.15.2
 - Bump org.jenkins-ci.plugins:plugin from 6.2221.va_045130417c9 to 6.2236.v12dd4c483242
-- Bump org.seleniumhq.selenium:selenium-java from 4.47.0 to 4.49.0
+- Bump org.seleniumhq.selenium:selenium-java from 4.47.0 to 4.50.0
 - Bump prettier from 3.9.6 to 3.9.9
-- Bump webpack from 5.109.2 to 5.110.3
+- Bump source-map-js from 1.2.1 to 1.2.2
+- Bump webpack from 5.109.2 to 5.111.1
 - Bump webpack-cli from 7.2.2 to 7.2.3
 
 ## Version 2.8.10 (2026/08/25)
