@@ -1,6 +1,6 @@
 # Active Choices plug-in changelog
 
-## Version 2.8.11 (2026/??/??)
+## Version 2.8.11 (2026/10/12)
 
 - Bump @humanfs/node from 0.16.6 to 0.16.8
 - Bump eslint from 10.9.1 to 10.11.0
